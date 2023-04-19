@@ -1,14 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random=UnityEngine.Random;
+
 
 public class AsteroidManager : MonoBehaviour
 {
-    [SerializeField] bool init = false;
        
     [Header("Generation timers and probabilities")]
     [Tooltip("the amount of time between when asteroids generate")]
     [SerializeField] private float generationTime;
+    [Tooltip("maximum number of asteroids that can be spawned in a single wave - numbers greater than 1 cause the random generation code to iterate")]
+    [SerializeField] private int maxAsteroids;
+    [Tooltip("scale of 0-1 | likelihood that each time we check spawn a single asteroid, that asteroid will spawn ")]
+    [SerializeField] private float chanceOfAsteroid;
 
     [SerializeField] private bool generatingAsteroids;
     
@@ -22,13 +28,6 @@ public class AsteroidManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!init)
-        {
-            Debug.Log("pretend this spawned an asteroid");
-            init = true;
-            //spawn asteroid, will later set this by a coroutine 
-            //- or maybe at any given point there's a chance of spawning an asteroid
-        }
         
     }
 
@@ -43,7 +42,24 @@ public class AsteroidManager : MonoBehaviour
                 yield return new WaitForFixedUpdate();
             }
             
-            Debug.Log("here is where we will spawn an asteroid");
+            
+            Debug.Log("this is when we enter a wave of spawning asteroids");
+
+            float randDivs = 1 / maxAsteroids;
+            for (int i = 0; i < maxAsteroids; i++)
+            {
+                float rand = Random.value;
+                //Debug.Log(rand);
+                if (rand > chanceOfAsteroid)
+                {
+                    Debug.Log("we DID spawn an asteroid");
+                }
+                else
+                {
+                    Debug.Log("we did NOT spawn an asteroid");
+                }
+            }
+
         }
     }
 }
