@@ -35,6 +35,7 @@ public class AsteroidManager : MonoBehaviour
     {
         while (generatingAsteroids)
         {
+            //wait for the length of time set by generationTime
             float counter = 0f;
             while (counter < generationTime)
             {
@@ -44,14 +45,17 @@ public class AsteroidManager : MonoBehaviour
             
             
             Debug.Log("this is when we enter a wave of spawning asteroids");
-
-            float randDivs = 1 / maxAsteroids;
+            //this is a new wave of spawning asteroids
+            //iterate over this generation code for each asteroid that has a chance to spawn
             for (int i = 0; i < maxAsteroids; i++)
             {
                 float rand = Random.value;
                 //Debug.Log(rand);
-                if (rand > chanceOfAsteroid)
+                //if the random value determines to spawn an asteroid
+                if (rand < chanceOfAsteroid)
                 {
+                    //..then spawn an asteroid
+                    //- next step will be to actually create an asteroid gameObject and add it to an array of tracked asteroids
                     Debug.Log("we DID spawn an asteroid");
                 }
                 else
