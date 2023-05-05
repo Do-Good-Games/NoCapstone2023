@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour
     {
         // store all the Laser Spawners components in an array to avoid calling GetComponents() many times
         spawners = GetComponentsInChildren<LaserSpawner>();
-        Debug.Log(spawners.Length);
     }
 
     public void UpdatePosition(InputAction.CallbackContext context)

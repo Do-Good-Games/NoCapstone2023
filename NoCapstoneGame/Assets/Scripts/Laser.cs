@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-    [Tooltip("The distance the projectile travels each second")]
-    [SerializeField] float speed = 10;
     [SerializeField] Rigidbody2D laserBody;
+
+    [Tooltip("The distance the projectile travels each second")]
+    [SerializeField] public float speed = 10;
     [Tooltip("The distance from the edge of the screen to the TIP of the laser after which the laser will despawn")]
-    [SerializeField] float offScreenDespawnDistance = 10;
+    [SerializeField] public float offScreenDespawnDistance = 10;
+    [Tooltip("The damage dealt to destructable hazards")]
+    [SerializeField] public int damage = 1;
 
     // Update is called once per frame
     void Update()
@@ -34,6 +37,16 @@ public class Laser : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //Do something
+        IDamageable damageableObject = collision.GetComponent<IDamageable>();
+        if (damageableObject == null)
+        {
+            return;
+        }
+
+        bool objectDestroyed = damageableObject.Damage(damage);
+        if (!objectDestroyed)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

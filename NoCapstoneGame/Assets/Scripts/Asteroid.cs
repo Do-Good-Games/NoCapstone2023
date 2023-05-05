@@ -3,39 +3,24 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Asteroid : MonoBehaviour
+public class Asteroid : MonoBehaviour, IDamageable
 {
 	[SerializeField] private Rigidbody2D asteroidBody;
 	
-	[Header("movement")]
+	[Header("Movement")]
 	[SerializeField] public float downSpeed;
 	[SerializeField] public float swaySpeed;
 	[SerializeField] public float swayWidth;
 	[SerializeField] public float direction;
 
-	[Header("player interaction")] 
+	[Header("Interaction")] 
 	[SerializeField] public float health;
-	
-	
-	
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	[SerializeField] public string laserTag;
 
     // Update is called once per frame
     void Update()
     {
 	    Move();
-	    
-    }
-    
-    
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-	    Debug.Log(("Ian do ya thang"));
     }
 
     public void Move()
@@ -46,5 +31,22 @@ public class Asteroid : MonoBehaviour
 
 	    
 	    asteroidBody.MovePosition(newPos);
+    }
+
+    public bool Damage(int damageAmount)
+    {
+        health -= damageAmount;
+        if (health <= 0)
+        {
+            Destroy();
+            return true;
+        }
+        return false;
+    }
+
+    public void Destroy()
+    {
+        // Code regarding destruction animations and energy drops goes here
+        Destroy(this.gameObject);
     }
 }
