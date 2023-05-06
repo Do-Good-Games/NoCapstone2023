@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] int maxHealth;
 
-    private GameManager gameManager
+    private GameManager gameManager;
     private LaserSpawner[] spawners;
 
     public void Start()
