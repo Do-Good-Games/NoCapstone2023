@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
     // The current score (probably measured in distance)
     private int score;
 
-
     public UnityEvent OnPlayerHeal;
     public UnityEvent OnPlayerHurt;
     public UnityEvent OnPlayerDeath;
@@ -46,52 +45,52 @@ public class GameManager : MonoBehaviour
     }
 
 
-    void AddPlayerHealth(int amount)
+    public void AddPlayerHealth(int amount)
     {
         playerHealth += amount;
         OnPlayerHeal.Invoke();
     }
 
-    void RemovePlayerHealth(int amount)
+    public void RemovePlayerHealth(int amount)
     {
         playerHealth -= amount;
         OnPlayerHurt.Invoke();
     }
 
-    void KillPlayer()
+    public void KillPlayer()
     {
         playerHealth = 0;
         OnPlayerDeath.Invoke();
     }
 
 
-    void UpdateEnergy(int amount)
+    public void UpdateEnergy(int amount)
     {
         energyLevel += amount;
         OnEnergyChange.Invoke();
     }
 
-    void ResetEnergy()
+    public void ResetEnergy()
     {
         energyLevel = 0;
         OnEnergyChange.Invoke();
     }
 
 
-    void UpdateCharge(int amount)
+    public void UpdateCharge(int amount)
     {
         chargeLevel += amount;
         OnChargeChange.Invoke();
     }
 
-    void ResetCharge()
+    public void ResetCharge()
     {
         chargeLevel = 0;
         OnChargeChange.Invoke();
     }
 
 
-    void UpdateScore(int amount)
+    public void UpdateScore(int amount)
     {
         score += amount;
     }
