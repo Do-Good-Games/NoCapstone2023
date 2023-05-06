@@ -9,10 +9,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Camera mainCamera;
     [SerializeField] string hazardLayer;
 
+    [SerializeField] int maxHealth;
+
+    private GameManager gameManager
     private LaserSpawner[] spawners;
 
     public void Start()
     {
+        gameManager = GameManager.Instance;
+        gameManager.HealPlayer(maxHealth);
         // store all the Laser Spawners components in an array to avoid calling GetComponents() many times
         spawners = GetComponentsInChildren<LaserSpawner>();
     }
@@ -46,7 +51,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag(hazardLayer))
         {
-            //Placeholder, should notify game manager
+            gameManager.HurtPlayer(1);
             Debug.Log("Player hit");
         }
     }
