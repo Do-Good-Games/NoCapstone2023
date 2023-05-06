@@ -46,52 +46,52 @@ public class GameManager : MonoBehaviour
     }
 
 
-    AddPlayerHealth(int amount)
+    void AddPlayerHealth(int amount)
     {
         playerHealth += amount;
         OnPlayerHeal.Invoke();
     }
 
-    RemovePlayerHealth(int amount)
+    void RemovePlayerHealth(int amount)
     {
         playerHealth -= amount;
         OnPlayerHurt.Invoke();
     }
 
-    KillPlayer()
+    void KillPlayer()
     {
         playerHealth = 0;
         OnPlayerDeath.Invoke();
     }
 
 
-    UpdateEnergy(int amount)
+    void UpdateEnergy(int amount)
     {
         energyLevel += amount;
         OnEnergyChange.Invoke();
     }
 
-    ResetEnergy()
+    void ResetEnergy()
     {
         energyLevel = 0;
         OnEnergyChange.Invoke();
     }
 
 
-    UpdateCharge(int amount)
+    void UpdateCharge(int amount)
     {
         chargeLevel += amount;
         OnChargeChange.Invoke();
     }
 
-    ResetCharge()
+    void ResetCharge()
     {
         chargeLevel = 0;
         OnChargeChange.Invoke();
     }
 
 
-    UpdateScore(int amount)
+    void UpdateScore(int amount)
     {
         score += amount;
     }
