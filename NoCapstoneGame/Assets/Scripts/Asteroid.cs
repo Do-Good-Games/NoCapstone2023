@@ -54,7 +54,7 @@ public class Asteroid : MonoBehaviour, IDamageable
         directionVector = new Vector3(-downMovementAmount, -sidewaysMovementAmount, 0);// vector representing the direction the ship will move in
 
         perpVector = new Vector3(directionVector.y, -directionVector.x, 0); //perpendicular vector for calculation with wobble
-
+            
     }
 
     // Update is called once per frame
@@ -72,7 +72,13 @@ public class Asteroid : MonoBehaviour, IDamageable
 
     public void Move()
     {
-        
+        Vector3 oldPos = asteroidBody.transform.position;//store the current position of the asteroid
+
+        if((oldPos.y<-15) || (Mathf.Abs( oldPos.x) > 40)){
+            this.Destroy();
+        }
+
+
         //if we reach a point where the downward speed of the asteroid will vary (such as with an increasing variable modifier, then we'll want to recalculate these every update
         //for now they only need to happen once, so for performance that's as often as they'll happen
         /*
@@ -88,7 +94,6 @@ public class Asteroid : MonoBehaviour, IDamageable
 
 
 
-        Vector3 oldPos = asteroidBody.transform.position;//store the current position of the asteroid
         float swayScale = swayWidth* Mathf.Cos(swaySpeed * Time.fixedTime) * swaySpeed;//convert the current time and sway variables into an oscillating value from 1 to -1
         //we use cos rather than sin because this is the amoutn we SCALE the sideways vector, not the offset itself. starting at 1 means we start the loop moving at fulls peed to the left from zero
 
