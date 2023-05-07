@@ -380,6 +380,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Asteroid
       objectReference: {fileID: 0}
+    - target: {fileID: 2447030393251289637, guid: ec9fd64a6784d4588afc9836cdca4b6e, type: 3}
+      propertyPath: hypSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2447030393251289637, guid: ec9fd64a6784d4588afc9836cdca4b6e, type: 3}
+      propertyPath: direction
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2447030393251289637, guid: ec9fd64a6784d4588afc9836cdca4b6e, type: 3}
+      propertyPath: downSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2447030393251289637, guid: ec9fd64a6784d4588afc9836cdca4b6e, type: 3}
+      propertyPath: moveSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 2447030393251289639, guid: ec9fd64a6784d4588afc9836cdca4b6e, type: 3}
       propertyPath: m_RootOrder
       value: 2

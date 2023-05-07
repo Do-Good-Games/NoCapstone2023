@@ -9,8 +9,11 @@ public class Asteroid : MonoBehaviour, IDamageable
 	
 	[Header("Movement")]
 	[SerializeField] public float downSpeed;
+    [Tooltip("general movement speed of each asteroid, recommended range approx. .1")]
+	[SerializeField] public float moveSpeed; //technically used as the hypoteneuse of the triangle used to calculate movement
 	[SerializeField] public float swaySpeed;
 	[SerializeField] public float swayWidth;
+    [Tooltip("the direction of movement by the asteroid - represented as an angle from -90 to 90, 0 = straight down")]
 	[SerializeField] public float direction;
 
 	[Header("Interaction")] 
@@ -25,9 +28,15 @@ public class Asteroid : MonoBehaviour, IDamageable
 
     public void Move()
     {
-	    Vector3 oldPos = asteroidBody.transform.position;
-	    
-	    Vector3 newPos = new Vector3( oldPos.x,(oldPos.y - downSpeed), oldPos.z );
+        float directionRadians = direction * Mathf.Deg2Rad;
+        Debug.Log("direction in radians: " + directionRadians);
+        Vector3 oldPos = asteroidBody.transform.position;
+        float downMovementAmount = Mathf.Sin(directionRadians) * moveSpeed; //calculated as the adjacent side of triangle/ y coord
+        float sidewaysMovementAmount = Mathf.Cos(directionRadians) * moveSpeed * downSpeed; // calculated as the opposite side of triangle/ x coord
+        Debug.Log("downward movement: " + downMovementAmount);
+        Vector3 anglePos = new Vector3();
+
+        Vector3 newPos = new Vector3( (oldPos.x - downMovementAmount),(oldPos.y - sidewaysMovementAmount), oldPos.z );
 
 	    
 	    asteroidBody.MovePosition(newPos);
