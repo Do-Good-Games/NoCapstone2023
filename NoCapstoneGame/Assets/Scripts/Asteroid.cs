@@ -14,11 +14,33 @@ public class Asteroid : MonoBehaviour, IDamageable
 	[SerializeField] public float swaySpeed;
 	[SerializeField] public float swayWidth;
     [Tooltip("the direction of movement by the asteroid - represented as an angle from -90 to 90, 0 = straight down")]
-	[SerializeField] public float direction;
+	[SerializeField] public float directionAngle;
+    [Tooltip("the vector representing the direction the asteroid is moving in")]
+    public Vector3 directionVector;
+    public Vector3 perpVector;
 
 	[Header("Interaction")] 
 	[SerializeField] public float health;
 	[SerializeField] public string laserTag;
+
+    [Tooltip("the previous location of the asteroid, PRIOR to sin wave wobble adjustment")]
+    Vector3 prevDirectionVector;
+
+    void Start()
+    {
+        float directionRadians = directionAngle * Mathf.Deg2Rad;
+        float downMovementAmount = Mathf.Sin(directionRadians) * moveSpeed; //calculated as the adjacent side of triangle/ y coord
+        float sidewaysMovementAmount = Mathf.Cos(directionRadians) * moveSpeed * downSpeed; // calculated as the opposite side of triangle/ x coord
+
+        directionVector = new Vector3(-downMovementAmount, -sidewaysMovementAmount, 0);
+        //Debug.Log("direction vector" + directionVector);
+
+        Vector3 perpVector = new Vector3(directionVector.y, -directionVector.x, 0);
+        perpVector.Normalize();
+        Debug.Log("perpendicular vector" + perpVector);//returns (-.5, -.87,0)
+
+        //Debug.Log("downward movement: " + downMovementAmount);
+    }
 
     // Update is called once per frame
     void Update()
@@ -28,16 +50,19 @@ public class Asteroid : MonoBehaviour, IDamageable
 
     public void Move()
     {
-        float directionRadians = direction * Mathf.Deg2Rad;
-        Debug.Log("direction in radians: " + directionRadians);
+        Debug.Log("sinescale: "  + "perpvector: " + perpVector); //returns (0,0,0)
+        //Debug.Log("direction in radians: " + directionRadians);
         Vector3 oldPos = asteroidBody.transform.position;
-        float downMovementAmount = Mathf.Sin(directionRadians) * moveSpeed; //calculated as the adjacent side of triangle/ y coord
-        float sidewaysMovementAmount = Mathf.Cos(directionRadians) * moveSpeed * downSpeed; // calculated as the opposite side of triangle/ x coord
-        Debug.Log("downward movement: " + downMovementAmount);
-        Vector3 anglePos = new Vector3();
 
-        Vector3 newPos = new Vector3( (oldPos.x - downMovementAmount),(oldPos.y - sidewaysMovementAmount), oldPos.z );
+        float sinescale = Mathf.Sin(Time.time);
 
+
+        Vector3 newPos = oldPos + directionVector + (sinescale * perpVector);
+        //perpVector = perpVector * sinescale;
+        Debug.Log("sinescale: "  + "perpvector: " + perpVector);
+
+        //prevDirectionVector = newPos;
+        //newPos = newPos + perpVector;
 	    
 	    asteroidBody.MovePosition(newPos);
     }
