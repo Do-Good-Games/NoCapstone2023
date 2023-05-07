@@ -12,7 +12,7 @@ public class Asteroid : MonoBehaviour, IDamageable
 	[Header("Movement")]
 	[SerializeField] public float downSpeed;
     [Tooltip("general movement speed of each asteroid, recommended range approx. .1")]
-	[SerializeField] public float moveSpeed; //technically used as the hypoteneuse of the triangle used to calculate movement
+	[SerializeField] public float stepSpeed; //technically used as the hypoteneuse of the triangle used to calculate movement
     [Tooltip("the direction of movement by the asteroid - represented as an angle from -90 to 90, 0 = straight down - set relative to directionAngle")]
     [SerializeField] public float directionAngle;
     [Tooltip("the vector representing the direction the asteroid is moving in")]
@@ -31,18 +31,29 @@ public class Asteroid : MonoBehaviour, IDamageable
 	[SerializeField] public string laserTag;
 
 
+    public void setVariables(float downSpeed, float stepSpeed, float directionAngle, float swaySpeed, float swayWidth, float health)
+    {
+        this.downSpeed = downSpeed;
+        this.stepSpeed = stepSpeed;
+        this.directionAngle = directionAngle;
+        this.swaySpeed = swaySpeed;
+        this.swayWidth = swayWidth;
+        this.health = health;
+
+
+    }
+
     void Start()
     {
 
         //setting variables for direction triangle calculations 
         float directionRadians = directionAngle * Mathf.Deg2Rad;//convert the direction angle into radians
-        float downMovementAmount = Mathf.Sin(directionRadians) * moveSpeed; //calculated as the adjacent side of triangle/ y coord
-        float sidewaysMovementAmount = Mathf.Cos(directionRadians) * moveSpeed * downSpeed; // calculated as the opposite side of triangle/ x coord
+        float downMovementAmount = Mathf.Sin(directionRadians) * stepSpeed; //calculated as the adjacent side of triangle/ y coord
+        float sidewaysMovementAmount = Mathf.Cos(directionRadians) * stepSpeed * downSpeed; // calculated as the opposite side of triangle/ x coord
         
         directionVector = new Vector3(-downMovementAmount, -sidewaysMovementAmount, 0);// vector representing the direction the ship will move in
 
         perpVector = new Vector3(directionVector.y, -directionVector.x, 0); //perpendicular vector for calculation with wobble
-        Debug.Log("perpendicular vector" + perpVector);//returns (-.5, -.87,0)
 
     }
 
@@ -57,6 +68,7 @@ public class Asteroid : MonoBehaviour, IDamageable
     {
         Move();
     }
+
 
     public void Move()
     {

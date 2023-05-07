@@ -7,18 +7,37 @@ using Random=UnityEngine.Random;
 
 public class AsteroidManager : MonoBehaviour
 {
+
+    [SerializeField] public GameObject asteroidPrefab;
        
     [Header("Generation timers and probabilities")]
     [Tooltip("the amount of time between when asteroids generate")]
     [SerializeField] private float generationTime;
-    [Tooltip("maximum number of asteroids that can be spawned in a single wave - numbers greater than 1 cause the random generation code to iterate")]
-    [SerializeField] private int maxAsteroids;
-    [Tooltip("scale of 0-1 | likelihood that each time we check spawn a single asteroid, that asteroid will spawn ")]
-    [SerializeField] private float chanceOfAsteroid;
+    [Tooltip("the minimum and maximum possible generation time")]
+    [SerializeField] private Vector2 generationTimeRange;
 
     [SerializeField] private bool generatingAsteroids;
-    
-    
+
+    [Header("per asteroid variables")]
+    [Header("spawning")]
+    [SerializeField] Vector2 spawnRange;
+
+    [Header("Movement")]
+    [SerializeField] public Vector2 downSpeedRange;
+    [Tooltip("general movement speed of each asteroid, recommended range approx. .1")]
+    [SerializeField] public Vector2 stepSpeedRange; //technically used as the hypoteneuse of the triangle used to calculate movement
+    [Tooltip("the direction of movement by the asteroid - represented as an angle from -90 to 90, 0 = straight down - set relative to directionAngle")]
+    [SerializeField] public Vector2 directionAngleRange;
+
+    [Header("wobble")]
+    [Tooltip("the frequency by which each sway repeats. higher = more rapid movement back and forth. scale of ~ 1 -10 ")]
+    [SerializeField] public Vector2 swaySpeedRange;
+    [Tooltip("how far side to side the asteroid will sway - scaled down by two orders of magnitude to make it more intuitive to work with. scale of say .3-2")]
+    [SerializeField] public Vector2 swayWidthRange;
+    [Tooltip("range for the health of the asteroid")]
+    [SerializeField] public Vector2 healthRange;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,34 +54,49 @@ public class AsteroidManager : MonoBehaviour
     {
         while (generatingAsteroids)
         {
-            //wait for the length of time set by generationTime
+            //wait for the length of time set by generationTime - untill then do nothing
             float counter = 0f;
-            while (counter < generationTime)
+            while (counter < generationTime)//this feels bad tbh - consider running this by one of the others
             {
                 counter += Time.fixedDeltaTime;
                 yield return new WaitForFixedUpdate();
             }
-            
-            
-            Debug.Log("this is when we enter a wave of spawning asteroids");
-            //this is a new wave of spawning asteroids
-            //iterate over this generation code for each asteroid that has a chance to spawn
-            for (int i = 0; i < maxAsteroids; i++)
-            {
-                float rand = Random.value;
-                //Debug.Log(rand);
-                //if the random value determines to spawn an asteroid
-                if (rand < chanceOfAsteroid)
-                {
-                    //..then spawn an asteroid
-                    //- next step will be to actually create an asteroid gameObject and add it to an array of tracked asteroids
-                    Debug.Log("we DID spawn an asteroid");
-                }
-                else
-                {
-                    Debug.Log("we did NOT spawn an asteroid");
-                }
-            }
+
+            //[Header("per asteroid variables")]
+            // [Header("Movement")]
+            //[SerializeField] public Vector2 downSpeedRange;
+            //[SerializeField] public Vector2 stepSpeedRange; //technically used as the hypoteneuse of the triangle used to calculate movement
+            //[SerializeField] public Vector2 directionAngleRange;
+
+            //[Header("wobble")]
+            //[SerializeField] public Vector2 swaySpeedRange;
+            //[SerializeField] public Vector2 swayWidthRange;
+
+            float iterGenerationTime = Random.Range(generationTimeRange.x, generationTimeRange.y);
+
+            //per asteroid variables
+
+            //spawning
+            float iterSpawn = Random.Range(spawnRange.x, spawnRange.y);
+
+            //movement
+            float iterDownSpeed = Random.Range(downSpeedRange.x, downSpeedRange.y);
+
+            float iterStepSpeed = Random.Range(stepSpeedRange.x, stepSpeedRange.y);
+            float iterDirectionAngle = Random.Range(directionAngleRange.x, directionAngleRange.y);
+
+            //[Header("wobble")]
+            float iterSwaySpeed = Random.Range(swaySpeedRange.x, swaySpeedRange.y);
+            float iterSwayWidth= Random.Range(swayWidthRange.x, swayWidthRange.y);
+
+            float iterHealth = Random.Range(healthRange.x, healthRange.y);
+
+            GameObject gameObject =  Instantiate(asteroidPrefab, new Vector3(iterSpawn, 9 , 0), Quaternion.identity);
+            Asteroid asteroid = gameObject.GetComponent<Asteroid>();
+
+            asteroid.setVariables(iterDownSpeed, iterStepSpeed, iterDirectionAngle, iterSwaySpeed, iterSwayWidth, iterHealth);
+            generationTime = iterGenerationTime;
+
 
         }
     }
