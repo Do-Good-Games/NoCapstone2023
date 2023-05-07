@@ -11,13 +11,14 @@ public class Asteroid : MonoBehaviour, IDamageable
 	[SerializeField] public float downSpeed;
     [Tooltip("general movement speed of each asteroid, recommended range approx. .1")]
 	[SerializeField] public float moveSpeed; //technically used as the hypoteneuse of the triangle used to calculate movement
-	[SerializeField] public float swaySpeed;
-	[SerializeField] public float swayWidth;
     [Tooltip("the direction of movement by the asteroid - represented as an angle from -90 to 90, 0 = straight down")]
-	[SerializeField] public float directionAngle;
-    [Tooltip("the vector representing the direction the asteroid is moving in")]
     public Vector3 directionVector;
     public Vector3 perpVector;
+    [SerializeField] public float directionAngle;
+    [Header("wobble")]
+	[SerializeField] public float swaySpeed;
+	[SerializeField] public float swayWidth;
+    [Tooltip("the vector representing the direction the asteroid is moving in")]
 
 	[Header("Interaction")] 
 	[SerializeField] public float health;
@@ -35,7 +36,7 @@ public class Asteroid : MonoBehaviour, IDamageable
         directionVector = new Vector3(-downMovementAmount, -sidewaysMovementAmount, 0);
         //Debug.Log("direction vector" + directionVector);
 
-        Vector3 perpVector = new Vector3(directionVector.y, -directionVector.x, 0);
+        perpVector = new Vector3(directionVector.y, -directionVector.x, 0);
         perpVector.Normalize();
         Debug.Log("perpendicular vector" + perpVector);//returns (-.5, -.87,0)
 
@@ -54,7 +55,7 @@ public class Asteroid : MonoBehaviour, IDamageable
         //Debug.Log("direction in radians: " + directionRadians);
         Vector3 oldPos = asteroidBody.transform.position;
 
-        float sinescale = Mathf.Sin(Time.time);
+        float sinescale = Mathf.Cos(Time.time);
 
 
         Vector3 newPos = oldPos + directionVector + (sinescale * perpVector);
