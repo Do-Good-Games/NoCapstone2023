@@ -63,6 +63,11 @@ public class GameManager : MonoBehaviour
         OnPlayerDeath.Invoke();
     }
 
+    public int GetPlayerHealth(int amount)
+    {
+        return playerHealth;
+    }
+
 
     public void UpdateEnergy(int amount)
     {
@@ -74,6 +79,11 @@ public class GameManager : MonoBehaviour
     {
         energyLevel = 0;
         OnEnergyChange.Invoke();
+    }
+
+    public int getEnergy()
+    {
+        return energyLevel;
     }
 
 
@@ -89,9 +99,19 @@ public class GameManager : MonoBehaviour
         OnChargeChange.Invoke();
     }
 
+    public int getCharge()
+    {
+        return chargeLevel;
+    }
+
 
     public void UpdateScore(int amount)
     {
         score += amount;
+    }
+
+    public int getScore()
+    {
+        return score;
     }
 }
