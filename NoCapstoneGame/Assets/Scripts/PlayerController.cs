@@ -8,6 +8,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Rigidbody2D playerBody;
     [SerializeField] Camera mainCamera;
     [SerializeField] string hazardLayer;
+    [SerializeField] AudioSource shootSound;
+    [SerializeField] AudioSource hitSound;
+    [SerializeField] AudioSource deathSound;
 
     [SerializeField] int maxHealth;
 
@@ -34,6 +37,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started)
         {
+            shootSound.Play();
             FireLasers();
         }
     }
@@ -52,6 +56,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag(hazardLayer))
         {
             gameManager.RemovePlayerHealth(1);
+            hitSound.Play();
             Debug.Log("Player hit");
         }
     }

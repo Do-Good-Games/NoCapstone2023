@@ -30,6 +30,9 @@ public class Asteroid : MonoBehaviour, IDamageable
 	[SerializeField] public float health;
 	[SerializeField] public string laserTag;
 
+    [Header("Sound")]
+    [SerializeField] public AudioSource destroySound;
+
 
     public void setVariables(float downSpeed, float stepSpeed, float directionAngle, float swaySpeed, float swayWidth, float health)
     {
@@ -75,7 +78,7 @@ public class Asteroid : MonoBehaviour, IDamageable
         Vector3 oldPos = asteroidBody.transform.position;//store the current position of the asteroid
 
         if((oldPos.y<-15) || (Mathf.Abs( oldPos.x) > 40)){
-            this.Destroy();
+            Destroy(this.gameObject);
         }
 
 
@@ -117,6 +120,8 @@ public class Asteroid : MonoBehaviour, IDamageable
     public void Destroy()
     {
         // Code regarding destruction animations and energy drops goes here
+        Debug.Log("destroy");
+        destroySound.Play();
         Destroy(this.gameObject);
     }
 }
