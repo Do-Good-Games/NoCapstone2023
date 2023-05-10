@@ -127,6 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerBody: {fileID: 2634022961825521368}
   playerCollider: {fileID: 2547716565143004749}
+  playerRenderer: {fileID: 7662282438456662528}
   hazardLayer: Hazard
   shootSound: {fileID: -6248935776756949621}
   hitSound: {fileID: -7385005687130157477}

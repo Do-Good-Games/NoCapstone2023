@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] Rigidbody2D playerBody;
     [SerializeField] Collider2D playerCollider;
+    [SerializeField] SpriteRenderer playerRenderer;
 
     [SerializeField] string hazardLayer;
     [SerializeField] AudioSource shootSound;
@@ -27,6 +28,8 @@ public class PlayerController : MonoBehaviour
         cameraBounds = gameManager.cameraBounds - (Vector2) playerCollider.bounds.extents;
 
         gameManager.AddPlayerHealth(maxHealth);
+
+        gameManager.OnPlayerDeath.AddListener(Die);
 
         // store all the Laser Spawners components in an array to avoid calling GetComponents() many times
         spawners = GetComponentsInChildren<LaserSpawner>();
@@ -74,5 +77,13 @@ public class PlayerController : MonoBehaviour
             hitSound.Play();
             Debug.Log("Player hit");
         }
+    }
+
+    private void Die()
+    {
+        playerCollider.enabled = false;
+        playerRenderer.enabled = false;
+        deathSound.Play();
+        Destroy(this.gameObject, 0.5f);
     }
 }
