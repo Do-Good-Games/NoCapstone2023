@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioSource hitSound;
     [SerializeField] AudioSource deathSound;
 
-    [SerializeField] int maxHealth;
+    [SerializeField] public int maxHealth;
 
     GameManager gameManager;
     private Camera gameplayCamera;

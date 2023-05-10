@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
         OnPlayerDeath.Invoke();
     }
 
-    public int GetPlayerHealth(int amount)
+    public int GetPlayerHealth()
     {
         return playerHealth;
     }
