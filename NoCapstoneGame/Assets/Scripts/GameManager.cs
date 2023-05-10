@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
         // Initilize playerHealth to 0, the player will call AddPlayerHealth() when the game starts.
         // This allows max health to be configued in the player object or at runtime
         playerHealth = 0;
+        Cursor.visible = false;
     }
 
 
