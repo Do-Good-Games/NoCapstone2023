@@ -9,6 +9,10 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
+    [SerializeField] public Camera gameplayCamera;
+
+    public Vector2 cameraBounds;
+
     // The current health of the player
     private int playerHealth;
 
@@ -39,12 +43,13 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+        cameraBounds = new Vector2(gameplayCamera.orthographicSize, gameplayCamera.orthographicSize * gameplayCamera.aspect);
+
         // Initilize playerHealth to 0, the player will call AddPlayerHealth() when the game starts.
         // This allows max health to be configued in the player object or at runtime
         playerHealth = 0;
         Cursor.visible = false;
     }
-
 
     public void AddPlayerHealth(int amount)
     {
@@ -64,6 +69,11 @@ public class GameManager : MonoBehaviour
         OnPlayerDeath.Invoke();
     }
 
+    public int GetPlayerHealth(int amount)
+    {
+        return playerHealth;
+    }
+
 
     public void UpdateEnergy(int amount)
     {
@@ -76,6 +86,8 @@ public class GameManager : MonoBehaviour
         energyLevel = 0;
         OnEnergyChange.Invoke();
     }
+
+    public int getEnergy() => energyLevel;
 
 
     public void UpdateCharge(int amount)
@@ -90,9 +102,19 @@ public class GameManager : MonoBehaviour
         OnChargeChange.Invoke();
     }
 
+    public int getCharge()
+    {
+        return chargeLevel;
+    }
+
 
     public void UpdateScore(int amount)
     {
         score += amount;
+    }
+
+    public int getScore()
+    {
+        return score;
     }
 }
