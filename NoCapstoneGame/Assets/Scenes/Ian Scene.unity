@@ -1323,9 +1323,9 @@ MonoBehaviour:
   generatingAsteroids: 1
   downSpeedRange: {x: 0.5, y: 2}
   stepSpeedRange: {x: 0.05, y: 0.15}
-  directionAngleRange: {x: 0, y: 0}
+  directionAngleRange: {x: 10, y: 10}
   swaySpeedRange: {x: 1, y: 5}
-  swayWidthRange: {x: 0, y: 0.05}
+  swayWidthRange: {x: 0, y: 0.5}
   healthRange: {x: 1, y: 3}
 --- !u!4 &2132850256
 Transform:
