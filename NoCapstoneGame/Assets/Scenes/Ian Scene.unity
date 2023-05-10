@@ -1005,18 +1005,6 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 523322434}
-    - target: {fileID: 8224764146242212130, guid: b65bb5aaef968414c82043f4562e20a8, type: 3}
-      propertyPath: hazardLayer
-      value: Hazard
-      objectReference: {fileID: 0}
-    - target: {fileID: 8224764146242212130, guid: b65bb5aaef968414c82043f4562e20a8, type: 3}
-      propertyPath: playerCollider
-      value: 
-      objectReference: {fileID: 1299865961}
-    - target: {fileID: 8224764146242212130, guid: b65bb5aaef968414c82043f4562e20a8, type: 3}
-      propertyPath: hazardLayer.m_Bits
-      value: 8
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b65bb5aaef968414c82043f4562e20a8, type: 3}
 --- !u!1 &1101861549
