@@ -684,18 +684,6 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 523322434}
-    - target: {fileID: 8224764146242212130, guid: b65bb5aaef968414c82043f4562e20a8, type: 3}
-      propertyPath: hazardLayer
-      value: Hazard
-      objectReference: {fileID: 0}
-    - target: {fileID: 8224764146242212130, guid: b65bb5aaef968414c82043f4562e20a8, type: 3}
-      propertyPath: playerCollider
-      value: 
-      objectReference: {fileID: 1299865961}
-    - target: {fileID: 8224764146242212130, guid: b65bb5aaef968414c82043f4562e20a8, type: 3}
-      propertyPath: hazardLayer.m_Bits
-      value: 8
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b65bb5aaef968414c82043f4562e20a8, type: 3}
 --- !u!1 &1101861549
@@ -807,11 +795,6 @@ Transform:
   m_Father: {fileID: 2026912260}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &1299865961 stripped
-PolygonCollider2D:
-  m_CorrespondingSourceObject: {fileID: -158992873377567276, guid: b65bb5aaef968414c82043f4562e20a8, type: 3}
-  m_PrefabInstance: {fileID: 744790217}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1543464904
 GameObject:
   m_ObjectHideFlags: 0
