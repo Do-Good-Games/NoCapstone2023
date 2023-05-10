@@ -8,7 +8,9 @@ using UnityEngine;
 public class Asteroid : MonoBehaviour, IDamageable
 {
 	[SerializeField] private Rigidbody2D asteroidBody;
-	
+    [SerializeField] private Collider2D asteroidCollider;
+    [SerializeField] private SpriteRenderer asteroidRenderer;
+
 	[Header("Movement")]
 	[SerializeField] public float downSpeed;
     [Tooltip("general movement speed of each asteroid, recommended range approx. .1")]
@@ -29,10 +31,13 @@ public class Asteroid : MonoBehaviour, IDamageable
 	[Header("Interaction")] 
 	[SerializeField] public float health;
 	[SerializeField] public string laserTag;
+    [SerializeField] public int score;
 
     [Header("Sound")]
     [SerializeField] public AudioSource destroySound;
 
+
+    GameManager gameManager;
 
     public void setVariables(float downSpeed, float stepSpeed, float directionAngle, float swaySpeed, float swayWidth, float health)
     {
@@ -43,7 +48,7 @@ public class Asteroid : MonoBehaviour, IDamageable
         this.swayWidth = swayWidth;
         this.health = health;
 
-
+        this.gameManager = GameManager.Instance;
     }
 
     void Start()
@@ -122,6 +127,9 @@ public class Asteroid : MonoBehaviour, IDamageable
         // Code regarding destruction animations and energy drops goes here
         Debug.Log("destroy");
         destroySound.Play();
-        Destroy(this.gameObject);
+        gameManager.UpdateScore(score);
+        asteroidRenderer.enabled = false;
+        asteroidCollider.enabled = false;
+        Destroy(this.gameObject, 0.5f);
     }
 }

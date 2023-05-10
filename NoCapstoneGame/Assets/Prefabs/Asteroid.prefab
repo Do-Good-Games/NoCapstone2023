@@ -101,6 +101,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   asteroidBody: {fileID: 2447030393251289624}
+  asteroidCollider: {fileID: 9102387809521579522}
+  asteroidRenderer: {fileID: 2447030393251289638}
   downSpeed: 0.02
   stepSpeed: 0
   directionAngle: 0
@@ -108,6 +110,7 @@ MonoBehaviour:
   swayWidth: 0
   health: 2
   laserTag: Laser
+  score: 1000
   destroySound: {fileID: 4692610660959000773}
 --- !u!50 &2447030393251289624
 Rigidbody2D:
