@@ -43,8 +43,7 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        cameraBounds = new Vector2(gameplayCamera.orthographicSize, gameplayCamera.orthographicSize * gameplayCamera.aspect)
-            + (Vector2) gameplayCamera.transform.position;
+        cameraBounds = new Vector2(gameplayCamera.orthographicSize, gameplayCamera.orthographicSize * gameplayCamera.aspect);
 
         // Initilize playerHealth to 0, the player will call AddPlayerHealth() when the game starts.
         // This allows max health to be configued in the player object or at runtime
