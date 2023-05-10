@@ -7,6 +7,8 @@ using Random=UnityEngine.Random;
 
 public class AsteroidManager : MonoBehaviour
 {
+    GameManager gameManager;
+
 
     [SerializeField] public GameObject asteroidPrefab;
        
@@ -19,8 +21,6 @@ public class AsteroidManager : MonoBehaviour
     [SerializeField] private bool generatingAsteroids;
 
     [Header("per asteroid variables")]
-    [Header("spawning")]
-    [SerializeField] Vector2 spawnRange;
 
     [Header("Movement")]
     [SerializeField] public Vector2 downSpeedRange;
@@ -38,9 +38,15 @@ public class AsteroidManager : MonoBehaviour
     [SerializeField] public Vector2 healthRange;
 
 
+    Vector2 spawnRange;
+    float spawnHeight;
+
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameManager.Instance;
+        spawnRange = new Vector2(-gameManager.cameraBounds.x, gameManager.cameraBounds.x);
+        spawnHeight = gameManager.cameraBounds.y + 1;
         StartCoroutine(GenerateAsteroids());
     }
 
@@ -91,7 +97,7 @@ public class AsteroidManager : MonoBehaviour
 
             float iterHealth = Random.Range(healthRange.x, healthRange.y);
 
-            GameObject gameObject =  Instantiate(asteroidPrefab, new Vector3(iterSpawn, 9 , 0), Quaternion.identity);
+            GameObject gameObject =  Instantiate(asteroidPrefab, new Vector3(iterSpawn, spawnHeight, 0), Quaternion.identity);
             Asteroid asteroid = gameObject.GetComponent<Asteroid>();
 
             asteroid.setVariables(iterDownSpeed, iterStepSpeed, iterDirectionAngle, iterSwaySpeed, iterSwayWidth, iterHealth);
