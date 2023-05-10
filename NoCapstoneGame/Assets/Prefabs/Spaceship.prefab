@@ -128,6 +128,9 @@ MonoBehaviour:
   playerBody: {fileID: 2634022961825521368}
   mainCamera: {fileID: 0}
   hazardLayer: Hazard
+  shootSound: {fileID: -6248935776756949621}
+  hitSound: {fileID: -7385005687130157477}
+  deathSound: {fileID: -1117870416630998378}
   maxHealth: 3
 --- !u!114 &-8377561289855132245
 MonoBehaviour:
