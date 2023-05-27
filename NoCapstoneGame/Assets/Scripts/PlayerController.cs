@@ -5,16 +5,21 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Physics")]
     [SerializeField] Rigidbody2D playerBody;
     [SerializeField] Collider2D playerCollider;
     [SerializeField] SpriteRenderer playerRenderer;
-
     [SerializeField] string hazardLayer;
+
+    [Header("audio")]
     [SerializeField] AudioSource shootSound;
     [SerializeField] AudioSource hitSound;
     [SerializeField] AudioSource deathSound;
 
+    [Header("Gampeplay variables")]
     [SerializeField] public int maxHealth;
+
+    string currentActionMapName;
 
     GameManager gameManager;
     private Camera gameplayCamera;
@@ -23,6 +28,12 @@ public class PlayerController : MonoBehaviour
 
     public void Start()
     {
+
+        currentActionMapName = "Player";
+
+
+
+
         gameManager = GameManager.Instance;
         gameplayCamera = gameManager.gameplayCamera;
         cameraBounds = gameManager.cameraBounds - (Vector2) playerCollider.bounds.extents;
@@ -39,7 +50,7 @@ public class PlayerController : MonoBehaviour
     {
         // converts cursor position (in screen space) to world space based on camera position/size
         Vector2 cursorPos = context.ReadValue<Vector2>();
-        Debug.Log(cursorPos);
+        //Debug.Log(cursorPos);
         Vector2 position = gameManager.gameplayCamera.ScreenToWorldPoint(cursorPos);
         playerBody.transform.position = KeepInBounds(position);
     }
@@ -86,4 +97,34 @@ public class PlayerController : MonoBehaviour
         deathSound.Play();
         Destroy(this.gameObject, 0.5f);
     }
+
+    public void togglePause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Debug.Log("Toggle pause reached");
+            gameManager.OnGameTogglePause.Invoke();
+
+
+            if (gameManager.paused)
+            {
+                //here we'll want to swap the action mapping
+            }
+        }
+    }
+
+    /*
+    public void SetActionMap(string newActionMap)
+    {
+        if (newActionMap.Equals("Player"))
+        {
+            PlayerInputActions
+        }
+    }
+
+    public void ToggleActionMapMap()
+    {
+        if()
+    }
+    */
 }

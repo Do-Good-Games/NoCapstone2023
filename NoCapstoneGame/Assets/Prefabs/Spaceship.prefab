@@ -133,6 +133,7 @@ MonoBehaviour:
   hitSound: {fileID: -7385005687130157477}
   deathSound: {fileID: -1117870416630998378}
   maxHealth: 3
+  gameManager: {fileID: 0}
 --- !u!114 &-8377561289855132245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,6 +191,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: a71c2401-fcf2-448f-95dc-e5f43b34352a
     m_ActionName: Playing/New action1
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8224764146242212130}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: togglePause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 753f0dec-9289-41b9-8116-42f8f37c90d5
+    m_ActionName: Playing/Pause[/Keyboard/p]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8224764146242212130}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c3d6fe8b-c238-4d57-a121-96286938aada
+    m_ActionName: Menus/Pause[/Keyboard/p]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Playing

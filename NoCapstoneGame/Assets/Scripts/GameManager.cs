@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -25,14 +26,21 @@ public class GameManager : MonoBehaviour
     // The current score (probably measured in distance)
     private int score;
 
+    //whether or not the game is currently paused
+    public bool paused; //may want to expand this an enum
+
     public UnityEvent OnPlayerHeal;
     public UnityEvent OnPlayerHurt;
     public UnityEvent OnPlayerDeath;
     public UnityEvent OnEnergyChange;
     public UnityEvent OnChargeChange;
 
+    public UnityEvent OnGameTogglePause;
+
     void Awake()
     {
+        paused = false;
+
         if (_instance == null)
         {
             _instance = this;
@@ -48,6 +56,11 @@ public class GameManager : MonoBehaviour
         // This allows max health to be configued in the player object or at runtime
         playerHealth = 0;
         Cursor.visible = false;
+    }
+
+    private void Start()
+    {
+        OnGameTogglePause.AddListener(togglePause);
     }
 
     public void AddPlayerHealth(int amount)
@@ -119,5 +132,21 @@ public class GameManager : MonoBehaviour
     public int getScore()
     {
         return score;
+    }
+
+    public void togglePause()
+    {
+        if (paused)
+        {
+            paused = false;
+            Time.timeScale = 1;
+            ///wil also want to invoke the pause event
+
+        } else
+        {
+            paused = true;
+            Time.timeScale = 0;
+        }
+
     }
 }
