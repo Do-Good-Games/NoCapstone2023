@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public int maxHealth;
 
     string currentActionMapName;
+    PlayerInput playerInput;
 
     GameManager gameManager;
     private Camera gameplayCamera;
@@ -31,7 +32,7 @@ public class PlayerController : MonoBehaviour
 
         currentActionMapName = "Player";
 
-
+        playerInput = GetComponent<PlayerInput>();
 
 
         gameManager = GameManager.Instance;
@@ -41,17 +42,19 @@ public class PlayerController : MonoBehaviour
         gameManager.AddPlayerHealth(maxHealth);
 
         gameManager.OnPlayerDeath.AddListener(Die);
-
+        
         // store all the Laser Spawners components in an array to avoid calling GetComponents() many times
         spawners = GetComponentsInChildren<LaserSpawner>();
     }
 
     public void UpdatePosition(InputAction.CallbackContext context)
     {
+
         // converts cursor position (in screen space) to world space based on camera position/size
         Vector2 cursorPos = context.ReadValue<Vector2>();
         //Debug.Log(cursorPos);
         Vector2 position = gameManager.gameplayCamera.ScreenToWorldPoint(cursorPos);
+        //Debug.Log("position: "+ position);
         playerBody.transform.position = KeepInBounds(position);
     }
 
@@ -108,23 +111,37 @@ public class PlayerController : MonoBehaviour
 
             if (gameManager.paused)
             {
+                SetActionMapUI();
                 //here we'll want to swap the action mapping
+            } else
+            {
+                SetActionMapPlayer();
             }
         }
     }
 
-    /*
-    public void SetActionMap(string newActionMap)
+    
+    public void SetActionMapPlayer() { SetActionMap("Playing");  }
+    public void SetActionMapUI() { SetActionMap("Menus");  }
+    public void SetActionMap(string newActionMapName)
     {
-        if (newActionMap.Equals("Player"))
+        playerInput.currentActionMap.Disable();
+        playerInput.SwitchCurrentActionMap(newActionMapName);
+
+        switch(newActionMapName)
         {
-            PlayerInputActions
+            case "Menus":
+                Debug.Log("ping");
+                UnityEngine.Cursor.visible = true;
+                //UnityEngine.Cursor.lockState = CursorLockMode.None;
+                break;
+            default: //case playing
+                Debug.Log("pong");
+                UnityEngine.Cursor.visible = false;
+                //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                break;
         }
     }
 
-    public void ToggleActionMapMap()
-    {
-        if()
-    }
-    */
+    
 }

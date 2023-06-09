@@ -133,7 +133,6 @@ MonoBehaviour:
   hitSound: {fileID: -7385005687130157477}
   deathSound: {fileID: -1117870416630998378}
   maxHealth: 3
-  gameManager: {fileID: 0}
 --- !u!114 &-8377561289855132245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,12 +209,12 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8224764146242212130}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: togglePause
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
