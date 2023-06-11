@@ -15,7 +15,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Fire",
+                    "name": "Charge",
                     "type": "Button",
                     "id": "a71c2401-fcf2-448f-95dc-e5f43b34352a",
                     "expectedControlType": "Button",
@@ -43,7 +43,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Fire",
+                    "action": "Charge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
