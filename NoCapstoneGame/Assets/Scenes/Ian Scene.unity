@@ -504,18 +504,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 553789868172812786, guid: b65bb5aaef968414c82043f4562e20a8, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 553789868172812786, guid: b65bb5aaef968414c82043f4562e20a8, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 553789868172812786, guid: b65bb5aaef968414c82043f4562e20a8, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.5625
-      objectReference: {fileID: 0}
-    - target: {fileID: 553789868172812786, guid: b65bb5aaef968414c82043f4562e20a8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.75020397
       objectReference: {fileID: 0}
@@ -554,10 +542,6 @@ PrefabInstance:
     - target: {fileID: 553789868172812786, guid: b65bb5aaef968414c82043f4562e20a8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 553789868172812786, guid: b65bb5aaef968414c82043f4562e20a8, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1069660505320419345, guid: b65bb5aaef968414c82043f4562e20a8, type: 3}
       propertyPath: m_Size.x
@@ -811,9 +795,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.219
+    x: 0.212
     y: 0
-    width: 0.5625
+    width: 0.575
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
