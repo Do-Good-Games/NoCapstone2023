@@ -17,6 +17,12 @@ public class AsteroidManager : EntityManager
         }
     }
 
+    public override void Start()
+    {
+        base.Start();
+        StartGenerating();
+    }
+
     override protected void SetVariables(Entity entity)
     {
         base.SetVariables(entity);
