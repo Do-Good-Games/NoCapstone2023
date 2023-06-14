@@ -26,7 +26,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float MaxEnergySphereSize;
     [Tooltip ("The difference in the visual size of the energy sphere and its hitbox")]
     [SerializeField] public float EnergySphereHitboxGraceArea;
-
+    [SerializeField] public float DamageCooldownTime;
+    [SerializeField] public float DamageFlashSpeed;
+    [SerializeField] public float DamageFlashSpeedupTime;
+    [SerializeField] public float DamageFlashFastSpeed;
 
     GameManager gameManager;
     private Camera gameplayCamera;
@@ -34,7 +37,11 @@ public class PlayerController : MonoBehaviour
     private LaserSpawner[] spawners;
     private bool mouseHeld;
     private bool shooting;
+    private bool damageable;
+    private bool damageCooldownEnding;
     private IEnumerator ShootCoroutineObject;
+    private IEnumerator DamageCooldownCoroutineObject;
+    private IEnumerator DamageFlashCoroutineObject;
 
     public void Start()
     {
@@ -51,6 +58,8 @@ public class PlayerController : MonoBehaviour
 
         mouseHeld = false;
         shooting = false;
+        damageable = true;
+        damageCooldownEnding = false; 
     }
 
     public void Update()
@@ -124,9 +133,42 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private IEnumerator DamageCooldownCoroutine()
+    {
+        damageable = false;
+
+        yield return new WaitForSeconds(DamageFlashSpeedupTime);
+        // Let DamageFlashCoroutine() know that the cooldown is ending
+        damageCooldownEnding = true;
+
+        // Wait the remaining time left in DamageCooldownTime
+        yield return new WaitForSeconds(DamageCooldownTime - DamageFlashSpeedupTime);
+        damageable = true;
+        damageCooldownEnding = false;
+    }
+
+    private IEnumerator DamageFlashCoroutine()
+    {
+        while (damageable == false)
+        {
+            // Toggle the player's visibility
+            playerRenderer.enabled = !playerRenderer.enabled;
+            // Wait the correct amount of time based on if the cooldown is about to end
+            if (damageCooldownEnding)
+            {
+                yield return new WaitForSeconds(DamageFlashFastSpeed);
+            }
+            else
+            {
+                yield return new WaitForSeconds(DamageFlashFastSpeed);
+            }
+        }
+        playerRenderer.enabled = true;
+    }
+
     private void UpdateEnergySphere()
     {
-        float energySphereSize = Mathf.Max(gameManager.getCharge() * EnergySizePerUnitCharged, MaxEnergySphereSize);
+        float energySphereSize = Mathf.Min(gameManager.getCharge() * EnergySizePerUnitCharged, MaxEnergySphereSize);
         Debug.Log(energySphereSize);
         Debug.Log(Vector2.one * energySphereSize);
         energySphereRender.size = Vector2.one * energySphereSize;
@@ -147,11 +189,16 @@ public class PlayerController : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D collision)
     {
         // If the colliding GameObject is tagged as a hazard, take damage
-        if (collision.gameObject.CompareTag(hazardTag))
+        if (collision.gameObject.CompareTag(hazardTag) && damageable)
         {
             gameManager.RemovePlayerHealth(1);
             hitSound.Play();
-            Debug.Log("Player hit");
+
+            DamageCooldownCoroutineObject = DamageCooldownCoroutine();
+            StartCoroutine(DamageCooldownCoroutineObject);
+
+            DamageFlashCoroutineObject = DamageFlashCoroutine();
+            StartCoroutine(DamageFlashCoroutineObject);
         }
     }
 
