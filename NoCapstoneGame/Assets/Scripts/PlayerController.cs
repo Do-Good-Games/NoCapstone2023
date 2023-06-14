@@ -229,9 +229,12 @@ public class PlayerController : MonoBehaviour
 
     private void Die()
     {
+        StopAllCoroutines();
+
         playerCollider.enabled = false;
         playerRenderer.enabled = false;
         deathSound.Play();
+
         Destroy(this.gameObject, 0.5f);
     }
 }

@@ -100,14 +100,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d21d6a863a3ffbfb85211a103d06671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  asteroidBody: {fileID: 2447030393251289624}
-  asteroidCollider: {fileID: 9102387809521579522}
-  asteroidRenderer: {fileID: 2447030393251289638}
+  entityBody: {fileID: 2447030393251289624}
   downSpeed: 0.02
   stepSpeed: 0
   directionAngle: 0
   swaySpeed: 1
   swayWidth: 0
+  asteroidCollider: {fileID: 9102387809521579522}
+  asteroidRenderer: {fileID: 2447030393251289638}
   health: 2
   laserTag: Laser
   score: 1000
