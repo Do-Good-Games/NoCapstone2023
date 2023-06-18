@@ -52,11 +52,10 @@ public class PlayerController : MonoBehaviour
 
     [Header("Physics")]
     [SerializeField] Rigidbody2D playerBody;
-    [SerializeField] Collider2D playerCollider;
-    [SerializeField] CircleCollider2D energySphereCollider;
-    [SerializeField] string hazardTag;
+    [SerializeField] PlayerCollider playerCollider;
 
-    GameManager gameManager;
+
+    public GameManager gameManager;
     private Camera gameplayCamera;
     private Vector2 cameraBounds;
     private LaserSpawner[] spawners;
@@ -72,7 +71,7 @@ public class PlayerController : MonoBehaviour
     {
         gameManager = GameManager.Instance;
         gameplayCamera = gameManager.gameplayCamera;
-        cameraBounds = gameManager.cameraBounds - (Vector2) playerCollider.bounds.extents;
+        cameraBounds = gameManager.cameraBounds - (Vector2) playerCollider.shipCollider.bounds.extents;
 
         gameManager.AddPlayerHealth(maxHealth);
 
@@ -129,10 +128,18 @@ public class PlayerController : MonoBehaviour
         if (context.canceled)
         {
             mouseHeld = false;
-            shooting = true;
+            if (gameManager.getCharge() > ChargeSpentPerShot)
+            {
+                shooting = true;
 
-            ShootCoroutineObject = ShootCoroutine();
-            StartCoroutine(ShootCoroutineObject);
+                ShootCoroutineObject = ShootCoroutine();
+                StartCoroutine(ShootCoroutineObject);
+            }
+            else
+            {
+                gameManager.ResetCharge();
+                UpdateEnergySphere();
+            }
         }
     }
     
@@ -140,7 +147,7 @@ public class PlayerController : MonoBehaviour
     {
         while (shooting)
         {
-            if (gameManager.getCharge() > ChargeSpentPerShot)
+            if (gameManager.getCharge() >= ChargeSpentPerShot)
             {
                 FireLasers();
                 gameManager.UpdateCharge(-ChargeSpentPerShot);
@@ -151,7 +158,7 @@ public class PlayerController : MonoBehaviour
 
             if (gameManager.getCharge() < ChargeSpentPerShot)
             {
-                gameManager.UpdateCharge(-gameManager.getCharge());
+                gameManager.ResetCharge();
                 UpdateEnergySphere();
                 shooting = false;
             }
@@ -194,11 +201,10 @@ public class PlayerController : MonoBehaviour
     private void UpdateEnergySphere()
     {
         float energySphereSize = Mathf.Min(gameManager.getCharge() * EnergySizePerUnitCharged, MaxEnergySphereSize);
-        Debug.Log(energySphereSize);
-        Debug.Log(Vector2.one * energySphereSize);
         energySphereRender.size = Vector2.one * energySphereSize;
 
-        energySphereCollider.radius = (energySphereSize / 2) - EnergySphereHitboxGraceArea;
+
+        playerCollider.UpdateEnergySphereCollider(energySphereSize, EnergySphereHitboxGraceArea);
     }
 
     private void FireLasers()
@@ -211,11 +217,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        // If the colliding GameObject is tagged as a hazard, take damage
-        if (collision.gameObject.CompareTag(hazardTag) && damageable)
-        {
+   public void hit() {
+        if (damageable) { 
             gameManager.RemovePlayerHealth(1);
             hitSound.Play();
 

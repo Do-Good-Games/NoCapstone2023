@@ -5,15 +5,15 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D entityBody;
+    [SerializeField] protected Rigidbody2D entityBody;
 
     [Header("Movement")]
     [SerializeField] public float downSpeed;
-    [Tooltip("general movement speed of each asteroid, recommended range approx. .1")]
+    [Tooltip("general movement speed of each entity, recommended range approx. .1")]
     [SerializeField] public float stepSpeed; //technically used as the hypoteneuse of the triangle used to calculate movement
-    [Tooltip("the direction of movement by the asteroid - represented as an angle from -90 to 90, 0 = straight down - set relative to directionAngle")]
+    [Tooltip("the direction of movement by the entity - represented as an angle from -90 to 90, 0 = straight down - set relative to directionAngle")]
     [SerializeField] public float directionAngle;
-    [Tooltip("the vector representing the direction the asteroid is moving in")]
+    [Tooltip("the vector representing the direction the entity is moving in")]
     protected Vector3 directionVector;
     [Tooltip("vector perpendicular to the direction vector - used to calculate wobble")]
     protected Vector3 perpVector;
@@ -21,7 +21,7 @@ public class Entity : MonoBehaviour
     [Header("wobble")]
     [Tooltip("the frequency by which each sway repeats. higher = more rapid movement back and forth. scale of ~ 1-10 ")]
     [SerializeField] public float swaySpeed;
-    [Tooltip("how far side to side the asteroid will sway - scaled down by two orders of magnitude to make it more intuitive to work with. scale of say .3-2")]
+    [Tooltip("how far side to side the entity will sway - scaled down by two orders of magnitude to make it more intuitive to work with. scale of say .3-2")]
     [SerializeField] public float swayWidth;
 
     protected GameManager gameManager;
@@ -62,7 +62,7 @@ public class Entity : MonoBehaviour
 
     virtual public void Move()
     {
-        Vector3 oldPos = entityBody.transform.position;//store the current position of the asteroid
+        Vector3 oldPos = entityBody.transform.position;//store the current position of the entity
 
         if ((oldPos.y < -15) || (Mathf.Abs(oldPos.x) > 40))
         {

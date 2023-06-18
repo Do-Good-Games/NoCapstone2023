@@ -46,6 +46,7 @@ public class EntityManager : MonoBehaviour
         gameManager = GameManager.Instance;
         spawnRange = new Vector2(-gameManager.cameraBounds.x, gameManager.cameraBounds.x);
         spawnHeight = gameManager.cameraBounds.y + 1;
+        StartGenerating();
     }
 
     public void StartGenerating()

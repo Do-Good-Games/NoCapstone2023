@@ -9,6 +9,9 @@ public class Asteroid : Entity, IDamageable
 {
     [SerializeField] private Collider2D asteroidCollider;
     [SerializeField] private SpriteRenderer asteroidRenderer;
+    [SerializeField] private GameObject droppedEntityPrefab;
+    [SerializeField] private int numDrops;
+
 
 	[Header("Interaction")] 
 	[SerializeField] public float health;

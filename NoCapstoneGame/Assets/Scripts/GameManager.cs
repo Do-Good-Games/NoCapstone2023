@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get { return _instance; } }
 
     [SerializeField] public Camera gameplayCamera;
+    [SerializeField] public string hazardTag;
+    [SerializeField] public string playerTag;
 
     public Vector2 cameraBounds;
 
@@ -95,7 +97,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateCharge(float amount)
     {
-        chargeLevel += amount;
+        chargeLevel = Mathf.Min(energyLevel, chargeLevel + amount);
         OnChargeChange.Invoke();
     }
 
