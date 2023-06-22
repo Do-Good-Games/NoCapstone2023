@@ -73,17 +73,21 @@ public class EntityManager : MonoBehaviour
             //spawning
             float iterSpawn = Random.Range(spawnRange.x, spawnRange.y);
 
-            GameObject gameObject =  Instantiate(entityPrefab, new Vector3(iterSpawn, spawnHeight, 0), Quaternion.identity);
-            Entity entity = gameObject.GetComponent<Entity>();
-            SetVariables(entity);
+
+            SpawnEntity(iterSpawn, spawnHeight);
   
             generationTime = iterGenerationTime;
         }
     }
 
+    virtual public void SpawnEntity(float spawnX, float spawnY)
+    {
+        GameObject gameObject = Instantiate(entityPrefab, new Vector3(spawnX, spawnY, 0), Quaternion.identity);
+        Entity entity = gameObject.GetComponent<Entity>();
+        SetVariables(entity);
+    }
 
-
-    virtual protected void SetVariables(Entity entity)
+    virtual public void SetVariables(Entity entity)
     {
         //Movement
         float iterDownSpeed = Random.Range(downSpeedRange.x, downSpeedRange.y);

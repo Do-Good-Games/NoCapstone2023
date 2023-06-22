@@ -1234,12 +1234,16 @@ MonoBehaviour:
   generationTime: 0.5
   generationTimeRange: {x: 0.1, y: 0.7}
   generatingEntities: 0
-  downSpeedRange: {x: 0.5, y: 2}
+  downSpeedRange: {x: 0.5, y: 1}
   stepSpeedRange: {x: 0.05, y: 0.15}
   directionAngleRange: {x: 10, y: 10}
-  swaySpeedRange: {x: 1, y: 5}
-  swayWidthRange: {x: 0, y: 0.5}
+  swaySpeedRange: {x: 1, y: 2}
+  swayWidthRange: {x: 0, y: 0.1}
+  energyManager: {fileID: 755147821}
   healthRange: {x: 1, y: 3}
+  sizeRange: {x: 1, y: 3}
+  baseNumDropsRange: {x: 3, y: 7}
+  numDropsVarianceRange: {x: -1, y: 1}
 --- !u!4 &1089636376
 Transform:
   m_ObjectHideFlags: 0
