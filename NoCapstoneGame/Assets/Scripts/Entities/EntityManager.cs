@@ -85,6 +85,15 @@ public class EntityManager : MonoBehaviour
 
     virtual protected void SetVariables(Entity entity)
     {
-        entity.setVariables(downSpeedRange, stepSpeedRange, directionAngleRange, swaySpeedRange, swayWidthRange);
+        //Movement
+        float iterDownSpeed = Random.Range(downSpeedRange.x, downSpeedRange.y);
+
+        float iterStepSpeed = Random.Range(stepSpeedRange.x, stepSpeedRange.y);
+        float iterDirectionAngle = Random.Range(directionAngleRange.x, directionAngleRange.y);
+
+        //Wobble
+        float iterSwaySpeed = Random.Range(swaySpeedRange.x, swaySpeedRange.y);
+        float iterSwayWidth = Random.Range(swayWidthRange.x, swayWidthRange.y);
+        entity.setVariables(iterDownSpeed, iterStepSpeed, iterDirectionAngle, iterSwaySpeed, iterSwayWidth);
     }
 }

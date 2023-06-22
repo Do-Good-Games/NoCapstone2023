@@ -41,17 +41,13 @@ public class Entity : MonoBehaviour
         this.gameManager = GameManager.Instance;
     }
 
-    virtual public void setVariables(Vector2 downSpeedRange, Vector2 stepSpeedRange, Vector2 directionAngleRange, Vector2 swaySpeedRange, Vector2 swayWidthRange)
+    virtual public void setVariables(float downSpeed, float stepSpeed, float directionAngle, float swaySpeed, float swayWidth)
     {
-        //Movement
-        this.downSpeed = Random.Range(downSpeedRange.x, downSpeedRange.y);
-
-        this.stepSpeed = Random.Range(stepSpeedRange.x, stepSpeedRange.y);
-        this.directionAngle = Random.Range(directionAngleRange.x, directionAngleRange.y);
-
-        //Wobble
-        this.swaySpeed = Random.Range(swaySpeedRange.x, swaySpeedRange.y);
-        this.swayWidth = Random.Range(swayWidthRange.x, swayWidthRange.y);
+        this.downSpeed = downSpeed;
+        this.stepSpeed = stepSpeed;
+        this.directionAngle = directionAngle;
+        this.swaySpeed = swaySpeed;
+        this.swayWidth = swayWidth;
     }
 
     // Update is called once per frame

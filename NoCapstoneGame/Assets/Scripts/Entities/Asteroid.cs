@@ -15,15 +15,23 @@ public class Asteroid : Entity, IDamageable
 
 	[Header("Interaction")] 
 	[SerializeField] public float health;
+    [SerializeField] public float size;
 	[SerializeField] public string laserTag;
     [SerializeField] public int score;
 
     [Header("Sound")]
     [SerializeField] public AudioSource destroySound;
 
-    public void setVariables(Vector2 healthRange)
+    public override void Start()
     {
-        this.health = Random.Range(healthRange.x, healthRange.y);
+        base.Start();
+        this.transform.localScale = new Vector2(size, size);
+    }
+
+    public void setVariables(float health, float size)
+    {
+        this.health = health;
+        this.size = size;
     }
 
     public bool Damage(int damageAmount)
