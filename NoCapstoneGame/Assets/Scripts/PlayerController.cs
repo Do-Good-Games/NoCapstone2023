@@ -217,7 +217,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-   public void hit() {
+   public void Hit() {
         if (damageable) { 
             gameManager.RemovePlayerHealth(1);
             hitSound.Play();

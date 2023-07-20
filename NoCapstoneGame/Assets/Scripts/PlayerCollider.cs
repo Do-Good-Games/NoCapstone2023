@@ -20,7 +20,7 @@ public class PlayerCollider : MonoBehaviour
         // If the colliding GameObject is tagged as a hazard, take damage
         if (collision.gameObject.CompareTag(gameManager.hazardTag))
         {
-            playerController.hit();
+            playerController.Hit();
         }
     }
 

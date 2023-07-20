@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-    [SerializeField] Rigidbody2D laserBody;
+    [SerializeField] private Rigidbody2D laserBody;
 
     [Tooltip("The distance the projectile travels each second")]
     [SerializeField] public float speed = 10;
