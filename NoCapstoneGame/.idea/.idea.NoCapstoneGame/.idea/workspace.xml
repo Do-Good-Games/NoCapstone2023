@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e2f10f0f-44f8-4243-9ae6-f888182042ef" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Ian Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Ian Scene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.NoCapstoneGame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.NoCapstoneGame/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Laser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Laser.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,6 +15,8 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/iCloud Drive (Archive)/Desktop/School/Computer Science/gameprog1/2D Platformer/Assets/Scripts/FollowCamera.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/iCloud Drive (Archive)/Desktop/School/Computer Science/gameprog1/2D Platformer/Assets/Scripts/Hazards/Patrol.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="2Od8npqq0HzzoxHRbJYXOOl3YQq" />
   <component name="ProjectViewState">
@@ -22,6 +25,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -33,15 +37,15 @@
   },
   &quot;keyToStringList&quot;: {
     &quot;rider.external.source.directories&quot;: [
-      &quot;/home/ryan/.config/JetBrains/Rider2023.1/resharper-host/DecompilerCache&quot;,
-      &quot;/home/ryan/.config/JetBrains/Rider2023.1/resharper-host/SourcesCache&quot;,
-      &quot;/home/ryan/.local/share/Symbols/src&quot;
+      &quot;/Users/duck/Library/Application Support/JetBrains/Rider2022.3/resharper-host/DecompilerCache&quot;,
+      &quot;/Users/duck/Library/Application Support/JetBrains/Rider2022.3/resharper-host/SourcesCache&quot;,
+      &quot;/Users/duck/.local/share/Symbols/src&quot;
     ]
   }
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$USER_HOME$/Unity/Hub/Editor/2021.3.23f1/Editor/Unity" />
+      <option name="EXE_PATH" value="/Applications/Unity/Hub/Editor/2021.3.23f1/Unity.app/Contents/MacOS/Unity" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath &quot;$PROJECT_DIR$&quot; -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -51,6 +55,14 @@
     <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="$USER_HOME$/Unity/Hub/Editor/2021.3.23f1/Editor/Unity" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath &quot;$PROJECT_DIR$&quot; -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="UnitTests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="/Applications/Unity/Hub/Editor/2021.3.23f1/Unity.app/Contents/MacOS/Unity" />
+      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath $PROJECT_DIR$ -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -89,6 +101,8 @@
       <workItem from="1683248022750" duration="538000" />
       <workItem from="1683248579726" duration="315000" />
       <workItem from="1683249725812" duration="706000" />
+      <workItem from="1688768213118" duration="344000" />
+      <workItem from="1688774526808" duration="1170000" />
     </task>
     <servers />
   </component>

@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get { return _instance; } }
 
     [SerializeField] public Camera gameplayCamera;
+    [SerializeField] public string hazardTag;
+    [SerializeField] public string playerTag;
 
     public Vector2 cameraBounds;
 
@@ -18,10 +20,10 @@ public class GameManager : MonoBehaviour
     private int playerHealth;
 
     // The current energy level (max charge amount) (for MVP)
-    private int energyLevel;
+    private float energyLevel;
 
     // The current energy charge (for MVP)
-    private int chargeLevel;
+    [SerializeField] private float chargeLevel;
 
     // The current score (probably measured in distance)
     private int score;
@@ -91,7 +93,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void UpdateEnergy(int amount)
+    public void UpdateEnergy(float amount)
     {
         energyLevel += amount;
         OnEnergyChange.Invoke();
@@ -103,12 +105,12 @@ public class GameManager : MonoBehaviour
         OnEnergyChange.Invoke();
     }
 
-    public int getEnergy() => energyLevel;
+    public float getEnergy() => energyLevel;
 
 
-    public void UpdateCharge(int amount)
+    public void UpdateCharge(float amount)
     {
-        chargeLevel += amount;
+        chargeLevel = Mathf.Min(energyLevel, chargeLevel + amount);
         OnChargeChange.Invoke();
     }
 
@@ -118,7 +120,7 @@ public class GameManager : MonoBehaviour
         OnChargeChange.Invoke();
     }
 
-    public int getCharge()
+    public float getCharge()
     {
         return chargeLevel;
     }

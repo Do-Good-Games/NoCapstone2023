@@ -5,56 +5,104 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Physics")]
-    [SerializeField] Rigidbody2D playerBody;
-    [SerializeField] Collider2D playerCollider;
-    [SerializeField] SpriteRenderer playerRenderer;
-    [SerializeField] string hazardLayer;
+    [Header("Stats")]
+    [Tooltip ("The player's starting health")]
+    [SerializeField] public int maxHealth;
 
-    [Header("audio")]
+    [Tooltip("The units of charged gained each second the mouse is clicked")]
+    [SerializeField] public float ChargeGainPerSecond;
+
+    [Tooltip("The units of charge spent by a single shot")]
+    [SerializeField] public float ChargeSpentPerShot;
+
+    [Tooltip("The time between individual shots in a volley, in seconds")]
+    [SerializeField] public float TimeBetweenShots;
+
+    [Tooltip("The size increase for the Energy Sphere per unit charged")]
+    [SerializeField] public float EnergySizePerUnitCharged;
+
+    [Tooltip("The maximum size of the energy sphere when charging")]
+    [SerializeField] public float MaxEnergySphereSize;
+
+    [Tooltip("The difference in the visual size of the energy sphere and its hitbox")]
+    [SerializeField] public float EnergySphereHitboxGraceArea;
+
+    [Tooltip("The length of time that the player is invincible after being hit, in seconds")]
+    [SerializeField] public float DamageCooldownTime;
+
+
+    [Header("Visuals")]
+    [Tooltip("The initial length of each flash during the cooldown, in seconds")]
+    [SerializeField] public float DamageFlashSpeed;
+
+    [Tooltip("The length of time before the flashing increases in speed, in seconds (Must be smaller than DamageCooldownTime)")]
+    [SerializeField] public float DamageFlashSpeedupTime;
+
+    [Tooltip("The length of each flash towards the end of the cooldown, in seconds")]
+    [SerializeField] public float DamageFlashFastSpeed;
+
+    [SerializeField] SpriteRenderer playerRenderer;
+    [SerializeField] SpriteRenderer energySphereRender;
+
+
+    [Header("Sounds")]
     [SerializeField] AudioSource shootSound;
     [SerializeField] AudioSource hitSound;
     [SerializeField] AudioSource deathSound;
 
-    [Header("Gampeplay variables")]
-    [SerializeField] public int maxHealth;
+    [Header("Physics")]
+    [SerializeField] Rigidbody2D playerBody;
+    [SerializeField] PlayerCollider playerCollider;
 
-    string currentActionMapName;
-    PlayerInput playerInput;
 
-    GameManager gameManager;
+    public GameManager gameManager;
     private Camera gameplayCamera;
     private Vector2 cameraBounds;
     private LaserSpawner[] spawners;
+    private bool mouseHeld;
+    private bool shooting;
+    private bool damageable;
+    private bool damageCooldownEnding;
+    private IEnumerator ShootCoroutineObject;
+    private IEnumerator DamageCooldownCoroutineObject;
+    private IEnumerator DamageFlashCoroutineObject;
 
     public void Start()
     {
-
-        currentActionMapName = "Player";
-
-        playerInput = GetComponent<PlayerInput>();
-
-
         gameManager = GameManager.Instance;
         gameplayCamera = gameManager.gameplayCamera;
-        cameraBounds = gameManager.cameraBounds - (Vector2) playerCollider.bounds.extents;
+        cameraBounds = gameManager.cameraBounds - (Vector2) playerCollider.shipCollider.bounds.extents;
 
         gameManager.AddPlayerHealth(maxHealth);
 
         gameManager.OnPlayerDeath.AddListener(Die);
-        
+
         // store all the Laser Spawners components in an array to avoid calling GetComponents() many times
         spawners = GetComponentsInChildren<LaserSpawner>();
+
+        mouseHeld = false;
+        shooting = false;
+        damageable = true;
+        damageCooldownEnding = false; 
+    }
+
+    public void Update()
+    {
+        // If the mouse is held, increase charge value
+        if (mouseHeld)
+        {
+            gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
+
+            UpdateEnergySphere();
+        }
+      
     }
 
     public void UpdatePosition(InputAction.CallbackContext context)
     {
-
         // converts cursor position (in screen space) to world space based on camera position/size
         Vector2 cursorPos = context.ReadValue<Vector2>();
-        //Debug.Log(cursorPos);
         Vector2 position = gameManager.gameplayCamera.ScreenToWorldPoint(cursorPos);
-        //Debug.Log("position: "+ position);
         playerBody.transform.position = KeepInBounds(position);
     }
 
@@ -65,13 +113,98 @@ public class PlayerController : MonoBehaviour
         return new Vector2(clampedXPos, clampedYPos);
     }
   
-    public void Shoot(InputAction.CallbackContext context)
+    public void Charge(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            shootSound.Play();
-            FireLasers();
+            mouseHeld = true;
+            shooting = false;
+
+            if (ShootCoroutineObject != null)
+            {
+                StopCoroutine(ShootCoroutineObject);
+            }
         }
+        if (context.canceled)
+        {
+            mouseHeld = false;
+            if (gameManager.getCharge() > ChargeSpentPerShot)
+            {
+                shooting = true;
+
+                ShootCoroutineObject = ShootCoroutine();
+                StartCoroutine(ShootCoroutineObject);
+            }
+            else
+            {
+                gameManager.ResetCharge();
+                UpdateEnergySphere();
+            }
+        }
+    }
+    
+    private IEnumerator ShootCoroutine()
+    {
+        while (shooting)
+        {
+            if (gameManager.getCharge() >= ChargeSpentPerShot)
+            {
+                FireLasers();
+                gameManager.UpdateCharge(-ChargeSpentPerShot);
+                UpdateEnergySphere();
+            }
+
+            yield return new WaitForSeconds(TimeBetweenShots);
+
+            if (gameManager.getCharge() < ChargeSpentPerShot)
+            {
+                gameManager.ResetCharge();
+                UpdateEnergySphere();
+                shooting = false;
+            }
+        }
+    }
+
+    private IEnumerator DamageCooldownCoroutine()
+    {
+        damageable = false;
+
+        yield return new WaitForSeconds(DamageFlashSpeedupTime);
+        // Let DamageFlashCoroutine() know that the cooldown is ending
+        damageCooldownEnding = true;
+
+        // Wait the remaining time left in DamageCooldownTime
+        yield return new WaitForSeconds(DamageCooldownTime - DamageFlashSpeedupTime);
+        damageable = true;
+        damageCooldownEnding = false;
+    }
+
+    private IEnumerator DamageFlashCoroutine()
+    {
+        while (damageable == false)
+        {
+            // Toggle the player's visibility
+            playerRenderer.enabled = !playerRenderer.enabled;
+            // Wait the correct amount of time based on if the cooldown is about to end
+            if (damageCooldownEnding)
+            {
+                yield return new WaitForSeconds(DamageFlashFastSpeed);
+            }
+            else
+            {
+                yield return new WaitForSeconds(DamageFlashFastSpeed);
+            }
+        }
+        playerRenderer.enabled = true;
+    }
+
+    private void UpdateEnergySphere()
+    {
+        float energySphereSize = Mathf.Min(gameManager.getCharge() * EnergySizePerUnitCharged, MaxEnergySphereSize);
+        energySphereRender.size = Vector2.one * energySphereSize;
+
+
+        playerCollider.UpdateEnergySphereCollider(energySphereSize, EnergySphereHitboxGraceArea);
     }
 
     private void FireLasers()
@@ -79,69 +212,32 @@ public class PlayerController : MonoBehaviour
         // tell every spawner to spawn a laser
         foreach (LaserSpawner spawner in spawners)
         {
+            shootSound.Play();
             spawner.SpawnLaser();
         }
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag(hazardLayer))
-        {
+   public void Hit() {
+        if (damageable) { 
             gameManager.RemovePlayerHealth(1);
             hitSound.Play();
-            Debug.Log("Player hit");
+
+            DamageCooldownCoroutineObject = DamageCooldownCoroutine();
+            StartCoroutine(DamageCooldownCoroutineObject);
+
+            DamageFlashCoroutineObject = DamageFlashCoroutine();
+            StartCoroutine(DamageFlashCoroutineObject);
         }
     }
 
     private void Die()
     {
+        StopAllCoroutines();
+
         playerCollider.enabled = false;
         playerRenderer.enabled = false;
         deathSound.Play();
+
         Destroy(this.gameObject, 0.5f);
     }
-
-    public void togglePause(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            Debug.Log("Toggle pause reached");
-            gameManager.OnGameTogglePause.Invoke();
-
-
-            if (gameManager.paused)
-            {
-                SetActionMapUI();
-                //here we'll want to swap the action mapping
-            } else
-            {
-                SetActionMapPlayer();
-            }
-        }
-    }
-
-    
-    public void SetActionMapPlayer() { SetActionMap("Playing");  }
-    public void SetActionMapUI() { SetActionMap("Menus");  }
-    public void SetActionMap(string newActionMapName)
-    {
-        playerInput.currentActionMap.Disable();
-        playerInput.SwitchCurrentActionMap(newActionMapName);
-
-        switch(newActionMapName)
-        {
-            case "Menus":
-                Debug.Log("ping");
-                UnityEngine.Cursor.visible = true;
-                //UnityEngine.Cursor.lockState = CursorLockMode.None;
-                break;
-            default: //case playing
-                Debug.Log("pong");
-                UnityEngine.Cursor.visible = false;
-                //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-                break;
-        }
-    }
-
-    
 }
