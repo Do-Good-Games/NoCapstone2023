@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/HUDStyleSheet.uss?fileID=7433441132597879392&amp;guid=b18481973f256eb46b64604202695466&amp;type=3#HUDStyleSheet" />
+    <ui:VisualElement style="flex-direction: row; flex-grow: 1; justify-content: space-between;">
+        <ui:VisualElement style="width: 21.875%; flex-direction: row; align-items: center; justify-content: space-around; rotate: 0; background-color: rgb(140, 117, 24);">
+            <ui:ProgressBar value="32.3" focusable="false" class="health-bar" style="height: 168px; flex-shrink: 0; width: 864px; flex-grow: 1; rotate: 270deg; flex-direction: row; align-items: center; justify-content: space-between; translate: 0 0; transform-origin: center; -unity-background-scale-mode: stretch-to-fill;" />
+            <ui:ProgressBar value="32.3" class="energy-bar" style="height: 168px; flex-shrink: 0; width: 864px; flex-grow: 1; rotate: 270deg; flex-direction: row; align-items: center; justify-content: space-between; translate: 0 0; transform-origin: center;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="width: 21.875%; background-color: rgb(140, 117, 24);" />
+    </ui:VisualElement>
+</ui:UXML>
