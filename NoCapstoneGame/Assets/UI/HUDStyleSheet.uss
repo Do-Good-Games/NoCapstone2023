@@ -29,13 +29,17 @@
 }
 
 .health-bar .unity-progress-bar__progress {
-    background-color: rgba(255, 0, 0, 255);
+    background-color: rgb(255, 0, 0);
     flex-shrink: 0;
     flex-grow: 1;
 }
 
 .energy-bar .unity-progress-bar__progress {
-    background-color: rgba(255, 255, 0, 255);
+    background-color: rgb(255, 255, 0);
     flex-shrink: 0;
     flex-grow: 1;
+}
+
+.energy .unity-vertical-progress-bar__progress {
+    background-color: rgba(255, 255, 0, 255);
 }
