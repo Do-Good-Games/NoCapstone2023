@@ -19,8 +19,9 @@ public class GameManager : MonoBehaviour
     // The current health of the player
     private int playerHealth;
 
+    [SerializeField] private float maxEnergyLevel;
     // The current energy level (max charge amount) (for MVP)
-    private float energyLevel;
+    [SerializeField] private float energyLevel;
 
     // The current energy charge (for MVP)
     [SerializeField] private float chargeLevel;
@@ -106,6 +107,11 @@ public class GameManager : MonoBehaviour
     }
 
     public float getEnergy() => energyLevel;
+
+    public float GetMaxEnergy()
+    {
+        return maxEnergyLevel;
+    }
 
 
     public void UpdateCharge(float amount)

@@ -145,10 +145,12 @@ public class PlayerController : MonoBehaviour
     
     private IEnumerator ShootCoroutine()
     {
+        int i = 0;
         while (shooting)
         {
             if (gameManager.getCharge() >= ChargeSpentPerShot)
             {
+                gameManager.UpdateEnergy(-1);
                 FireLasers();
                 gameManager.UpdateCharge(-ChargeSpentPerShot);
                 UpdateEnergySphere();
