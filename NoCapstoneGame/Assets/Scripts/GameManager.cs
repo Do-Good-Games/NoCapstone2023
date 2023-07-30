@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateEnergy(float amount)
     {
-        energyLevel += amount;
+        energyLevel = Mathf.Min(energyLevel+ amount, maxEnergyLevel);
         OnEnergyChange.Invoke();
     }
 

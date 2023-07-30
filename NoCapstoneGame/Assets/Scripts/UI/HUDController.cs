@@ -35,7 +35,7 @@ public class HUDController: MonoBehaviour
 
 
         gameManager.OnPlayerHurt.AddListener(UpdateHealthBar);
-        gameManager.OnChargeChange.AddListener(UpdateEnergyBar);
+        gameManager.OnEnergyChange.AddListener(UpdateEnergyBar);
     }
 
     void UpdateHealthBar()
@@ -48,7 +48,6 @@ public class HUDController: MonoBehaviour
     {
 
         energyBar.value = (float) ((float)gameManager.getEnergy()/(float)maxEnergy);
-        Debug.Log("energy");
         //transform.localScale = new Vector3(transform.localScale.x, totalHeight, transform.localScale.z);
     }
 }

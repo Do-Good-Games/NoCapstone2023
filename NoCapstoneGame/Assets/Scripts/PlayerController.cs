@@ -128,7 +128,8 @@ public class PlayerController : MonoBehaviour
         if (context.canceled)
         {
             mouseHeld = false;
-            if (gameManager.getCharge() > ChargeSpentPerShot)
+            //if (gameManager.getCharge() >= ChargeSpentPerShot) //switch to this line if you want to disable single fire shooting
+            if (gameManager.getCharge() >= ChargeSpentPerShot || gameManager.getEnergy() >= ChargeSpentPerShot)
             {
                 shooting = true;
 
@@ -137,6 +138,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+
                 gameManager.ResetCharge();
                 UpdateEnergySphere();
             }
@@ -154,6 +156,14 @@ public class PlayerController : MonoBehaviour
                 FireLasers();
                 gameManager.UpdateCharge(-ChargeSpentPerShot);
                 UpdateEnergySphere();
+            } else if(gameManager.getEnergy() >= ChargeSpentPerShot)
+            {
+
+                gameManager.UpdateEnergy(-1);
+                FireLasers();
+                gameManager.UpdateCharge(0);
+                UpdateEnergySphere();
+                yield break;
             }
 
             yield return new WaitForSeconds(TimeBetweenShots);
