@@ -631,7 +631,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1089636374
 GameObject:
@@ -669,8 +669,8 @@ MonoBehaviour:
   downSpeedRange: {x: 0.5, y: 1}
   stepSpeedRange: {x: 0.05, y: 0.15}
   directionAngleRange: {x: 10, y: 10}
-  swaySpeedRange: {x: 1, y: 2}
-  swayWidthRange: {x: 0, y: 0.1}
+  swaySpeedRange: {x: 1, y: 1.5}
+  swayWidthRange: {x: 0, y: 0.3}
   energyManager: {fileID: 755147821}
   healthRange: {x: 1, y: 3}
   sizeRange: {x: 1, y: 3}
@@ -847,7 +847,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1509115615
 MonoBehaviour:
