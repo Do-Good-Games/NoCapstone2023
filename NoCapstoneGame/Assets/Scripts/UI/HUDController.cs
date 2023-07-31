@@ -14,6 +14,7 @@ public class HUDController: MonoBehaviour
     private VisualElement root;
     private VerticalProgressBar healthBar;
     private VerticalProgressBar energyBar;
+    private Label scoreDisplay;
     private int maxHealth;
     private float maxEnergy;
 
@@ -27,6 +28,7 @@ public class HUDController: MonoBehaviour
         root = UIDoc.rootVisualElement;
         healthBar = root.Q<VerticalProgressBar>("HealthBar");
         energyBar = root.Q<VerticalProgressBar>("EnergyBar");
+        scoreDisplay = root.Q<Label>("ScoreDisplay");
 
         maxHealth = player.maxHealth;
         maxEnergy = gameManager.GetMaxEnergy();
@@ -36,6 +38,11 @@ public class HUDController: MonoBehaviour
 
         gameManager.OnPlayerHurt.AddListener(UpdateHealthBar);
         gameManager.OnEnergyChange.AddListener(UpdateEnergyBar);
+    }
+
+    void Update()
+    {
+        scoreDisplay.text = gameManager.getScore().ToString().PadLeft(8, '0');
     }
 
     void UpdateHealthBar()

@@ -6,6 +6,8 @@
             <VerticalProgressBar value="55.6" name="HealthBar" high-value="1" style="flex-grow: initial; width: 20%; height: 80%; flex-shrink: 0;" />
             <VerticalProgressBar value="29.15" name="EnergyBar" high-value="1" class="energy" style="width: 20%; height: 80%;" />
         </ui:VisualElement>
-        <ui:VisualElement style="width: 21.875%; background-color: rgb(140, 117, 24);" />
+        <ui:VisualElement style="width: 21.875%; background-color: rgb(140, 117, 24); align-items: center; justify-content: space-around;">
+            <ui:Label text="00000" display-tooltip-when-elided="true" name="ScoreDisplay" style="width: 70%; height: 5%; font-size: 32px; -unity-text-align: upper-center; background-color: rgba(83, 89, 70, 255); -unity-text-outline-color: rgba(238, 255, 206, 255);" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

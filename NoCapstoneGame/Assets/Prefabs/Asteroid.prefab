@@ -108,9 +108,12 @@ MonoBehaviour:
   swayWidth: 0
   asteroidCollider: {fileID: 9102387809521579522}
   asteroidRenderer: {fileID: 2447030393251289638}
+  droppedEntityManager: {fileID: 0}
+  numDrops: 0
   health: 2
+  size: 0
   laserTag: Laser
-  score: 1000
+  score: 10
   destroySound: {fileID: 4692610660959000773}
 --- !u!50 &2447030393251289624
 Rigidbody2D:
