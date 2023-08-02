@@ -54,6 +54,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Rigidbody2D playerBody;
     [SerializeField] PlayerCollider playerCollider;
 
+    string currentActionMapName;
+    PlayerInput playerInput;
+
+
 
     public GameManager gameManager;
     private Camera gameplayCamera;
@@ -83,7 +87,10 @@ public class PlayerController : MonoBehaviour
         mouseHeld = false;
         shooting = false;
         damageable = true;
-        damageCooldownEnding = false; 
+        damageCooldownEnding = false;
+
+        currentActionMapName = "Player";
+        playerInput = GetComponent<PlayerInput>();
     }
 
     public void Update()
@@ -251,5 +258,48 @@ public class PlayerController : MonoBehaviour
         deathSound.Play();
 
         Destroy(this.gameObject, 0.5f);
+
+        //switch action map to UI
+    }
+
+    public void togglePause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            gameManager.OnGameTogglePause.Invoke();
+
+            if (gameManager.paused)
+            {
+                SetActionMapUI();
+                //here we'll want to swap the action mapping
+            }
+            else
+            {
+                SetActionMapPlayer();
+            }
+        }
+    }
+
+
+    public void SetActionMapPlayer() { SetActionMap("Playing"); }
+    public void SetActionMapUI() { SetActionMap("Menus"); }
+    public void SetActionMap(string newActionMapName)
+    {
+        playerInput.currentActionMap.Disable();
+        playerInput.SwitchCurrentActionMap(newActionMapName);
+
+        switch (newActionMapName)
+        {
+            case "Menus":
+                Debug.Log("ping");
+                UnityEngine.Cursor.visible = true;
+                //UnityEngine.Cursor.lockState = CursorLockMode.None;
+                break;
+            default: //case playing
+                Debug.Log("pong");
+                UnityEngine.Cursor.visible = false;
+                //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                break;
+        }
     }
 }
