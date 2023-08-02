@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     // The current energy charge (for MVP)
     [SerializeField] private float chargeLevel;
 
+    [SerializeField] private float speed;
+
     // The current score (probably measured in distance)
     private int score;
 
@@ -157,4 +159,6 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+    public float getSpeed() => speed;
 }
