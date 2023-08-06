@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float EnergySphereStretchFactor;
 
 
+
     [Header("Visuals")]
     [Tooltip("The initial length of each flash during the cooldown, in seconds")]
     [SerializeField] public float DamageFlashSpeed;
@@ -96,6 +97,8 @@ public class PlayerController : MonoBehaviour
 
         // store all the Laser Spawners components in an array to avoid calling GetComponents() many times
         spawners = GetComponentsInChildren<LaserSpawner>();
+
+        cursorPos = shipTransform.position;
 
         mouseHeld = false;
         slingshotHeld = false;
@@ -205,6 +208,8 @@ public class PlayerController : MonoBehaviour
         if (context.canceled)
         {
             slingshotHeld = false;
+            cursorPos = energyTransform.position;
+            Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(energyTransform.position));
             SetPositions(cursorPos);
         }
     }
