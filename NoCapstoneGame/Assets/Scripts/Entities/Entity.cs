@@ -9,6 +9,7 @@ public class Entity : MonoBehaviour
 
     [Header("Movement")]
     protected float gmSpeed;
+    protected float gmSpeedScale;
     [SerializeField] public float downSpeed;
     [Tooltip("general movement speed of each entity, recommended range approx. .1")]
     [SerializeField] public float stepSpeed; //technically used as the hypoteneuse of the triangle used to calculate movement
@@ -64,6 +65,8 @@ public class Entity : MonoBehaviour
 
         gmSpeed = gameManager.getSpeed();
 
+        
+
         if ((oldPos.y < -15) || (Mathf.Abs(oldPos.x) > 40))
         {
             Destroy(this.gameObject);
@@ -72,7 +75,7 @@ public class Entity : MonoBehaviour
         float swayScale = swayWidth * Mathf.Cos(swaySpeed * Time.fixedTime) * swaySpeed;//convert the current time and sway variables into an oscillating value from 1 to -1
         //we use cos rather than sin because this is the amoutn we SCALE the sideways vector, not the offset itself. starting at 1 means we start the loop moving at fulls peed to the left from zero
 
-        directionVector.y -= gmSpeed;
+        directionVector.y -= (gmSpeed * gameManager.getSpeedScale());
 
         //set the new position to the old position, plus the vector representing the overall direction in which we are going
         Vector3 newPos = oldPos + directionVector + (perpVector * swayScale);

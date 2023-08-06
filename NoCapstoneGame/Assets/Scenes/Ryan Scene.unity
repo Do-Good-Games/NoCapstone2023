@@ -899,6 +899,8 @@ MonoBehaviour:
   maxEnergyLevel: 10
   energyLevel: 0
   chargeLevel: 0
+  speed: 0
+  speedScale: 0.0001
   paused: 0
   OnPlayerHeal:
     m_PersistentCalls:

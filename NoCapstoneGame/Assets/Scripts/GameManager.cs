@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float chargeLevel;
 
     [SerializeField] private float speed;
+    [Tooltip("setting speed to ints is more intuitive, but causes insane speeds. This scales it down as well as offering parameterization of how quickly speed increases")]
+    [SerializeField] private float speedScale;
 
     // The current score (probably measured in distance)
     private int score;
@@ -137,6 +139,7 @@ public class GameManager : MonoBehaviour
     public void UpdateScore(int amount)
     {
         score += amount;
+        calculateSpeed(); // could also do this in update depending on how it's implemented, current implementation will only ever change with score
     }
 
     public int getScore()
@@ -160,5 +163,11 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void calculateSpeed()
+    {
+        speed = score / 10;
+    }
+
     public float getSpeed() => speed;
+    public float getSpeedScale() => speedScale;
 }
