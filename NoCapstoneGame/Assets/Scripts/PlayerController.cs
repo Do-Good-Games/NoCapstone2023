@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
         {
             mouseHeld = false;
             //if (gameManager.getCharge() >= ChargeSpentPerShot) //switch to this line if you want to disable single fire shooting
-            if (gameManager.getCharge() >= ChargeSpentPerShot || gameManager.getEnergy() >= ChargeSpentPerShot)
+            if (gameManager.GetCharge() >= ChargeSpentPerShot || gameManager.GetEnergy() >= ChargeSpentPerShot)
             {
                 shooting = true;
 
@@ -157,13 +157,13 @@ public class PlayerController : MonoBehaviour
         int i = 0;
         while (shooting)
         {
-            if (gameManager.getCharge() >= ChargeSpentPerShot)
+            if (gameManager.GetCharge() >= ChargeSpentPerShot)
             {
                 gameManager.UpdateEnergy(-1);
                 FireLasers();
                 gameManager.UpdateCharge(-ChargeSpentPerShot);
                 UpdateEnergySphere();
-            } else if(gameManager.getEnergy() >= ChargeSpentPerShot)
+            } else if(gameManager.GetEnergy() >= ChargeSpentPerShot)
             {
 
                 gameManager.UpdateEnergy(-1);
@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
 
             yield return new WaitForSeconds(TimeBetweenShots);
 
-            if (gameManager.getCharge() < ChargeSpentPerShot)
+            if (gameManager.GetCharge() < ChargeSpentPerShot)
             {
                 gameManager.ResetCharge();
                 UpdateEnergySphere();
@@ -219,7 +219,7 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateEnergySphere()
     {
-        float energySphereSize = Mathf.Min(gameManager.getCharge() * EnergySizePerUnitCharged, MaxEnergySphereSize);
+        float energySphereSize = Mathf.Min(gameManager.GetCharge() * EnergySizePerUnitCharged, MaxEnergySphereSize);
         energySphereRender.size = Vector2.one * energySphereSize;
 
 

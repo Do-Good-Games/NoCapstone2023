@@ -42,7 +42,7 @@ public class HUDController: MonoBehaviour
 
     void Update()
     {
-        scoreDisplay.text = gameManager.getScore().ToString().PadLeft(8, '0');
+        scoreDisplay.text = gameManager.GetScore().ToString().PadLeft(8, '0');
     }
 
     void UpdateHealthBar()
@@ -54,7 +54,7 @@ public class HUDController: MonoBehaviour
     void UpdateEnergyBar()
     {
 
-        energyBar.value = (float) ((float)gameManager.getEnergy()/(float)maxEnergy);
+        energyBar.value = (float) ((float)gameManager.GetEnergy()/(float)maxEnergy);
         //transform.localScale = new Vector3(transform.localScale.x, totalHeight, transform.localScale.z);
     }
 }

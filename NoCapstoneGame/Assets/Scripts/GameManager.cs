@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        OnGameTogglePause.AddListener(togglePause);
+        OnGameTogglePause.AddListener(TogglePause);
     }
 
     public void AddPlayerHealth(int amount)
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
         OnEnergyChange.Invoke();
     }
 
-    public float getEnergy() => energyLevel;
+    public float GetEnergy() => energyLevel;
 
     public float GetMaxEnergy()
     {
@@ -130,7 +130,7 @@ public class GameManager : MonoBehaviour
         OnChargeChange.Invoke();
     }
 
-    public float getCharge()
+    public float GetCharge()
     {
         return chargeLevel;
     }
@@ -139,15 +139,15 @@ public class GameManager : MonoBehaviour
     public void UpdateScore(int amount)
     {
         score += amount;
-        calculateSpeed(); // could also do this in update depending on how it's implemented, current implementation will only ever change with score
+        CalculateSpeed(); // could also do this in update depending on how it's implemented, current implementation will only ever change with score
     }
 
-    public int getScore()
+    public int GetScore()
     {
         return score;
     }
 
-    public void togglePause()
+    public void TogglePause()
     {
         if (paused)
         {
@@ -163,11 +163,11 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void calculateSpeed()
+    public void CalculateSpeed()
     {
         speed = score / 10;
     }
 
-    public float getSpeed() => speed;
-    public float getSpeedScale() => speedScale;
+    public float GetSpeed() => speed;
+    public float GetSpeedScale() => speedScale;
 }

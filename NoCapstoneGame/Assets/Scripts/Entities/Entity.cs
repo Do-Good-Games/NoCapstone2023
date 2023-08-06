@@ -63,7 +63,7 @@ public class Entity : MonoBehaviour
     {
         Vector3 oldPos = entityBody.transform.position;//store the current position of the entity
 
-        gmSpeed = gameManager.getSpeed();
+        gmSpeed = gameManager.GetSpeed();
 
         
 
@@ -75,7 +75,7 @@ public class Entity : MonoBehaviour
         float swayScale = swayWidth * Mathf.Cos(swaySpeed * Time.fixedTime) * swaySpeed;//convert the current time and sway variables into an oscillating value from 1 to -1
         //we use cos rather than sin because this is the amoutn we SCALE the sideways vector, not the offset itself. starting at 1 means we start the loop moving at fulls peed to the left from zero
 
-        directionVector.y -= (gmSpeed * gameManager.getSpeedScale());
+        directionVector.y -= (gmSpeed * gameManager.GetSpeedScale());
 
         //set the new position to the old position, plus the vector representing the overall direction in which we are going
         Vector3 newPos = oldPos + directionVector + (perpVector * swayScale);
