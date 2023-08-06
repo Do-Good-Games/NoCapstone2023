@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -44,7 +45,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] SpriteRenderer playerRenderer;
     [SerializeField] SpriteRenderer energySphereRender;
 
-
     [Header("Sounds")]
     [SerializeField] AudioSource shootSound;
     [SerializeField] AudioSource hitSound;
@@ -52,17 +52,29 @@ public class PlayerController : MonoBehaviour
 
     [Header("Physics")]
     [SerializeField] Rigidbody2D playerBody;
-    [SerializeField] PlayerCollider playerCollider;
+    [SerializeField] Collider2D shipCollider;
+    [SerializeField] CircleCollider2D energySphereCollider;
+
+    [Header("Children")]
+    [SerializeField] Transform shipTransform;
+    [SerializeField] Transform energyTransform;
+    [SerializeField] Transform magnetTransform;
 
 
     public GameManager gameManager;
     private Camera gameplayCamera;
     private Vector2 cameraBounds;
     private LaserSpawner[] spawners;
+
     private bool mouseHeld;
+    private bool rightMouseHeld;
+    private Vector2 cursorPos;
+    private Vector2 slingshotPos;
+
     private bool shooting;
     private bool damageable;
     private bool damageCooldownEnding;
+
     private IEnumerator ShootCoroutineObject;
     private IEnumerator DamageCooldownCoroutineObject;
     private IEnumerator DamageFlashCoroutineObject;
@@ -71,7 +83,7 @@ public class PlayerController : MonoBehaviour
     {
         gameManager = GameManager.Instance;
         gameplayCamera = gameManager.gameplayCamera;
-        cameraBounds = gameManager.cameraBounds - (Vector2) playerCollider.shipCollider.bounds.extents;
+        cameraBounds = gameManager.cameraBounds - (Vector2) shipCollider.bounds.extents;
 
         gameManager.AddPlayerHealth(maxHealth);
 
@@ -101,9 +113,13 @@ public class PlayerController : MonoBehaviour
     public void UpdatePosition(InputAction.CallbackContext context)
     {
         // converts cursor position (in screen space) to world space based on camera position/size
-        Vector2 cursorPos = context.ReadValue<Vector2>();
+        cursorPos = context.ReadValue<Vector2>();
         Vector2 position = gameManager.gameplayCamera.ScreenToWorldPoint(cursorPos);
-        playerBody.transform.position = KeepInBounds(position);
+        Vector2 inBoundsPosition = KeepInBounds(position);
+
+        shipTransform.position = inBoundsPosition;
+        energyTransform.position = inBoundsPosition;
+        magnetTransform.position = inBoundsPosition;
     }
 
     private Vector2 KeepInBounds(Vector2 position)
@@ -140,6 +156,19 @@ public class PlayerController : MonoBehaviour
                 gameManager.ResetCharge();
                 UpdateEnergySphere();
             }
+        }
+    }
+
+    public void OnRightClick(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            rightMouseHeld = true;
+            slingshotPos = cursorPos;
+        }
+        if (context.canceled)
+        {
+            rightMouseHeld = false;
         }
     }
     
@@ -203,8 +232,7 @@ public class PlayerController : MonoBehaviour
         float energySphereSize = Mathf.Min(gameManager.getCharge() * EnergySizePerUnitCharged, MaxEnergySphereSize);
         energySphereRender.size = Vector2.one * energySphereSize;
 
-
-        playerCollider.UpdateEnergySphereCollider(energySphereSize, EnergySphereHitboxGraceArea);
+        energySphereCollider.radius = (energySphereSize / 2) - EnergySphereHitboxGraceArea;
     }
 
     private void FireLasers()
@@ -234,10 +262,26 @@ public class PlayerController : MonoBehaviour
     {
         StopAllCoroutines();
 
-        playerCollider.enabled = false;
+       // playerCollider.enabled = false;
         playerRenderer.enabled = false;
         deathSound.Play();
 
         Destroy(this.gameObject, 0.5f);
+    }
+
+    private void MoveChildren()
+    {
+        shipTransform = playerBody.transform;
+        energyTransform = playerBody.transform;
+        magnetTransform = playerBody.transform;
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        // If the colliding GameObject is tagged as a hazard, take damage
+        if (collision.gameObject.CompareTag(gameManager.hazardTag))
+        {
+            Hit();
+        }
     }
 }
