@@ -31,6 +31,11 @@ public class PlayerController : MonoBehaviour
     [Tooltip("The length of time that the player is invincible after being hit, in seconds")]
     [SerializeField] public float DamageCooldownTime;
 
+    [SerializeField] private float MinChargeForSlingshot;
+
+    [SerializeField] private float SpaceshipStretchFactor;
+    [SerializeField] private float EnergySphereStretchFactor;
+
 
     [Header("Visuals")]
     [Tooltip("The initial length of each flash during the cooldown, in seconds")]
@@ -67,9 +72,9 @@ public class PlayerController : MonoBehaviour
     private LaserSpawner[] spawners;
 
     private bool mouseHeld;
-    private bool rightMouseHeld;
+    private bool slingshotHeld;
     private Vector2 cursorPos;
-    private Vector2 slingshotPos;
+    private Vector2 slingshotAnchor;
 
     private bool shooting;
     private bool damageable;
@@ -93,6 +98,7 @@ public class PlayerController : MonoBehaviour
         spawners = GetComponentsInChildren<LaserSpawner>();
 
         mouseHeld = false;
+        slingshotHeld = false;
         shooting = false;
         damageable = true;
         damageCooldownEnding = false; 
@@ -110,16 +116,38 @@ public class PlayerController : MonoBehaviour
       
     }
 
-    public void UpdatePosition(InputAction.CallbackContext context)
+    public void UpdateCursorPosition(InputAction.CallbackContext context)
     {
         // converts cursor position (in screen space) to world space based on camera position/size
-        cursorPos = context.ReadValue<Vector2>();
-        Vector2 position = gameManager.gameplayCamera.ScreenToWorldPoint(cursorPos);
-        Vector2 inBoundsPosition = KeepInBounds(position);
+        Vector2 screenSpaceCursorPos = context.ReadValue<Vector2>();
+        cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
 
+        if (slingshotHeld)
+        {
+            SetStretchedPositions(cursorPos);
+        }
+        else
+        {
+            SetPositions(cursorPos);
+        }
+    }
+
+    private void SetPositions(Vector2 position)
+    {
+        Vector2 inBoundsPosition = KeepInBounds(position);
         shipTransform.position = inBoundsPosition;
         energyTransform.position = inBoundsPosition;
         magnetTransform.position = inBoundsPosition;
+    }
+
+    private void SetStretchedPositions(Vector2 position)
+    {
+        Vector2 stretchedShipPosition = Vector2.Lerp(slingshotAnchor, position, SpaceshipStretchFactor);
+        Debug.Log(slingshotAnchor + " " + " " + position + " " + stretchedShipPosition);
+        stretchedShipPosition = KeepInBounds(stretchedShipPosition);
+        shipTransform.position = stretchedShipPosition;
+        energyTransform.position = Vector2.Lerp(slingshotAnchor, stretchedShipPosition, EnergySphereStretchFactor);
+        magnetTransform.position = stretchedShipPosition;
     }
 
     private Vector2 KeepInBounds(Vector2 position)
@@ -163,12 +191,21 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started)
         {
-            rightMouseHeld = true;
-            slingshotPos = cursorPos;
+            if (gameManager.getCharge() >= MinChargeForSlingshot)
+            {
+                slingshotHeld = true;
+                slingshotAnchor = cursorPos;
+            }
+            else
+            {
+                // Give the player some feedback here 
+                Debug.Log("Slingshot attempted with insufficient charge");
+            }
         }
         if (context.canceled)
         {
-            rightMouseHeld = false;
+            slingshotHeld = false;
+            SetPositions(cursorPos);
         }
     }
     
