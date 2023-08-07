@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator ShootCoroutineObject;
     private IEnumerator DamageCooldownCoroutineObject;
     private IEnumerator DamageFlashCoroutineObject;
+    private Vector2 prevMousePos;
 
     public void Start()
     {
@@ -111,6 +112,10 @@ public class PlayerController : MonoBehaviour
         Vector2 cursorPos = context.ReadValue<Vector2>();
         Vector2 position = gameManager.gameplayCamera.ScreenToWorldPoint(cursorPos);
         playerBody.transform.position = KeepInBounds(position);
+        if (!gameManager.paused)
+        {
+            prevMousePos = cursorPos;
+        }
     }
 
     private Vector2 KeepInBounds(Vector2 position)
@@ -270,11 +275,18 @@ public class PlayerController : MonoBehaviour
 
             if (gameManager.paused)
             {
+                //prevMousePos = mousePos
+                Debug.Log("mouse pos" + Mouse.current.position.ReadValue());
                 SetActionMapUI();
                 //here we'll want to swap the action mapping
             }
             else
             {
+                Vector2 newMousePos = (Vector2) Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+                Vector2 mouseWarp =  prevMousePos - newMousePos;
+                Debug.Log("mouse pos" + prevMousePos + " new pos: " + newMousePos + " warp: " + mouseWarp);
+
+                //Mouse.current.WarpCursorPosition(new Vector2(5,5));
                 SetActionMapPlayer();
             }
         }
