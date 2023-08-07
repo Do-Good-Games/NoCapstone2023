@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class Entity : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class Entity : MonoBehaviour
     [SerializeField] public float swayWidth;
 
     protected GameManager gameManager;
+    public EntityManager entityManager;
 
     // Start is called before the first frame update
     virtual public void Start()
@@ -69,7 +71,7 @@ public class Entity : MonoBehaviour
 
         if ((oldPos.y < -15) || (Mathf.Abs(oldPos.x) > 40))
         {
-            Destroy(this.gameObject);
+            DestroyEntity();
         }
 
         float swayScale = swayWidth * Mathf.Cos(swaySpeed * Time.fixedTime) * swaySpeed;//convert the current time and sway variables into an oscillating value from 1 to -1
@@ -83,8 +85,9 @@ public class Entity : MonoBehaviour
         entityBody.MovePosition(newPos);
     }
 
-    virtual public void Destroy()
+    virtual public void DestroyEntity()
     {
-        Destroy(this.gameObject, 0.5f);
+        entityManager.objectPool.Release(gameObject);
+        //Destroy(this.gameObject, 0.5f);
     }
 }

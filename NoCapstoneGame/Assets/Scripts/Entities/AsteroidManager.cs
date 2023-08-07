@@ -33,6 +33,7 @@ public class AsteroidManager : EntityManager
 
     override public void SetVariables(Entity entity)
     {
+        //Debug.Log("set variables called as INHERITED CLASS (asteroid");
         base.SetVariables(entity);
         float iterHealth = Random.Range(healthRange.x, healthRange.y);
         // Maps iterHealth to the size range based on the health range

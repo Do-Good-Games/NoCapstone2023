@@ -34,6 +34,8 @@ public class Asteroid : Entity, IDamageable
         this.size = size;
         this.droppedEntityManager = droppedEntityManager;
         this.numDrops = numDrops;
+        this.transform.localScale = new Vector2(size, size);
+
     }
 
     public bool Damage(int damageAmount)
@@ -41,14 +43,15 @@ public class Asteroid : Entity, IDamageable
         health -= damageAmount;
         if (health <= 0)
         {
-            Destroy();
+            DestroyEntity();
             return true;
         }
         return false;
     }
 
-    override public void Destroy()
+    public void DestroyFromLazer()
     {
+
         destroySound.Play();
         gameManager.UpdateScore(score);
         asteroidRenderer.enabled = false;
@@ -57,7 +60,15 @@ public class Asteroid : Entity, IDamageable
         {
             DropEntities();
         }
-        Destroy(this.gameObject, 0.5f);
+        DestroyEntity();
+    }
+
+    override public void DestroyEntity()
+    {
+        base.DestroyEntity();
+        //entityManager.objectPool.Release(gameObject);
+
+        //Destroy(this.gameObject, 0.5f);
     }
 
     private void DropEntities()
