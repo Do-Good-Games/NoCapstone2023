@@ -2,19 +2,19 @@ VisualElement {
 }
 
 .button {
-    width: 500px;
-    height: 80px;
+    width: 800px;
+    height: 120px;
     background-color: rgb(92, 110, 144);
-    font-size: 42px;
+    font-size: 62px;
     border-left-width: 15px;
     border-right-width: 15px;
     border-top-width: 15px;
     border-bottom-width: 15px;
     transition-duration: 3s;
-    border-left-color: rgba(70, 71, 94, 255);
-    border-right-color: rgba(70, 71, 94, 255);
-    border-top-color: rgba(110, 110, 126, 255);
-    border-bottom-color: rgba(57, 57, 75, 255);
+    border-left-color: rgb(70, 71, 94);
+    border-right-color: rgb(70, 71, 94);
+    border-top-color: rgb(110, 110, 126);
+    border-bottom-color: rgb(57, 57, 75);
 }
 
 .label {
