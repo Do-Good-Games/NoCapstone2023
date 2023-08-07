@@ -43,7 +43,7 @@ public class Asteroid : Entity, IDamageable
         health -= damageAmount;
         if (health <= 0)
         {
-            DestroyEntity();
+            DestroyFromLazer();
             return true;
         }
         return false;
@@ -51,25 +51,26 @@ public class Asteroid : Entity, IDamageable
 
     public void DestroyFromLazer()
     {
-
+        Debug.Log("destroyed from lazer");
         destroySound.Play();
         gameManager.UpdateScore(score);
-        asteroidRenderer.enabled = false;
-        asteroidCollider.enabled = false;
+        //asteroidRenderer.enabled = false;
+        //asteroidCollider.enabled = false;
         if (droppedEntityManager != null && numDrops > 0)
         {
             DropEntities();
         }
+        //Destroy(this.gameObject, 0.5f);
         DestroyEntity();
     }
 
-    override public void DestroyEntity()
+    /*override public void DestroyEntity()
     {
         base.DestroyEntity();
         //entityManager.objectPool.Release(gameObject);
 
         //Destroy(this.gameObject, 0.5f);
-    }
+    }*/
 
     private void DropEntities()
     {

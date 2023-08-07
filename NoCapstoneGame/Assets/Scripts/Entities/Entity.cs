@@ -43,6 +43,7 @@ public class Entity : MonoBehaviour
         perpVector = new Vector3(directionVector.y, -directionVector.x, 0); //perpendicular vector for calculation with wobble
 
         this.gameManager = GameManager.Instance;
+        gameManager.OnEnergyChange.AddListener(UpdateSpeed);
     }
 
     virtual public void setVariables(float downSpeed, float stepSpeed, float directionAngle, float swaySpeed, float swayWidth)
@@ -77,7 +78,6 @@ public class Entity : MonoBehaviour
         float swayScale = swayWidth * Mathf.Cos(swaySpeed * Time.fixedTime) * swaySpeed;//convert the current time and sway variables into an oscillating value from 1 to -1
         //we use cos rather than sin because this is the amoutn we SCALE the sideways vector, not the offset itself. starting at 1 means we start the loop moving at fulls peed to the left from zero
 
-        directionVector.y -= (gmSpeed * gameManager.GetSpeedScale());
 
         //set the new position to the old position, plus the vector representing the overall direction in which we are going
         Vector3 newPos = oldPos + directionVector + (perpVector * swayScale);
@@ -89,5 +89,11 @@ public class Entity : MonoBehaviour
     {
         entityManager.objectPool.Release(gameObject);
         //Destroy(this.gameObject, 0.5f);
+    }
+
+    public void UpdateSpeed()
+    {
+        directionVector.y -= (gmSpeed * gameManager.GetSpeedScale());
+
     }
 }

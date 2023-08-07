@@ -52,12 +52,12 @@ public class EntityManager : MonoBehaviour
         objectPool = new ObjectPool<GameObject>(
             createFunc: () => {
                 GameObject go = SpawnEntity(Random.Range(spawnRange.x, spawnRange.y), spawnHeight);
-                Debug.Log("--SPAWN entity called from object pool");
+                //Debug.Log("--SPAWN entity called from object pool");
                 return go;
             },
             actionOnGet: (obj) => { 
                 obj.SetActive(true); 
-                Debug.Log("GET entity called from object pool for " + obj.name); 
+                //Debug.Log("GET entity called from object pool for " + obj.name); 
             },
             actionOnRelease: (obj) => { 
                 obj.SetActive(false); 
@@ -117,7 +117,7 @@ public class EntityManager : MonoBehaviour
 
     virtual public void SetVariables(Entity entity)
     {
-        Debug.Log("set variables called as BASE CLASS");
+        //Debug.Log("set variables called as BASE CLASS");
         //Movement
         float iterDownSpeed = Random.Range(downSpeedRange.x, downSpeedRange.y);
 
