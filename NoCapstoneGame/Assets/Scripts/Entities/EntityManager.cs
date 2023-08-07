@@ -65,8 +65,8 @@ public class EntityManager : MonoBehaviour
             },
             actionOnDestroy: (obj) => Destroy(obj),
             collectionCheck: false,
-            defaultCapacity: 100,
-            maxSize: 500
+            defaultCapacity: 75,
+            maxSize: 150
             );
 
         StartGenerating();
