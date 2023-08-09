@@ -57,7 +57,8 @@ public class PlayerController : MonoBehaviour
     string currentActionMapName;
     PlayerInput playerInput;
 
-
+    [SerializeField] AudioManager audioManager;
+    [SerializeField] AudioObject testAudio;
 
     public GameManager gameManager;
     private Camera gameplayCamera;
@@ -264,6 +265,7 @@ public class PlayerController : MonoBehaviour
 
     public void togglePause(InputAction.CallbackContext context)
     {
+        audioManager.Play(testAudio);
         if (context.performed)
         {
             gameManager.OnGameTogglePause.Invoke();
