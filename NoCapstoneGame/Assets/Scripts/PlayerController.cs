@@ -66,6 +66,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform energyTransform;
     [SerializeField] Transform magnetTransform;
 
+    [SerializeField] ChargeShotProjectile chargeShotPrefab;
+
 
     public GameManager gameManager;
     private Camera gameplayCamera;
@@ -76,6 +78,7 @@ public class PlayerController : MonoBehaviour
     private bool slingshotHeld;
     private Vector2 cursorPos;
     private Vector2 slingshotAnchor;
+    float energySphereSize;
 
     private bool shooting;
     private bool damageable;
@@ -109,8 +112,9 @@ public class PlayerController : MonoBehaviour
 
     public void Update()
     {
-        // If the mouse is held, increase charge value
-        if (mouseHeld)
+        Debug.Log(slingshotHeld);
+        // If only the left mouse is held, increase charge value
+        if (mouseHeld && !slingshotHeld)
         {
             gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
 
@@ -146,7 +150,6 @@ public class PlayerController : MonoBehaviour
     private void SetStretchedPositions(Vector2 position)
     {
         Vector2 stretchedShipPosition = Vector2.Lerp(slingshotAnchor, position, SpaceshipStretchFactor);
-        Debug.Log(slingshotAnchor + " " + " " + position + " " + stretchedShipPosition);
         stretchedShipPosition = KeepInBounds(stretchedShipPosition);
         shipTransform.position = stretchedShipPosition;
         energyTransform.position = Vector2.Lerp(slingshotAnchor, stretchedShipPosition, EnergySphereStretchFactor);
@@ -207,7 +210,13 @@ public class PlayerController : MonoBehaviour
         }
         if (context.canceled)
         {
+            Vector2 launchVector = -1 * ((Vector2) energyTransform.position - slingshotAnchor);
+            LaunchChargeShot(energyTransform.position, launchVector);
+
+            gameManager.ResetCharge();
+            UpdateEnergySphere();
             slingshotHeld = false;
+
             cursorPos = energyTransform.position;
             Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(energyTransform.position));
             SetPositions(cursorPos);
@@ -218,6 +227,11 @@ public class PlayerController : MonoBehaviour
     {
         while (shooting)
         {
+            while (slingshotHeld)
+            {
+                yield return null;
+            }
+
             if (gameManager.getCharge() >= ChargeSpentPerShot)
             {
                 FireLasers();
@@ -271,7 +285,7 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateEnergySphere()
     {
-        float energySphereSize = Mathf.Min(gameManager.getCharge() * EnergySizePerUnitCharged, MaxEnergySphereSize);
+        energySphereSize = Mathf.Min(gameManager.getCharge() * EnergySizePerUnitCharged, MaxEnergySphereSize);
         energySphereRender.size = Vector2.one * energySphereSize;
 
         energySphereCollider.radius = (energySphereSize / 2) - EnergySphereHitboxGraceArea;
@@ -287,7 +301,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-   public void Hit() {
+    private void LaunchChargeShot(Vector2 position, Vector2 launchVector)
+    {
+        ChargeShotProjectile projectile = GameObject.Instantiate<ChargeShotProjectile>(chargeShotPrefab, position, Quaternion.identity);
+        projectile.SetSize(energySphereSize * energyTransform.lossyScale.x);
+        projectile.Launch(launchVector);
+    }
+
+    public void Hit() {
         if (damageable) { 
             gameManager.RemovePlayerHealth(1);
             hitSound.Play();

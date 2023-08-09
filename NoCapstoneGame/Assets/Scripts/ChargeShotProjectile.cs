@@ -12,12 +12,21 @@ public class ChargeShotProjectile : MonoBehaviour
     [SerializeField] public float offScreenDespawnDistance = 10;
     [Tooltip("The damage dealt to destructable hazards")]
     [SerializeField] public int damage = 1;
+    [SerializeField] SpriteRenderer projectileRenderer;
+    [SerializeField] CircleCollider2D projectileCollider;
+
+    Vector2 movementVector;
 
 
-
-    void Spawn()
+    public void SetSize(float size)
     {
+        projectileRenderer.size = Vector2.one * size;
+        projectileCollider.radius = (size / 2);
+    }
 
+    public void Launch(Vector2 vector)
+    {
+        movementVector = vector;
     }
 
     // Update is called once per frame
@@ -32,8 +41,7 @@ public class ChargeShotProjectile : MonoBehaviour
 
     void Move()
     {
-        float deltaPos = speed * Time.deltaTime;
-        projectileBody.position = new Vector2(projectileBody.position.x, projectileBody.position.y + deltaPos);
+        projectileBody.position += movementVector * Time.deltaTime;
     }
 
     bool CheckInBoundsStatus()
@@ -53,7 +61,7 @@ public class ChargeShotProjectile : MonoBehaviour
         bool objectDestroyed = damageableObject.Damage(damage);
         if (!objectDestroyed)
         {
-            Destroy(this.gameObject);
+           // Destroy(this.gameObject);
         }
     }
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7450106617901810308}
   - component: {fileID: 3773614415779314274}
   - component: {fileID: -5463159281726053939}
+  - component: {fileID: 2393342840927305615}
   m_Layer: 0
   m_Name: ChargeAttack
   m_TagString: Laser
@@ -123,3 +124,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2393342840927305615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070440082085866595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1a608858f2d24d0187021fa7ed012d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileBody: {fileID: -5463159281726053939}
+  speed: 10
+  offScreenDespawnDistance: 10
+  damage: 1
+  projectileRenderer: {fileID: 7450106617901810308}
+  projectileCollider: {fileID: 3773614415779314274}
