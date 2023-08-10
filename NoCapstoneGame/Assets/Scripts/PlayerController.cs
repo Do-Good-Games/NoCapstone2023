@@ -159,14 +159,14 @@ public class PlayerController : MonoBehaviour
         {
             if (gameManager.GetCharge() >= ChargeSpentPerShot)
             {
-                gameManager.UpdateEnergy(-1);
+                //gameManager.UpdateEnergy(-1);
                 FireLasers();
                 gameManager.UpdateCharge(-ChargeSpentPerShot);
                 UpdateEnergySphere();
             } else if(gameManager.GetEnergy() >= ChargeSpentPerShot)
             {
 
-                gameManager.UpdateEnergy(-1);
+                //gameManager.UpdateEnergy(-1);
                 FireLasers();
                 gameManager.UpdateCharge(0);
                 UpdateEnergySphere();
