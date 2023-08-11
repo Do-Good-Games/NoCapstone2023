@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FadingProjectile : Projectile
 {
+    //TODO: Fix this shit
+
     [Header("Stats")]
     [SerializeField] protected AnimationCurve fadeCurve;
 
@@ -21,7 +23,7 @@ public class FadingProjectile : Projectile
     {
         base.Update();
         float alpha = UpdateAlpha();
-        if (alpha <= 0.01)
+        if (alpha <= 0.01f)
         {
             Destroy(this.gameObject);
         }
