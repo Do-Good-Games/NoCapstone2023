@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 7450106617901810308}
   - component: {fileID: 3773614415779314274}
   - component: {fileID: -5463159281726053939}
-  - component: {fileID: 2393342840927305615}
+  - component: {fileID: 4293999573908980727}
   m_Layer: 0
-  m_Name: ChargeAttack
+  m_Name: ChargeShot
   m_TagString: Laser
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,7 +124,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &2393342840927305615
+--- !u!114 &4293999573908980727
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,9 +136,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a608858f2d24d0187021fa7ed012d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileBody: {fileID: -5463159281726053939}
-  speed: 10
   offScreenDespawnDistance: 10
-  damage: 1
+  collisionDamage: 1
+  continuousDamage: 1
+  damageInterval: 0.05
+  destroyOnImpact: 0
+  projectileBody: {fileID: -5463159281726053939}
   projectileRenderer: {fileID: 7450106617901810308}
   projectileCollider: {fileID: 3773614415779314274}
+  fadeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1.0000018
+      inSlope: -1.000001
+      outSlope: -1.000001
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.99999565
+      value: 0.000005181879
+      inSlope: -1.000001
+      outSlope: -1.000001
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

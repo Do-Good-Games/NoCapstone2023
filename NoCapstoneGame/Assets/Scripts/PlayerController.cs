@@ -9,30 +9,22 @@ public class PlayerController : MonoBehaviour
     [Header("Stats")]
     [Tooltip ("The player's starting health")]
     [SerializeField] public int maxHealth;
-
     [Tooltip("The units of charged gained each second the mouse is clicked")]
     [SerializeField] public float ChargeGainPerSecond;
-
     [Tooltip("The units of charge spent by a single shot")]
     [SerializeField] public float ChargeSpentPerShot;
-
     [Tooltip("The time between individual shots in a volley, in seconds")]
     [SerializeField] public float TimeBetweenShots;
-
     [Tooltip("The size increase for the Energy Sphere per unit charged")]
     [SerializeField] public float EnergySizePerUnitCharged;
-
     [Tooltip("The maximum size of the energy sphere when charging")]
     [SerializeField] public float MaxEnergySphereSize;
-
     [Tooltip("The difference in the visual size of the energy sphere and its hitbox")]
     [SerializeField] public float EnergySphereHitboxGraceArea;
-
     [Tooltip("The length of time that the player is invincible after being hit, in seconds")]
     [SerializeField] public float DamageCooldownTime;
 
     [SerializeField] private float MinChargeForSlingshot;
-
     [SerializeField] private float SpaceshipStretchFactor;
     [SerializeField] private float EnergySphereStretchFactor;
 
@@ -41,25 +33,26 @@ public class PlayerController : MonoBehaviour
     [Header("Visuals")]
     [Tooltip("The initial length of each flash during the cooldown, in seconds")]
     [SerializeField] public float DamageFlashSpeed;
-
     [Tooltip("The length of time before the flashing increases in speed, in seconds (Must be smaller than DamageCooldownTime)")]
     [SerializeField] public float DamageFlashSpeedupTime;
-
     [Tooltip("The length of each flash towards the end of the cooldown, in seconds")]
     [SerializeField] public float DamageFlashFastSpeed;
 
     [SerializeField] SpriteRenderer playerRenderer;
     [SerializeField] SpriteRenderer energySphereRender;
 
+
     [Header("Sounds")]
     [SerializeField] AudioSource shootSound;
     [SerializeField] AudioSource hitSound;
     [SerializeField] AudioSource deathSound;
 
+
     [Header("Physics")]
     [SerializeField] Rigidbody2D playerBody;
     [SerializeField] Collider2D shipCollider;
     [SerializeField] CircleCollider2D energySphereCollider;
+
 
     [Header("Children")]
     [SerializeField] Transform shipTransform;
@@ -112,7 +105,6 @@ public class PlayerController : MonoBehaviour
 
     public void Update()
     {
-        Debug.Log(slingshotHeld);
         // If only the left mouse is held, increase charge value
         if (mouseHeld && !slingshotHeld)
         {
