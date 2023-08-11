@@ -896,7 +896,7 @@ MonoBehaviour:
   hazardTag: Hazard
   playerTag: Player
   cameraBounds: {x: 0, y: 0}
-  maxEnergyLevel: 10
+  maxEnergyLevel: 100
   energyLevel: 0
   chargeLevel: 0
   speed: 0

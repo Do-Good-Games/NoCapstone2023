@@ -10,6 +10,7 @@
 
 .unity-progress-bar__background {
     height: 100%;
+    background-color: rgba(0, 0, 0, 0.55);
 }
 
 .unity-vertical-progress-bar {
@@ -18,12 +19,13 @@
     margin-left: 1px;
     margin-top: 3px;
     margin-right: 1px;
-    background-color: rgba(0, 0, 0, 255);
-    -unity-text-outline-color: rgba(48, 48, 48, 255);
+    background-color: rgb(48, 75, 26);
+    -unity-text-outline-color: rgb(48, 48, 48);
 }
 
 .unity-vertical-progress-bar__container {
     flex-grow: 1;
+    background-color: rgba(84, 176, 129, 255);
 }
 
 .unity-vertical-progress-bar__progress {
@@ -35,7 +37,7 @@
 }
 
 .unity-vertical-progress-bar__background {
-    background-color: rgb(48, 48, 48);
+    background-color: rgba(0, 0, 0, 0.55);
     width: 100%;
     border-left-width: 1px;
     border-right-width: 1px;

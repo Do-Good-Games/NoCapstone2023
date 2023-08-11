@@ -2,14 +2,14 @@
     <Style src="project://database/Assets/UI/HUDStyleSheet.uss?fileID=7433441132597879392&amp;guid=b18481973f256eb46b64604202695466&amp;type=3#HUDStyleSheet" />
     <Style src="project://database/Assets/UI/ProgressBarUSS.uss?fileID=7433441132597879392&amp;guid=c98feba27bde2df46915606fb4083386&amp;type=3#ProgressBarUSS" />
     <ui:VisualElement style="flex-direction: row; flex-grow: 1; justify-content: space-between;">
-        <ui:VisualElement class="unity-vertical-progress-bar" style="width: 21.875%; flex-direction: row; align-items: center; justify-content: space-around; rotate: 0; background-color: rgb(140, 117, 24);">
-            <VerticalProgressBar value="55.6" name="HealthBar" high-value="1" style="flex-grow: initial; width: 20%; height: 80%; flex-shrink: 0;" />
-            <ui:VisualElement style="width: 20%; height: 80%; flex-direction: row-reverse;">
-                <VerticalProgressBar value="0.65" name="ChargeBar" high-value="1" class="charge-bar" style="width: 100%; height: 100%; background-color: rgba(240, 255, 0, 0); -unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 0; -unity-slice-bottom: 0; -unity-background-image-tint-color: rgb(250, 255, 0); opacity: 1; visibility: visible; overflow: visible;" />
-                <VerticalProgressBar value="0.2" name="EnergyBar" high-value="1" class="energy" style="width: 100%; height: 100%; background-color: rgba(255, 1, 1, 0); -unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 0; -unity-slice-bottom: 0; -unity-background-image-tint-color: rgba(255, 0, 0, 255); opacity: 1; overflow: visible; visibility: visible;" />
+        <ui:VisualElement class="unity-vertical-progress-bar" style="width: 21.875%; flex-direction: row; align-items: center; justify-content: space-around; rotate: 0; background-color: rgb(90, 140, 24);">
+            <VerticalProgressBar value="0.5" name="HealthBar" high-value="1" style="flex-grow: initial; width: 20%; height: 80%; flex-shrink: 0;" />
+            <ui:VisualElement style="width: 20%; height: 80%; flex-direction: row-reverse; background-color: rgba(0, 0, 0, 0); overflow: visible; visibility: visible; opacity: 1;">
+                <VerticalProgressBar value="0.7" name="EnergyBar" high-value="1" class="energy" style="flex-grow: initial; width: 100%; height: 100%; flex-shrink: 0; position: absolute; opacity: 1; left: 0; top: 0; visibility: visible;" />
+                <VerticalProgressBar value="0.3" name="ChargeBar" high-value="1" class="charge" style="flex-grow: initial; width: 100%; height: 100%; flex-shrink: 0; position: absolute; opacity: 1; left: 0; visibility: hidden; display: flex;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement style="width: 21.875%; background-color: rgb(140, 117, 24); align-items: center; justify-content: space-around;">
+        <ui:VisualElement style="width: 21.875%; background-color: rgb(90, 140, 24); align-items: center; justify-content: space-around; flex-direction: row;">
             <ui:Label text="00000" display-tooltip-when-elided="true" name="ScoreDisplay" style="width: 75%; height: 80px; font-size: 64px; -unity-text-align: upper-right; background-color: rgb(83, 89, 70); -unity-text-outline-color: rgb(238, 255, 206); letter-spacing: 20px;" />
         </ui:VisualElement>
     </ui:VisualElement>

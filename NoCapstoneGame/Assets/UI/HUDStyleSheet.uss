@@ -4,6 +4,8 @@
     rotate: 0;
     width: 100%;
     flex-shrink: 0;
+    opacity: 1;
+    visibility: visible;
 }
 
 .unity-progress-bar__container {
@@ -19,6 +21,10 @@
     flex-shrink: 0;
     height: 100%;
     width: 100%;
+    flex-wrap: wrap;
+    visibility: visible;
+    overflow: visible;
+    opacity: 1;
 }
 
 .unity-progress-bar__progress {
@@ -34,24 +40,36 @@
     flex-grow: 1;
 }
 
-.energy .unity-vertical-progress-bar__progress {
-    background-color: rgb(255, 255, 0);
-    opacity: 1;
-}
-
-.charge-bar .unity-vertical-progress-bar__background {
-    flex-shrink: 0;
-    flex-grow: 1;
-    background-color: rgba(0, 0, 0, 0);
-}
-
-.energy .unity-vertical-progress-bar__background {
-    background-color: rgba(255, 255, 0, 0);
-    opacity: 1;
-}
-
-.charge-bar .unity-vertical-progress-bar__progress {
+.charge .unity-vertical-progress-bar__progress {
     flex-shrink: 0;
     flex-grow: 1;
     background-color: rgb(248, 255, 0);
+    position: absolute;
+    display: flex;
+}
+
+.charge .unity-vertical-progress-bar__background {
+    opacity: 1;
+    background-color: rgba(255, 0, 0, 0);
+    visibility: visible;
+    overflow: visible;
+    display: flex;
+}
+
+.charge .unity-vertical-progress-bar__container {
+    opacity: 1;
+    display: flex;
+    background-color: rgba(0, 0, 0, 255);
+}
+
+.charge .unity-vertical-progress-bar {
+    opacity: 1;
+    visibility: visible;
+    display: flex;
+    background-color: rgba(255, 0, 0, 255);
+}
+
+.energy .unity-vertical-progress-bar__progress {
+    background-color: rgba(255, 255, 0, 0.5);
+    opacity: 1;
 }
