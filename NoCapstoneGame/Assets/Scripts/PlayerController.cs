@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float DamageCooldownTime;
 
     [SerializeField] private float MinChargeForSlingshot;
+    [SerializeField] private float SlingshotLaunchFactor;
     [SerializeField] private float SpaceshipStretchFactor;
     [SerializeField] private float EnergySphereStretchFactor;
 
@@ -202,7 +203,7 @@ public class PlayerController : MonoBehaviour
         }
         if (context.canceled)
         {
-            Vector2 launchVector = -1 * ((Vector2) energyTransform.position - slingshotAnchor);
+            Vector2 launchVector = -SlingshotLaunchFactor * ((Vector2) energyTransform.position - slingshotAnchor);
             LaunchChargeShot(energyTransform.position, launchVector);
 
             gameManager.ResetCharge();
