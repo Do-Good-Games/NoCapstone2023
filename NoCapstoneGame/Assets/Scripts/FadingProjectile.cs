@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class FadingProjectile : Projectile
 {
-    //TODO: Fix this shit
-
     [Header("Stats")]
     [SerializeField] protected AnimationCurve fadeCurve;
 
@@ -36,7 +34,7 @@ public class FadingProjectile : Projectile
         Debug.Log(fadeCurve.Evaluate(currentTime - startTime));
         Debug.Log(startAlpha);
         Debug.Log(alpha);
-        projectileRenderer.color = new Color(projectileRenderer.color.r, projectileRenderer.color.g, alpha);
+        projectileRenderer.color = new Color(projectileRenderer.color.r, projectileRenderer.color.g, projectileRenderer.color.b, alpha);
         Debug.Log(projectileRenderer.color.a);
         return projectileRenderer.color.a;
     }

@@ -204,6 +204,9 @@ MonoBehaviour:
   MaxEnergySphereSize: 10
   EnergySphereHitboxGraceArea: 0.1
   DamageCooldownTime: 1
+  MinChargeForSlingshot: 0
+  SpaceshipStretchFactor: 0
+  EnergySphereStretchFactor: 0
   DamageFlashSpeed: 0.05
   DamageFlashSpeedupTime: 0.7
   DamageFlashFastSpeed: 0.02
@@ -218,6 +221,7 @@ MonoBehaviour:
   shipTransform: {fileID: 8475312940130775818}
   energyTransform: {fileID: 6186289636870546082}
   magnetTransform: {fileID: 3690117720725237577}
+  chargeShotPrefab: {fileID: 0}
   gameManager: {fileID: 0}
 --- !u!114 &5991089515577886123
 MonoBehaviour:
@@ -798,7 +802,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7031831172280334745, guid: d997e39f8283f436fa7c633c0da35bf7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.442
       objectReference: {fileID: 0}
     - target: {fileID: 7031831172280334745, guid: d997e39f8283f436fa7c633c0da35bf7, type: 3}
       propertyPath: m_LocalPosition.z

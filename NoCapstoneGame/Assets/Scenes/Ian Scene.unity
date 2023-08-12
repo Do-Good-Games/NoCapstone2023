@@ -1296,7 +1296,7 @@ PrefabInstance:
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: chargeShotPrefab
       value: 
-      objectReference: {fileID: 2393342840927305615, guid: 51048a21004e749b4aac65c8b7af4692, type: 3}
+      objectReference: {fileID: 4293999573908980727, guid: 51048a21004e749b4aac65c8b7af4692, type: 3}
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: SpaceshipStretchFactor
       value: 0.5

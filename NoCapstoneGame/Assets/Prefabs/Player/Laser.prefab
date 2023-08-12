@@ -44,12 +44,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 4889328253428910267}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c41bac094c8e46df9d11556b076457a, type: 3}
+  m_Script: {fileID: 11500000, guid: 4cb5b5f8b2afa40c3bd082ca48bafa04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  laserBody: {fileID: 4889328253428910265}
   offScreenDespawnDistance: 10
+  collisionDamage: 1
+  continuousDamage: 0
+  damageInterval: 0.05
+  destroyOnImpact: 1
+  projectileBody: {fileID: 4889328253428910265}
+  projectileRenderer: {fileID: 6234962213720187756}
+  projectileCollider: {fileID: 4889328253428910264}
 --- !u!50 &4889328253428910265
 Rigidbody2D:
   serializedVersion: 4
