@@ -1,20 +1,17 @@
-using System.Collections;
+  using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChargeShotProjectile : MonoBehaviour
+public class ChargeShotProjectile : FadingProjectile
 {
-    [SerializeField] private Rigidbody2D projectileBody;
-
-    // Start is called before the first frame update
-    void Start()
+    public void SetSize(float size)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (projectileCollider as CircleCollider2D == null)
+        {
+            Debug.Log("JESSE: Charge shot projectile's collider is not of type Circle Collider 2D");
+            return;
+        }
+        projectileRenderer.size = Vector2.one * size;
+        ((CircleCollider2D) projectileCollider).radius = (size / 2);
     }
 }

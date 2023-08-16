@@ -24,9 +24,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Pause",
+                    "name": "Aim",
                     "type": "Button",
-                    "id": "753f0dec-9289-41b9-8116-42f8f37c90d5",
+                    "id": "69b76181-e88f-4f9b-9c60-675dd70d81fa",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -58,40 +58,23 @@
                 },
                 {
                     "name": "",
-                    "id": "461b9abc-f5ab-4b88-8aed-378a93518a5d",
-                    "path": "<Keyboard>/p",
+                    "id": "21078cab-fb65-4517-8e50-2919408d0fa1",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pause",
+                    "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Menus",
-            "id": "42809a5e-aa5f-45ff-863d-1114ee5c98ea",
-            "actions": [
-                {
-                    "name": "Pause",
-                    "type": "Button",
-                    "id": "c3d6fe8b-c238-4d57-a121-96286938aada",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
+                },
                 {
                     "name": "",
-                    "id": "c5855922-7dc3-44b5-85a9-71c5d5e78526",
-                    "path": "<Keyboard>/p",
+                    "id": "d6a170f8-d15e-4724-877c-b6fd00abc922",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pause",
+                    "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
