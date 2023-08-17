@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -76,6 +77,7 @@ public class PlayerController : MonoBehaviour
     private bool slingshotHeld;
     private Vector2 cursorPos;
     private Vector2 slingshotAnchor;
+    private Vector2 cursorPosPrePause;
     float energySphereSize;
 
     private bool shooting;
@@ -141,6 +143,7 @@ public class PlayerController : MonoBehaviour
 
     private void SetPositions(Vector2 position)
     {
+        Debug.Log("set position called with " + position);
         Vector2 inBoundsPosition = KeepInBounds(position);
         shipTransform.position = inBoundsPosition;
         energyTransform.position = inBoundsPosition;
@@ -354,12 +357,17 @@ public class PlayerController : MonoBehaviour
 
             if (gameManager.paused)
             {
+                cursorPosPrePause = cursorPos;
+                SetPositions(cursorPosPrePause);
                 SetActionMapUI();
                 //here we'll want to swap the action mapping
             }   
             else
             {
                 SetActionMapPlayer();
+                Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
+                SetPositions(cursorPosPrePause);
+                Debug.Log("cursorPos:" + cursorPos + " pre pause: " + cursorPosPrePause + " w2sp: " + gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
             }
         }
     }
