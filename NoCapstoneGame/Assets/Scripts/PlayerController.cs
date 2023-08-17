@@ -395,6 +395,10 @@ public class PlayerController : MonoBehaviour
     public void SetActionMap(string newActionMapName)
     {
         playerInput.currentActionMap.Disable();
+        if (gameManager.paused)
+        {
+            SetPositions(cursorPosPrePause);
+        }
         playerInput.SwitchCurrentActionMap(newActionMapName);
 
         switch (newActionMapName)
