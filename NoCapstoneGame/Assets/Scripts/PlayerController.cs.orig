@@ -199,7 +199,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started)
         {
-            if (gameManager.GetCharge() >= MinChargeForSlingshot)
+            if (gameManager.getCharge() >= MinChargeForSlingshot)
             {
                 slingshotHeld = true;
                 slingshotAnchor = cursorPos;
@@ -230,12 +230,16 @@ public class PlayerController : MonoBehaviour
         int i = 0;
         while (shooting)
         {
+<<<<<<< HEAD
+            if (gameManager.GetCharge() >= ChargeSpentPerShot)
+=======
             while (slingshotHeld)
             {
                 yield return null;
             }
 
-            if (gameManager.GetCharge() >= ChargeSpentPerShot)
+            if (gameManager.getCharge() >= ChargeSpentPerShot)
+>>>>>>> origin/Enhanced-Player-Features
             {
                 //gameManager.UpdateEnergy(-1);
                 FireLasers();
@@ -297,7 +301,11 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateEnergySphere()
     {
+<<<<<<< HEAD
         float energySphereSize = Mathf.Min(gameManager.GetCharge() * EnergySizePerUnitCharged, MaxEnergySphereSize);
+=======
+        energySphereSize = Mathf.Min(gameManager.getCharge() * EnergySizePerUnitCharged, MaxEnergySphereSize);
+>>>>>>> origin/Enhanced-Player-Features
         energySphereRender.size = Vector2.one * energySphereSize;
 
         energySphereCollider.radius = (energySphereSize / 2) - EnergySphereHitboxGraceArea;
@@ -356,28 +364,11 @@ public class PlayerController : MonoBehaviour
             {
                 SetActionMapUI();
                 //here we'll want to swap the action mapping
-            }   
+            }
             else
             {
                 SetActionMapPlayer();
             }
-        }
-    }
-    
-    
-    private void MoveChildren()
-    {
-        shipTransform = playerBody.transform;
-        energyTransform = playerBody.transform;
-        magnetTransform = playerBody.transform;
-    }
-
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        // If the colliding GameObject is tagged as a hazard, take damage
-        if (collision.gameObject.CompareTag(gameManager.hazardTag))
-        {
-            Hit();
         }
     }
 
@@ -401,6 +392,22 @@ public class PlayerController : MonoBehaviour
                 UnityEngine.Cursor.visible = false;
                 //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
                 break;
+        }
+    }
+
+    private void MoveChildren()
+    {
+        shipTransform = playerBody.transform;
+        energyTransform = playerBody.transform;
+        magnetTransform = playerBody.transform;
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        // If the colliding GameObject is tagged as a hazard, take damage
+        if (collision.gameObject.CompareTag(gameManager.hazardTag))
+        {
+            Hit();
         }
     }
 }

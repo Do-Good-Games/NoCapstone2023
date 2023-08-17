@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class LaserSpawner : MonoBehaviour
 {
-    [SerializeField] GameObject laserPrefab;
+    [SerializeField] Projectile laserPrefab;
+    [SerializeField] float launchSpeed;
 
     public void SpawnLaser()
     {
-        GameObject.Instantiate(laserPrefab, this.transform.position, this.transform.rotation);
+        Projectile laser = GameObject.Instantiate<Projectile>(laserPrefab, this.transform.position, this.transform.rotation);
+        laser.Launch(transform.up * launchSpeed);
     }
 }

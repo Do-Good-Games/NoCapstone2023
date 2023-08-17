@@ -18,6 +18,6 @@ public class ScoreDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        textMeshPro.text = gameManager.getScore().ToString(format);
+        textMeshPro.text = gameManager.GetScore().ToString(format);
     }
 }

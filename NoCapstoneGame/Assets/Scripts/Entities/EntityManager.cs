@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 using static UnityEngine.EventSystems.EventTrigger;
 using Random=UnityEngine.Random;
 
@@ -10,6 +11,7 @@ public class EntityManager : MonoBehaviour
 {
     GameManager gameManager;
 
+    [SerializeField] public ObjectPool<GameObject> objectPool;
 
     [SerializeField] public GameObject entityPrefab;
        
@@ -46,6 +48,27 @@ public class EntityManager : MonoBehaviour
         gameManager = GameManager.Instance;
         spawnRange = new Vector2(-gameManager.cameraBounds.x, gameManager.cameraBounds.x);
         spawnHeight = gameManager.cameraBounds.y + 1;
+
+        objectPool = new ObjectPool<GameObject>(
+            createFunc: () => {
+                GameObject go = SpawnEntity(Random.Range(spawnRange.x, spawnRange.y), spawnHeight);
+                //Debug.Log("--SPAWN entity called from object pool");
+                return go;
+            },
+            actionOnGet: (obj) => { 
+                obj.SetActive(true); 
+                //Debug.Log("GET entity called from object pool for " + obj.name); 
+            },
+            actionOnRelease: (obj) => { 
+                obj.SetActive(false); 
+                SetVariables(obj.GetComponent<Entity>()); 
+            },
+            actionOnDestroy: (obj) => Destroy(obj),
+            collectionCheck: false,
+            defaultCapacity: 75,
+            maxSize: 150
+            );
+
         StartGenerating();
     }
 
@@ -74,21 +97,27 @@ public class EntityManager : MonoBehaviour
             float iterSpawn = Random.Range(spawnRange.x, spawnRange.y);
 
 
-            SpawnEntity(iterSpawn, spawnHeight);
+            //SpawnEntity(iterSpawn, spawnHeight);
+            GameObject entity;
+            entity = objectPool.Get();
+            entity.transform.position = new Vector3(iterSpawn, spawnHeight, 0);
   
             generationTime = iterGenerationTime;
         }
     }
 
-    virtual public void SpawnEntity(float spawnX, float spawnY)
+    virtual public GameObject SpawnEntity(float spawnX, float spawnY)
     {
         GameObject gameObject = Instantiate(entityPrefab, new Vector3(spawnX, spawnY, 0), Quaternion.identity);
         Entity entity = gameObject.GetComponent<Entity>();
         SetVariables(entity);
+        entity.entityManager = this;
+        return gameObject;
     }
 
     virtual public void SetVariables(Entity entity)
     {
+        //Debug.Log("set variables called as BASE CLASS");
         //Movement
         float iterDownSpeed = Random.Range(downSpeedRange.x, downSpeedRange.y);
 
