@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneSwitching : MonoBehaviour
+public class SceneManager : MonoBehaviour
 {
-    private static SceneSwitching instance;
+    private static SceneManager _instance;
+    public static SceneManager Instance { get { return _instance; } }
 
     public bool canSwitchScenes = true;
 
@@ -13,9 +14,9 @@ public class SceneSwitching : MonoBehaviour
     {
         canSwitchScenes = true;
 
-        if (instance == null)
+        if (_instance == null)
         {
-            instance = this;
+            _instance = this;
         }
         else
         {
@@ -35,18 +36,28 @@ public class SceneSwitching : MonoBehaviour
 
     }
 
-
-    void SwitchToSceneName(string sceneName)
+    //used for if you want to switch to a scene by direct reference
+    public void SwitchToScenePrefab(Scene scene)
     {
         if (canSwitchScenes)
         {
             //include loading screen type thing
-            SceneManager.LoadScene(sceneName);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(scene.name);
         }
 
     }
 
-    void GoToMainMenu()
+    public void SwitchToSceneName(string sceneName)
+    {
+        if (canSwitchScenes)
+        {
+            //include loading screen type thing
+            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+        }
+
+    }
+
+    public void GoToMainMenu()
     {
         if (canSwitchScenes)
         {
