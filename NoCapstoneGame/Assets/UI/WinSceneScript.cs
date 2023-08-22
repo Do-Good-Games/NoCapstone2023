@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class WinSceneScript : MonoBehaviour
 {
+    private SceneManager sceneManager;
 
     private void OnEnable()
     {
@@ -15,14 +16,15 @@ public class WinSceneScript : MonoBehaviour
         Button creditsButton = root.Q<Button>("CreditsButton");
         Button quitButton = root.Q<Button>("QuitButton");
 
-        restartButton.clicked += () => SceneManager.LoadScene("Ian Scene");
-        creditsButton.clicked += () => SceneManager.LoadScene("CreditsScene");
+        restartButton.clicked += () => sceneManager.SwitchToSceneName("Ian Scene");
+        creditsButton.clicked += () => sceneManager.SwitchToSceneName("CreditsScene");
         quitButton.clicked += () => Application.Quit(); //make this quit the game
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        sceneManager = SceneManager.Instance;
         //Application.Quit(); //make this quit the game
     }
 

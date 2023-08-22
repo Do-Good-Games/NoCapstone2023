@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseUIScript : MonoBehaviour
 {
-
+    private SceneManager sceneManager;
 
     private void OnEnable()
     {
@@ -16,8 +16,8 @@ public class PauseUIScript : MonoBehaviour
         Button mainMenuButton = root.Q<Button>("MainMenuButton");
         Button quitButton = root.Q<Button>("QuitButton");
 
-        resumeButton.clicked += () => SceneManager.LoadScene("Ian Scene"); //unpause the game
-        mainMenuButton.clicked += () => SceneManager.LoadScene("MainMenuScene");
+        resumeButton.clicked += () => sceneManager.SwitchToSceneName("Ian Scene"); //unpause the game
+        mainMenuButton.clicked += () => sceneManager.SwitchToSceneName("MainMenuScene");
         quitButton.clicked += () => Application.Quit();
     }
 
@@ -25,7 +25,7 @@ public class PauseUIScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        sceneManager = SceneManager.Instance;
     }
 
     // Update is called once per frame
