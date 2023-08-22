@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour
 
 
     public GameManager gameManager;
+    public SceneManager sceneManager;
     private Camera gameplayCamera;
     private Vector2 cameraBounds;
     private LaserSpawner[] spawners;
@@ -70,6 +71,7 @@ public class PlayerController : MonoBehaviour
     public void Start()
     {
         gameManager = GameManager.Instance;
+        sceneManager = SceneManager.Instance;
         gameplayCamera = gameManager.gameplayCamera;
         cameraBounds = gameManager.cameraBounds - (Vector2) playerCollider.shipCollider.bounds.extents;
 
@@ -251,5 +253,8 @@ public class PlayerController : MonoBehaviour
         deathSound.Play();
 
         Destroy(this.gameObject, 0.5f);
+
+        sceneManager.SwitchToSceneName("LoseScene");
+
     }
 }
