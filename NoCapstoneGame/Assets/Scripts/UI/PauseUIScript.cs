@@ -16,7 +16,10 @@ public class PauseUIScript : MonoBehaviour
         Button mainMenuButton = root.Q<Button>("MainMenuButton");
         Button quitButton = root.Q<Button>("QuitButton");
 
-        resumeButton.clicked += () => sceneManager.SwitchToSceneName("Ian Scene"); //unpause the game
+        //resumeButton.clicked += () => sceneManager.SwitchToSceneName(sceneManager.gameplaySceneName); //unpause the game
+        //I don't think we want to switch to the scene
+        //TODO: set this callback to playercontroller.togglePause, or maybe refactor that fucntion to be invoked on the togglePauseEvent
+        //update: do this by refactoring playerController.togglePause to be two functions. one invokes the event and one swaps the control scheme
         mainMenuButton.clicked += () => sceneManager.SwitchToSceneName("MainMenuScene");
         quitButton.clicked += () => Application.Quit();
     }
