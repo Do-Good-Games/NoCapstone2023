@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     private int score;
 
     //whether or not the game is currently paused
-    public bool paused; //may want to expand this an enum
+    public bool paused { get; private set; } //may want to expand this an enum
 
     public UnityEvent OnPlayerHeal;
     public UnityEvent OnPlayerHurt;
