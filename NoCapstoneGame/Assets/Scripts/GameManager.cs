@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        OnGameTogglePause.AddListener(TogglePause);
+        //OnGameTogglePause.AddListener(TogglePause);
     }
 
     public void AddPlayerHealth(int amount)
@@ -161,6 +161,7 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0;
         }
 
+        OnGameTogglePause.Invoke();
     }
 
     public void CalculateSpeed()

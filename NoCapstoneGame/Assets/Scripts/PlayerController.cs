@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour
         gameManager.AddPlayerHealth(maxHealth);
 
         gameManager.OnPlayerDeath.AddListener(Die);
+        gameManager.OnGameTogglePause.AddListener(SwitchActionMap);
 
         // store all the Laser Spawners components in an array to avoid calling GetComponents() many times
         spawners = GetComponentsInChildren<LaserSpawner>();
@@ -346,6 +347,7 @@ public class PlayerController : MonoBehaviour
     {
         StopAllCoroutines();
 
+        gameManager.TogglePause();
        // playerCollider.enabled = false;
         playerRenderer.enabled = false;
         deathSound.Play();
@@ -361,24 +363,11 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            gameManager.OnGameTogglePause.Invoke();
-
-            if (gameManager.paused)
-            {
-                cursorPosPrePause = cursorPos;
-                SetPositions(cursorPosPrePause);
-                SetActionMapUI();
-                //here we'll want to swap the action mapping
-            }   
-            else
-            {
-                SetActionMapPlayer();
-                Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
-                SetPositions(cursorPosPrePause);
-                Debug.Log("cursorPos:" + cursorPos + " pre pause: " + cursorPosPrePause + " w2sp: " + gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
-            }
+            gameManager.TogglePause();
+            //gameManager.OnGameTogglePause.Invoke();
         }
     }
+
     
     
     private void MoveChildren()
@@ -397,6 +386,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void SwitchActionMap()
+    {
+
+        if (gameManager.paused)
+        {
+            cursorPosPrePause = cursorPos;
+            SetPositions(cursorPosPrePause);
+            SetActionMapUI();
+            //here we'll want to swap the action mapping
+        }
+        else
+        {
+            SetActionMapPlayer();
+            Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
+            SetPositions(cursorPosPrePause);
+            //Debug.Log("cursorPos:" + cursorPos + " pre pause: " + cursorPosPrePause + " w2sp: " + gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
+        }
+    }
 
     public void SetActionMapPlayer() { SetActionMap("Playing"); }
     public void SetActionMapUI() { SetActionMap("Menus"); }
@@ -412,12 +419,12 @@ public class PlayerController : MonoBehaviour
         switch (newActionMapName)
         {
             case "Menus":
-                Debug.Log("ping");
+                //Debug.Log("ping");
                 UnityEngine.Cursor.visible = true;
                 //UnityEngine.Cursor.lockState = CursorLockMode.None;
                 break;
             default: //case playing
-                Debug.Log("pong");
+                //Debug.Log("pong");
                 UnityEngine.Cursor.visible = false;
                 //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
                 break;
