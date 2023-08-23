@@ -16,7 +16,7 @@ public class WinSceneScript : MonoBehaviour
         Button creditsButton = root.Q<Button>("CreditsButton");
         Button quitButton = root.Q<Button>("QuitButton");
 
-        restartButton.clicked += () => sceneManager.SwitchToSceneName("Ian Scene");
+        restartButton.clicked += () => sceneManager.SwitchToSceneName(sceneManager.gameplaySceneName);
         creditsButton.clicked += () => sceneManager.SwitchToSceneName("CreditsScene");
         quitButton.clicked += () => Application.Quit(); //make this quit the game
     }

@@ -16,7 +16,7 @@ public class MainMenuSceneScript : MonoBehaviour
         Button creditsButton = root.Q<Button>("CreditsButton");
         Button quitButton = root.Q<Button>("QuitButton");
 
-        startButton.clicked += () => sceneManager.SwitchToSceneName("Ian Scene");
+        startButton.clicked += () => sceneManager.SwitchToSceneName(sceneManager.gameplaySceneName);
         creditsButton.clicked += () => sceneManager.SwitchToSceneName("CreditsScene");
         quitButton.clicked += () => Application.Quit(); //make this quit the game
     }

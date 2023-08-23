@@ -10,6 +10,8 @@ public class SceneManager : MonoBehaviour
 
     public bool canSwitchScenes = true;
 
+    [SerializeField] public string gameplaySceneName = "Ryan Scene";
+    
     private void Awake()
     {
         canSwitchScenes = true;
