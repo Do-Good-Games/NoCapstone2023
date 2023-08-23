@@ -131,7 +131,11 @@ public class PlayerController : MonoBehaviour
     {
         // converts cursor position (in screen space) to world space based on camera position/size
         Vector2 screenSpaceCursorPos = context.ReadValue<Vector2>();
-        cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
+        if (gameManager != null)
+        {
+            cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
+
+        }
 
         if (slingshotHeld)
         {
@@ -145,7 +149,7 @@ public class PlayerController : MonoBehaviour
 
     private void SetPositions(Vector2 position)
     {
-        Debug.Log("set position called with " + position);
+        //Debug.Log("set position called with " + position);
         Vector2 inBoundsPosition = KeepInBounds(position);
         shipTransform.position = inBoundsPosition;
         energyTransform.position = inBoundsPosition;
