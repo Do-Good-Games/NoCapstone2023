@@ -8,15 +8,13 @@ public class LoseSceneScript : MonoBehaviour
 {
     private SceneManager sceneManager;
 
+    VisualElement root;
+
+    Button restartButton ;
+    Button quitButton;
+
     private void OnEnable()
     {
-        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
-
-        Button restartButton = root.Q<Button>("RestartButton");
-        Button quitButton = root.Q<Button>("QuitButton");
-
-        restartButton.clicked += () => sceneManager.SwitchToSceneName(sceneManager.gameplaySceneName);
-        quitButton.clicked += () => Application.Quit(); //make this quit the game
     }
 
     // Start is called before the first frame update
@@ -24,6 +22,15 @@ public class LoseSceneScript : MonoBehaviour
     {
         sceneManager = SceneManager.Instance;
         //Application.Quit();
+
+
+        root = GetComponent<UIDocument>().rootVisualElement;
+
+        restartButton = root.Q<Button>("RestartButton");
+        quitButton = root.Q<Button>("QuitButton");
+
+        restartButton.clicked += () => sceneManager.SwitchToSceneName(sceneManager.gameplaySceneName);
+        quitButton.clicked += () => Application.Quit(); //make this quit the game
     }
 
     // Update is called once per frame

@@ -65,6 +65,7 @@ public class PauseUIScript : MonoBehaviour
 
     private void TogglePauseMenu()
     {
+        Debug.Log("toggle pause menu called");
         if (gameManager.paused)
         {
             root.style.visibility = Visibility.Visible;
