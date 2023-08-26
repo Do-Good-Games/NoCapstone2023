@@ -901,7 +901,7 @@ MonoBehaviour:
   energyLevel: 0
   chargeLevel: 0
   speed: 0
-  speedScale: 0
+  speedScale: 0.0001
   OnPlayerHeal:
     m_PersistentCalls:
       m_Calls: []
