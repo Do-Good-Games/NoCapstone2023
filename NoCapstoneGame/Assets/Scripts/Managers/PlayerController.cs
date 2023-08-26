@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -68,6 +69,7 @@ public class PlayerController : MonoBehaviour
 
 
     public GameManager gameManager;
+    public SceneManager sceneManager;
     private Camera gameplayCamera;
     private Vector2 cameraBounds;
     private LaserSpawner[] spawners;
@@ -76,6 +78,7 @@ public class PlayerController : MonoBehaviour
     private bool slingshotHeld;
     private Vector2 cursorPos;
     private Vector2 slingshotAnchor;
+    private Vector2 cursorPosPrePause;
     float energySphereSize;
 
     private bool shooting;
@@ -89,12 +92,14 @@ public class PlayerController : MonoBehaviour
     public void Start()
     {
         gameManager = GameManager.Instance;
+        sceneManager = SceneManager.Instance;
         gameplayCamera = gameManager.gameplayCamera;
         cameraBounds = gameManager.cameraBounds - (Vector2) shipCollider.bounds.extents;
 
         gameManager.AddPlayerHealth(maxHealth);
 
         gameManager.OnPlayerDeath.AddListener(Die);
+        gameManager.OnGameTogglePause.AddListener(SwitchActionMap);
 
         // store all the Laser Spawners components in an array to avoid calling GetComponents() many times
         spawners = GetComponentsInChildren<LaserSpawner>();
@@ -127,7 +132,11 @@ public class PlayerController : MonoBehaviour
     {
         // converts cursor position (in screen space) to world space based on camera position/size
         Vector2 screenSpaceCursorPos = context.ReadValue<Vector2>();
-        cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
+        if (gameManager != null)
+        {
+            cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
+
+        }
 
         if (slingshotHeld)
         {
@@ -141,6 +150,7 @@ public class PlayerController : MonoBehaviour
 
     private void SetPositions(Vector2 position)
     {
+        //Debug.Log("set position called with " + position);
         Vector2 inBoundsPosition = KeepInBounds(position);
         shipTransform.position = inBoundsPosition;
         energyTransform.position = inBoundsPosition;
@@ -199,7 +209,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started)
         {
-            if (gameManager.getCharge() >= MinChargeForSlingshot)
+            if (gameManager.GetCharge() >= MinChargeForSlingshot)
             {
                 slingshotHeld = true;
                 slingshotAnchor = cursorPos;
@@ -230,16 +240,12 @@ public class PlayerController : MonoBehaviour
         int i = 0;
         while (shooting)
         {
-<<<<<<< HEAD
-            if (gameManager.GetCharge() >= ChargeSpentPerShot)
-=======
             while (slingshotHeld)
             {
                 yield return null;
             }
 
-            if (gameManager.getCharge() >= ChargeSpentPerShot)
->>>>>>> origin/Enhanced-Player-Features
+            if (gameManager.GetCharge() >= ChargeSpentPerShot)
             {
                 //gameManager.UpdateEnergy(-1);
                 FireLasers();
@@ -301,11 +307,7 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateEnergySphere()
     {
-<<<<<<< HEAD
         float energySphereSize = Mathf.Min(gameManager.GetCharge() * EnergySizePerUnitCharged, MaxEnergySphereSize);
-=======
-        energySphereSize = Mathf.Min(gameManager.getCharge() * EnergySizePerUnitCharged, MaxEnergySphereSize);
->>>>>>> origin/Enhanced-Player-Features
         energySphereRender.size = Vector2.one * energySphereSize;
 
         energySphereCollider.radius = (energySphereSize / 2) - EnergySphereHitboxGraceArea;
@@ -345,11 +347,14 @@ public class PlayerController : MonoBehaviour
     {
         StopAllCoroutines();
 
+        gameManager.TogglePause();
        // playerCollider.enabled = false;
         playerRenderer.enabled = false;
         deathSound.Play();
 
         Destroy(this.gameObject, 0.5f);
+
+        sceneManager.SwitchToSceneName("LoseScene");
 
         //switch action map to UI
     }
@@ -358,43 +363,13 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            gameManager.OnGameTogglePause.Invoke();
-
-            if (gameManager.paused)
-            {
-                SetActionMapUI();
-                //here we'll want to swap the action mapping
-            }
-            else
-            {
-                SetActionMapPlayer();
-            }
+            gameManager.TogglePause();
+            //gameManager.OnGameTogglePause.Invoke();
         }
     }
 
-
-    public void SetActionMapPlayer() { SetActionMap("Playing"); }
-    public void SetActionMapUI() { SetActionMap("Menus"); }
-    public void SetActionMap(string newActionMapName)
-    {
-        playerInput.currentActionMap.Disable();
-        playerInput.SwitchCurrentActionMap(newActionMapName);
-
-        switch (newActionMapName)
-        {
-            case "Menus":
-                Debug.Log("ping");
-                UnityEngine.Cursor.visible = true;
-                //UnityEngine.Cursor.lockState = CursorLockMode.None;
-                break;
-            default: //case playing
-                Debug.Log("pong");
-                UnityEngine.Cursor.visible = false;
-                //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-                break;
-        }
-    }
-
+    
+    
     private void MoveChildren()
     {
         shipTransform = playerBody.transform;
@@ -408,6 +383,51 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag(gameManager.hazardTag))
         {
             Hit();
+        }
+    }
+
+    private void SwitchActionMap()
+    {
+
+        if (gameManager.paused)
+        {
+            cursorPosPrePause = cursorPos;
+            SetPositions(cursorPosPrePause);
+            SetActionMapUI();
+            //here we'll want to swap the action mapping
+        }
+        else
+        {
+            SetActionMapPlayer();
+            Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
+            SetPositions(cursorPosPrePause);
+            //Debug.Log("cursorPos:" + cursorPos + " pre pause: " + cursorPosPrePause + " w2sp: " + gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
+        }
+    }
+
+    public void SetActionMapPlayer() { SetActionMap("Playing"); }
+    public void SetActionMapUI() { SetActionMap("Menus"); }
+    public void SetActionMap(string newActionMapName)
+    {
+        playerInput.currentActionMap.Disable();
+        if (gameManager.paused)
+        {
+            SetPositions(cursorPosPrePause);
+        }
+        playerInput.SwitchCurrentActionMap(newActionMapName);
+
+        switch (newActionMapName)
+        {
+            case "Menus":
+                //Debug.Log("ping");
+                UnityEngine.Cursor.visible = true;
+                //UnityEngine.Cursor.lockState = CursorLockMode.None;
+                break;
+            default: //case playing
+                //Debug.Log("pong");
+                UnityEngine.Cursor.visible = false;
+                //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                break;
         }
     }
 }

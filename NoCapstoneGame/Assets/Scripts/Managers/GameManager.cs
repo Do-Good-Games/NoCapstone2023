@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     private int score;
 
     //whether or not the game is currently paused
-    public bool paused; //may want to expand this an enum
+    public bool paused { get; private set; } //may want to expand this an enum
 
     public UnityEvent OnPlayerHeal;
     public UnityEvent OnPlayerHurt;
@@ -62,12 +62,13 @@ public class GameManager : MonoBehaviour
         // Initilize playerHealth to 0, the player will call AddPlayerHealth() when the game starts.
         // This allows max health to be configued in the player object or at runtime
         playerHealth = 0;
+        Time.timeScale = 1;
         Cursor.visible = false;
     }
 
     private void Start()
     {
-        OnGameTogglePause.AddListener(TogglePause);
+        //OnGameTogglePause.AddListener(TogglePause);
     }
 
     public void AddPlayerHealth(int amount)
@@ -161,6 +162,7 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0;
         }
 
+        OnGameTogglePause.Invoke();
     }
 
     public void CalculateSpeed()
