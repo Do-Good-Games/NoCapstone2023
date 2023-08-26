@@ -77,8 +77,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 603caa771e54d49b2abd9ff3a984b6e7, type: 3}
-  m_Color: {r: 0.5566038, g: 0.4122991, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 2837a2ebadaaad948a564e7ad24a98c8, type: 3}
+  m_Color: {r: 0.6886792, g: 0.6353537, b: 0.48402455, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
@@ -106,6 +106,7 @@ MonoBehaviour:
   directionAngle: 0
   swaySpeed: 1
   swayWidth: 0
+  entityManager: {fileID: 0}
   asteroidCollider: {fileID: 9102387809521579522}
   asteroidRenderer: {fileID: 2447030393251289638}
   droppedEntityManager: {fileID: 0}
