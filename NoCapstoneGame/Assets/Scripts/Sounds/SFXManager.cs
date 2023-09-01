@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+public class SFXManager : MonoBehaviour
 {
     [SerializeField] AudioSource m_AudioSource;
     GameManager gameManager;
@@ -24,6 +24,12 @@ public class AudioManager : MonoBehaviour
     public void Play(AudioObject audio)
     {
         m_AudioSource.clip = audio.m_Clip; 
+        m_AudioSource.Play();
+    }
+
+    public void Play(AudioClip clip)
+    {
+        m_AudioSource.clip=clip;
         m_AudioSource.Play();
     }
 }

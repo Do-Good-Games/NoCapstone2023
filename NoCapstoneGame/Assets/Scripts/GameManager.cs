@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     [Tooltip("setting speed to ints is more intuitive, but causes insane speeds. This scales it down as well as offering parameterization of how quickly speed increases")]
     [SerializeField] private float speedScale;
 
-    [SerializeField] public AudioManager audioManager;
+    [SerializeField] public SFXManager sfxManager;
 
     // The current score (probably measured in distance)
     private int score;
