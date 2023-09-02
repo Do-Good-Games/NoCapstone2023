@@ -10,6 +10,22 @@ public class SceneManager : MonoBehaviour
 
     public bool canSwitchScenes = true;
 
+    public GameObject sceneTransitionSprite;
+    public SpriteRenderer sceneTransitionRenderer;
+
+
+    public float opacity = 0f;
+    public float fadeValue = 0.5f;
+
+
+
+    void OnEnable()
+    {
+        Debug.Log("OnEnable called");
+
+        //SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
     private void Awake()
     {
         canSwitchScenes = true;
@@ -22,13 +38,18 @@ public class SceneManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(sceneTransitionSprite);
+        DontDestroyOnLoad(sceneTransitionRenderer);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-
+        SwitchToSceneName("SampleScene");
     }
+
 
     // Update is called once per frame
     void Update()
@@ -36,26 +57,90 @@ public class SceneManager : MonoBehaviour
 
     }
 
+
     //used for if you want to switch to a scene by direct reference
     public void SwitchToScenePrefab(Scene scene)
     {
-        if (canSwitchScenes)
-        {
-            //include loading screen type thing
-            UnityEngine.SceneManagement.SceneManager.LoadScene(scene.name);
-        }
-
+        StartCoroutine(SwitchToScenePrefabCoroutine(scene));
     }
 
-    public void SwitchToSceneName(string sceneName)
+    public IEnumerator SwitchToScenePrefabCoroutine(Scene scene)
     {
         if (canSwitchScenes)
         {
-            //include loading screen type thing
-            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
-        }
+            //place the sprite
+            sceneTransitionSprite.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
 
+            //fade in the sprite
+            while (opacity <= 1)
+            {
+                opacity += fadeValue;
+                sceneTransitionRenderer.color = new Color(0, 0, 0, opacity);
+                yield return new WaitForSeconds(0.1f);
+            }
+
+
+            //transition to new scene
+            UnityEngine.SceneManagement.SceneManager.LoadScene(scene.name);
+
+            //hold control
+            Time.timeScale = 0;
+
+            //fade out the sprite
+            while (opacity >= 0)
+            {
+                opacity -= fadeValue;
+                sceneTransitionRenderer.color = new Color(0, 0, 0, opacity);
+                yield return new WaitForSecondsRealtime(0.1f);
+            }
+
+            //release control
+            Time.timeScale = 1;
+        }
     }
+
+
+    public void SwitchToSceneName(string sceneName)
+    {
+        StartCoroutine(SwitchToSceneNameCoroutine(sceneName));
+    }
+
+    public IEnumerator SwitchToSceneNameCoroutine(string sceneName)
+    {
+        if (canSwitchScenes)
+        {
+            //place the sprite
+            sceneTransitionSprite.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+
+            //fade in the sprite
+            while (opacity <= 1)
+            {
+                opacity += fadeValue;
+                sceneTransitionRenderer.color = new Color(0, 0, 0, opacity);
+                yield return new WaitForSeconds(0.1f);
+            }
+
+
+            //transition to new scene
+            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+
+            //hold control
+            Time.timeScale = 0;
+
+            //fade out the sprite
+            while (opacity >= 0)
+            {
+                opacity -= fadeValue;
+                sceneTransitionRenderer.color = new Color(0, 0, 0, opacity);
+                yield return new WaitForSecondsRealtime(0.1f);
+            }
+
+            //release control
+            Time.timeScale = 1;
+        }
+    }
+
+
 
     public void GoToMainMenu()
     {
@@ -63,6 +148,5 @@ public class SceneManager : MonoBehaviour
         {
             //SceneManager.LoadScene(MainMenuScene);    //this branch does not know about mainmenuscene
         }
-
     }
 }
