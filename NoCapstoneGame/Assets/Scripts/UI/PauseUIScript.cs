@@ -15,6 +15,8 @@ public class PauseUIScript : MonoBehaviour
     private Button resumeButton;
     [SerializeField] private Button mainMenuButton;
     Button quitButton;
+    SoundPlayer soundPlayer;
+
 
 
 
@@ -43,6 +45,8 @@ public class PauseUIScript : MonoBehaviour
         root.style.visibility = Visibility.Hidden;
         //root.SetEnabled(false);
         //root.visible = false;
+
+        soundPlayer = GetComponentInParent<SoundPlayer>();
     }
 
     private void OnEnable()
@@ -58,6 +62,7 @@ public class PauseUIScript : MonoBehaviour
 
     private void TogglePauseMenu()
     {
+        soundPlayer.RequestPlay();
         if (gameManager.paused)
         {
             root.style.visibility = Visibility.Visible;
