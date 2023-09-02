@@ -1,0 +1,22 @@
+VisualElement {
+}
+
+.button {
+    width: 500px;
+    height: 80px;
+    background-color: rgba(92, 110, 144, 255);
+    font-size: 37px;
+    border-left-width: 16px;
+    border-right-width: 16px;
+    border-top-width: 16px;
+    border-bottom-width: 16px;
+    border-left-color: rgba(70, 71, 94, 255);
+    border-right-color: rgba(70, 71, 94, 255);
+    border-top-color: rgba(109, 110, 125, 255);
+    border-bottom-color: rgba(57, 57, 75, 255);
+}
+
+.label {
+    font-size: 30px;
+    color: rgba(95, 146, 221, 255);
+}

@@ -7,6 +7,7 @@ public class SFXManager : MonoBehaviour
     [SerializeField] AudioSource m_AudioSource;
     GameManager gameManager;
 
+    [SerializeField] public AudioClip PauseClip;
 
     // Start is called before the first frame update
     void Start()

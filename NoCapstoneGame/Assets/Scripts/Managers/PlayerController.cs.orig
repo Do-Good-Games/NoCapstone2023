@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,36 +10,33 @@ public class PlayerController : MonoBehaviour
     [Header("Stats")]
     [Tooltip ("The player's starting health")]
     [SerializeField] public int maxHealth;
-
     [Tooltip("The units of charged gained each second the mouse is clicked")]
     [SerializeField] public float ChargeGainPerSecond;
-
     [Tooltip("The units of charge spent by a single shot")]
     [SerializeField] public float ChargeSpentPerShot;
-
     [Tooltip("The time between individual shots in a volley, in seconds")]
     [SerializeField] public float TimeBetweenShots;
-
     [Tooltip("The size increase for the Energy Sphere per unit charged")]
     [SerializeField] public float EnergySizePerUnitCharged;
-
     [Tooltip("The maximum size of the energy sphere when charging")]
     [SerializeField] public float MaxEnergySphereSize;
-
     [Tooltip("The difference in the visual size of the energy sphere and its hitbox")]
     [SerializeField] public float EnergySphereHitboxGraceArea;
-
     [Tooltip("The length of time that the player is invincible after being hit, in seconds")]
     [SerializeField] public float DamageCooldownTime;
+
+    [SerializeField] private float MinChargeForSlingshot;
+    [SerializeField] private float SlingshotLaunchFactor;
+    [SerializeField] private float SpaceshipStretchFactor;
+    [SerializeField] private float EnergySphereStretchFactor;
+
 
 
     [Header("Visuals")]
     [Tooltip("The initial length of each flash during the cooldown, in seconds")]
     [SerializeField] public float DamageFlashSpeed;
-
     [Tooltip("The length of time before the flashing increases in speed, in seconds (Must be smaller than DamageCooldownTime)")]
     [SerializeField] public float DamageFlashSpeedupTime;
-
     [Tooltip("The length of each flash towards the end of the cooldown, in seconds")]
     [SerializeField] public float DamageFlashFastSpeed;
 
@@ -50,9 +49,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioSource hitSound;
     [SerializeField] AudioSource deathSound;
 
+
     [Header("Physics")]
     [SerializeField] Rigidbody2D playerBody;
-    [SerializeField] PlayerCollider playerCollider;
+    [SerializeField] Collider2D shipCollider;
+    [SerializeField] CircleCollider2D energySphereCollider;
+
+
+    [Header("Children")]
+    [SerializeField] Transform shipTransform;
+    [SerializeField] Transform energyTransform;
+    [SerializeField] Transform magnetTransform;
+
+    [SerializeField] ChargeShotProjectile chargeShotPrefab;
 
     string currentActionMapName;
     PlayerInput playerInput;
@@ -61,13 +70,22 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioObject testAudio;
 
     public GameManager gameManager;
+    public SceneManager sceneManager;
     private Camera gameplayCamera;
     private Vector2 cameraBounds;
     private LaserSpawner[] spawners;
+
     private bool mouseHeld;
+    private bool slingshotHeld;
+    private Vector2 cursorPos;
+    private Vector2 slingshotAnchor;
+    private Vector2 cursorPosPrePause;
+    float energySphereSize;
+
     private bool shooting;
     private bool damageable;
     private bool damageCooldownEnding;
+
     private IEnumerator ShootCoroutineObject;
     private IEnumerator DamageCooldownCoroutineObject;
     private IEnumerator DamageFlashCoroutineObject;
@@ -75,8 +93,9 @@ public class PlayerController : MonoBehaviour
     public void Start()
     {
         gameManager = GameManager.Instance;
+        sceneManager = SceneManager.Instance;
         gameplayCamera = gameManager.gameplayCamera;
-        cameraBounds = gameManager.cameraBounds - (Vector2) playerCollider.shipCollider.bounds.extents;
+        cameraBounds = gameManager.cameraBounds - (Vector2) shipCollider.bounds.extents;
 
         gameManager.AddPlayerHealth(maxHealth);
 
@@ -85,7 +104,10 @@ public class PlayerController : MonoBehaviour
         // store all the Laser Spawners components in an array to avoid calling GetComponents() many times
         spawners = GetComponentsInChildren<LaserSpawner>();
 
+        cursorPos = shipTransform.position;
+
         mouseHeld = false;
+        slingshotHeld = false;
         shooting = false;
         damageable = true;
         damageCooldownEnding = false;
@@ -96,8 +118,8 @@ public class PlayerController : MonoBehaviour
 
     public void Update()
     {
-        // If the mouse is held, increase charge value
-        if (mouseHeld)
+        // If only the left mouse is held, increase charge value
+        if (mouseHeld && !slingshotHeld)
         {
             gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
 
@@ -106,12 +128,38 @@ public class PlayerController : MonoBehaviour
       
     }
 
-    public void UpdatePosition(InputAction.CallbackContext context)
+    public void UpdateCursorPosition(InputAction.CallbackContext context)
     {
         // converts cursor position (in screen space) to world space based on camera position/size
-        Vector2 cursorPos = context.ReadValue<Vector2>();
-        Vector2 position = gameManager.gameplayCamera.ScreenToWorldPoint(cursorPos);
-        playerBody.transform.position = KeepInBounds(position);
+        Vector2 screenSpaceCursorPos = context.ReadValue<Vector2>();
+        cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
+
+        if (slingshotHeld)
+        {
+            SetStretchedPositions(cursorPos);
+        }
+        else
+        {
+            SetPositions(cursorPos);
+        }
+    }
+
+    private void SetPositions(Vector2 position)
+    {
+        Debug.Log("set position called with " + position);
+        Vector2 inBoundsPosition = KeepInBounds(position);
+        shipTransform.position = inBoundsPosition;
+        energyTransform.position = inBoundsPosition;
+        magnetTransform.position = inBoundsPosition;
+    }
+
+    private void SetStretchedPositions(Vector2 position)
+    {
+        Vector2 stretchedShipPosition = Vector2.Lerp(slingshotAnchor, position, SpaceshipStretchFactor);
+        stretchedShipPosition = KeepInBounds(stretchedShipPosition);
+        shipTransform.position = stretchedShipPosition;
+        energyTransform.position = Vector2.Lerp(slingshotAnchor, stretchedShipPosition, EnergySphereStretchFactor);
+        magnetTransform.position = stretchedShipPosition;
     }
 
     private Vector2 KeepInBounds(Vector2 position)
@@ -152,22 +200,57 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    public void OnRightClick(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (gameManager.GetCharge() >= MinChargeForSlingshot)
+            {
+                slingshotHeld = true;
+                slingshotAnchor = cursorPos;
+            }
+            else
+            {
+                // Give the player some feedback here 
+                Debug.Log("Slingshot attempted with insufficient charge");
+            }
+        }
+        if (context.canceled)
+        {
+            Vector2 launchVector = -SlingshotLaunchFactor * ((Vector2) energyTransform.position - slingshotAnchor);
+            LaunchChargeShot(energyTransform.position, launchVector);
+
+            gameManager.ResetCharge();
+            UpdateEnergySphere();
+            slingshotHeld = false;
+
+            cursorPos = energyTransform.position;
+            Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(energyTransform.position));
+            SetPositions(cursorPos);
+        }
+    }
     
     private IEnumerator ShootCoroutine()
     {
         int i = 0;
         while (shooting)
         {
+            while (slingshotHeld)
+            {
+                yield return null;
+            }
+
             if (gameManager.GetCharge() >= ChargeSpentPerShot)
             {
-                gameManager.UpdateEnergy(-1);
+                //gameManager.UpdateEnergy(-1);
                 FireLasers();
                 gameManager.UpdateCharge(-ChargeSpentPerShot);
                 UpdateEnergySphere();
             } else if(gameManager.GetEnergy() >= ChargeSpentPerShot)
             {
 
-                gameManager.UpdateEnergy(-1);
+                //gameManager.UpdateEnergy(-1);
                 FireLasers();
                 gameManager.UpdateCharge(0);
                 UpdateEnergySphere();
@@ -223,8 +306,7 @@ public class PlayerController : MonoBehaviour
         float energySphereSize = Mathf.Min(gameManager.GetCharge() * EnergySizePerUnitCharged, MaxEnergySphereSize);
         energySphereRender.size = Vector2.one * energySphereSize;
 
-
-        playerCollider.UpdateEnergySphereCollider(energySphereSize, EnergySphereHitboxGraceArea);
+        energySphereCollider.radius = (energySphereSize / 2) - EnergySphereHitboxGraceArea;
     }
 
     private void FireLasers()
@@ -237,7 +319,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-   public void Hit() {
+    private void LaunchChargeShot(Vector2 position, Vector2 launchVector)
+    {
+        ChargeShotProjectile projectile = GameObject.Instantiate<ChargeShotProjectile>(chargeShotPrefab, position, Quaternion.identity);
+        projectile.SetSize(energySphereSize * energyTransform.lossyScale.x);
+        projectile.Launch(launchVector);
+    }
+
+    public void Hit() {
         if (damageable) { 
             gameManager.RemovePlayerHealth(1);
             hitSound.Play();
@@ -254,12 +343,13 @@ public class PlayerController : MonoBehaviour
     {
         StopAllCoroutines();
 
-        playerCollider.enabled = false;
+       // playerCollider.enabled = false;
         playerRenderer.enabled = false;
         deathSound.Play();
 
         Destroy(this.gameObject, 0.5f);
 
+<<<<<<< HEAD
         //switch action map to UI
     }
 
@@ -272,13 +362,35 @@ public class PlayerController : MonoBehaviour
 
             if (gameManager.paused)
             {
+                cursorPosPrePause = cursorPos;
+                SetPositions(cursorPosPrePause);
                 SetActionMapUI();
                 //here we'll want to swap the action mapping
-            }
+            }   
             else
             {
                 SetActionMapPlayer();
+                Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
+                SetPositions(cursorPosPrePause);
+                Debug.Log("cursorPos:" + cursorPos + " pre pause: " + cursorPosPrePause + " w2sp: " + gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
             }
+        }
+    }
+    
+    
+    private void MoveChildren()
+    {
+        shipTransform = playerBody.transform;
+        energyTransform = playerBody.transform;
+        magnetTransform = playerBody.transform;
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        // If the colliding GameObject is tagged as a hazard, take damage
+        if (collision.gameObject.CompareTag(gameManager.hazardTag))
+        {
+            Hit();
         }
     }
 
@@ -288,6 +400,10 @@ public class PlayerController : MonoBehaviour
     public void SetActionMap(string newActionMapName)
     {
         playerInput.currentActionMap.Disable();
+        if (gameManager.paused)
+        {
+            SetPositions(cursorPosPrePause);
+        }
         playerInput.SwitchCurrentActionMap(newActionMapName);
 
         switch (newActionMapName)
@@ -303,5 +419,9 @@ public class PlayerController : MonoBehaviour
                 //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
                 break;
         }
+=======
+        sceneManager.SwitchToSceneName("LoseScene");
+
+>>>>>>> SceneSwitching
     }
 }
