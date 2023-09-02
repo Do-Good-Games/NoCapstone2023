@@ -4,15 +4,32 @@ using UnityEngine;
 
 public class SFXManager : MonoBehaviour
 {
+
+    private static SFXManager _instance;
+    public static SFXManager Instance { get { return _instance; } }
+
     [SerializeField] AudioSource m_AudioSource;
     GameManager gameManager;
 
     [SerializeField] public AudioClip PauseClip;
 
+    private void Awake()
+    {
+
+        if (_instance == null)
+        {
+            _instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        gameManager= GameManager.Instance;
+        //gameManager= GameManager.Instance;
         //m_AudioSource = gameManager.audioManager.m_AudioSource; m_AudioSource.enabled = false;
     }
 

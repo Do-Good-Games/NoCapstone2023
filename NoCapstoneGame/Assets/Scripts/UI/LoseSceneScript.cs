@@ -13,6 +13,8 @@ public class LoseSceneScript : MonoBehaviour
     Button restartButton ;
     Button quitButton;
 
+    SoundPlayer soundPlayer ;
+
     private void OnEnable()
     {
     }
@@ -31,11 +33,19 @@ public class LoseSceneScript : MonoBehaviour
 
         restartButton.clicked += () => sceneManager.SwitchToSceneName(sceneManager.gameplaySceneName);
         quitButton.clicked += () => Application.Quit(); //make this quit the game
+
+        if(soundPlayer = GetComponentInParent<SoundPlayer>()){
+            soundPlayer.RequestPlay();
+
+        } else
+        {
+            Debug.Log("soundplayer not valid");
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //soundPlayer.RequestPlay();
     }
 }

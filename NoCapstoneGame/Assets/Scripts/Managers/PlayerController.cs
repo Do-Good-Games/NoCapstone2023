@@ -350,7 +350,7 @@ public class PlayerController : MonoBehaviour
         gameManager.TogglePause();
        // playerCollider.enabled = false;
         playerRenderer.enabled = false;
-        deathSound.Play();
+        //deathSound.Play();
 
         Destroy(this.gameObject, 0.5f);
 
