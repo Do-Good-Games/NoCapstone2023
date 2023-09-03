@@ -330,7 +330,6 @@ GameObject:
   - component: {fileID: 1041095801}
   - component: {fileID: 1041095800}
   - component: {fileID: 1041095802}
-  - component: {fileID: 1041095803}
   m_Layer: 5
   m_Name: Lose menu
   m_TagString: Untagged
@@ -381,19 +380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 254881e7e17e2cc46b887a4ae3e32116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1041095803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1041095799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0de034f998e1ab04b9c800e94d4e6068, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: 5406aaab5e4ed4235a2068aa7e804cf6, type: 3}
+  deathSoundReference: {fileID: 11400000, guid: a25633d550daa8e45985c51839340edd, type: 2}
 --- !u!1 &1730439222
 GameObject:
   m_ObjectHideFlags: 0

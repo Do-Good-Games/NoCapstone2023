@@ -10,6 +10,7 @@ public class SoundPlayer : MonoBehaviour
 {
 
     [SerializeField] private AudioClip clip;
+    [SerializeField] private AudioReference audioRefence;
     private SFXManager sfxManager;
 
 
@@ -18,11 +19,11 @@ public class SoundPlayer : MonoBehaviour
     {
         if(sfxManager = SFXManager.Instance)
         {
-            Debug.Log("instance sfxman");
+            Debug.Log("successfully instanced sfxman");
 
         } else
         {
-            Debug.Log("penis");
+            Debug.Log("failed to instance sfxman");
         }
     }
 
@@ -32,7 +33,7 @@ public class SoundPlayer : MonoBehaviour
         
     }
 
-    public void RequestPlay()
+    public bool RequestPlay()
     {
         if (sfxManager != null)
         {
@@ -43,7 +44,7 @@ public class SoundPlayer : MonoBehaviour
             sfxManager.Play(clip);
         }
 
-        //return true;
+        return true;
     }
 
 

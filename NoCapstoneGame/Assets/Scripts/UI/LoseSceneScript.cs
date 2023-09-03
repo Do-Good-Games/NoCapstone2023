@@ -14,6 +14,8 @@ public class LoseSceneScript : MonoBehaviour
     Button quitButton;
 
     SoundPlayer soundPlayer ;
+    [SerializeField] AudioReference deathSoundReference;
+    SFXManager sfxManager;
 
     private void OnEnable()
     {
@@ -23,6 +25,7 @@ public class LoseSceneScript : MonoBehaviour
     void Start()
     {
         sceneManager = SceneManager.Instance;
+        sfxManager = SFXManager.Instance;
         //Application.Quit();
 
 
@@ -34,6 +37,9 @@ public class LoseSceneScript : MonoBehaviour
         restartButton.clicked += () => sceneManager.SwitchToSceneName(sceneManager.gameplaySceneName);
         quitButton.clicked += () => Application.Quit(); //make this quit the game
 
+
+        sfxManager.Play(deathSoundReference.GetClip());
+        /*
         if(soundPlayer = GetComponentInParent<SoundPlayer>()){
             soundPlayer.RequestPlay();
 
@@ -41,6 +47,7 @@ public class LoseSceneScript : MonoBehaviour
         {
             Debug.Log("soundplayer not valid");
         }
+        */
     }
 
     // Update is called once per frame

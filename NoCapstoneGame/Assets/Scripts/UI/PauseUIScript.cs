@@ -15,7 +15,9 @@ public class PauseUIScript : MonoBehaviour
     private Button resumeButton;
     [SerializeField] private Button mainMenuButton;
     Button quitButton;
-    SoundPlayer soundPlayer;
+    [SerializeField] AudioReference pauseReference;
+    //SoundPlayer soundPlayer;
+    SFXManager sfxManager;
 
 
 
@@ -46,7 +48,8 @@ public class PauseUIScript : MonoBehaviour
         //root.SetEnabled(false);
         //root.visible = false;
 
-        soundPlayer = GetComponentInParent<SoundPlayer>();
+        //soundPlayer = GetComponentInParent<SoundPlayer>();
+        sfxManager = SFXManager.Instance;
     }
 
     private void OnEnable()
@@ -62,7 +65,16 @@ public class PauseUIScript : MonoBehaviour
 
     private void TogglePauseMenu()
     {
-        soundPlayer.RequestPlay();
+        if(pauseReference != null)
+        {
+            Debug.Log("successfully instanced");
+            sfxManager.Play(pauseReference.GetClip());
+
+        } else
+        {
+            Debug.Log("INCORRECT BUZZER");
+
+        }
         if (gameManager.paused)
         {
             root.style.visibility = Visibility.Visible;
