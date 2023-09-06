@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/WinScreenStyleSheet.uss?fileID=7433441132597879392&amp;guid=b2f537037b5db3a4992791c9d8e056e3&amp;type=3#WinScreenStyleSheet" />
+    <ui:VisualElement name="root">
+        <ui:VisualElement style="justify-content: space-around; height: 255px; align-items: center;">
+            <ui:Label text="Galactic Grand Prix" display-tooltip-when-elided="true" class="label" style="justify-content: center; align-items: center; height: 135px; font-size: 50px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="ButtonContainer" style="justify-content: space-around; align-items: center; height: 402px;">
+            <ui:Button text="Start" display-tooltip-when-elided="true" name="StartButton" class="button" />
+            <ui:Button text="Credits" display-tooltip-when-elided="true" name="CreditsButton" class="button" />
+            <ui:Button text="Quit" display-tooltip-when-elided="true" name="QuitButton" class="button" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class HUDController: MonoBehaviour
     private VisualElement root;
     private VerticalProgressBar healthBar;
     private VerticalProgressBar energyBar;
+    private VerticalProgressBar chargeBar;
     private Label scoreDisplay;
     private int maxHealth;
     private float maxEnergy;
@@ -28,6 +30,8 @@ public class HUDController: MonoBehaviour
         root = UIDoc.rootVisualElement;
         healthBar = root.Q<VerticalProgressBar>("HealthBar");
         energyBar = root.Q<VerticalProgressBar>("EnergyBar");
+        chargeBar = root.Q<VerticalProgressBar>("ChargeBar");
+        
         scoreDisplay = root.Q<Label>("ScoreDisplay");
 
         maxHealth = player.maxHealth;
@@ -38,11 +42,17 @@ public class HUDController: MonoBehaviour
 
         gameManager.OnPlayerHurt.AddListener(UpdateHealthBar);
         gameManager.OnEnergyChange.AddListener(UpdateEnergyBar);
+        gameManager.OnChargeChange.AddListener(UpdateChargeBar);
+    }
+
+    private void UpdateChargeBar()
+    {
+        chargeBar.value =gameManager.GetCharge()/ gameManager.GetMaxEnergy() ;
     }
 
     void Update()
     {
-        scoreDisplay.text = gameManager.getScore().ToString().PadLeft(8, '0');
+        scoreDisplay.text = gameManager.GetScore().ToString().PadLeft(8, '0');
     }
 
     void UpdateHealthBar()
@@ -54,7 +64,7 @@ public class HUDController: MonoBehaviour
     void UpdateEnergyBar()
     {
 
-        energyBar.value = (float) ((float)gameManager.getEnergy()/(float)maxEnergy);
+        energyBar.value = (float) ((float)gameManager.GetEnergy()/(float)maxEnergy);
         //transform.localScale = new Vector3(transform.localScale.x, totalHeight, transform.localScale.z);
     }
 }
