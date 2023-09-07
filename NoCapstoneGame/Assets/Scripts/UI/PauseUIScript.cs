@@ -13,7 +13,7 @@ public class PauseUIScript : MonoBehaviour
 
     private VisualElement root;
     private Button resumeButton;
-    [SerializeField] private Button mainMenuButton;
+    private Button mainMenuButton;
     Button quitButton;
 
 
