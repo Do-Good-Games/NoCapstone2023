@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using UnityEngine;
 
 public class SceneManager : MonoBehaviour
 {
@@ -42,17 +42,31 @@ public class SceneManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        sceneTransitionElement = sceneTransitionUIDoc.rootVisualElement;
 
-        DontDestroyOnLoad(this);
-        //DontDestroyOnLoad(sceneTransitionElement);
-        DontDestroyOnLoad(sceneTransitionUIDoc);
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        SwitchToScene("SampleScene");
+        if (sceneTransitionUIDoc != null)
+        {
+            sceneTransitionElement = sceneTransitionUIDoc.rootVisualElement;
+
+        }
+        else
+        {
+            Debug.Log("ping");
+        }
+
+        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(sceneTransitionUIDoc.rootVisualElement);
+        DontDestroyOnLoad(sceneTransitionUIDoc);
+        //SwitchToScene("SampleScene");
+        sceneTransitionElement.style.opacity = 0;
+        //sceneTransitionUIDoc.enabled = false;
+        sceneTransitionUIDoc.sortingOrder = 0;
+        //LoadCurrentSceneCoroutine();
     }
 
 
@@ -77,12 +91,34 @@ public class SceneManager : MonoBehaviour
     }
 
 
+    public IEnumerator LoadCurrentSceneCoroutine()
+    {
+        //hold control
+        Time.timeScale = 0;
+
+        //fade out the sprite
+        while (opacity >= 0)
+        {
+            opacity -= fadeValue;
+            sceneTransitionElement.style.opacity = opacity;
+            //sceneTransitionRenderer.color = new Color(0, 0, 0, opacity);
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
+
+        //release control
+        Time.timeScale = 1;
+    }
+
     public IEnumerator SwitchToSceneCoroutine(string sceneName)
     {
         if (canSwitchScenes)
         {
             //place the sprite
             sceneTransitionUIDoc.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+            sceneTransitionUIDoc.sortingOrder = 5;
+
+            //sceneTransitionUIDoc.enabled = true;
+
 
             //fade in the sprite
             while (opacity <= 1)
@@ -109,8 +145,14 @@ public class SceneManager : MonoBehaviour
                 yield return new WaitForSecondsRealtime(0.1f);
             }
 
+            //opacity = 0;
+            //sceneTransitionElement.style.opacity = opacity;
+            //sceneTransitionUIDoc.enabled = false;
+
             //release control
             Time.timeScale = 1;
+            sceneTransitionUIDoc.sortingOrder = 0;
+
         }
     }
 
