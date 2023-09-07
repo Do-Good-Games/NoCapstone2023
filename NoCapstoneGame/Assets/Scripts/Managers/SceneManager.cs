@@ -162,7 +162,7 @@ public class SceneManager : MonoBehaviour
     {
         if (canSwitchScenes)
         {
-            //SceneManager.LoadScene(MainMenuScene);    //this branch does not know about mainmenuscene
+            SwitchToScene("MainMenuScene");
         }
     }
 
