@@ -30,8 +30,8 @@ public class MainMenuSceneScript : MonoBehaviour
         creditsButton = root.Q<Button>("CreditsButton");
         quitButton = root.Q<Button>("QuitButton");
 
-        startButton.clicked += () => { Debug.Log("ping"); sceneManager.SwitchToSceneName(sceneManager.gameplaySceneName); };
-        creditsButton.clicked += () => { Debug.Log("credits scene not yet implemented"); sceneManager.SwitchToSceneName("CreditsScene"); } ;
+        startButton.clicked += () => { Debug.Log("ping"); sceneManager.SwitchToScene(sceneManager.gameplaySceneName); };
+        creditsButton.clicked += () => { Debug.Log("credits scene not yet implemented"); sceneManager.SwitchToScene("CreditsScene"); } ;
         quitButton.clicked += () => Application.Quit(); //make this quit the game
     }
 

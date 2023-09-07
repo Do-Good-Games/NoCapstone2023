@@ -29,7 +29,7 @@ public class LoseSceneScript : MonoBehaviour
         restartButton = root.Q<Button>("RestartButton");
         quitButton = root.Q<Button>("QuitButton");
 
-        restartButton.clicked += () => sceneManager.SwitchToSceneName(sceneManager.gameplaySceneName);
+        restartButton.clicked += () => sceneManager.SwitchToScene(sceneManager.gameplaySceneName);
         quitButton.clicked += () => Application.Quit(); //make this quit the game
     }
 

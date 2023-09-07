@@ -354,7 +354,7 @@ public class PlayerController : MonoBehaviour
 
         Destroy(this.gameObject, 0.5f);
 
-        sceneManager.SwitchToSceneName("LoseScene");
+        sceneManager.SwitchToScene("LoseScene");
 
         //switch action map to UI
     }
