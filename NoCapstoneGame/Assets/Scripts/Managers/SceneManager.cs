@@ -126,7 +126,7 @@ public class SceneManager : MonoBehaviour
                 opacity += fadeValue;
                 sceneTransitionElement.style.opacity = opacity;
                 //sceneTransitionRenderer.color = new Color(0, 0, 0, opacity);
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSecondsRealtime(0.1f);
             }
 
 

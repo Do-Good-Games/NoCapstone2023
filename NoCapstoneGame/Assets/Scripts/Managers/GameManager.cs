@@ -150,6 +150,7 @@ public class GameManager : MonoBehaviour
 
     public void TogglePause()
     {
+        
         if (paused)
         {
             paused = false;
@@ -161,6 +162,7 @@ public class GameManager : MonoBehaviour
             paused = true;
             Time.timeScale = 0;
         }
+        
 
         OnGameTogglePause.Invoke();
     }

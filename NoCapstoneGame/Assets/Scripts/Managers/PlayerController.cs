@@ -347,7 +347,7 @@ public class PlayerController : MonoBehaviour
     {
         StopAllCoroutines();
 
-        //gameManager.TogglePause();
+        gameManager.TogglePause();
        // playerCollider.enabled = false;
         playerRenderer.enabled = false;
         deathSound.Play();
