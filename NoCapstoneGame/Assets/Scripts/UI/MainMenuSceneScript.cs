@@ -12,7 +12,7 @@ public class MainMenuSceneScript : MonoBehaviour
 
     private VisualElement root;
 
-    private Button startButton;
+    [SerializeField] private Button startButton;
     private Button creditsButton;
     private Button quitButton;
 
@@ -27,17 +27,17 @@ public class MainMenuSceneScript : MonoBehaviour
         root = UIdoc.rootVisualElement;
 
         startButton = root.Q<Button>("StartButton");
+        
         creditsButton = root.Q<Button>("CreditsButton");
         quitButton = root.Q<Button>("QuitButton");
 
-        startButton.clicked += () => { Debug.Log("ping"); sceneManager.SwitchToScene(sceneManager.gameplaySceneName); };
+        startButton.clicked += () => { Debug.Log("pingu"); sceneManager.SwitchToScene(sceneManager.gameplaySceneName); };
         creditsButton.clicked += () => { Debug.Log("credits scene not yet implemented"); sceneManager.SwitchToScene("CreditsScene"); } ;
-        quitButton.clicked += () => Application.Quit(); //make this quit the game
+        quitButton.clicked += () => { Debug.Log("pingu"); Application.Quit(); };//make this quit the game 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 }

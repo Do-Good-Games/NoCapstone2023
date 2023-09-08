@@ -1,9 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+
+/// <summary>
+/// Parameters:
+///     menus:
+///         when the player is in any menu OTHER THAN paued (any with thier own scene)
+///         
+///     gameplay:  
+///         when the game is running
+///         
+///     paused: 
+///         when in the gameplay scene, but gameplay is paused (pause menu)
+/// </summary>
+public enum GameState
+{
+    menus, gameplay, paused
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -36,17 +53,24 @@ public class GameManager : MonoBehaviour
     //whether or not the game is currently paused
     public bool paused { get; private set; } //may want to expand this an enum
 
+    [SerializeField] public GameState gameState { get; private set; }
+
     public UnityEvent OnPlayerHeal;
     public UnityEvent OnPlayerHurt;
     public UnityEvent OnPlayerDeath;
     public UnityEvent OnEnergyChange;
     public UnityEvent OnChargeChange;
 
-    public UnityEvent OnGameTogglePause;
+    public UnityEvent OnGameEnterMenus;
+    public UnityEvent OnGamePause;
+    public UnityEvent OnGameResume;
 
     void Awake()
     {
-        paused = false;
+
+        //TODO: SET INITIAL VALUE in liue of the following line
+        //paused = false;
+
 
         if (_instance == null)
         {
@@ -148,23 +172,30 @@ public class GameManager : MonoBehaviour
         return score;
     }
 
-    public void TogglePause()
+    public void PauseGame()
     {
-        
-        if (paused)
-        {
-            paused = false;
-            Time.timeScale = 1;
-            ///wil also want to invoke the pause event
 
-        } else
-        {
-            paused = true;
-            Time.timeScale = 0;
-        }
-        
+        gameState = GameState.paused;
+        Time.timeScale = 0;
 
-        OnGameTogglePause.Invoke();
+        OnGamePause.Invoke();       
+
+    }
+
+    public void ResumeGame()
+    {
+        gameState = GameState.gameplay;
+        Time.timeScale = 1;
+
+        OnGameResume.Invoke();
+    }
+
+    public void EnterMenus()
+    {
+        gameState = GameState.menus;
+        Time.timeScale = 0;
+
+        OnGameEnterMenus.Invoke();
     }
 
     public void CalculateSpeed()

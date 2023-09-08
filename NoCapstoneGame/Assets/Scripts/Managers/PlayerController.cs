@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -99,7 +101,14 @@ public class PlayerController : MonoBehaviour
         gameManager.AddPlayerHealth(maxHealth);
 
         gameManager.OnPlayerDeath.AddListener(Die);
-        gameManager.OnGameTogglePause.AddListener(SwitchActionMap);
+
+        //all three of these reference the same method as that one contains code and logic that would be difficult to translate on a different set of case-by-case bases
+        gameManager.OnGameResume.AddListener(SwitchActionMap); 
+        gameManager.OnGamePause.AddListener(SwitchActionMap);
+        gameManager.OnGameEnterMenus.AddListener(SwitchActionMap);
+
+
+        //gameManager.OnGameTogglePause.AddListener(SwitchActionMap);
 
         // store all the Laser Spawners components in an array to avoid calling GetComponents() many times
         spawners = GetComponentsInChildren<LaserSpawner>();
@@ -114,6 +123,7 @@ public class PlayerController : MonoBehaviour
 
         currentActionMapName = "Player";
         playerInput = GetComponent<PlayerInput>();
+        gameManager.ResumeGame();
     }
 
     public void Update()
@@ -347,15 +357,15 @@ public class PlayerController : MonoBehaviour
     {
         StopAllCoroutines();
 
-        gameManager.TogglePause();
        // playerCollider.enabled = false;
         playerRenderer.enabled = false;
         deathSound.Play();
 
-        Destroy(this.gameObject, 0.5f);
+        gameManager.EnterMenus();
 
         sceneManager.SwitchToScene("LoseScene");
 
+        Destroy(this.gameObject, 0.5f);
         //switch action map to UI
     }
 
@@ -363,7 +373,18 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            gameManager.TogglePause();
+            if (gameManager.gameState == GameState.gameplay)
+            {
+                gameManager.PauseGame();
+            }
+            else if (gameManager.gameState == GameState.paused)
+            {
+                gameManager.ResumeGame();
+            }
+            else if (gameManager.gameState == GameState.menus)
+            {
+                throw new Exception("togglePause() (the input callback) is somehow being called when the game is in menus - this shouldn't be able to happen");  
+            }
             //gameManager.OnGameTogglePause.Invoke();
         }
     }
@@ -389,28 +410,33 @@ public class PlayerController : MonoBehaviour
     private void SwitchActionMap()
     {
 
-        if (gameManager.paused)
+        if (gameManager.gameState == GameState.paused)
         {
             cursorPosPrePause = cursorPos;
             SetPositions(cursorPosPrePause);
             SetActionMapUI();
             //here we'll want to swap the action mapping
         }
-        else
+        else if (gameManager.gameState == GameState.menus)
         {
-            SetActionMapPlayer();
+            cursorPosPrePause = cursorPos; //check here if player position is wack upon loading the game
+            SetPositions(cursorPosPrePause);
+            SetActionMapUI();
+        } else
+        {
             Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
             SetPositions(cursorPosPrePause);
+            SetActionMapPlayer();
             //Debug.Log("cursorPos:" + cursorPos + " pre pause: " + cursorPosPrePause + " w2sp: " + gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
         }
     }
 
-    public void SetActionMapPlayer() { SetActionMap("Playing"); }
-    public void SetActionMapUI() { SetActionMap("Menus"); }
-    public void SetActionMap(string newActionMapName)
+    private void SetActionMapPlayer() { SetActionMap("Playing"); }
+    private void SetActionMapUI() { SetActionMap("Menus"); }
+    private void SetActionMap(string newActionMapName)
     {
         playerInput.currentActionMap.Disable();
-        if (gameManager.paused)
+        if (gameManager.gameState == GameState.paused)
         {
             SetPositions(cursorPosPrePause);
         }

@@ -67,6 +67,8 @@ public class SceneManager : MonoBehaviour
         //sceneTransitionUIDoc.enabled = false;
         sceneTransitionUIDoc.sortingOrder = 0;
         //LoadCurrentSceneCoroutine();
+
+        StartCoroutine(LoadCurrentSceneCoroutine());
     }
 
 
