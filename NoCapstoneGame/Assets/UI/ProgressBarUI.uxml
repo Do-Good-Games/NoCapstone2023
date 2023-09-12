@@ -1,7 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI/ProgressBarUSS.uss?fileID=7433441132597879392&amp;guid=c98feba27bde2df46915606fb4083386&amp;type=3#ProgressBarUSS" />
-    <ui:VisualElement name="root" style="flex-grow: 1; justify-content: center; align-items: center; flex-direction: column;">
-        <VerticalProgressBar low-value="50" title="test-vertical-bar" style="height: 50%; width: 5%;" />
-        <ui:ProgressBar title="my-progress" style="width: 50%; height: 5%;" />
-    </ui:VisualElement>
-</ui:UXML>

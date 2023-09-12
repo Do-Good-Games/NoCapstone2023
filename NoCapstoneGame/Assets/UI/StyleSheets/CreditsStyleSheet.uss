@@ -1,0 +1,5 @@
+.CreditLine {
+    font-size: 32px;
+    color: rgb(88, 62, 87);
+    -unity-text-align: upper-center;
+}

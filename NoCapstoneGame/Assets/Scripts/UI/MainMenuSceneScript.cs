@@ -16,6 +16,11 @@ public class MainMenuSceneScript : MonoBehaviour
     private Button creditsButton;
     private Button quitButton;
 
+    [SerializeField] private UIDocument CreditsUIDoc;
+    private VisualElement creditsRoot;
+    private Button creditsCloseButton;
+
+
     private void OnEnable()
     {
     }
@@ -31,9 +36,17 @@ public class MainMenuSceneScript : MonoBehaviour
         creditsButton = root.Q<Button>("CreditsButton");
         quitButton = root.Q<Button>("QuitButton");
 
+
+        creditsRoot = CreditsUIDoc.rootVisualElement;
+        creditsRoot.visible = false;
+        creditsCloseButton = creditsRoot.Q<Button>("closeButton");
+        
+
         startButton.clicked += () => { Debug.Log("pingu"); sceneManager.SwitchToScene(sceneManager.gameplaySceneName); };
-        creditsButton.clicked += () => { Debug.Log("credits scene not yet implemented"); sceneManager.SwitchToScene("CreditsScene"); } ;
-        quitButton.clicked += () => { Debug.Log("pingu"); Application.Quit(); };//make this quit the game 
+        creditsButton.clicked += () => { creditsRoot.visible = true;  root.visible = false; } ;
+        quitButton.clicked += () => { Application.Quit(); };//make this quit the game 
+
+        creditsCloseButton.clicked += () => { creditsRoot.visible = false; root.visible = true; };
     }
 
     // Update is called once per frame
