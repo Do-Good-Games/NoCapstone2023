@@ -126,6 +126,7 @@ public class GameManager : MonoBehaviour
     public void UpdateEnergy(float amount)
     {
         energyLevel = Mathf.Min(energyLevel+ amount, maxEnergyLevel);
+        energyLevel = Mathf.Max(energyLevel+ amount, 0);
         OnEnergyChange.Invoke();
     }
 
@@ -146,6 +147,8 @@ public class GameManager : MonoBehaviour
     public void UpdateCharge(float amount)
     {
         chargeLevel = Mathf.Min(energyLevel, chargeLevel + amount);
+        chargeLevel = Mathf.Max(0, chargeLevel + amount);
+
         OnChargeChange.Invoke();
     }
 

@@ -12,20 +12,32 @@ public class PlayerController : MonoBehaviour
     [Header("Stats")]
     [Tooltip ("The player's starting health")]
     [SerializeField] public int maxHealth;
+    [Tooltip("The length of time that the player is invincible after being hit, in seconds")]
+    [SerializeField] public float DamageCooldownTime;
     [Tooltip("The units of charged gained each second the mouse is clicked")]
+
+    [Header("energy and charge values")]
     [SerializeField] public float ChargeGainPerSecond;
     [Tooltip("The units of charge spent by a single shot")]
     [SerializeField] public float ChargeSpentPerShot;
+    [Tooltip("The units of energy spent by a single shot")]
+    [SerializeField] public float EnergySpentPerShot;
     [Tooltip("The time between individual shots in a volley, in seconds")]
     [SerializeField] public float TimeBetweenShots;
+    [Tooltip("whether or not we want energy to act as a \"buffer\" to the player taking damage - when this is true, the player will not take damage when hit provided they have energy")]
+    [SerializeField] private bool EnergyProtects;
+    [Tooltip("the amount of energy the player loses when they get hit - represented as a ratio of how much energy they have currently")]
+    [SerializeField] private float amountLostOnHit;
+
+    [Header("energy sphere")]
     [Tooltip("The size increase for the Energy Sphere per unit charged")]
     [SerializeField] public float EnergySizePerUnitCharged;
     [Tooltip("The maximum size of the energy sphere when charging")]
     [SerializeField] public float MaxEnergySphereSize;
     [Tooltip("The difference in the visual size of the energy sphere and its hitbox")]
     [SerializeField] public float EnergySphereHitboxGraceArea;
-    [Tooltip("The length of time that the player is invincible after being hit, in seconds")]
-    [SerializeField] public float DamageCooldownTime;
+
+    [Header("Slingshot")]
 
     [SerializeField] private float MinChargeForSlingshot;
     [SerializeField] private float SlingshotLaunchFactor;
@@ -199,7 +211,7 @@ public class PlayerController : MonoBehaviour
         {
             mouseHeld = false;
             //if (gameManager.getCharge() >= ChargeSpentPerShot) //switch to this line if you want to disable single fire shooting
-            if (gameManager.GetCharge() >= ChargeSpentPerShot || gameManager.GetEnergy() >= ChargeSpentPerShot)
+            if (gameManager.GetCharge() >= ChargeSpentPerShot || gameManager.GetEnergy() >= EnergySpentPerShot)
             {
                 shooting = true;
 
@@ -255,23 +267,42 @@ public class PlayerController : MonoBehaviour
                 yield return null;
             }
 
-            if (gameManager.GetCharge() >= ChargeSpentPerShot)
+            //if ((gameManager.GetCharge() >= 0) || (gameManager.GetEnergy() >= 0))
+            //{
+
+            //    gameManager.UpdateEnergy(-EnergySpentPerShot);
+            //    FireLasers();
+            //    UpdateEnergySphere();
+            //    gameManager.UpdateCharge(-ChargeSpentPerShot);
+            //    if(gameManager.GetCharge() <= 0) &&
+            //    {
+
+            //    }
+            //    yield break;
+
+            //}
+
+
+            if (gameManager.GetCharge() >= ChargeSpentPerShot) //provided this won't cause us to run out of charge
             {
-                //gameManager.UpdateEnergy(-1);
+                gameManager.UpdateEnergy(-ChargeSpentPerShot);
                 FireLasers();
                 gameManager.UpdateCharge(-ChargeSpentPerShot);
                 UpdateEnergySphere();
-            } else if(gameManager.GetEnergy() >= ChargeSpentPerShot)
+            }
+            else if (gameManager.GetEnergy() >= EnergySpentPerShot) //if we will run out of charge, but we won't run out of energy
             {
-
-                //gameManager.UpdateEnergy(-1);
+                gameManager.UpdateEnergy(-ChargeSpentPerShot);
                 FireLasers();
-                gameManager.UpdateCharge(0);
+                gameManager.ResetCharge();
                 UpdateEnergySphere();
                 yield break;
             }
 
             yield return new WaitForSeconds(TimeBetweenShots);
+
+            Debug.Log("yes it does");
+
 
             if (gameManager.GetCharge() < ChargeSpentPerShot)
             {
@@ -342,7 +373,15 @@ public class PlayerController : MonoBehaviour
 
     public void Hit() {
         if (damageable) { 
-            gameManager.RemovePlayerHealth(1);
+
+
+            if (!((EnergyProtects) && (gameManager.GetEnergy() > 0)))
+            {
+                gameManager.RemovePlayerHealth(1); //only damage the player when both statements AREN'T true
+            }
+            gameManager.UpdateEnergy(-(gameManager.GetEnergy() * amountLostOnHit));
+
+
             hitSound.Play();
 
             DamageCooldownCoroutineObject = DamageCooldownCoroutine();
