@@ -198,14 +198,64 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 3
   DamageCooldownTime: 1
-  damagePerHit: 1
+  healthLostOnHit: 1
   ChargeGainPerSecond: 10
   ChargeSpentPerShot: 1
   EnergySpentPerShot: 1
   TimeBetweenShots: 0.07
   EnergyProtects: 1
-  amountLostOnHit: 0.5
-  protectionRatio: 0.333
+  energyLostOnHit: 1
+  protectionThreshold:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0041656494
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.06
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.3974796
+      outWeight: 0.41666663
+    - serializedVersion: 3
+      time: 0.13499999
+      value: 0.25
+      inSlope: -4.219275
+      outSlope: -4.219275
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.08313036
+    - serializedVersion: 3
+      time: 0.33
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   EnergySizePerUnitCharged: 0.5
   MaxEnergySphereSize: 10
   EnergySphereHitboxGraceArea: 0.1

@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     public Vector2 cameraBounds;
 
     // The current health of the player
-    private float playerHealth;
+    [SerializeField] private float playerHealth;
 
     [SerializeField] private float maxEnergyLevel;
     // The current energy level (max charge amount) (for MVP)

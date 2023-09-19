@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float DamageCooldownTime;
     //[Tooltip("The units of charged gained each second the mouse is clicked")]
     [Tooltip("how much damage the player takes on a hit")]
-    [SerializeField] private float damagePerHit;
+    [SerializeField] private float healthLostOnHit;
 
 
     [Header("energy and charge values")]
@@ -30,9 +30,14 @@ public class PlayerController : MonoBehaviour
     [Tooltip("whether or not we want energy to act as a \"buffer\" to the player taking damage - when this is true, the player will not take damage when hit provided they have energy")]
     [SerializeField] private bool EnergyProtects;
     [Tooltip("the amount of energy the player loses when they get hit - represented as a ratio of how much energy they have currently")]
-    [SerializeField] private float amountLostOnHit;
-    [Tooltip("the minimum amount of energy needed for the player to fully protect against damage represented as a ratio from 0 to 1 \n if the player has less energy than this amount they will take damage proportional to the amount they do have in relation to this value \n \n to disable this feature set it to 0 ")]
-    [SerializeField] float protectionRatio;
+    [SerializeField] private float energyLostOnHit;
+    //[Tooltip("the minimum amount of energy needed for the player to protect against damage, represented as a ratio from 0-1 \n to disable this mechanic, set to 0")]
+    //[SerializeField] float protectionThreshold;
+    ////[Tooltip("the minimum amount of energy needed for the player to fully protect against damage represented as a ratio from 0 to 1 \n if the player has less energy than this amount they will take damage proportional to the amount they do have in relation to this value \n \n to disable this feature set it to 0 ")]
+    //[Tooltip("point at which the player will start receiving \"partial\" protection below the full threshold. value from 0-1 representing a proportion of "]
+    //[SerializeField] float protectionRatio;
+
+    [SerializeField] private AnimationCurve protectionThreshold;
 
 
     [Header("energy sphere")]
@@ -307,7 +312,7 @@ public class PlayerController : MonoBehaviour
 
             yield return new WaitForSeconds(TimeBetweenShots);
 
-            Debug.Log("yes it does");
+            //Debug.Log("yes it does");
 
 
             if (gameManager.GetCharge() < ChargeSpentPerShot)
@@ -381,25 +386,48 @@ public class PlayerController : MonoBehaviour
         if (damageable) {
 
             if (EnergyProtects){
-                //an amount 
-                float amount = damagePerHit;
-                if (protectionRatio > 0)
+
+                float amount;
+
+                amount = MathF.Max(0, protectionThreshold.Evaluate(gameManager.GetEnergy() / gameManager.GetMaxEnergy()));
+
+                Debug.Log("amount: " + amount);
+
+                if(amount <1)
                 {
-                    amount = Mathf.Min(damagePerHit, ((gameManager.GetEnergy() / gameManager.GetMaxEnergy()) / protectionRatio));
-                    amount = MathF.Min(1, (gameManager.GetEnergy() / gameManager.GetMaxEnergy()) / protectionRatio);//an amount from 0 to one, the % of energy we have 
-                    amount = damagePerHit * (1 - amount);
-                    
-                    Debug.Log("mathed");
+                    float damageAmount = (healthLostOnHit * amount);
+                    Debug.Log("player at least partially protected " + damageAmount);
+                    gameManager.RemovePlayerHealth(damageAmount);
+                    gameManager.UpdateEnergy(-(gameManager.GetEnergy() * energyLostOnHit));
                 }
-                Debug.Log(amount);
-                gameManager.RemovePlayerHealth(amount);
+                else
+                {
+                    float damageAmount = (healthLostOnHit);
+                    Debug.Log("player taking full damage " + damageAmount);
+                    gameManager.RemovePlayerHealth(healthLostOnHit);
+
+
+                }
+
+                ////an amount 
+                //float amount = damagePerHit;
+                //if (protectionRatio > 0)
+                //{
+                //    amount = Mathf.Min(damagePerHit, ((gameManager.GetEnergy() / gameManager.GetMaxEnergy()) / protectionRatio));
+                //    amount = MathF.Min(1, (gameManager.GetEnergy() / gameManager.GetMaxEnergy()) / protectionRatio);//an amount from 0 to one, the % of energy we have 
+                //    amount = damagePerHit * (1 - amount);
+
+                //    Debug.Log("mathed");
+                //}
+                //Debug.Log(amount);
+                //gameManager.RemovePlayerHealth(amount);
             }
 
-            if (!((EnergyProtects) && (gameManager.GetEnergy() > 0)))
-            {
-                gameManager.RemovePlayerHealth(1); //only damage the player when both statements AREN'T true
-            }
-            gameManager.UpdateEnergy(-(gameManager.GetEnergy() * amountLostOnHit));
+            //if (!((EnergyProtects) && (gameManager.GetEnergy() > 0)))
+            //{
+            //    gameManager.RemovePlayerHealth(1); //only damage the player when both statements AREN'T true
+            //}
+            //gameManager.UpdateEnergy(-(gameManager.GetEnergy() * energyLostOnHit));
 
 
             hitSound.Play();
