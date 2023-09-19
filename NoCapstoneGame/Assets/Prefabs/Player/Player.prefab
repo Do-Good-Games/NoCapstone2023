@@ -196,12 +196,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27a4806fa10234ffca69fde4ee9475e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 3
   DamageCooldownTime: 1
+  damagePerHit: 1
   ChargeGainPerSecond: 10
   ChargeSpentPerShot: 1
   EnergySpentPerShot: 1
   TimeBetweenShots: 0.07
+  EnergyProtects: 1
+  amountLostOnHit: 0.5
+  protectionRatio: 0.333
   EnergySizePerUnitCharged: 0.5
   MaxEnergySphereSize: 10
   EnergySphereHitboxGraceArea: 0.1

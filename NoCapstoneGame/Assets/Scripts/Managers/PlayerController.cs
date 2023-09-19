@@ -11,10 +11,13 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Stats")]
     [Tooltip ("The player's starting health")]
-    [SerializeField] public int maxHealth;
+    [SerializeField] public float maxHealth;
     [Tooltip("The length of time that the player is invincible after being hit, in seconds")]
     [SerializeField] public float DamageCooldownTime;
-    [Tooltip("The units of charged gained each second the mouse is clicked")]
+    //[Tooltip("The units of charged gained each second the mouse is clicked")]
+    [Tooltip("how much damage the player takes on a hit")]
+    [SerializeField] private float damagePerHit;
+
 
     [Header("energy and charge values")]
     [SerializeField] public float ChargeGainPerSecond;
@@ -28,6 +31,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool EnergyProtects;
     [Tooltip("the amount of energy the player loses when they get hit - represented as a ratio of how much energy they have currently")]
     [SerializeField] private float amountLostOnHit;
+    [Tooltip("the minimum amount of energy needed for the player to fully protect against damage represented as a ratio from 0 to 1 \n if the player has less energy than this amount they will take damage proportional to the amount they do have in relation to this value \n \n to disable this feature set it to 0 ")]
+    [SerializeField] float protectionRatio;
+
 
     [Header("energy sphere")]
     [Tooltip("The size increase for the Energy Sphere per unit charged")]
@@ -372,8 +378,22 @@ public class PlayerController : MonoBehaviour
     }
 
     public void Hit() {
-        if (damageable) { 
+        if (damageable) {
 
+            if (EnergyProtects){
+                //an amount 
+                float amount = damagePerHit;
+                if (protectionRatio > 0)
+                {
+                    amount = Mathf.Min(damagePerHit, ((gameManager.GetEnergy() / gameManager.GetMaxEnergy()) / protectionRatio));
+                    amount = MathF.Min(1, (gameManager.GetEnergy() / gameManager.GetMaxEnergy()) / protectionRatio);//an amount from 0 to one, the % of energy we have 
+                    amount = damagePerHit * (1 - amount);
+                    
+                    Debug.Log("mathed");
+                }
+                Debug.Log(amount);
+                gameManager.RemovePlayerHealth(amount);
+            }
 
             if (!((EnergyProtects) && (gameManager.GetEnergy() > 0)))
             {

@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     public Vector2 cameraBounds;
 
     // The current health of the player
-    private int playerHealth;
+    private float playerHealth;
 
     [SerializeField] private float maxEnergyLevel;
     // The current energy level (max charge amount) (for MVP)
@@ -95,13 +95,13 @@ public class GameManager : MonoBehaviour
         //OnGameTogglePause.AddListener(TogglePause);
     }
 
-    public void AddPlayerHealth(int amount)
+    public void AddPlayerHealth(float amount)
     {
         playerHealth += amount;
         OnPlayerHeal.Invoke();
     }
 
-    public void RemovePlayerHealth(int amount)
+    public void RemovePlayerHealth(float amount)
     {
         playerHealth -= amount;
         OnPlayerHurt.Invoke();
@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
         OnPlayerDeath.Invoke();
     }
 
-    public int GetPlayerHealth()
+    public float GetPlayerHealth()
     {
         return playerHealth;
     }

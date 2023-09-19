@@ -17,7 +17,7 @@ public class HUDController: MonoBehaviour
     private VerticalProgressBar energyBar;
     private VerticalProgressBar chargeBar;
     private Label scoreDisplay;
-    private int maxHealth;
+    private float maxHealth;
     private float maxEnergy;
 
     // Start is called before the first frame update
