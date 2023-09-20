@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [Header("Stats")]
-    [Tooltip ("The player's starting health")]
+    [Tooltip("The player's starting health")]
     [SerializeField] public float maxHealth;
     [Tooltip("The length of time that the player is invincible after being hit, in seconds")]
     [SerializeField] public float DamageCooldownTime;
@@ -31,6 +31,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool EnergyProtects;
     [Tooltip("the amount of energy the player loses when they get hit - represented as a ratio of how much energy they have currently")]
     [SerializeField] private float energyLostOnHit;
+    private enum EnergyDecayType { none, currentRatio, totalRatio, fixedAmount}
+    [Tooltip("which type of energy decay we want to use")]
+    [SerializeField] private EnergyDecayType energyDecayType;
+    [Tooltip("rate at which the player loses energy over time - as a ratio (or percentage) of the player's CURRENT energy amount")]
+    [SerializeField] private float energyDecayRatioCurrent;
+    [Tooltip("rate at which the player loses energy over time - as a ratio (or percentage) of the player's CURRENT energy amount")]
+    [SerializeField] private float energyDecayRatioTotal;
+    [Tooltip("rate at which the player loses energy over time - as a fixed amount")]
+    [SerializeField] private float energyDecayFixed;
+
+
     //[Tooltip("the minimum amount of energy needed for the player to protect against damage, represented as a ratio from 0-1 \n to disable this mechanic, set to 0")]
     //[SerializeField] float protectionThreshold;
     ////[Tooltip("the minimum amount of energy needed for the player to fully protect against damage represented as a ratio from 0 to 1 \n if the player has less energy than this amount they will take damage proportional to the amount they do have in relation to this value \n \n to disable this feature set it to 0 ")]
@@ -157,6 +168,9 @@ public class PlayerController : MonoBehaviour
             gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
 
             UpdateEnergySphere();
+        } else
+        {
+            DecayEnergy();
         }
       
     }
@@ -542,5 +556,30 @@ public class PlayerController : MonoBehaviour
                 //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
                 break;
         }
+    }
+
+    private void DecayEnergy()
+    {
+        float decayAmount = 0;
+        switch (energyDecayType)
+        {
+            default:
+            case (EnergyDecayType.none):
+                break;
+            case (EnergyDecayType.fixedAmount):
+                decayAmount = energyDecayFixed * Time.deltaTime;
+                gameManager.UpdateEnergy(-decayAmount);
+                break;
+            case (EnergyDecayType.currentRatio):
+                decayAmount = gameManager.GetEnergy() * energyDecayRatioCurrent * Time.deltaTime;
+                gameManager.UpdateEnergy(-decayAmount);
+                break;
+            case (EnergyDecayType.totalRatio):
+                decayAmount = gameManager.GetMaxEnergy() * energyDecayRatioCurrent * Time.deltaTime;
+                gameManager.UpdateEnergy(-decayAmount);
+                break;
+        }
+
+        
     }
 }
