@@ -934,7 +934,7 @@ MonoBehaviour:
   energyLevel: 0
   chargeLevel: 0
   speed: 0
-  speedScale: 0.0001
+  speedScale: 0.002
   OnPlayerHeal:
     m_PersistentCalls:
       m_Calls: []
@@ -948,6 +948,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnChargeChange:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSpeedChange:
     m_PersistentCalls:
       m_Calls: []
   OnGameEnterMenus:

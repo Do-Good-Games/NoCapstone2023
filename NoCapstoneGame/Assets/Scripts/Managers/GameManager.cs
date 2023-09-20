@@ -61,6 +61,8 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnEnergyChange;
     public UnityEvent OnChargeChange;
 
+    public UnityEvent OnSpeedChange;
+
     public UnityEvent OnGameEnterMenus;
     public UnityEvent OnGamePause;
     public UnityEvent OnGameResume;
@@ -204,6 +206,7 @@ public class GameManager : MonoBehaviour
     public void CalculateSpeed()
     {
         speed = score / 10;
+        OnSpeedChange.Invoke();
     }
 
     public float GetSpeed() => speed;

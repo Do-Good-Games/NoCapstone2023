@@ -17,7 +17,7 @@ public class Entity : MonoBehaviour
     [Tooltip("the direction of movement by the entity - represented as an angle from -90 to 90, 0 = straight down - set relative to directionAngle")]
     [SerializeField] public float directionAngle;
     [Tooltip("the vector representing the direction the entity is moving in")]
-    protected Vector3 directionVector;
+    [SerializeField] protected Vector3 directionVector;
     [Tooltip("vector perpendicular to the direction vector - used to calculate wobble")]
     protected Vector3 perpVector;
 
@@ -43,7 +43,7 @@ public class Entity : MonoBehaviour
         perpVector = new Vector3(directionVector.y, -directionVector.x, 0); //perpendicular vector for calculation with wobble
 
         this.gameManager = GameManager.Instance;
-        gameManager.OnEnergyChange.AddListener(UpdateSpeed);
+        gameManager.OnSpeedChange.AddListener(UpdateSpeed);
     }
 
     virtual public void setVariables(float downSpeed, float stepSpeed, float directionAngle, float swaySpeed, float swayWidth)
@@ -66,7 +66,7 @@ public class Entity : MonoBehaviour
     {
         Vector3 oldPos = entityBody.transform.position;//store the current position of the entity
 
-        gmSpeed = gameManager.GetSpeed();
+        gmSpeed = gameManager.GetSpeed() * gameManager.GetSpeedScale();
 
         
 
@@ -78,9 +78,12 @@ public class Entity : MonoBehaviour
         float swayScale = swayWidth * Mathf.Cos(swaySpeed * Time.fixedTime) * swaySpeed;//convert the current time and sway variables into an oscillating value from 1 to -1
         //we use cos rather than sin because this is the amoutn we SCALE the sideways vector, not the offset itself. starting at 1 means we start the loop moving at fulls peed to the left from zero
 
+        Vector3 speedVector = new Vector3(0, gmSpeed, 0);
 
         //set the new position to the old position, plus the vector representing the overall direction in which we are going
-        Vector3 newPos = oldPos + directionVector + (perpVector * swayScale);
+        Vector3 newPos = oldPos + directionVector + (perpVector * swayScale) - speedVector;
+
+        //newPos.y -= (gmSpeed * gameManager.GetSpeedScale());
 
         entityBody.MovePosition(newPos);
     }
@@ -93,7 +96,7 @@ public class Entity : MonoBehaviour
 
     public void UpdateSpeed()
     {
-        directionVector.y -= (gmSpeed * gameManager.GetSpeedScale());
+        //directionVector.y = (gmSpeed * gameManager.GetSpeedScale());
 
     }
 }
