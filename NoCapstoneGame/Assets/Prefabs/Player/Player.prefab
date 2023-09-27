@@ -206,7 +206,7 @@ MonoBehaviour:
   EnergyProtects: 1
   energyLostOnHit: 1
   energyDecayType: 1
-  energyDecayRatioCurrent: 0.02
+  energyDecayRatioCurrent: 0.03
   energyDecayRatioTotal: 0.01
   energyDecayFixed: 1
   protectionThreshold:
