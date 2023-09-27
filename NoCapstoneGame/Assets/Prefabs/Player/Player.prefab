@@ -199,6 +199,7 @@ MonoBehaviour:
   maxHealth: 3
   DamageCooldownTime: 1
   healthLostOnHit: 1
+  SpeedPrototypeSO: {fileID: 11400000, guid: d83b15782f9fdbd4d89fb5b7f8ed9d65, type: 2}
   ChargeGainPerSecond: 10
   ChargeSpentPerShot: 1
   EnergySpentPerShot: 1

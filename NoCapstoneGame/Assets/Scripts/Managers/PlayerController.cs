@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     //[Tooltip("The units of charged gained each second the mouse is clicked")]
     [Tooltip("how much damage the player takes on a hit")]
     [SerializeField] private float healthLostOnHit;
+    [Tooltip("used to control behavior surrounding speed")]
+    [SerializeField] private SPSOBase SpeedPrototypeSO;
 
 
     [Header("energy and charge values")]
@@ -167,6 +169,7 @@ public class PlayerController : MonoBehaviour
         {
             gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
 
+            SpeedPrototypeSO.SPOverTime();
             UpdateEnergySphere();
         } else
         {
@@ -310,13 +313,15 @@ public class PlayerController : MonoBehaviour
 
             if (gameManager.GetCharge() >= ChargeSpentPerShot) //provided this won't cause us to run out of charge
             {
+                SpeedPrototypeSO.SPEnergyFired(ChargeSpentPerShot);
                 gameManager.UpdateEnergy(-ChargeSpentPerShot);
                 FireLasers();
                 gameManager.UpdateCharge(-ChargeSpentPerShot);
                 UpdateEnergySphere();
             }
-            else if (gameManager.GetEnergy() >= EnergySpentPerShot) //if we will run out of charge, but we won't run out of energy
+            else if (gameManager.GetEnergy() >= EnergySpentPerShot) //if we will run out of charge, (but we won't run out of energy)
             {
+                SpeedPrototypeSO.SPEnergyFired(ChargeSpentPerShot);
                 gameManager.UpdateEnergy(-ChargeSpentPerShot);
                 FireLasers();
                 gameManager.ResetCharge();
@@ -335,6 +340,16 @@ public class PlayerController : MonoBehaviour
                 UpdateEnergySphere();
                 shooting = false;
             }
+        }
+    }
+
+    private void FireLasers()
+    {
+        // tell every spawner to spawn a laser
+        foreach (LaserSpawner spawner in spawners)
+        {
+            shootSound.Play();
+            spawner.SpawnLaser();
         }
     }
 
@@ -379,15 +394,6 @@ public class PlayerController : MonoBehaviour
         energySphereCollider.radius = (energySphereSize / 2) - EnergySphereHitboxGraceArea;
     }
 
-    private void FireLasers()
-    {
-        // tell every spawner to spawn a laser
-        foreach (LaserSpawner spawner in spawners)
-        {
-            shootSound.Play();
-            spawner.SpawnLaser();
-        }
-    }
 
     private void LaunchChargeShot(Vector2 position, Vector2 launchVector)
     {
