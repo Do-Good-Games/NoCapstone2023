@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -127,6 +128,9 @@ public class PlayerController : MonoBehaviour
     private IEnumerator DamageCooldownCoroutineObject;
     private IEnumerator DamageFlashCoroutineObject;
 
+    private float PrevEnergyLevel = 0;
+
+
     public void Start()
     {
         gameManager = GameManager.Instance;
@@ -142,6 +146,8 @@ public class PlayerController : MonoBehaviour
         gameManager.OnGameResume.AddListener(SwitchActionMap); 
         gameManager.OnGamePause.AddListener(SwitchActionMap);
         gameManager.OnGameEnterMenus.AddListener(SwitchActionMap);
+
+        gameManager.OnEnergyChange.AddListener(CallEnergyChange);
 
 
         //gameManager.OnGameTogglePause.AddListener(SwitchActionMap);
@@ -164,12 +170,12 @@ public class PlayerController : MonoBehaviour
 
     public void Update()
     {
+        SpeedPrototypeSO.SPOverTime();
         // If only the left mouse is held, increase charge value
         if (mouseHeld && !slingshotHeld)
         {
             gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
 
-            SpeedPrototypeSO.SPOverTime();
             UpdateEnergySphere();
         } else
         {
@@ -474,6 +480,17 @@ public class PlayerController : MonoBehaviour
 
         Destroy(this.gameObject, 0.5f);
         //switch action map to UI
+    }
+
+    private void CallEnergyChange()
+    {
+        if(PrevEnergyLevel < gameManager.GetEnergy()) //we've gained energy 
+        {
+            SpeedPrototypeSO.SPEnergyCollected();
+        }
+        SpeedPrototypeSO.SPEnergyHeld();
+        PrevEnergyLevel = gameManager.GetEnergy();
+
     }
 
     public void togglePause(InputAction.CallbackContext context)

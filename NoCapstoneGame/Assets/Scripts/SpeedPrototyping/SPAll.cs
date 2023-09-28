@@ -8,7 +8,7 @@ public class SPAll : SPSOBase
 
     
     
-    public override void SPEnergyHeld()
+    public override void SPEnergyHeld() //currently calling once
     {
         if (BByEnergyHeld)
         {
@@ -17,7 +17,7 @@ public class SPAll : SPSOBase
         }
     }
 
-    public override void SPEnergyCollected()
+    public override void SPEnergyCollected() //do we want to scale this amount by energy collected amounts?
     {
         if (BByEnergyCollected)
         {
@@ -55,7 +55,7 @@ public class SPAll : SPSOBase
         if (BByTime)
         {
 
-            Debug.Log("adjusting speed over time");
+            Debug.Log("adjusting speed over time"); //do we perhaps want to scale this by energy levels?
         }
     }
 

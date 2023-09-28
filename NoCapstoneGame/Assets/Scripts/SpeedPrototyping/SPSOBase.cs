@@ -25,18 +25,14 @@ public abstract class SPSOBase : ScriptableObject
 
     protected float prevEnergyLevel;
 
-    private void Start()
-    {
-        
-    }
 
     protected void OnEnable()
     {
-        Debug.Log("sO is enabled");
-        //gameManager = ;
+    //    Debug.Log("sO is enabled");
+    //    //gameManager = ;
 
-        GameManager.Instance.OnEnergyChange.AddListener(SPEnergyCollected);
-        gameManager.OnEnergyChange.AddListener(SPEnergyHeld);
+    //    GameManager.Instance.OnEnergyChange.AddListener(SPEnergyCollected);
+    //    gameManager.OnEnergyChange.AddListener(SPEnergyHeld);
     }
 
     abstract public void SPEnergyHeld();

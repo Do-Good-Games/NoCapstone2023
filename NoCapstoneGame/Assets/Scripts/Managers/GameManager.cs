@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.Events;
@@ -26,31 +25,7 @@ public enum GameState
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
-    public static GameManager Instance { get
-        {
-            if (_instance == null)
-            {
-                var objs = FindObjectsOfType(typeof(GameManager)) as GameManager[];
-
-                if (objs.Length > 0)
-                    _instance = objs[0];
-
-                if (objs.Length > 1)
-                {
-                    Debug.LogError("[Singleton] There is more than one instance of " + typeof(GameManager).Name + " in the scene.");
-                }
-
-                if (_instance == null)
-                {
-                    GameObject obj = new GameObject();
-                    obj.hideFlags = HideFlags.DontSave;
-                    _instance = obj.AddComponent<GameManager>();
-                }
-            }
-
-            return _instance;
-        } 
-    }
+    public static GameManager Instance { get { return _instance; } }
 
     [SerializeField] public Camera gameplayCamera;
     [SerializeField] public string hazardTag;
@@ -94,12 +69,19 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("gameman is awakened");
+
         //TODO: SET INITIAL VALUE in liue of the following line
         //paused = false;
 
 
-        
+        if (_instance == null)
+        {
+            _instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
 
         cameraBounds = new Vector2(gameplayCamera.orthographicSize, gameplayCamera.orthographicSize * gameplayCamera.aspect);
 
