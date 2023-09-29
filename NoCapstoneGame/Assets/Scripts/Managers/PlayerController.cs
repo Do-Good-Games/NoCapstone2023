@@ -325,6 +325,8 @@ public class PlayerController : MonoBehaviour
 
     private void FireLasers()
     {
+
+        gameManager.UpdateEnergy(-ChargeSpentPerShot);
         // tell every spawner to spawn a laser
         foreach (LaserSpawner spawner in spawners)
         {

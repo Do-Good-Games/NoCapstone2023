@@ -16,6 +16,7 @@ public class AsteroidManager : EntityManager
     [Tooltip("The variance randomly added to the base number of drops")]
     [SerializeField] public Vector2 numDropsVarianceRange;
 
+
     private void Awake()
     {
         // Type check
@@ -35,9 +36,9 @@ public class AsteroidManager : EntityManager
     {
         //Debug.Log("set variables called as INHERITED CLASS (asteroid");
         base.SetVariables(entity);
-        float iterHealth = Random.Range(healthRange.x, healthRange.y);
+        float iterHealth = Random.Range(healthRange.x, healthRange.y) * GameManager.Instance.GetLevelScale();
         // Maps iterHealth to the size range based on the health range
-        float iterSize = Mathf.Lerp(sizeRange.x, sizeRange.y, Mathf.InverseLerp(healthRange.x, healthRange.y, iterHealth));
+        float iterSize = Mathf.Lerp(sizeRange.x, sizeRange.y, Mathf.InverseLerp(healthRange.x, healthRange.y, (iterHealth/ GameManager.Instance.GetLevelScale())));
 
         int iterBaseNumDrops = (int) Mathf.Lerp(baseNumDropsRange.x, baseNumDropsRange.y, Mathf.InverseLerp(sizeRange.x, sizeRange.y, iterSize));
         int iterNumDrops = iterBaseNumDrops + (int) Random.Range(numDropsVarianceRange.x, numDropsVarianceRange.y);

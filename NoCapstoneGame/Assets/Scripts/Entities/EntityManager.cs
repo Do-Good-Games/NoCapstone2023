@@ -106,6 +106,17 @@ public class EntityManager : MonoBehaviour
         }
     }
 
+    protected void GenerateAmountOnPoint(int amount, Vector3 point)
+    {
+        generatingEntities = true;
+        for(int i = 0; i < amount; i++)
+        {
+            GameObject entity;
+            entity = objectPool.Get();
+            entity.transform.position = point;
+        }
+    }
+
     virtual public GameObject SpawnEntity(float spawnX, float spawnY)
     {
         GameObject gameObject = Instantiate(entityPrefab, new Vector3(spawnX, spawnY, 0), Quaternion.identity);
