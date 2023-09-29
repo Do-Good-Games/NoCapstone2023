@@ -6,28 +6,37 @@ using UnityEngine;
 public class SPAll : SPSOBase
 {
 
-    
+    [SerializeField] private float collected = 0;
+    [SerializeField] private float held = 0;
+    [SerializeField] private float fired=0;
+
+    [SerializeField] private float speed;
+    private float timeSinceGameStart;
     
     public override void SPEnergyHeld() //currently calling once
     {
+        //held = (int) GameManager.Instance.GetEnergy();
+        held++;
         if (BByEnergyHeld)
         {
-            Debug.Log("adjusting speed by energy held");
+            Debug.Log("held " + held);
 
         }
     }
 
     public override void SPEnergyCollected() //do we want to scale this amount by energy collected amounts?
     {
+        collected++;
         if (BByEnergyCollected)
         {
             //if(prevEnergy > currentEnergy
-            Debug.Log("adjusting speed by energy collected");
+            Debug.Log("collected " + collected);
         }
     }
 
     public override void SPEnergyFired(float charge)
     {
+        held -= charge;
         if (BByEnergyFired)
         {
 
@@ -37,6 +46,7 @@ public class SPAll : SPSOBase
 
     public override void SPHit()
     {
+        held = 0;
         if (hitLossType == HitLossType.Ratio)
         {
             Debug.Log("adjusting speed by energy held - ratio version");
@@ -52,11 +62,25 @@ public class SPAll : SPSOBase
 
     public override void SPOverTime()
     {
+
         if (BByTime)
         {
-
-            Debug.Log("adjusting speed over time"); //do we perhaps want to scale this by energy levels?
+            speed += Time.timeSinceLevelLoad * timeScale;
+            //Debug.Log("adjusting speed over time"); //do we perhaps want to scale this by energy levels?
         }
+    }
+
+    public override void ResetVariables()
+    {
+        held = 0;
+        collected = 0;
+        fired = 0;
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        ResetVariables();
     }
 
 }

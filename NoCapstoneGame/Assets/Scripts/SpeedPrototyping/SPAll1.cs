@@ -48,4 +48,8 @@ public class SPAll1 : SPSOBase
         }
     }
 
+    public override void ResetVariables()
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -166,6 +166,8 @@ public class PlayerController : MonoBehaviour
         currentActionMapName = "Player";
         playerInput = GetComponent<PlayerInput>();
         gameManager.ResumeGame();
+
+        SpeedPrototypeSO.ResetVariables();
     }
 
     public void Update()
@@ -410,6 +412,7 @@ public class PlayerController : MonoBehaviour
 
     public void Hit() {
         if (damageable) {
+            SpeedPrototypeSO.SPHit();
 
             if (EnergyProtects){
 
@@ -417,19 +420,19 @@ public class PlayerController : MonoBehaviour
 
                 amount = MathF.Max(0, protectionThreshold.Evaluate(gameManager.GetEnergy() / gameManager.GetMaxEnergy()));
 
-                Debug.Log("amount: " + amount);
+                //Debug.Log("amount: " + amount);
 
                 if(amount <1)
                 {
                     float damageAmount = (healthLostOnHit * amount);
-                    Debug.Log("player at least partially protected " + damageAmount);
+                    //Debug.Log("player at least partially protected " + damageAmount);
                     gameManager.RemovePlayerHealth(damageAmount);
                     gameManager.UpdateEnergy(-(gameManager.GetEnergy() * energyLostOnHit));
                 }
                 else
                 {
                     float damageAmount = (healthLostOnHit);
-                    Debug.Log("player taking full damage " + damageAmount);
+                    //Debug.Log("player taking full damage " + damageAmount);
                     gameManager.RemovePlayerHealth(healthLostOnHit);
 
 
@@ -528,6 +531,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag(gameManager.hazardTag))
         {
             Hit();
+            
         }
     }
 

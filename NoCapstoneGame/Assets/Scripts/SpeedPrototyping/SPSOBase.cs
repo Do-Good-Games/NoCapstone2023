@@ -17,7 +17,7 @@ public abstract class SPSOBase : ScriptableObject
     [SerializeField] protected float PerEnergyFired;
 
     [SerializeField] protected bool BByTime;
-    [SerializeField] protected float PerTime;
+    [SerializeField] protected float timeScale;
 
     protected enum HitLossType { Disabled, Static, Ratio } ;
     [SerializeField] protected HitLossType hitLossType;
@@ -26,7 +26,7 @@ public abstract class SPSOBase : ScriptableObject
     protected float prevEnergyLevel;
 
 
-    protected void OnEnable()
+    protected virtual void OnEnable()
     {
     //    Debug.Log("sO is enabled");
     //    //gameManager = ;
@@ -40,6 +40,6 @@ public abstract class SPSOBase : ScriptableObject
     abstract public void SPEnergyFired(float charge);
     abstract public void SPOverTime();
     abstract public void SPHit();
-
+    abstract public void ResetVariables();
 
 }
