@@ -122,13 +122,13 @@ public class ByHeldAndCol : SPSOBase
     {
 
         //7 * 1 + 4
-        float colLost = collected * colLossOnHit;
+        float colLost = collected * colLossOnHit * PerEnergyCollected;
         //float colLost = collected * colLossOnHit * (collectedWeight / weightTotal);
         Debug.Log(colLost);
         speed -= colLost;
-        collected = collected - colLost;
+        collected = collected *PerEnergyCollected - colLost;
 
-        speed -= held;
+        speed -= held * PerEnergyHeld;
         //speed -= held * (heldWeight / weightTotal);
         held = 0;
         if (hitLossType == HitLossType.Ratio)

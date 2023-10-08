@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: byHeldAndCollected
   m_EditorClassIdentifier: 
   BByEnergyHeld: 1
-  PerEnergyHeld: 1
+  PerEnergyHeld: 0.3333333
   BByEnergyCollected: 1
-  PerEnergyCollected: 1
+  PerEnergyCollected: 0.3333334
   BByEnergyFired: 1
-  PerEnergyFired: 1
+  PerEnergyFired: 0.3333333
   BByTime: 0
   timeScale: 0
   hitLossType: 0
