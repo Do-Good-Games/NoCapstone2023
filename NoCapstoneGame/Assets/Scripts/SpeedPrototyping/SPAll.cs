@@ -10,16 +10,21 @@ public class SPAll : SPSOBase
     [SerializeField] private float held = 0;
     [SerializeField] private float fired=0;
 
-    [SerializeField] private float speed;
     private float timeSinceGameStart;
     
     public override void SPEnergyHeld() //currently calling once
     {
         //held = (int) GameManager.Instance.GetEnergy();
-        held++;
+        if(GameManager.Instance.GetEnergy() != 0)
+        {
+            held++;
+        }
         if (BByEnergyHeld)
         {
             Debug.Log("held " + held);
+
+            speed += PerEnergyHeld;
+            Debug.Log("speed " + speed);
 
         }
     }
@@ -31,14 +36,19 @@ public class SPAll : SPSOBase
         {
             //if(prevEnergy > currentEnergy
             Debug.Log("collected " + collected);
+
+            speed += PerEnergyCollected;
+            Debug.Log("speed " + speed);
         }
     }
 
     public override void SPEnergyFired(float charge)
     {
+        fired++;
         held -= charge;
         if (BByEnergyFired)
         {
+            speed += fired * PerEnergyFired; //finish implementing these
 
             Debug.Log("adjusting speed by energy fired");
         }
@@ -75,6 +85,7 @@ public class SPAll : SPSOBase
         held = 0;
         collected = 0;
         fired = 0;
+        speed = 0;
     }
 
     protected override void OnEnable()

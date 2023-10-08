@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     [Tooltip("how much damage the player takes on a hit")]
     [SerializeField] private float healthLostOnHit;
     [Tooltip("used to control behavior surrounding speed")]
-    [SerializeField] private SPSOBase SpeedPrototypeSO;
+    [SerializeField] public SPSOBase SpeedPrototypeSO;
 
 
     [Header("energy and charge values")]
@@ -135,6 +135,7 @@ public class PlayerController : MonoBehaviour
     {
         gameManager = GameManager.Instance;
         sceneManager = SceneManager.Instance;
+        gameManager.playerController = this;
         gameplayCamera = gameManager.gameplayCamera;
         cameraBounds = gameManager.cameraBounds - (Vector2) shipCollider.bounds.extents;
 
@@ -490,8 +491,13 @@ public class PlayerController : MonoBehaviour
         if(PrevEnergyLevel < gameManager.GetEnergy()) //we've gained energy 
         {
             SpeedPrototypeSO.SPEnergyCollected();
+            SpeedPrototypeSO.SPEnergyHeld(true);
+
+        } else if(shooting)
+        {
+
+            SpeedPrototypeSO.SPEnergyHeld(false);
         }
-        SpeedPrototypeSO.SPEnergyHeld();
         PrevEnergyLevel = gameManager.GetEnergy();
 
     }

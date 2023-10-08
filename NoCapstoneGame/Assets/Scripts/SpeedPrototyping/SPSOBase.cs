@@ -6,6 +6,7 @@ public abstract class SPSOBase : ScriptableObject
 {
     protected GameManager gameManager;
     protected PlayerController playerController;
+    [SerializeField] public float speed { get; protected set; }
 
     [SerializeField] protected bool BByEnergyHeld;
     [SerializeField] protected float PerEnergyHeld;
@@ -25,6 +26,7 @@ public abstract class SPSOBase : ScriptableObject
 
     protected float prevEnergyLevel;
 
+    
 
     protected virtual void OnEnable()
     {
@@ -34,8 +36,8 @@ public abstract class SPSOBase : ScriptableObject
     //    GameManager.Instance.OnEnergyChange.AddListener(SPEnergyCollected);
     //    gameManager.OnEnergyChange.AddListener(SPEnergyHeld);
     }
-
     abstract public void SPEnergyHeld();
+    virtual public void SPEnergyHeld(bool increment) { SPEnergyHeld(); }
     abstract public void SPEnergyCollected();
     abstract public void SPEnergyFired(float charge);
     abstract public void SPOverTime();

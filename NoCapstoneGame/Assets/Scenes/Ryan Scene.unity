@@ -277,6 +277,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: SpeedPrototypeSO
+      value: 
+      objectReference: {fileID: 11400000, guid: f64401791e8f1c046b8135b50f5f64a9, type: 2}
+    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: chargeShotPrefab
       value: 
       objectReference: {fileID: 4293999573908980727, guid: 51048a21004e749b4aac65c8b7af4692, type: 3}
@@ -925,6 +929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9955003bae39485fb40bf26c33b0d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 0}
   gameplayCamera: {fileID: 523322434}
   hazardTag: Hazard
   playerTag: Player

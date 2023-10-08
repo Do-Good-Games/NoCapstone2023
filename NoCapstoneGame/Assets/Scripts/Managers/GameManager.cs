@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
+    public PlayerController playerController;
+
     [SerializeField] public Camera gameplayCamera;
     [SerializeField] public string hazardTag;
     [SerializeField] public string playerTag;
@@ -95,6 +97,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //OnGameTogglePause.AddListener(TogglePause);
+    }
+
+    private void Update()
+    {
+        CalculateSpeed(); // could also do this in update depending on how it's implemented, current implementation will only ever change with score
+
     }
 
     public void AddPlayerHealth(float amount)
@@ -169,7 +177,6 @@ public class GameManager : MonoBehaviour
     public void UpdateScore(int amount)
     {
         score += amount;
-        CalculateSpeed(); // could also do this in update depending on how it's implemented, current implementation will only ever change with score
     }
 
     public int GetScore()
@@ -205,7 +212,8 @@ public class GameManager : MonoBehaviour
 
     public void CalculateSpeed()
     {
-        speed = score / 10;
+        speed = playerController.SpeedPrototypeSO.speed;
+
         OnSpeedChange.Invoke();
     }
 
