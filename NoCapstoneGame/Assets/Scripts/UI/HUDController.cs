@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,6 +18,7 @@ public class HUDController: MonoBehaviour
     private VerticalProgressBar energyBar;
     private VerticalProgressBar chargeBar;
     private Label scoreDisplay;
+    private Label speedDisplay;
     private float maxHealth;
     private float maxEnergy;
 
@@ -33,6 +35,7 @@ public class HUDController: MonoBehaviour
         chargeBar = root.Q<VerticalProgressBar>("ChargeBar");
         
         scoreDisplay = root.Q<Label>("ScoreDisplay");
+        speedDisplay = root.Q<Label>("SpeedDisplay");
 
         maxHealth = player.maxHealth;
         maxEnergy = gameManager.GetMaxEnergy();
@@ -52,7 +55,8 @@ public class HUDController: MonoBehaviour
 
     void Update()
     {
-        scoreDisplay.text = gameManager.GetScore().ToString().PadLeft(8, '0');
+        scoreDisplay.text = gameManager.GetScore().ToString().PadLeft(5, '0');
+        speedDisplay.text = gameManager.GetSpeed().ToString() + "kph";
     }
 
     void UpdateHealthBar()

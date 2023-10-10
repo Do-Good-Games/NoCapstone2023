@@ -120,17 +120,24 @@ public class ByHeldAndCol : SPSOBase
 
     public override void SPHit()
     {
+        if (BByEnergyCollected)
+        {
 
-        //7 * 1 + 4
-        float colLost = collected * colLossOnHit * PerEnergyCollected;
-        //float colLost = collected * colLossOnHit * (collectedWeight / weightTotal);
-        Debug.Log(colLost);
-        speed -= colLost;
-        collected = collected *PerEnergyCollected - colLost;
+            //7 * 1 + 4
+            float colLost = collected * colLossOnHit * PerEnergyCollected;
+            //float colLost = collected * colLossOnHit * (collectedWeight / weightTotal);
+            Debug.Log(colLost);
+            speed -= colLost;
+            collected = collected * PerEnergyCollected - colLost;
+        }
 
-        speed -= held * PerEnergyHeld;
-        //speed -= held * (heldWeight / weightTotal);
-        held = 0;
+        if (BByEnergyHeld)
+        {
+            speed -= held * PerEnergyHeld;
+            //speed -= held * (heldWeight / weightTotal);
+            held = 0;
+
+        }
         if (hitLossType == HitLossType.Ratio)
         {
             Debug.Log("adjusting speed by energy held - ratio version");
@@ -152,7 +159,7 @@ public class ByHeldAndCol : SPSOBase
 
         if (BByTime)
         {
-            speed += Time.timeSinceLevelLoad * timeScale;
+            speed += Time.deltaTime * timeScale;
             //Debug.Log("adjusting speed over time"); //do we perhaps want to scale this by energy levels?
         }
     }
