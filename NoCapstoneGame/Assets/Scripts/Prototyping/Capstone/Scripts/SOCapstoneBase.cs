@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class SOCapstoneBase : ScriptableObject
+public abstract class SOCapstoneBase : ScriptableObject
 {
 
-    abstract virtual public void ChargeStart();
 
-    abstract virtual public void ChargeContinue();
 
-    abstract virtual public void ChargeFinish();
+    abstract public void ChargeStart();
+
+    abstract public void ChargeContinue();
+
+    abstract public void ChargeFinish();
 
 
 
