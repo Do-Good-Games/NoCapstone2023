@@ -182,7 +182,7 @@ public class PlayerController : MonoBehaviour
             UpdateEnergySphere();
         } else
         {
-            //DecayEnergy();
+            DecayEnergy();
         }
       
     }
