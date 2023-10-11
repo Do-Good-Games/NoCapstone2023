@@ -279,7 +279,7 @@ PrefabInstance:
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: SpeedPrototypeSO
       value: 
-      objectReference: {fileID: 11400000, guid: f64401791e8f1c046b8135b50f5f64a9, type: 2}
+      objectReference: {fileID: 11400000, guid: b97d875deacca3d4387a6a6ded43b6f8, type: 2}
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: chargeShotPrefab
       value: 

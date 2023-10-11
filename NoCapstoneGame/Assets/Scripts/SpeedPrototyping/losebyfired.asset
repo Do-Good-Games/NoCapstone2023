@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4221b1bf1b13894382f4db450c03585, type: 3}
+  m_Name: losebyfired
+  m_EditorClassIdentifier: 
+  Description: speed increases as player collects, when the player gets hit they
+    lose all energy they held, but some speed remains, determined by how much they've
+    fired, proportional to fired kept on hit
+  BByEnergyHeld: 1
+  PerEnergyHeld: 1
+  BByEnergyCollected: 0
+  PerEnergyCollected: 0
+  BByEnergyFired: 1
+  PerEnergyFired: 1
+  BByTime: 0
+  timeScale: 0
+  hitLossType: 0
+  AmountLostOnHit: 0
+  heldLostOnHit: 1
+  collectedLostOnHit: 1
+  firedLostOnHit: 0.5
+  collected: 43
+  held: 1
+  fired: 4
