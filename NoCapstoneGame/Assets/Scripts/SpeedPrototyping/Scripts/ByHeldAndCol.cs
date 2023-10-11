@@ -10,24 +10,24 @@ public class ByHeldAndCol : SPSOBase
     [Header("held and collected vars")]
 
     [Tooltip("a ratio of how much each value should be weighed against one another. ")]
-    [SerializeField] private float collectedWeight;
+    private float collectedWeight = 1;
     [Tooltip("a ratio of how much each value should be weighed against one another. ")]
-    [SerializeField] private float heldWeight;
+    private float heldWeight = 1;
     [Tooltip("a ratio of how much each value should be weighed against one another. ")]
-    [SerializeField] private float firedWeight;
+    private float firedWeight = 1;
 
 
     [Tooltip("how much do we want the collected portion of our speed calculation to decrease when the player gets hit scale of 0 (none) to 1 (all)")]
-    [SerializeField] private float colLossOnHit;
+    private float colLossOnHit = 0;
 
     [Tooltip("calculated as each weight added up, used by dividing the wight by this to determine value")]
     private float weightTotal;
 
-    [Header("debugging/tracking variables")]
+    //[Header("debugging/tracking variables")]
 
-    [SerializeField] private float collected = 0;
-    [SerializeField] private float held = 0;
-    [SerializeField] private float fired=0;
+    private float collected = 0;
+    private float held = 0;
+    private float fired=0;
 
     private float timeSinceGameStart;
     
@@ -136,17 +136,15 @@ public class ByHeldAndCol : SPSOBase
             speed -= held * PerEnergyHeld;
             //speed -= held * (heldWeight / weightTotal);
             held = 0;
-
         }
+
         if (hitLossType == HitLossType.Ratio)
         {
-            Debug.Log("adjusting speed by energy held - ratio version");
-
+            speed = speed * AmountLostOnHit;
         }
         else if (hitLossType == HitLossType.Static)
         {
-            Debug.Log("adjusting speed by energy held - static version");
-
+            speed = Mathf.Max(speed - AmountLostOnHit, 0);
         }
     }
 

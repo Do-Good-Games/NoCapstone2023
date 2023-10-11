@@ -6,6 +6,11 @@ public abstract class SPSOBase : ScriptableObject
 {
     protected GameManager gameManager;
     protected PlayerController playerController;
+
+    [Tooltip("(inspector/design use only) briefly describe the (intended) behavior of this prototype")]
+    [TextArea(1, 10)]
+    [SerializeField] protected string Description;
+
     [SerializeField] public float speed { get; protected set; }
 
     [SerializeField] protected bool BByEnergyHeld;
@@ -22,7 +27,7 @@ public abstract class SPSOBase : ScriptableObject
 
     protected enum HitLossType { Disabled, Static, Ratio } ;
     [SerializeField] protected HitLossType hitLossType;
-    [SerializeField] protected float AmountLostOnHitStatic;
+    [SerializeField] protected float AmountLostOnHit;
 
     protected float prevEnergyLevel;
 
