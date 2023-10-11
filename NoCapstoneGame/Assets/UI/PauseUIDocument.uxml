@@ -1,12 +1,13 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI/LoseScreenStyleSheet.uss?fileID=7433441132597879392&amp;guid=7595c89e7613af445ac256b5763d84af&amp;type=3#LoseScreenStyleSheet" />
+    <Style src="project://database/Assets/UI/StyleSheets/LoseScreenStyleSheet.uss?fileID=7433441132597879392&amp;guid=7595c89e7613af445ac256b5763d84af&amp;type=3#LoseScreenStyleSheet" />
     <ui:VisualElement name="root">
         <ui:VisualElement style="justify-content: space-around; height: 255px; align-items: center;">
             <ui:Label text="Paused" display-tooltip-when-elided="true" class="label" style="justify-content: center; align-items: center; height: 85px; font-size: 50px;" />
         </ui:VisualElement>
-        <ui:VisualElement name="ButtonContainer" style="justify-content: space-around; align-items: center; height: 402px;">
+        <ui:VisualElement name="ButtonContainer" style="justify-content: space-around; align-items: center; height: 706px;">
             <ui:Button text="Resume" display-tooltip-when-elided="true" name="ResumeButton" class="button" style="transition-duration: 0s;" />
             <ui:Button text="Main Menu" display-tooltip-when-elided="true" name="MainMenuButton" class="button" style="transition-duration: 0s;" />
+            <ui:Button text="Restart" display-tooltip-when-elided="true" name="RestartButton" class="button" />
             <ui:Button text="Quit" display-tooltip-when-elided="true" name="QuitButton" class="button" style="transition-duration: 0s;" />
         </ui:VisualElement>
     </ui:VisualElement>
