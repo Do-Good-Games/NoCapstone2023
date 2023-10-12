@@ -180,8 +180,9 @@ public class PlayerController : MonoBehaviour
             gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
 
             UpdateEnergySphere();
-        } else
+        } else if (!shooting) //decaying energy while we're actively firing causes unwanted behavior with the speed var, plus we probably shouldn't anyway
         {
+            Debug.Log("decaying energy");
             DecayEnergy();
         }
       
@@ -486,14 +487,21 @@ public class PlayerController : MonoBehaviour
         //switch action map to UI
     }
 
-    private void CallEnergyChange()
+
+    public void CallEnergyChange()
+    {
+        CallEnergyChange(false);
+    }
+
+
+    public void CallEnergyChange(bool fromUpdate)
     {
         if(PrevEnergyLevel < gameManager.GetEnergy()) //we've gained energy 
         {
             SpeedPrototypeSO.SPEnergyCollected();
             SpeedPrototypeSO.SPEnergyHeld(true);
 
-        } else if(shooting)
+        } else if(shooting && !fromUpdate)
         {
 
             SpeedPrototypeSO.SPEnergyHeld(false);

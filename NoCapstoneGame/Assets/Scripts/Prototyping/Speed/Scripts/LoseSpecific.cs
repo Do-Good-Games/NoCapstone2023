@@ -63,14 +63,14 @@ public class LoseSpecific : SPSOBase
 
             speed += PerEnergyHeld;
             //speed += PerEnergyHeld * (heldWeight/ weightTotal);
-            Debug.Log("speed " + speed);
+            //Debug.Log("speed " + speed);
 
         }
     }
 
     public override void SPEnergyHeld(bool increment)
     {
-        Debug.Log("incremented");
+        Debug.Log("incremented" + increment);
         if (increment)
         {
 
@@ -92,7 +92,7 @@ public class LoseSpecific : SPSOBase
             } 
 
 
-            Debug.Log("speed " + speed);
+           // Debug.Log("speed " + speed);
 
         }
     }
@@ -107,7 +107,7 @@ public class LoseSpecific : SPSOBase
 
             speed += PerEnergyCollected;
             //speed += PerEnergyCollected * (collectedWeight / weightTotal);
-            Debug.Log("speed " + speed);
+            //Debug.Log("speed " + speed);
         }
     }
 
@@ -131,13 +131,13 @@ public class LoseSpecific : SPSOBase
     {
         if (BByEnergyHeld)
         {
-            speed -= held * heldWeight * heldLostOnHit;
+            speed -= held * heldWeight * heldLostOnHit * PerEnergyHeld;
             held -= held * heldLostOnHit;
         }
 
         if (BByEnergyFired)
         {
-            speed -= fired * firedWeight * firedLostOnHit;
+            speed -= fired * firedWeight * firedLostOnHit * PerEnergyFired;
             fired -= fired * firedLostOnHit;
         }
 
@@ -186,7 +186,7 @@ public class LoseSpecific : SPSOBase
     public override void SPOverTime()
     {
         if (speed < 0){
-            Debug.Log("ruh roh raggy");
+            //Debug.Log("ruh roh raggy");
         }
 
         if (BByTime)
