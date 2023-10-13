@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnPlayerDeath;
     public UnityEvent OnEnergyChange;
     public UnityEvent OnChargeChange;
+    public UnityEvent OnFiredChange;
 
     public UnityEvent OnSpeedChange;
 

@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class SOBoostBase : ScriptableObject
 {
 
+    public float fired = 0;
 
 
     [Tooltip("(inspector/design use only) briefly describe the (intended) behavior of this prototype")]
@@ -36,7 +37,9 @@ public abstract class SOBoostBase : ScriptableObject
 
     abstract public void ChargeFinish();
 
-    public void ResetVariables()
+    virtual public void incFired(float charge) { }
+
+    public virtual void ResetVariables()
     {
         numOfBoosts = 0;
     }

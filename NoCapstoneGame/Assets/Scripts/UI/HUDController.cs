@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,23 +18,26 @@ public class HUDController: MonoBehaviour
     private VerticalProgressBar healthBar;
     private VerticalProgressBar energyBar;
     private VerticalProgressBar chargeBar;
+    private VerticalProgressBar firedBar;
     private Label scoreDisplay;
     private Label speedDisplay;
     private float maxHealth;
     private float maxEnergy;
 
+    public float fired;//prototype var to be more cleanly implemented later
+
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameManager.Instance;
-
+        gameManager = GameManager.Instance;   
 
         //UIDoc stuff
         root = UIDoc.rootVisualElement;
         healthBar = root.Q<VerticalProgressBar>("HealthBar");
         energyBar = root.Q<VerticalProgressBar>("EnergyBar");
         chargeBar = root.Q<VerticalProgressBar>("ChargeBar");
-        
+        firedBar = root.Q<VerticalProgressBar>("FiredBar");
+
         scoreDisplay = root.Q<Label>("ScoreDisplay");
         speedDisplay = root.Q<Label>("SpeedDisplay");
 
@@ -46,6 +50,7 @@ public class HUDController: MonoBehaviour
         gameManager.OnPlayerHurt.AddListener(UpdateHealthBar);
         gameManager.OnEnergyChange.AddListener(UpdateEnergyBar);
         gameManager.OnChargeChange.AddListener(UpdateChargeBar);
+        gameManager.OnFiredChange.AddListener(UpdateFiredBar);
     }
 
     private void UpdateChargeBar()
@@ -71,4 +76,10 @@ public class HUDController: MonoBehaviour
         energyBar.value = (float) ((float)gameManager.GetEnergy()/(float)maxEnergy);
         //transform.localScale = new Vector3(transform.localScale.x, totalHeight, transform.localScale.z);
     }
+
+    void UpdateFiredBar()
+    {
+        firedBar.value = player.SOBoost.fired;
+    }
+
 }

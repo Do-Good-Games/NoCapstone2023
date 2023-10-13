@@ -184,11 +184,12 @@ public class PlayerController : MonoBehaviour
         if (mouseHeld && !slingshotHeld)
         {
             gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
+            SOBoost.incFired(ChargeGainPerSecond * Time.deltaTime);
 
             UpdateEnergySphere();
         } else if (!shooting) //decaying energy while we're actively firing causes unwanted behavior with the speed var, plus we probably shouldn't anyway
         {
-            Debug.Log("decaying energy");
+            //Debug.Log("decaying energy");
             DecayEnergy();
         }
       

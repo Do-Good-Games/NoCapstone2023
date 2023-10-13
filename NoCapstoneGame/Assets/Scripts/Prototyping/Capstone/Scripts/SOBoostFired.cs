@@ -4,14 +4,15 @@ using UnityEngine;
 
 //DESCRIPTION: when energy reaches max, doubles score and resets speed to value determined by inspector vars
 
-[CreateAssetMenu(menuName = "boost prototyping/ fullEnergy")]
-public class SOBoostSimple : SOBoostBase
+[CreateAssetMenu(menuName = "boost prototyping/ Fired")]
+public class SOBoostFired : SOBoostBase
 {
+    public PlayerController playerController;
 
 
     public override void energyFull()
     {
-        activate();
+        //activate();
     }
 
     public override void activate()
@@ -74,5 +75,27 @@ public class SOBoostSimple : SOBoostBase
     public override void checkActivate()
     {
         //not necessary in this prototype
+    }
+
+
+    public override void incFired(float charge)
+    {
+        if (fired + charge < GameManager.Instance.GetEnergy())//if we're still below GM's energy, IE we want to increase our values
+        {
+        Debug.Log("firing" + fired);
+            fired += charge;
+            GameManager.Instance.OnFiredChange.Invoke(); if (fired >= GameManager.Instance.GetMaxEnergy())
+            {
+                activate();
+            }
+        }
+
+    }
+
+    public override void ResetVariables()
+    {
+        base.ResetVariables();
+        fired = 0;
+        GameManager.Instance.OnFiredChange.Invoke();
     }
 }

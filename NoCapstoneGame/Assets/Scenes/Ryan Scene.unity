@@ -281,6 +281,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: SOBoost
+      value: 
+      objectReference: {fileID: 11400000, guid: 5a7ba9cdb60cb0b48b855ee377cf2473, type: 2}
+    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: maxHealth
       value: 3
       objectReference: {fileID: 0}
@@ -896,6 +900,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1308583664}
   UIDoc: {fileID: 1509115613}
+  fired: 0
 --- !u!1 &2021246354
 GameObject:
   m_ObjectHideFlags: 0
@@ -949,6 +954,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnChargeChange:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFiredChange:
     m_PersistentCalls:
       m_Calls: []
   OnSpeedChange:
