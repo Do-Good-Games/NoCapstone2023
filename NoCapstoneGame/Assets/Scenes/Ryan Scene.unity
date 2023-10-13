@@ -277,6 +277,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: SOBoost
+      value: 
+      objectReference: {fileID: 11400000, guid: be3687d430eea9149acf15ea88dae170, type: 2}
+    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: energyDecayType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: SpeedPrototypeSO
       value: 
       objectReference: {fileID: 11400000, guid: b97d875deacca3d4387a6a6ded43b6f8, type: 2}
@@ -624,7 +632,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0533118189a0c6d419e0bde62afed65f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test: 0
 --- !u!4 &858734111
 Transform:
   m_ObjectHideFlags: 0

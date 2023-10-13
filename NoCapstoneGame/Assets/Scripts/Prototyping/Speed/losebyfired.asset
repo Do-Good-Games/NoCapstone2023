@@ -15,12 +15,13 @@ MonoBehaviour:
   Description: speed increases as player collects, when the player gets hit they
     lose all energy they held, but some speed remains, determined by how much they've
     fired, proportional to fired kept on hit
+  speed: 11.511584
   BByEnergyHeld: 1
-  PerEnergyHeld: 1
+  PerEnergyHeld: 0.3
   BByEnergyCollected: 0
   PerEnergyCollected: 0
   BByEnergyFired: 1
-  PerEnergyFired: 1
+  PerEnergyFired: 0.3
   BByTime: 0
   timeScale: 0
   hitLossType: 0
@@ -28,6 +29,6 @@ MonoBehaviour:
   heldLostOnHit: 1
   collectedLostOnHit: 1
   firedLostOnHit: 0.5
-  collected: 43
-  held: 1
-  fired: 4
+  collected: 2
+  held: 2
+  fired: 0

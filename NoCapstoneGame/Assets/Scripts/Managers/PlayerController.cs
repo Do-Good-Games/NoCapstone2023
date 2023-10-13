@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     [Tooltip("used to control behavior surrounding speed")]
     [SerializeField] public SPSOBase SpeedPrototypeSO;
 
+    [SerializeField] public SOBoostBase SOBoost;
+
 
     [Header("energy and charge values")]
     [SerializeField] public float ChargeGainPerSecond;
@@ -169,6 +171,10 @@ public class PlayerController : MonoBehaviour
         gameManager.ResumeGame();
 
         SpeedPrototypeSO.ResetVariables();
+        SOBoost.ResetVariables();
+        SOBoost.speedPrototype = SpeedPrototypeSO;
+
+
     }
 
     public void Update()
@@ -500,6 +506,7 @@ public class PlayerController : MonoBehaviour
         {
             SpeedPrototypeSO.SPEnergyCollected();
             SpeedPrototypeSO.SPEnergyHeld(true);
+            
 
         } else if(shooting && !fromUpdate)
         {

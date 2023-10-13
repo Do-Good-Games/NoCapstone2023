@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     // The current energy charge (for MVP)
     [SerializeField] private float chargeLevel;
 
-    [SerializeField] private float speed;
+    public float speed; //will probably want to roll back to private after we're done prototyping speed stuff
     [Tooltip("setting speed to ints is more intuitive, but causes insane speeds. This scales it down as well as offering parameterization of how quickly speed increases")]
     [SerializeField] private float speedScale;
 
@@ -137,6 +137,12 @@ public class GameManager : MonoBehaviour
     {
         energyLevel = Mathf.Min(energyLevel+ amount, maxEnergyLevel);
         energyLevel = Mathf.Max(energyLevel+ amount, 0);
+
+        if(energyLevel >= maxEnergyLevel)
+        {
+            playerController.SOBoost.energyFull();
+        }
+
         OnEnergyChange.Invoke();
     }
 

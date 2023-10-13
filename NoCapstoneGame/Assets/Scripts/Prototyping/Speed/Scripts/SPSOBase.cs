@@ -11,7 +11,7 @@ public abstract class SPSOBase : ScriptableObject
     [TextArea(1, 10)]
     [SerializeField] protected string Description;
 
-    [SerializeField] public float speed { get; protected set; }
+    [SerializeField] public float speed;
 
     [SerializeField] protected bool BByEnergyHeld;
     [SerializeField] protected float PerEnergyHeld;
@@ -25,7 +25,7 @@ public abstract class SPSOBase : ScriptableObject
     [SerializeField] protected bool BByTime;
     [SerializeField] protected float timeScale;
 
-    protected enum HitLossType { Disabled, Static, Ratio } ;
+    protected enum HitLossType { Disabled, Static, Ratio };//after prototyping consider having all value types be done as one universal enum
     [SerializeField] protected HitLossType hitLossType;
     [SerializeField] protected float AmountLostOnHit;
 
