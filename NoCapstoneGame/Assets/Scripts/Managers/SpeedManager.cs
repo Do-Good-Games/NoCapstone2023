@@ -12,16 +12,30 @@ public class SpeedManager : MonoBehaviour
 
     [Tooltip("the Current speed as calculated by the speed manager")]
     [SerializeField] private float speed;
-    [SerializeField] private bool Boosting;
+    [SerializeField] private bool bBoosting;
     [SerializeField] private float BoostMultiplier;
 
 
     [SerializeField] private float collected;
     [SerializeField] private float held;
     [SerializeField] private float fired;
+    private float currTime;
 
 
-    public float getSpeed() => Boosting? speed : speed * BoostMultiplier;
+    public float getSpeed()
+    {
+        if (bBoosting)
+        {
+            return speed * BoostMultiplier;
+        } else
+        {
+            //currently setting this in updateEnergy(), but we could also set it here 
+            //held = BByEnergyHeld ? gameManager.GetEnergy() * PerEnergyHeld : 0;
+
+            speed = fired + held + currTime + (numOfBoosts * speedOnExit);
+            return speed;
+        }
+    }
 
     #region Speed Vars
 
@@ -74,8 +88,6 @@ public class SpeedManager : MonoBehaviour
     void Start()
     {
         gameManager = GameManager.Instance;
-        playerController = gameObject.GetComponent<PlayerController>();
-
     }
 
     // Update is called once per frame
@@ -84,6 +96,8 @@ public class SpeedManager : MonoBehaviour
 
         if (BByTime)
         {
+            currTime += Time.deltaTime * PerSecond;
+
             speed += Time.deltaTime * PerSecond;
             //Debug.Log("adjusting speed over time"); //do we perhaps want to scale this by energy levels?
         }
@@ -92,41 +106,51 @@ public class SpeedManager : MonoBehaviour
 
     public void UpdateEnergy()
     {
+        Debug.Log("unless we see this line pop up, we can remove this overload");
         //updateEnergy()
     }
 
     public void updateEnergy(bool increment)
     {
-        if (increment)
-        {
-            collected++;
-            held++;
-        }
+        //if (increment)
+        //{
+        //    collected++;
+        //    held++;
+        //}
+
         if (BByEnergyHeld)
         {
+            //if we so chose, we could also set the held variable here rather than in getSpeed()
+            held = gameManager.GetEnergy() * PerEnergyHeld;
+            
+            /*
             if (increment)
             {
-                speed += PerEnergyHeld;
+                //speed += PerEnergyHeld;
+                held++;
             }
             else
             {
-                speed -= PerEnergyHeld;
-            }
+                held--;
+                //speed -= PerEnergyHeld;
+            }*/
         }
+
         if (BByEnergyCollected && increment)
         {
-            speed += PerEnergyCollected;
+            collected += PerEnergyCollected;
         }
     }
 
     public void Fired( float charge)
     {
-        fired++;
-        held -= charge;
 
         if (BByEnergyFired)
         {
-            speed += PerEnergyFired;
+            fired++;
+            held -= charge;
+            //speed += PerEnergyFired;
+            
             //Debug.Log("espeed2 " + speed);
             //Debug.Log("adjusting speed by energy fired");
         }
@@ -138,21 +162,21 @@ public class SpeedManager : MonoBehaviour
 
         if (BByEnergyHeld)
         {
-            speed -= held *  heldLostOnHit * PerEnergyHeld;
+            //speed -= held *  heldLostOnHit * PerEnergyHeld;
+            held -= held * heldLostOnHit;
         }
-        held -= held * heldLostOnHit;
 
         if (BByEnergyFired)
         {
-            speed -= fired * firedLostOnHit * PerEnergyFired;
+            //speed -= fired * firedLostOnHit * PerEnergyFired;
+            fired -= fired * firedLostOnHit;
         }
-        fired -= fired * firedLostOnHit;
 
         if (BByEnergyCollected)
         {
-            speed -= collected;
+            //speed -= collected;
+            collected -= collected * collectedLostOnHit;
         }
-        collected -= collected * collectedLostOnHit;
 
     }
 
@@ -164,18 +188,30 @@ public class SpeedManager : MonoBehaviour
         speed = 0;
     }
 
+    //used for if we want to reset the number of boosts (aka speed baseline) as well
+    public void ResetVariables(bool fullReset){
+        ResetVariables();
+        numOfBoosts = (fullReset == true ? 0 : numOfBoosts);
+    }
+
 
     //this is the function you'll need to refactor. 
     public void ActivateBoost()
     {
 
         numOfBoosts++; //keep this line 
+        ResetVariables(); //this one too, call it probably at the end. 
 
         #region keep
+        
+
+
+        //I thought we'd keep the code in this region, but then I changed how speed is calculated so no lmao
+
         //keep the code in this region, feel free to refactor it but use it as the baseline for what to do when exiting the speed boost
         //I imagine you'll do this as a coroutine, put this at the end of the coroutine
-        ResetVariables();
 
+        /*
         if (speedOnExitType == SpeedOnExitType.Static)
         {
             if (incrByNumOfBoosts)
@@ -202,10 +238,11 @@ public class SpeedManager : MonoBehaviour
                 speed = speedOnExit * GameManager.Instance.speed;
             }
         }
+        */
         #endregion keep
 
 
-        //you're probably not going to want to keep this, in fact I'd advise against it
+        //you're probably not going to want to keep these following lines, in fact I'd advise against it
         int currScore = GameManager.Instance.GetScore();
 
         GameManager.Instance.UpdateScore(-currScore);//resets score

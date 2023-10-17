@@ -507,7 +507,7 @@ public class PlayerController : MonoBehaviour
         {
             SpeedPrototypeSO.SPEnergyCollected();
             SpeedPrototypeSO.SPEnergyHeld(true);
-        } else if(shooting && !fromUpdate)
+        } else if(shooting && !fromUpdate) //should this instead be based on whether the player is holding the mouse?
         {
 
             SpeedPrototypeSO.SPEnergyHeld(false);

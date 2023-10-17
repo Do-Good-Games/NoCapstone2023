@@ -156,7 +156,6 @@ GameObject:
   - component: {fileID: 6861014936608307698}
   - component: {fileID: 3079467235973761314}
   - component: {fileID: 8467958077101305148}
-  - component: {fileID: 1002916089753957847}
   - component: {fileID: 5991089515577886123}
   - component: {fileID: 8205310359094248843}
   - component: {fileID: 4691480037228500571}
@@ -300,10 +299,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1124c83cc1602644ad09c4ef3d14c08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 3079467235973761314}
   speed: 0
-  Boosting: 0
+  bBoosting: 0
   BoostMultiplier: 0
-  playerController: {fileID: 0}
+  collected: 0
+  held: 0
+  fired: 0
   BByEnergyHeld: 0
   PerEnergyHeld: 0
   BByEnergyCollected: 0
@@ -315,30 +317,10 @@ MonoBehaviour:
   heldLostOnHit: 1
   collectedLostOnHit: 1
   firedLostOnHit: 0.5
-  collected: 0
-  held: 0
-  fired: 0
   incrByNumOfBoosts: 0
   numOfBoosts: 0
   speedOnExitType: 0
   speedOnExit: 0
---- !u!114 &1002916089753957847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7894004486926316019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a611a14dc22f1de489ebb6b129cabb67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canSwitchScenes: 1
-  sceneTransitionUIDoc: {fileID: 0}
-  gameplaySceneName: Ryan Scene
-  opacity: 0
-  fadeValue: 0.5
 --- !u!114 &5991089515577886123
 MonoBehaviour:
   m_ObjectHideFlags: 0

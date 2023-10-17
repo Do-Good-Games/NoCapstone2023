@@ -16,13 +16,13 @@ public class SOBoostSimple : SOBoostBase
 
     public override void activate()
     {
-        numOfBoosts++;
         //figure out how to set GM's speed, which might require getting a reference to the speed SO?
 
         speedPrototype.ResetVariables();
         ResetVariables();
 
 
+        numOfBoosts++;
         if (speedOnExitType == SpeedOnExitType.Static)
         {
             if (incrByNumOfBoosts)
@@ -47,6 +47,8 @@ public class SOBoostSimple : SOBoostBase
                 speedPrototype.speed = speedOnExit * GameManager.Instance.speed;
             }
         }
+
+        //you can probably throw these following lines out, in fact I'd probably advise doing so
         int currScore = GameManager.Instance.GetScore();
 
         GameManager.Instance.UpdateScore( -currScore);//resets score

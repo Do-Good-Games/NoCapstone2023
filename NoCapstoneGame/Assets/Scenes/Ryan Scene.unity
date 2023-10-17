@@ -288,11 +288,19 @@ PrefabInstance:
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: SOBoost
       value: 
-      objectReference: {fileID: 11400000, guid: 5a7ba9cdb60cb0b48b855ee377cf2473, type: 2}
+      objectReference: {fileID: 11400000, guid: be3687d430eea9149acf15ea88dae170, type: 2}
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: maxHealth
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: energyDecayType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: SpeedPrototypeSO
+      value: 
+      objectReference: {fileID: 11400000, guid: b97d875deacca3d4387a6a6ded43b6f8, type: 2}
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: chargeShotPrefab
       value: 
@@ -856,7 +864,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 0}
   speed: 0
-  Boosting: 0
+  bBoosting: 0
   BoostMultiplier: 0
   collected: 0
   held: 0
