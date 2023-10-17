@@ -84,7 +84,8 @@ public class SOBoostFired : SOBoostBase
         {
         Debug.Log("firing" + fired);
             fired += charge;
-            GameManager.Instance.OnFiredChange.Invoke(); if (fired >= GameManager.Instance.GetMaxEnergy())
+            GameManager.Instance.OnFiredChange.Invoke(); 
+            if (fired >= GameManager.Instance.GetMaxEnergy())
             {
                 activate();
             }

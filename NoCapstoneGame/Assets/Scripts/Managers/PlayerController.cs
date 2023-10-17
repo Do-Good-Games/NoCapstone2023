@@ -19,9 +19,10 @@ public class PlayerController : MonoBehaviour
     [Tooltip("how much damage the player takes on a hit")]
     [SerializeField] private float healthLostOnHit;
     [Tooltip("used to control behavior surrounding speed")]
-    [SerializeField] public SPSOBase SpeedPrototypeSO;
+    [SerializeField] public SpeedManager speedManager;
 
-    [SerializeField] public SOBoostBase SOBoost;
+    //[SerializeField] public SPSOBase SpeedPrototypeSO;
+    //[SerializeField] public SOBoostBase SOBoost;
 
 
     [Header("energy and charge values")]
@@ -169,22 +170,26 @@ public class PlayerController : MonoBehaviour
         currentActionMapName = "Player";
         playerInput = GetComponent<PlayerInput>();
         gameManager.ResumeGame();
+        
 
-        SpeedPrototypeSO.ResetVariables();
-        SOBoost.ResetVariables();
-        SOBoost.speedPrototype = SpeedPrototypeSO;
+        //depreciated prototype code - no replacement necessary
+        //SpeedPrototypeSO.ResetVariables();
+        //SOBoost.ResetVariables();
+        //SOBoost.speedPrototype = SpeedPrototypeSO;
 
 
     }
 
     public void Update()
     {
-        SpeedPrototypeSO.SPOverTime();
+
+        //SpeedPrototypeSO.SPOverTime();//depreciated prototype code - no replacement necessary
         // If only the left mouse is held, increase charge value
         if (mouseHeld && !slingshotHeld)
         {
             gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
-            SOBoost.incFired(ChargeGainPerSecond * Time.deltaTime);
+            speedManager.Fired(ChargeGainPerSecond * Time.deltaTime);
+            //SOBoost.incFired(ChargeGainPerSecond * Time.deltaTime); //depreciated prototype code - changed to sm.fired()
 
             UpdateEnergySphere();
         } else if (!shooting) //decaying energy while we're actively firing causes unwanted behavior with the speed var, plus we probably shouldn't anyway
@@ -330,7 +335,8 @@ public class PlayerController : MonoBehaviour
 
             if (gameManager.GetCharge() >= ChargeSpentPerShot) //provided this won't cause us to run out of charge
             {
-                SpeedPrototypeSO.SPEnergyFired(ChargeSpentPerShot);
+                //SpeedPrototypeSO.SPEnergyFired(ChargeSpentPerShot); //from prototyping - removed as we wanted the firing changes to happen from the way we did it on boost
+                //speedManager.Fired(ChargeSpentPerShot);
                 gameManager.UpdateEnergy(-ChargeSpentPerShot);
                 FireLasers();
                 gameManager.UpdateCharge(-ChargeSpentPerShot);
@@ -338,7 +344,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (gameManager.GetEnergy() >= EnergySpentPerShot) //if we will run out of charge, (but we won't run out of energy)
             {
-                SpeedPrototypeSO.SPEnergyFired(ChargeSpentPerShot);
+                //SpeedPrototypeSO.SPEnergyFired(ChargeSpentPerShot);//from prototyping - removed as we wanted the firing changes to happen from the way we did it on boost
                 gameManager.UpdateEnergy(-ChargeSpentPerShot);
                 FireLasers();
                 gameManager.ResetCharge();

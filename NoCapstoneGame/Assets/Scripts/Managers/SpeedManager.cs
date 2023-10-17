@@ -22,7 +22,7 @@ public class SpeedManager : MonoBehaviour
     private float currTime;
 
 
-    public float getSpeed()
+    public float GetSpeed()
     {
         if (bBoosting)
         {
@@ -110,7 +110,7 @@ public class SpeedManager : MonoBehaviour
         //updateEnergy()
     }
 
-    public void updateEnergy(bool increment)
+    public void UpdateEnergy(bool increment)
     {
         //if (increment)
         //{
@@ -144,7 +144,19 @@ public class SpeedManager : MonoBehaviour
 
     public void Fired( float charge)
     {
+        if (fired + charge < GameManager.Instance.GetEnergy())//if we're still below GM's energy, IE we want to increase our values
+        {
+            fired += BByEnergyFired ? charge : 0;
+            held -= BByEnergyHeld ? charge : 0;
+            
+            gameManager.OnFiredChange.Invoke();
+            if(fired >= gameManager.GetMaxEnergy(){
+                ActivateBoost();
+            }
+        }
 
+        //this was how I did it in speed prototype, the active code (above) was adopted from the boost prototype
+        /*
         if (BByEnergyFired)
         {
             fired++;
@@ -153,7 +165,7 @@ public class SpeedManager : MonoBehaviour
             
             //Debug.Log("espeed2 " + speed);
             //Debug.Log("adjusting speed by energy fired");
-        }
+        }*/
 
     }
 
@@ -185,6 +197,7 @@ public class SpeedManager : MonoBehaviour
         held = 0;
         collected = 0;
         fired = 0;
+        gameManager.OnFiredChange.Invoke();
         speed = 0;
     }
 
@@ -203,9 +216,6 @@ public class SpeedManager : MonoBehaviour
         ResetVariables(); //this one too, call it probably at the end. 
 
         #region keep
-        
-
-
         //I thought we'd keep the code in this region, but then I changed how speed is calculated so no lmao
 
         //keep the code in this region, feel free to refactor it but use it as the baseline for what to do when exiting the speed boost
@@ -240,7 +250,6 @@ public class SpeedManager : MonoBehaviour
         }
         */
         #endregion keep
-
 
         //you're probably not going to want to keep these following lines, in fact I'd advise against it
         int currScore = GameManager.Instance.GetScore();

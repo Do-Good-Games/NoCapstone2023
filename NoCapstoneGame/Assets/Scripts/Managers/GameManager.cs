@@ -219,7 +219,7 @@ public class GameManager : MonoBehaviour
 
     public void CalculateSpeed()
     {
-        speed = playerController.SpeedPrototypeSO.speed;
+        speed = playerController.speedManager.GetSpeed();
 
         OnSpeedChange.Invoke();
     }
