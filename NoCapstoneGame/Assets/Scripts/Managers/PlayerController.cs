@@ -507,8 +507,6 @@ public class PlayerController : MonoBehaviour
         {
             SpeedPrototypeSO.SPEnergyCollected();
             SpeedPrototypeSO.SPEnergyHeld(true);
-            
-
         } else if(shooting && !fromUpdate)
         {
 

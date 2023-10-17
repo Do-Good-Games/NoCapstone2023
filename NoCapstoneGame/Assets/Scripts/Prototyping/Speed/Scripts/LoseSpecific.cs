@@ -48,7 +48,7 @@ public class LoseSpecific : SPSOBase
         ResetVariables();
     }
 
-
+    //reimplemented, not reref'd, not necessary any more
     public override void SPEnergyHeld() //currently calling once
     {
         Debug.Log("not inc");
@@ -68,6 +68,7 @@ public class LoseSpecific : SPSOBase
         }
     }
 
+    //reimplemented, not reref'd, now updateEnergy
     public override void SPEnergyHeld(bool increment)
     {
         Debug.Log("incremented" + increment);
@@ -97,6 +98,7 @@ public class LoseSpecific : SPSOBase
         }
     }
 
+    //reimplemented, not reref'd, now updateEnergy
     public override void SPEnergyCollected() //do we want to scale this amount by energy collected amounts?
     {
         collected++;
@@ -111,6 +113,7 @@ public class LoseSpecific : SPSOBase
         }
     }
 
+    //refacd, not rerefd, now Fired()
     public override void SPEnergyFired(float charge)
     {
         fired++;
@@ -127,6 +130,7 @@ public class LoseSpecific : SPSOBase
         }
     }
 
+    //refacd, not rerefd, now Hit()
     public override void SPHit()
     {
         if (BByEnergyHeld)
@@ -182,7 +186,7 @@ public class LoseSpecific : SPSOBase
 
     }
 
-
+    //refac'd, reref'd, old ref not removed now done directly in update, 
     public override void SPOverTime()
     {
         if (speed < 0){
