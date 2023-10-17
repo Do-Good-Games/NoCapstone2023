@@ -79,7 +79,7 @@ public class HUDController: MonoBehaviour
 
     void UpdateFiredBar()
     {
-        firedBar.value = player.SOBoost.fired;
+        firedBar.value = player.speedManager.fired;
     }
 
 }

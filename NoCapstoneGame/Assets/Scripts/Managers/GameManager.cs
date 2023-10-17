@@ -141,7 +141,8 @@ public class GameManager : MonoBehaviour
 
         if(energyLevel >= maxEnergyLevel)
         {
-            playerController.SOBoost.energyFull();
+            //method depreciated
+            //playerController.SOBoost.energyFull();
         }
 
         OnEnergyChange.Invoke();

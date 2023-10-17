@@ -18,7 +18,7 @@ public class SpeedManager : MonoBehaviour
 
     [SerializeField] private float collected;
     [SerializeField] private float held;
-    [SerializeField] private float fired;
+    [SerializeField] public float fired { get; private set;  }
     private float currTime;
 
 
@@ -150,7 +150,7 @@ public class SpeedManager : MonoBehaviour
             held -= BByEnergyHeld ? charge : 0;
             
             gameManager.OnFiredChange.Invoke();
-            if(fired >= gameManager.GetMaxEnergy(){
+            if(fired >= gameManager.GetMaxEnergy()){
                 ActivateBoost();
             }
         }

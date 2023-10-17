@@ -427,7 +427,9 @@ public class PlayerController : MonoBehaviour
 
     public void Hit() {
         if (damageable) {
-            SpeedPrototypeSO.SPHit();
+
+            //SpeedPrototypeSO.SPHit(); //prototype
+            speedManager.Hit();
 
             if (EnergyProtects){
 
@@ -511,12 +513,17 @@ public class PlayerController : MonoBehaviour
     {
         if(PrevEnergyLevel < gameManager.GetEnergy()) //we've gained energy 
         {
-            SpeedPrototypeSO.SPEnergyCollected();
-            SpeedPrototypeSO.SPEnergyHeld(true);
+            //SpeedPrototypeSO.SPEnergyCollected();
+            //SpeedPrototypeSO.SPEnergyHeld(true);
+            //protoype changes - only one method call since update energy and collect energy were consolidated
+
+            speedManager.UpdateEnergy(true);
+
+
         } else if(shooting && !fromUpdate) //should this instead be based on whether the player is holding the mouse?
         {
-
-            SpeedPrototypeSO.SPEnergyHeld(false);
+            //SpeedPrototypeSO.SPEnergyHeld(false);
+            speedManager.UpdateEnergy(false);
         }
         PrevEnergyLevel = gameManager.GetEnergy();
 

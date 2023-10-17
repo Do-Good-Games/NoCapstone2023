@@ -200,8 +200,7 @@ MonoBehaviour:
   maxHealth: 3
   DamageCooldownTime: 1
   healthLostOnHit: 1
-  SpeedPrototypeSO: {fileID: 11400000, guid: d83b15782f9fdbd4d89fb5b7f8ed9d65, type: 2}
-  SOBoost: {fileID: 11400000, guid: be3687d430eea9149acf15ea88dae170, type: 2}
+  speedManager: {fileID: 8467958077101305148}
   ChargeGainPerSecond: 10
   ChargeSpentPerShot: 1
   EnergySpentPerShot: 1
@@ -305,7 +304,6 @@ MonoBehaviour:
   BoostMultiplier: 0
   collected: 0
   held: 0
-  fired: 0
   BByEnergyHeld: 0
   PerEnergyHeld: 0
   BByEnergyCollected: 0
