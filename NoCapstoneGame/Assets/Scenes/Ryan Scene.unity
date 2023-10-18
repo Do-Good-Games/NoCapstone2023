@@ -288,7 +288,7 @@ PrefabInstance:
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: SOBoost
       value: 
-      objectReference: {fileID: 11400000, guid: be3687d430eea9149acf15ea88dae170, type: 2}
+      objectReference: {fileID: 11400000, guid: 5a7ba9cdb60cb0b48b855ee377cf2473, type: 2}
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: maxHealth
       value: 3
@@ -868,7 +868,6 @@ MonoBehaviour:
   BoostMultiplier: 0
   collected: 0
   held: 0
-  fired: 0
   BByEnergyHeld: 0
   PerEnergyHeld: 0
   BByEnergyCollected: 0
