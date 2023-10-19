@@ -39,9 +39,10 @@ public class SFXManager : MonoBehaviour
         
     }
 
-    public void Play(AudioObject audio)
+    public void Play(AudioReference audio)
     {
-        m_AudioSource.clip = audio.m_Clip; 
+        //check whether a clip can be played, main thing to check is whether something is already playing I believe. but consider other edge cases
+        m_AudioSource.clip = audio.GetClip(); 
         m_AudioSource.Play();
     }
 
