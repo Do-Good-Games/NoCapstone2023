@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
+    [SerializeField] public PlayerController playerController;
+
     [SerializeField] public Camera gameplayCamera;
     [SerializeField] public string hazardTag;
     [SerializeField] public string playerTag;
@@ -129,6 +131,12 @@ public class GameManager : MonoBehaviour
     {
         energyLevel = Mathf.Min(energyLevel+ amount, maxEnergyLevel);
         energyLevel = Mathf.Max(energyLevel+ amount, 0);
+
+        if (amount > 0)
+        {
+            playerController.energyDecayTime = 0;
+        }
+        
         OnEnergyChange.Invoke();
     }
 

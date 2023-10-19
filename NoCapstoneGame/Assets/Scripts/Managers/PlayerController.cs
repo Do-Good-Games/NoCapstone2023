@@ -41,6 +41,9 @@ public class PlayerController : MonoBehaviour
     [Tooltip("rate at which the player loses energy over time - as a fixed amount")]
     [SerializeField] private float energyDecayFixed;
 
+    [Tooltip("the amount of time (in seconds) until the energy decay occurs")]
+    [SerializeField] private float energyDecayDelay;
+    public float energyDecayTime;
 
     //[Tooltip("the minimum amount of energy needed for the player to protect against damage, represented as a ratio from 0-1 \n to disable this mechanic, set to 0")]
     //[SerializeField] float protectionThreshold;
@@ -168,9 +171,17 @@ public class PlayerController : MonoBehaviour
             gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
 
             UpdateEnergySphere();
+            energyDecayTime = 0;
         } else
         {
-            DecayEnergy();
+            if(energyDecayTime >= energyDecayDelay)
+            {
+                
+                DecayEnergy();
+            } else
+            {
+                energyDecayTime += Time.deltaTime;
+            }
         }
       
     }
