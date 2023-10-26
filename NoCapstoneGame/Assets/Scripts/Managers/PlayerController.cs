@@ -127,6 +127,8 @@ public class PlayerController : MonoBehaviour
     private bool damageable;
     private bool damageCooldownEnding;
 
+    private bool inBoost;
+
     private IEnumerator ShootCoroutineObject;
     private IEnumerator DamageCooldownCoroutineObject;
     private IEnumerator DamageFlashCoroutineObject;
@@ -153,6 +155,9 @@ public class PlayerController : MonoBehaviour
 
         gameManager.OnEnergyChange.AddListener(CallEnergyChange);
 
+        gameManager.OnBoostStart.AddListener(BoostStarted);
+        gameManager.OnBoostEnd.AddListener(BoostEnded);
+
 
         //gameManager.OnGameTogglePause.AddListener(SwitchActionMap);
 
@@ -166,6 +171,7 @@ public class PlayerController : MonoBehaviour
         shooting = false;
         damageable = true;
         damageCooldownEnding = false;
+        inBoost = false;
 
         currentActionMapName = "Player";
         playerInput = GetComponent<PlayerInput>();
@@ -178,6 +184,16 @@ public class PlayerController : MonoBehaviour
         //SOBoost.speedPrototype = SpeedPrototypeSO;
 
 
+    }
+
+    private void BoostEnded()
+    {
+        inBoost = false;
+    }
+
+    private void BoostStarted()
+    {
+        inBoost = true;
     }
 
     public void Update()
@@ -563,8 +579,11 @@ public class PlayerController : MonoBehaviour
         // If the colliding GameObject is tagged as a hazard, take damage
         if (collision.gameObject.CompareTag(gameManager.hazardTag))
         {
-            Hit();
-            
+            // Assuming inBoost is true when the player is in hyperspeed
+            if (inBoost)
+                collision.GetComponent<IDamageable>()?.Damage(100000);
+            else 
+                Hit();
         }
     }
 

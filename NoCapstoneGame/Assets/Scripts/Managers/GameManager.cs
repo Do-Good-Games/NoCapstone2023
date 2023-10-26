@@ -70,6 +70,9 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnGamePause;
     public UnityEvent OnGameResume;
 
+    public UnityEvent OnBoostStart;
+    public UnityEvent OnBoostEnd;
+
     void Awake()
     {
 
@@ -179,6 +182,16 @@ public class GameManager : MonoBehaviour
     public float GetCharge()
     {
         return chargeLevel;
+    }
+
+    public void StartBoost()
+    {
+        OnBoostStart.Invoke();
+    }
+
+    public void EndBoost()
+    {
+        OnBoostEnd.Invoke();
     }
 
 

@@ -71,6 +71,10 @@ public class SpeedManager : MonoBehaviour
     protected enum SpeedOnExitType { Ratio, Static } //after prototyping consider having all value types be done as one universal enum
 
     [Header("boost variables")]
+    [SerializeField] protected float boostSpeed = 100;
+    [SerializeField] protected float minBoostEnergy = 0;
+    [SerializeField] protected float boostEnergyLostPerSecond = 20;
+
     [SerializeField] protected bool incrByNumOfBoosts;
 
     [SerializeField] protected int numOfBoosts;
@@ -81,6 +85,8 @@ public class SpeedManager : MonoBehaviour
     #endregion boost vars
 
     private GameManager gameManager;
+
+    private IEnumerator BoostCoroutineObject;
 
     #endregion Variables
 
@@ -211,8 +217,16 @@ public class SpeedManager : MonoBehaviour
     //this is the function you'll need to refactor. 
     public void ActivateBoost()
     {
+        if (BoostCoroutineObject is not null)
+        {
+            StopCoroutine(BoostCoroutineObject);
+        }
+        BoostCoroutineObject = BoostCoroutine();
+        StartCoroutine(BoostCoroutineObject);
+        //Keeping this stuff just in case
+        /*
+        numOfBoosts++; //keep this line
 
-        numOfBoosts++; //keep this line 
         ResetVariables(); //this one too, call it probably at the end. 
 
         #region keep
@@ -221,7 +235,6 @@ public class SpeedManager : MonoBehaviour
         //keep the code in this region, feel free to refactor it but use it as the baseline for what to do when exiting the speed boost
         //I imagine you'll do this as a coroutine, put this at the end of the coroutine
 
-        /*
         if (speedOnExitType == SpeedOnExitType.Static)
         {
             if (incrByNumOfBoosts)
@@ -248,7 +261,6 @@ public class SpeedManager : MonoBehaviour
                 speed = speedOnExit * GameManager.Instance.speed;
             }
         }
-        */
         #endregion keep
 
         //you're probably not going to want to keep these following lines, in fact I'd advise against it
@@ -259,7 +271,19 @@ public class SpeedManager : MonoBehaviour
 
         GameManager.Instance.ResetEnergy();
         Debug.Log("speed boost! -----------");
-
+        */
     }
 
+    public IEnumerator BoostCoroutine()
+    {
+        gameManager.StartBoost();
+        speed = boostSpeed;
+        numOfBoosts++;
+        while (gameManager.GetEnergy() > minBoostEnergy)
+        {
+            gameManager.UpdateEnergy(boostEnergyLostPerSecond * Time.deltaTime);
+            yield return null;
+        }
+        ResetVariables();
+    }
 }
