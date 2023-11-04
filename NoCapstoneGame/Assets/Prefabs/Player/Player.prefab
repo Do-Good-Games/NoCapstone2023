@@ -308,13 +308,16 @@ MonoBehaviour:
   PerEnergyHeld: 0
   BByEnergyCollected: 0
   PerEnergyCollected: 0
-  BByEnergyFired: 0
-  PerEnergyFired: 0
+  BByEnergyFired: 1
+  PerEnergyFired: 1
   BByTime: 0
   PerSecond: 0
   heldLostOnHit: 1
   collectedLostOnHit: 1
-  firedLostOnHit: 0.5
+  firedLostOnHit: 0
+  boostSpeed: 100
+  minBoostEnergy: 0
+  boostEnergyLostPerSecond: 20
   incrByNumOfBoosts: 0
   numOfBoosts: 0
   speedOnExitType: 0

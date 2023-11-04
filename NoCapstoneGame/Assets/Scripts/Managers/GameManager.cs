@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
     // The current energy charge (for MVP)
     [SerializeField] private float chargeLevel;
 
+
+    public float maxSpeed;
     public float speed; //will probably want to roll back to private after we're done prototyping speed stuff
     [Tooltip("setting speed to ints is more intuitive, but causes insane speeds. This scales it down as well as offering parameterization of how quickly speed increases")]
     [SerializeField] private float speedScale;

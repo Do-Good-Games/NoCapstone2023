@@ -108,6 +108,11 @@ public class SpeedManager : MonoBehaviour
             //Debug.Log("adjusting speed over time"); //do we perhaps want to scale this by energy levels?
         }
 
+        if(gameManager.speed >= gameManager.maxSpeed)
+        {
+            //ActivateBoost();
+        }
+
     }
 
     public void UpdateEnergy()
@@ -146,6 +151,11 @@ public class SpeedManager : MonoBehaviour
         {
             collected += PerEnergyCollected;
         }
+
+        if (increment && (gameManager.speed > gameManager.maxSpeed) )
+        {
+            ActivateBoost();
+        }
     }
 
     public void Fired( float charge)
@@ -156,9 +166,10 @@ public class SpeedManager : MonoBehaviour
             held -= BByEnergyHeld ? charge : 0;
             
             gameManager.OnFiredChange.Invoke();
-            if(fired >= gameManager.GetMaxEnergy()){
+            
+            /*if(fired >= gameManager.GetMaxEnergy()){
                 ActivateBoost();
-            }
+            }*/
         }
 
         //this was how I did it in speed prototype, the active code (above) was adopted from the boost prototype
@@ -217,12 +228,15 @@ public class SpeedManager : MonoBehaviour
     //this is the function you'll need to refactor. 
     public void ActivateBoost()
     {
+        Debug.Log("boost method activated");
         if (BoostCoroutineObject is not null)
         {
             StopCoroutine(BoostCoroutineObject);
         }
         BoostCoroutineObject = BoostCoroutine();
         StartCoroutine(BoostCoroutineObject);
+
+
         //Keeping this stuff just in case
         /*
         numOfBoosts++; //keep this line
@@ -276,14 +290,16 @@ public class SpeedManager : MonoBehaviour
 
     public IEnumerator BoostCoroutine()
     {
+        Debug.Log("boost coroutine activated");
         gameManager.StartBoost();
         speed = boostSpeed;
         numOfBoosts++;
         while (gameManager.GetEnergy() > minBoostEnergy)
         {
-            gameManager.UpdateEnergy(boostEnergyLostPerSecond * Time.deltaTime);
+            gameManager.UpdateEnergy(- boostEnergyLostPerSecond * Time.deltaTime);
             yield return null;
         }
+        gameManager.EndBoost();
         ResetVariables();
     }
 }
