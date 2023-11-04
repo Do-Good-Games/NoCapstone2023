@@ -26,7 +26,7 @@ public class SpeedManager : MonoBehaviour
     {
         if (bBoosting)
         {
-            return speed * BoostMultiplier;
+            return boostSpeed;
         } else
         {
             //currently setting this in updateEnergy(), but we could also set it here 
@@ -216,6 +216,7 @@ public class SpeedManager : MonoBehaviour
         fired = 0;
         gameManager.OnFiredChange.Invoke();
         speed = 0;
+        bBoosting = false;
     }
 
     //used for if we want to reset the number of boosts (aka speed baseline) as well
@@ -228,6 +229,7 @@ public class SpeedManager : MonoBehaviour
     //this is the function you'll need to refactor. 
     public void ActivateBoost()
     {
+        bBoosting = true;
         Debug.Log("boost method activated");
         if (BoostCoroutineObject is not null)
         {
@@ -292,10 +294,10 @@ public class SpeedManager : MonoBehaviour
     {
         Debug.Log("boost coroutine activated");
         gameManager.StartBoost();
-        speed = boostSpeed;
         numOfBoosts++;
         while (gameManager.GetEnergy() > minBoostEnergy)
         {
+            //for some reason this removes the energy twice as quickly as it should
             gameManager.UpdateEnergy(- boostEnergyLostPerSecond * Time.deltaTime);
             yield return null;
         }

@@ -394,8 +394,12 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: playerController
-      value: 
+      propertyPath: boostSpeed
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: boostEnergyLostPerSecond
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
@@ -1033,7 +1037,7 @@ MonoBehaviour:
   chargeLevel: 0
   maxSpeed: 100
   speed: 0
-  speedScale: 0.0001
+  speedScale: 0.001
   OnPlayerHeal:
     m_PersistentCalls:
       m_Calls: []

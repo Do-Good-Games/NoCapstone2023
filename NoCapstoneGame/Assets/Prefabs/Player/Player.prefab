@@ -315,7 +315,7 @@ MonoBehaviour:
   heldLostOnHit: 1
   collectedLostOnHit: 1
   firedLostOnHit: 0
-  boostSpeed: 100
+  boostSpeed: 1000
   minBoostEnergy: 0
   boostEnergyLostPerSecond: 20
   incrByNumOfBoosts: 0
