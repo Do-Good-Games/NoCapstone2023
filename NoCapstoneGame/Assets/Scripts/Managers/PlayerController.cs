@@ -131,6 +131,7 @@ public class PlayerController : MonoBehaviour
     public void Start()
     {
         gameManager = GameManager.Instance;
+        gameManager.playerController = this;
         sceneManager = SceneManager.Instance;
         gameplayCamera = gameManager.gameplayCamera;
         cameraBounds = gameManager.cameraBounds - (Vector2) shipCollider.bounds.extents;
