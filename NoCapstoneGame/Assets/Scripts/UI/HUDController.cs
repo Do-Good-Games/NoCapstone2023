@@ -46,12 +46,14 @@ public class HUDController: MonoBehaviour
         healthBar.value = healthBar.highValue;
         energyBar.value = energyBar.lowValue;
 
-
+        
         gameManager.OnPlayerHurt.AddListener(UpdateHealthBar);
         gameManager.OnEnergyChange.AddListener(UpdateEnergyBar);
         gameManager.OnChargeChange.AddListener(UpdateChargeBar);
         gameManager.OnFiredChange.AddListener(UpdateFiredBar);
     }
+
+
 
     private void UpdateChargeBar()
     {
@@ -62,6 +64,11 @@ public class HUDController: MonoBehaviour
     {
         scoreDisplay.text = gameManager.GetScore().ToString().PadLeft(5, '0');
         speedDisplay.text = gameManager.GetSpeed().ToString() + "kph";
+
+        UpdateHealthBar();
+        UpdateEnergyBar();
+        UpdateChargeBar();
+        UpdateFiredBar();
     }
 
     void UpdateHealthBar()

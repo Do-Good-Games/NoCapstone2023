@@ -398,8 +398,24 @@ PrefabInstance:
       value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: BByEnergyHeld
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: BByEnergyFired
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: BByEnergyCollected
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: PerEnergyCollected
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: boostEnergyLostPerSecond
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
