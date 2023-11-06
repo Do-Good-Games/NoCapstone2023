@@ -1,0 +1,22 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/StyleSheets/HUDStyleSheet.uss?fileID=7433441132597879392&amp;guid=b18481973f256eb46b64604202695466&amp;type=3#HUDStyleSheet" />
+    <Style src="project://database/Assets/UI/StyleSheets/ProgressBarUSS.uss?fileID=7433441132597879392&amp;guid=c98feba27bde2df46915606fb4083386&amp;type=3#ProgressBarUSS" />
+    <ui:VisualElement name="root" style="flex-grow: 1; background-color: rgba(2, 26, 0, 0);">
+        <ui:VisualElement name="BehindElements">
+            <ui:VisualElement name="BarBack" style="background-image: url(&apos;project://database/Assets/UI/Art/TUBE%20BG(1).png?fileID=2800000&amp;guid=928cc699ad7b5ce4ca624f25f1ed99c5&amp;type=3#TUBE BG(1)&apos;); width: 190px; height: 595px; left: 76px; top: 300px; position: absolute;" />
+            <ui:VisualElement name="Bars" style="width: 1920px; height: 1080px; position: absolute;">
+                <VerticalProgressBar name="HealthBar" value="34.6" class="health-bar" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; position: absolute; left: 86px; top: 308px; width: 80px; height: 518px;" />
+                <ui:VisualElement name="EnergyAndChargeBars" style="width: 80px; height: 518px; left: 178px; top: 308px;">
+                    <VerticalProgressBar name="EnergyBar" value="65.58" class="energy" style="position: relative; left: 5px; top: 0; right: 0; bottom: 0; width: 100%; height: 100%;" />
+                    <VerticalProgressBar name="ChargeBar" value="49.4" class="charge" style="width: 100%; height: 100%; position: absolute; background-color: rgba(76, 82, 106, 0);" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="BackPanel" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/UI/Art/MAIN%20CONSOLE%20HD1.png?fileID=21300000&amp;guid=93dcba1a637bcf646ad6c598f115a3a2&amp;type=3#MAIN CONSOLE HD1&apos;); left: 0; top: 0; right: 0; bottom: 0; position: absolute;">
+            <ui:VisualElement name="VisualGreebles" style="width: 1920px; height: 1080px; position: absolute; left: 26px;">
+                <ui:VisualElement name="Dial" style="width: 234px; height: 96px; background-image: url(&apos;project://database/Assets/UI/Art/Speed%20Dial%20NO%20FRAMES%201.png?fileID=2800000&amp;guid=b2820c78e6a6ea54f8354cff99e2275f&amp;type=3#Speed Dial NO FRAMES 1&apos;); left: 1621px; top: 69px;" />
+                <ui:VisualElement name="StatusPanel" style="position: absolute; height: 146px; width: 240px; bottom: 0; background-image: url(&apos;project://database/Assets/UI/Art/DAMAGE%20REPORT%20SS.png?fileID=-299445104&amp;guid=8aa405129d1786c41a1d947e1f3ac815&amp;type=3#DAMAGE REPORT SS_0&apos;);" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
