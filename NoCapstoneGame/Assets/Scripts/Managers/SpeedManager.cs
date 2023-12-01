@@ -32,7 +32,7 @@ public class SpeedManager : MonoBehaviour
             //currently setting this in updateEnergy(), but we could also set it here 
             //held = BByEnergyHeld ? gameManager.GetEnergy() * PerEnergyHeld : 0;
 
-            speed = fired + held + collected + currTime + (numOfBoosts * speedOnExit);
+            speed = fired + held + currTime + (numOfBoosts * speedOnExit);
             return speed;
         }
     }
@@ -150,12 +150,9 @@ public class SpeedManager : MonoBehaviour
         if (BByEnergyCollected && increment)
         {
             collected += PerEnergyCollected;
-        } else if (BByEnergyCollected)
-        {
-            Debug.Log("should have inc collected?");
         }
 
-        if (increment && (gameManager.GetEnergy() > gameManager.GetMaxEnergy()) )
+        if (increment && (gameManager.speed > gameManager.maxSpeed) )
         {
             ActivateBoost();
         }
