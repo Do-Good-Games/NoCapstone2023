@@ -116,7 +116,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 cameraBounds;
     private LaserSpawner[] spawners;
 
-    private bool mouseHeld;
+
+    public bool mouseHeld;
     private bool slingshotHeld;
     private Vector2 cursorPos;
     private Vector2 slingshotAnchor;
@@ -132,6 +133,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator ShootCoroutineObject;
     private IEnumerator DamageCooldownCoroutineObject;
     private IEnumerator DamageFlashCoroutineObject;
+    private IEnumerator ChargeBoostCoroutineObject;
 
     private float PrevEnergyLevel = 0;
 
@@ -292,36 +294,70 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
     public void OnRightClick(InputAction.CallbackContext context)
     {
-        if (context.started)
-        {
-            if (gameManager.GetCharge() >= MinChargeForSlingshot)
-            {
-                slingshotHeld = true;
-                slingshotAnchor = cursorPos;
-            }
-            else
-            {
-                // Give the player some feedback here 
-                Debug.Log("Slingshot attempted with insufficient charge");
-            }
-        }
         if (context.canceled)
         {
-            Vector2 launchVector = -SlingshotLaunchFactor * ((Vector2) energyTransform.position - slingshotAnchor);
-            LaunchChargeShot(energyTransform.position, launchVector);
-
-            gameManager.ResetCharge();
-            UpdateEnergySphere();
             slingshotHeld = false;
-
-            cursorPos = energyTransform.position;
-            Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(energyTransform.position));
-            SetPositions(cursorPos);
+            if(ChargeBoostCoroutineObject != null)
+            {
+                StopCoroutine(ChargeBoostCoroutineObject);
+            }
+        }
+        else
+        {
+            
+            if (gameManager.speed >= gameManager.maxSpeed) //if our fired var is at max
+            {
+                slingshotHeld = true;
+                ChargeBoostCoroutineObject = ChargeBoostCoroutine();
+                StartCoroutine(ChargeBoostCoroutineObject);
+            }
         }
     }
+
+    public IEnumerator ChargeBoostCoroutine()
+    {
+        mouseHeld = true;
+        gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime); //increase charge
+
+        if (gameManager.GetCharge() >= gameManager.GetMaxEnergy()) //if our charge is at max (max calc'd as max energy)
+        {
+            speedManager.ActivateBoost();
+        }
+
+        yield return new WaitForFixedUpdate();
+    }
+
+    //public void OnRightClick(InputAction.CallbackContext context)
+    //{
+    //    if (context.started)
+    //    {
+    //        if (gameManager.GetCharge() >= MinChargeForSlingshot)
+    //        {
+    //            slingshotHeld = true;
+    //            slingshotAnchor = cursorPos;
+    //        }
+    //        else
+    //        {
+    //            // Give the player some feedback here 
+    //            Debug.Log("Slingshot attempted with insufficient charge");
+    //        }
+    //    }
+    //    if (context.canceled)
+    //    {
+    //        Vector2 launchVector = -SlingshotLaunchFactor * ((Vector2) energyTransform.position - slingshotAnchor);
+    //        LaunchChargeShot(energyTransform.position, launchVector);
+
+    //        gameManager.ResetCharge();
+    //        UpdateEnergySphere();
+    //        slingshotHeld = false;
+
+    //        cursorPos = energyTransform.position;
+    //        Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(energyTransform.position));
+    //        SetPositions(cursorPos);
+    //    }
+    //}
     
     private IEnumerator ShootCoroutine()
     {
@@ -536,7 +572,8 @@ public class PlayerController : MonoBehaviour
             speedManager.UpdateEnergy(true);
 
 
-        } else if(shooting && !fromUpdate) //should this instead be based on whether the player is holding the mouse?
+        //} else if(shooting && !fromUpdate) //should this instead be based on whether the player is holding the mouse?
+        } else if(mouseHeld) //should this instead be based on whether the player is holding the mouse?
         {
             //SpeedPrototypeSO.SPEnergyHeld(false);
             speedManager.UpdateEnergy(false);

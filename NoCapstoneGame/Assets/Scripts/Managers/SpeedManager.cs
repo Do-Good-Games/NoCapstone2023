@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms;
 
 public class SpeedManager : MonoBehaviour
@@ -21,6 +22,7 @@ public class SpeedManager : MonoBehaviour
     [SerializeField] public float fired { get; private set;  }
     private float currTime;
 
+    [SerializeField] public float maxFired { get; private set; }
 
     public float GetSpeed()
     {
@@ -154,7 +156,7 @@ public class SpeedManager : MonoBehaviour
 
         if (increment && (gameManager.speed > gameManager.maxSpeed) )
         {
-            ActivateBoost();
+            //ActivateBoost();
         }
     }
 
@@ -299,6 +301,9 @@ public class SpeedManager : MonoBehaviour
         {
             //for some reason this removes the energy twice as quickly as it should
             gameManager.UpdateEnergy(- boostEnergyLostPerSecond * Time.deltaTime);
+            fired -= boostEnergyLostPerSecond * Time.deltaTime;
+            gameManager.OnFiredChange.Invoke();
+
             yield return null;
         }
         gameManager.EndBoost();

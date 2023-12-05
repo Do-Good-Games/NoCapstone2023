@@ -79,7 +79,7 @@ public class HUDController: MonoBehaviour
 
     void UpdateFiredBar()
     {
-        firedBar.value = gameManager.speed / gameManager.maxSpeed * firedBar.highValue;
+        firedBar.value = gameManager.speed / gameManager.maxSpeed * firedBar.highValue; //cleanup: remove
     }
 
 }

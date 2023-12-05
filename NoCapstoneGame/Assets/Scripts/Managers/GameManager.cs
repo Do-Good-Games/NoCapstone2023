@@ -173,6 +173,7 @@ public class GameManager : MonoBehaviour
         chargeLevel = Mathf.Max(0, chargeLevel + amount);
 
         OnChargeChange.Invoke();
+
     }
 
     public void ResetCharge()
