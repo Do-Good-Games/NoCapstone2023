@@ -239,57 +239,6 @@ public class SpeedManager : MonoBehaviour
         }
         BoostCoroutineObject = BoostCoroutine();
         StartCoroutine(BoostCoroutineObject);
-
-
-        //Keeping this stuff just in case
-        /*
-        numOfBoosts++; //keep this line
-
-        ResetVariables(); //this one too, call it probably at the end. 
-
-        #region keep
-        //I thought we'd keep the code in this region, but then I changed how speed is calculated so no lmao
-
-        //keep the code in this region, feel free to refactor it but use it as the baseline for what to do when exiting the speed boost
-        //I imagine you'll do this as a coroutine, put this at the end of the coroutine
-
-        if (speedOnExitType == SpeedOnExitType.Static)
-        {
-            if (incrByNumOfBoosts)
-            {
-                float newspeed = speedOnExit * numOfBoosts;
-                speed = newspeed;
-
-
-            }
-            else
-            {
-                speed = speedOnExit;
-            }
-        }
-        else if (speedOnExitType == SpeedOnExitType.Ratio)
-        {
-            if (incrByNumOfBoosts)
-            {
-                speed = GameManager.Instance.speed * speedOnExit * numOfBoosts;
-
-            }
-            else
-            {
-                speed = speedOnExit * GameManager.Instance.speed;
-            }
-        }
-        #endregion keep
-
-        //you're probably not going to want to keep these following lines, in fact I'd advise against it
-        int currScore = GameManager.Instance.GetScore();
-
-        GameManager.Instance.UpdateScore(-currScore);//resets score
-        GameManager.Instance.UpdateScore(Mathf.FloorToInt((float)currScore * BoostMultiplier));//multiplies score by modifier, rounding down
-
-        GameManager.Instance.ResetEnergy();
-        Debug.Log("speed boost! -----------");
-        */
     }
 
     public IEnumerator BoostCoroutine()
@@ -301,6 +250,7 @@ public class SpeedManager : MonoBehaviour
         {
             //for some reason this removes the energy twice as quickly as it should
             gameManager.UpdateEnergy(- boostEnergyLostPerSecond * Time.deltaTime);
+            gameManager.UpdateCharge(-boostEnergyLostPerSecond * Time.deltaTime);
             fired -= boostEnergyLostPerSecond * Time.deltaTime;
             gameManager.OnFiredChange.Invoke();
 

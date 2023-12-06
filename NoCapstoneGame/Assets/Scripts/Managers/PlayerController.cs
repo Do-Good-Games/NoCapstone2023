@@ -310,7 +310,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("context cancelled");
             RightMouseHeld = false;
 
-            if (gameManager.speed >= gameManager.maxSpeed) //if our fired var is at max
+            if (gameManager.GetCharge() >= gameManager.GetMaxEnergy()) //if our charge is at max (max calc'd as max energy)
             {
                 speedManager.ActivateBoost();
             }
@@ -319,8 +319,11 @@ public class PlayerController : MonoBehaviour
         {
             if (context.started)
             {
-                Debug.Log("context started");
-                RightMouseHeld = true;
+                if (gameManager.speed >= gameManager.maxSpeed && gameManager.GetEnergy() >= gameManager.GetMaxEnergy()) //if our fired var and our energy var are at max
+                {
+                    Debug.Log("context started");
+                    RightMouseHeld = true;
+                }
             }
         }
     }
