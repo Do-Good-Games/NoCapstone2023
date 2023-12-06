@@ -117,8 +117,8 @@ public class PlayerController : MonoBehaviour
     private LaserSpawner[] spawners;
 
 
-    public bool mouseHeld;
-    private bool slingshotHeld;
+    public bool leftMouseHeld;
+    private bool RightMouseHeld;
     private Vector2 cursorPos;
     private Vector2 slingshotAnchor;
     private Vector2 cursorPosPrePause;
@@ -168,8 +168,8 @@ public class PlayerController : MonoBehaviour
 
         cursorPos = shipTransform.position;
 
-        mouseHeld = false;
-        slingshotHeld = false;
+        leftMouseHeld = false;
+        RightMouseHeld = false;
         shooting = false;
         damageable = true;
         damageCooldownEnding = false;
@@ -203,14 +203,17 @@ public class PlayerController : MonoBehaviour
 
         //SpeedPrototypeSO.SPOverTime();//depreciated prototype code - no replacement necessary
         // If only the left mouse is held, increase charge value
-        if (mouseHeld && !slingshotHeld)
+        if (leftMouseHeld)
         {
             gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
             speedManager.Fired(ChargeGainPerSecond * Time.deltaTime);
             //SOBoost.incFired(ChargeGainPerSecond * Time.deltaTime); //depreciated prototype code - changed to sm.fired()
 
             UpdateEnergySphere();
-        } else if (!shooting) //decaying energy while we're actively firing causes unwanted behavior with the speed var, plus we probably shouldn't anyway
+        }else if(RightMouseHeld) {
+            gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
+        }
+        else if (!shooting) //decaying energy while we're actively firing causes unwanted behavior with the speed var, plus we probably shouldn't anyway
         {
             //Debug.Log("decaying energy");
             DecayEnergy();
@@ -218,6 +221,7 @@ public class PlayerController : MonoBehaviour
       
     }
 
+    #region cursor movement
     public void UpdateCursorPosition(InputAction.CallbackContext context)
     {
         // converts cursor position (in screen space) to world space based on camera position/size
@@ -227,15 +231,18 @@ public class PlayerController : MonoBehaviour
             cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
 
         }
+        SetPositions(cursorPos);
 
-        if (slingshotHeld)
-        {
-            SetStretchedPositions(cursorPos);
-        }
-        else
-        {
-            SetPositions(cursorPos);
-        }
+
+
+        //if (ChargingBoost)
+        //{
+        //    SetStretchedPositions(cursorPos);
+        //}
+        //else
+        //{
+        //    SetPositions(cursorPos);
+        //}
     }
 
     private void SetPositions(Vector2 position)
@@ -262,12 +269,14 @@ public class PlayerController : MonoBehaviour
         float clampedYPos = Mathf.Clamp(position.y, -cameraBounds.y, cameraBounds.y);
         return new Vector2(clampedXPos, clampedYPos);
     }
-  
+    #endregion cursor movement
+
+
     public void Charge(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            mouseHeld = true;
+            leftMouseHeld = true;
             shooting = false;
 
             if (ShootCoroutineObject != null)
@@ -277,7 +286,7 @@ public class PlayerController : MonoBehaviour
         }
         if (context.canceled)
         {
-            mouseHeld = false;
+            leftMouseHeld = false;
             //if (gameManager.getCharge() >= ChargeSpentPerShot) //switch to this line if you want to disable single fire shooting
             if (gameManager.GetCharge() >= ChargeSpentPerShot || gameManager.GetEnergy() >= EnergySpentPerShot)
             {
@@ -298,36 +307,41 @@ public class PlayerController : MonoBehaviour
     {
         if (context.canceled)
         {
-            slingshotHeld = false;
-            if(ChargeBoostCoroutineObject != null)
+            Debug.Log("context cancelled");
+            RightMouseHeld = false;
+
+            if (gameManager.speed >= gameManager.maxSpeed) //if our fired var is at max
             {
-                StopCoroutine(ChargeBoostCoroutineObject);
+                speedManager.ActivateBoost();
             }
         }
         else
         {
-            
-            if (gameManager.speed >= gameManager.maxSpeed) //if our fired var is at max
+            if (context.started)
             {
-                slingshotHeld = true;
-                ChargeBoostCoroutineObject = ChargeBoostCoroutine();
-                StartCoroutine(ChargeBoostCoroutineObject);
+                Debug.Log("context started");
+                RightMouseHeld = true;
             }
         }
     }
 
-    public IEnumerator ChargeBoostCoroutine()
-    {
-        mouseHeld = true;
-        gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime); //increase charge
+    //public IEnumerator ChargeBoostCoroutine()
+    //{
+    //    while(gameManager.GetCharge() < gameManager.GetMaxEnergy())
+    //    {
+    //        Debug.Log("coroutine looped");
+    //        leftMouseHeld = true;
+    //        gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime); //increase charge
 
-        if (gameManager.GetCharge() >= gameManager.GetMaxEnergy()) //if our charge is at max (max calc'd as max energy)
-        {
-            speedManager.ActivateBoost();
-        }
+    //        if (gameManager.GetCharge() >= gameManager.GetMaxEnergy()) //if our charge is at max (max calc'd as max energy)
+    //        {
+    //            speedManager.ActivateBoost();
+    //            yield break;
+    //        }
 
-        yield return new WaitForFixedUpdate();
-    }
+    //        yield return new WaitForFixedUpdate();
+    //    }
+    //}
 
     //public void OnRightClick(InputAction.CallbackContext context)
     //{
@@ -364,7 +378,7 @@ public class PlayerController : MonoBehaviour
         int i = 0;
         while (shooting)
         {
-            while (slingshotHeld)
+            while (RightMouseHeld)
             {
                 yield return null;
             }
@@ -563,6 +577,11 @@ public class PlayerController : MonoBehaviour
 
     public void CallEnergyChange(bool fromUpdate)
     {
+        if(fromUpdate)
+        {
+            Debug.LogWarning("callenergychange was called from update. unless you've seen this message you can just get rid of the variable ");
+        }
+
         if(PrevEnergyLevel < gameManager.GetEnergy()) //we've gained energy 
         {
             //SpeedPrototypeSO.SPEnergyCollected();
@@ -572,8 +591,9 @@ public class PlayerController : MonoBehaviour
             speedManager.UpdateEnergy(true);
 
 
+
         //} else if(shooting && !fromUpdate) //should this instead be based on whether the player is holding the mouse?
-        } else if(mouseHeld) //should this instead be based on whether the player is holding the mouse?
+        } else if(shooting) //should this instead be based on whether the player is holding the mouse?
         {
             //SpeedPrototypeSO.SPEnergyHeld(false);
             speedManager.UpdateEnergy(false);
