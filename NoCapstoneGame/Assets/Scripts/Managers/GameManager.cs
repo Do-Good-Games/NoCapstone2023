@@ -144,11 +144,7 @@ public class GameManager : MonoBehaviour
         energyLevel = Mathf.Min(energyLevel+ amount, maxEnergyLevel);
         energyLevel = Mathf.Max(energyLevel+ amount, 0);
 
-        if(energyLevel >= maxEnergyLevel)
-        {
-            //method depreciated
-            //playerController.SOBoost.energyFull();
-        }
+        
 
         OnEnergyChange.Invoke();
     }

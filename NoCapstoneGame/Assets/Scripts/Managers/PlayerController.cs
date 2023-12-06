@@ -128,7 +128,8 @@ public class PlayerController : MonoBehaviour
     private bool damageable;
     private bool damageCooldownEnding;
 
-    private bool inBoost;
+    public bool inBoost { get; private set; }
+    public float timeSinceStartingBoost { get; private set; }
 
     private IEnumerator ShootCoroutineObject;
     private IEnumerator DamageCooldownCoroutineObject;
@@ -195,6 +196,7 @@ public class PlayerController : MonoBehaviour
 
     private void BoostStarted()
     {
+        timeSinceStartingBoost = Time.deltaTime;
         inBoost = true;
     }
 
