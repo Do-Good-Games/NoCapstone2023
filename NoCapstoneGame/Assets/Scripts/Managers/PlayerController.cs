@@ -209,9 +209,9 @@ public class PlayerController : MonoBehaviour
     private IEnumerator BoostGracePeriod()
     {
         damageable = false;
-        float timeSinceGracePeriodStart = Time.deltaTime;
+        float timeSinceGracePeriodStart = Time.time;
         Debug.Log("tsgps: " + timeSinceGracePeriodStart);
-        while(Time.deltaTime - timeSinceGracePeriodStart >= boostGracePeriodDuration)
+        while(Time.time - timeSinceGracePeriodStart <= boostGracePeriodDuration)
         {
             Debug.Log("tsgps1: " + timeSinceGracePeriodStart);
             yield return new WaitForSeconds(.1f);

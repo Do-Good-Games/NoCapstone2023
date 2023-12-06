@@ -290,29 +290,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5a7ba9cdb60cb0b48b855ee377cf2473, type: 2}
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: maxHealth
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: energyDecayType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: SpeedPrototypeSO
       value: 
       objectReference: {fileID: 11400000, guid: b97d875deacca3d4387a6a6ded43b6f8, type: 2}
-    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: chargeShotPrefab
-      value: 
-      objectReference: {fileID: 4293999573908980727, guid: 51048a21004e749b4aac65c8b7af4692, type: 3}
-    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: ChargeGainPerSecond
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: EnergySizePerUnitCharged
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.size
       value: 1

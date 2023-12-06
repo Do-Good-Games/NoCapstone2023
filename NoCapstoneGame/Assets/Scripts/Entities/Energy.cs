@@ -75,7 +75,6 @@ public class Energy : Entity
         {
             float remainingRatio = (gameManager.GetCharge() / gameManager.GetMaxEnergy());
             energyGain = energyGain * remainingRatio * diminishingReturnRatio ;
-            Debug.Log("energy collected: " + energyGain);
         }
         gameManager.UpdateEnergy(energyGain);
 
