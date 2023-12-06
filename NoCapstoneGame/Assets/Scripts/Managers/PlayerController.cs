@@ -128,7 +128,8 @@ public class PlayerController : MonoBehaviour
     private bool damageable;
     private bool damageCooldownEnding;
 
-    private bool inBoost;
+    public bool inBoost { get; private set; }
+    public float timeSinceStartingBoost { get; private set; }
     [Tooltip("how long (in seconds) after the player exits boost that they're immune (but don't destroy asteroids)")]
     [SerializeField] private float boostGracePeriodDuration;
 
@@ -201,6 +202,7 @@ public class PlayerController : MonoBehaviour
 
     private void BoostStarted()
     {
+        timeSinceStartingBoost = Time.deltaTime;
         inBoost = true;
     }
 
