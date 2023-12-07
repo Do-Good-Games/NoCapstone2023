@@ -21,8 +21,14 @@ public class HUDController: MonoBehaviour
     private VerticalProgressBar firedBar;
     private Label scoreDisplay;
     private Label speedDisplay;
+    private VisualElement speedNeedle;
+    private VisualElement statusPanel;
+    private VisualElement statusPanel2;
+    private VisualElement statusPanel3;
+    private VisualElement statusPanel4;
     private float maxHealth;
     private float maxEnergy;
+
 
     public float fired;//prototype var to be more cleanly implemented later
 
@@ -40,6 +46,12 @@ public class HUDController: MonoBehaviour
 
         scoreDisplay = root.Q<Label>("ScoreDisplay");
         speedDisplay = root.Q<Label>("SpeedDisplay");
+
+        speedNeedle = root.Q<VisualElement>("Needle");
+        statusPanel = root.Q<VisualElement>("StatusPanel");
+        statusPanel2 = root.Q<VisualElement>("StatusPanel2");
+        statusPanel3 = root.Q<VisualElement>("StatusPanel3");
+        statusPanel4 = root.Q<VisualElement>("StatusPanel4");
 
         maxHealth = player.maxHealth;
         maxEnergy = gameManager.GetMaxEnergy();
@@ -62,12 +74,36 @@ public class HUDController: MonoBehaviour
     {
         scoreDisplay.text = gameManager.GetScore().ToString().PadLeft(5, '0');
         speedDisplay.text = gameManager.GetSpeed().ToString() + "kph";
+        speedNeedle.style.rotate = new StyleRotate(new Rotate(new Angle(gameManager.GetSpeed() - 90, AngleUnit.Degree)));    //https://docs.unity3d.com/Manual/UIE-Transform.html
     }
 
     void UpdateHealthBar()
     {
         healthBar.value = (float) ((float)gameManager.GetPlayerHealth()/(float)maxHealth);
         //transform.localScale = new Vector3(transform.localScale.x, totalHeight, transform.localScale.z);
+
+
+        //set the bottom left panel sprite
+        if(healthBar.value <= .2)
+        {
+            statusPanel.visible = false;
+            statusPanel2.visible = false;
+            statusPanel3.visible = false;
+            statusPanel4.visible = true;
+        }
+        else if(healthBar.value <= .5)
+        {
+            statusPanel.visible = false;
+            statusPanel2.visible = false;
+            statusPanel3.visible = true;
+        }
+        else if(healthBar.value <= .8)
+        {
+            statusPanel.visible = false;
+            statusPanel2.visible = true;
+        }
+
+        //statusPanel.style.backgroundImage = null;
     }
 
     void UpdateEnergyBar()
