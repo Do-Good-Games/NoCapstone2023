@@ -47,6 +47,9 @@ public class PlayerController : MonoBehaviour
     [Tooltip("rate at which the player loses energy over time - as a fixed amount")]
     [SerializeField] private float energyDecayFixed;
 
+    [Tooltip("the amount of time (in seconds) until the energy decay occurs")]
+    [SerializeField] private float energyDecayDelay;
+    public float energyDecayTime;
 
     //[Tooltip("the minimum amount of energy needed for the player to protect against damage, represented as a ratio from 0-1 \n to disable this mechanic, set to 0")]
     //[SerializeField] float protectionThreshold;
@@ -144,6 +147,7 @@ public class PlayerController : MonoBehaviour
     public void Start()
     {
         gameManager = GameManager.Instance;
+        gameManager.playerController = this;
         sceneManager = SceneManager.Instance;
         gameManager.playerController = this;
         gameplayCamera = gameManager.gameplayCamera;
@@ -235,13 +239,21 @@ public class PlayerController : MonoBehaviour
             //SOBoost.incFired(ChargeGainPerSecond * Time.deltaTime); //depreciated prototype code - changed to sm.fired()
 
             UpdateEnergySphere();
+            energyDecayTime = 0;
         }else if(RightMouseHeld) {
             gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
+            energyDecayTime = 0;
         }
         else if (!shooting) //decaying energy while we're actively firing causes unwanted behavior with the speed var, plus we probably shouldn't anyway
         {
-            //Debug.Log("decaying energy");
-            DecayEnergy();
+            if(energyDecayTime >= energyDecayDelay)
+            {
+                
+                DecayEnergy();
+            } else
+            {
+                energyDecayTime += Time.deltaTime;
+            }
         }
       
     }
@@ -328,6 +340,8 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+
     public void OnRightClick(InputAction.CallbackContext context)
     {
         if (context.canceled)
