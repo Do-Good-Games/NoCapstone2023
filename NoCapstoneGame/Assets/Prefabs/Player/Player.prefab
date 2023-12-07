@@ -155,6 +155,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6861014936608307698}
   - component: {fileID: 3079467235973761314}
+  - component: {fileID: 8467958077101305148}
   - component: {fileID: 5991089515577886123}
   - component: {fileID: 8205310359094248843}
   - component: {fileID: 4691480037228500571}
@@ -199,6 +200,7 @@ MonoBehaviour:
   maxHealth: 3
   DamageCooldownTime: 1
   healthLostOnHit: 1
+  speedManager: {fileID: 8467958077101305148}
   ChargeGainPerSecond: 10
   ChargeSpentPerShot: 1
   EnergySpentPerShot: 1
@@ -209,6 +211,8 @@ MonoBehaviour:
   energyDecayRatioCurrent: 0.03
   energyDecayRatioTotal: 0.01
   energyDecayFixed: 1
+  energyDecayDelay: 1.5
+  energyDecayTime: 0
   protectionThreshold:
     serializedVersion: 2
     m_Curve:
@@ -281,9 +285,47 @@ MonoBehaviour:
   shipTransform: {fileID: 8475312940130775818}
   energyTransform: {fileID: 6186289636870546082}
   magnetTransform: {fileID: 3690117720725237577}
-  chargeShotPrefab: {fileID: 0}
+  chargeShotPrefab: {fileID: 4293999573908980727, guid: 51048a21004e749b4aac65c8b7af4692, type: 3}
   gameManager: {fileID: 0}
   sceneManager: {fileID: 0}
+  leftMouseHeld: 0
+  boostGracePeriodDuration: 1
+--- !u!114 &8467958077101305148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7894004486926316019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1124c83cc1602644ad09c4ef3d14c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 3079467235973761314}
+  speed: 0
+  bBoosting: 0
+  BoostMultiplier: 0
+  collected: 0
+  held: 0
+  BByEnergyHeld: 0
+  PerEnergyHeld: 0
+  BByEnergyCollected: 0
+  PerEnergyCollected: 0
+  BByEnergyFired: 1
+  PerEnergyFired: 1
+  BByTime: 0
+  PerSecond: 0
+  heldLostOnHit: 1
+  collectedLostOnHit: 1
+  firedLostOnHit: 0
+  boostSpeed: 1000
+  minBoostEnergy: 0
+  boostEnergyLostPerSecond: 20
+  incrByNumOfBoosts: 0
+  numOfBoosts: 0
+  speedOnExitType: 0
+  speedOnExit: 0
 --- !u!114 &5991089515577886123
 MonoBehaviour:
   m_ObjectHideFlags: 0

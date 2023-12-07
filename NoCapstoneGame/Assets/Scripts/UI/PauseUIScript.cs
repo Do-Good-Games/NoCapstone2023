@@ -14,6 +14,7 @@ public class PauseUIScript : MonoBehaviour
 
     private VisualElement root;
     private Button resumeButton;
+    private Button restartButton;
     private Button mainMenuButton;
     Button quitButton;
 
@@ -30,11 +31,13 @@ public class PauseUIScript : MonoBehaviour
 
         resumeButton = UIDoc.rootVisualElement.Q<Button>("ResumeButton");
         mainMenuButton = UIDoc.rootVisualElement.Q<Button>("MainMenuButton");
+        restartButton = UIDoc.rootVisualElement.Q<Button>("RestartButton");
         quitButton = UIDoc.rootVisualElement.Q<Button>("QuitButton");
 
         //resumeButton.clicked += () => sceneManager.SwitchToSceneName(sceneManager.gameplaySceneName); //unpause the game
         resumeButton.clicked += () => { gameManager.ResumeGame(); };
         mainMenuButton.clicked += MainMenuClicked;
+        restartButton.clicked += RestartClicked;
         quitButton.clicked += () => Application.Quit();
 
         gameManager.OnGamePause.AddListener(ShowHidePauseMenu);//see comments prefacing method declaration for explanation(?) on why I'm doing it like this
@@ -50,6 +53,11 @@ public class PauseUIScript : MonoBehaviour
     private void OnEnable()
     {
 
+    }
+
+    private void RestartClicked()
+    {
+        sceneManager.SwitchToScene(sceneManager.gameplaySceneName);
     }
 
     private void MainMenuClicked()

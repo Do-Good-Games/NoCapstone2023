@@ -269,6 +269,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIDoc: {fileID: 390202842}
+--- !u!1 &417410875 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7894004486926316019, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+  m_PrefabInstance: {fileID: 429762499}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &429762499
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -276,33 +281,49 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1327105396009128698, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: launchSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: chargeShotPrefab
+      propertyPath: SOBoost
       value: 
-      objectReference: {fileID: 4293999573908980727, guid: 51048a21004e749b4aac65c8b7af4692, type: 3}
+      objectReference: {fileID: 11400000, guid: 5a7ba9cdb60cb0b48b855ee377cf2473, type: 2}
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: energyDecayRatioCurrent
-      value: 0.03
-      objectReference: {fileID: 0}
-    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: protectionThreshold.m_Curve.Array.data[1].time
-      value: 0.015360411
-      objectReference: {fileID: 0}
-    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: protectionThreshold.m_Curve.Array.data[1].value
+      propertyPath: SpeedPrototypeSO
+      value: 
+      objectReference: {fileID: 11400000, guid: b97d875deacca3d4387a6a6ded43b6f8, type: 2}
+    - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: protectionThreshold.m_Curve.Array.data[0].inSlope
+    - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: protectionThreshold.m_Curve.Array.data[0].outSlope
-      value: 0
+    - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1308583664}
+    - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: UpdateCursorPosition
+      objectReference: {fileID: 0}
+    - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnRightClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6383936347403402448, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: m_RootOrder
@@ -351,6 +372,14 @@ PrefabInstance:
     - target: {fileID: 6383936347403402451, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: boostSpeed
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: boostEnergyLostPerSecond
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
@@ -831,12 +860,48 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
   m_PrefabInstance: {fileID: 429762499}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 417410875}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27a4806fa10234ffca69fde4ee9475e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1308583666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417410875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1124c83cc1602644ad09c4ef3d14c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 0}
+  speed: 0
+  bBoosting: 0
+  BoostMultiplier: 0
+  collected: 0
+  held: 0
+  BByEnergyHeld: 0
+  PerEnergyHeld: 0
+  BByEnergyCollected: 0
+  PerEnergyCollected: 0
+  BByEnergyFired: 0
+  PerEnergyFired: 0
+  BByTime: 0
+  PerSecond: 0
+  heldLostOnHit: 1
+  collectedLostOnHit: 1
+  firedLostOnHit: 1
+  boostSpeed: 100
+  minBoostEnergy: 0
+  boostEnergyLostPerSecond: 20
+  incrByNumOfBoosts: 0
+  numOfBoosts: 0
+  speedOnExitType: 0
+  speedOnExit: 0
 --- !u!1 &1509115612
 GameObject:
   m_ObjectHideFlags: 0
@@ -900,6 +965,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1308583664}
   UIDoc: {fileID: 1509115613}
+  fired: 0
 --- !u!1 &2021246354
 GameObject:
   m_ObjectHideFlags: 0
@@ -929,6 +995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9955003bae39485fb40bf26c33b0d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 0}
   gameplayCamera: {fileID: 523322434}
   hazardTag: Hazard
   playerTag: Player
@@ -937,8 +1004,9 @@ MonoBehaviour:
   maxEnergyLevel: 100
   energyLevel: 0
   chargeLevel: 0
+  maxSpeed: 100
   speed: 0
-  speedScale: 0.002
+  speedScale: 0.001
   OnPlayerHeal:
     m_PersistentCalls:
       m_Calls: []
@@ -954,6 +1022,9 @@ MonoBehaviour:
   OnChargeChange:
     m_PersistentCalls:
       m_Calls: []
+  OnFiredChange:
+    m_PersistentCalls:
+      m_Calls: []
   OnSpeedChange:
     m_PersistentCalls:
       m_Calls: []
@@ -964,6 +1035,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnGameResume:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBoostStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBoostEnd:
     m_PersistentCalls:
       m_Calls: []
 --- !u!4 &2021246356

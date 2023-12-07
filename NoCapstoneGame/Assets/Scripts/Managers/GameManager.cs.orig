@@ -27,7 +27,11 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
+<<<<<<< HEAD
     public PlayerController playerController;
+=======
+    [SerializeField] public PlayerController playerController;
+>>>>>>> energySystemRework
 
     [SerializeField] public Camera gameplayCamera;
     [SerializeField] public string hazardTag;
@@ -144,11 +148,16 @@ public class GameManager : MonoBehaviour
         energyLevel = Mathf.Min(energyLevel+ amount, maxEnergyLevel);
         energyLevel = Mathf.Max(energyLevel+ amount, 0);
 
+<<<<<<< HEAD
+        
+
+=======
         if (amount > 0)
         {
             playerController.energyDecayTime = 0;
         }
         
+>>>>>>> energySystemRework
         OnEnergyChange.Invoke();
     }
 
@@ -165,11 +174,11 @@ public class GameManager : MonoBehaviour
         return maxEnergyLevel;
     }
 
-    [Tooltip("adds (or subtracts) the given value to the amount of charge")]
-    public void UpdateCharge(float adjustmentAmount)
+
+    public void UpdateCharge(float amount)
     {
-        chargeLevel = Mathf.Min(energyLevel, chargeLevel + adjustmentAmount);
-        chargeLevel = Mathf.Max(0, chargeLevel + adjustmentAmount);
+        chargeLevel = Mathf.Min(energyLevel, chargeLevel + amount);
+        chargeLevel = Mathf.Max(0, chargeLevel + amount);
 
         OnChargeChange.Invoke();
 

@@ -10,7 +10,6 @@ VisualElement {
     border-right-width: 15px;
     border-top-width: 15px;
     border-bottom-width: 15px;
-    transition-duration: 3s;
     border-left-color: rgb(70, 71, 94);
     border-right-color: rgb(70, 71, 94);
     border-top-color: rgb(110, 110, 126);

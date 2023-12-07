@@ -9,12 +9,19 @@ public class Energy : Entity
 
     [SerializeField] private float energyGain;
 
+    [Tooltip("for diminishing returns while in boost - to scale the rate at which the player's current energy level translates to the amount collected")]
+    [SerializeField] private float diminishingReturnRatio;
+
     bool inMagnet;
+
+    private PlayerController playerController;
 
     public override void Start()
     {
         base.Start();
         inMagnet = false;
+
+        playerController = GameManager.Instance.playerController;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -22,6 +29,7 @@ public class Energy : Entity
         if (collision.CompareTag(gameManager.playerTag))
         {
             Collect();
+            
         }
     }
 
@@ -62,7 +70,14 @@ public class Energy : Entity
 
     private void Collect()
     {
+
+        if (playerController.inBoost) //while the player is boosting, add diminishing returns to their energy collection to prevent them from staying in boost forever
+        {
+            float remainingRatio = (gameManager.GetCharge() / gameManager.GetMaxEnergy());
+            energyGain = energyGain * remainingRatio * diminishingReturnRatio ;
+        }
         gameManager.UpdateEnergy(energyGain);
+
         Destroy(this.gameObject);
     }
 }
