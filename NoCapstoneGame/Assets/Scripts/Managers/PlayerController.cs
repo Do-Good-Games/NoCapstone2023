@@ -356,7 +356,7 @@ public class PlayerController : MonoBehaviour
                 speedManager.ActivateBoost();
             } else
             {
-                gameManager.UpdateCharge( - gameManager.GetCharge());
+                gameManager.ResetCharge();
             }
         }
         else
@@ -504,6 +504,12 @@ public class PlayerController : MonoBehaviour
 
                 }
 
+            }
+            if (RightMouseHeld)
+            {
+
+                RightMouseHeld = false;
+                gameManager.ResetCharge();
             }
 
 
