@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     //[SerializeField] public SPSOBase SpeedPrototypeSO;
     //[SerializeField] public SOBoostBase SOBoost;
 
+    //TODO when releasing rightmb reset energy
+
 
     [Header("energy and charge values")]
     [SerializeField] public float ChargeGainPerSecond;
@@ -352,6 +354,9 @@ public class PlayerController : MonoBehaviour
             if (gameManager.GetCharge() >= gameManager.GetMaxEnergy()) //if our charge is at max (max calc'd as max energy)
             {
                 speedManager.ActivateBoost();
+            } else
+            {
+                gameManager.UpdateCharge( - gameManager.GetCharge());
             }
         }
         else

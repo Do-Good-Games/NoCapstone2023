@@ -165,11 +165,11 @@ public class GameManager : MonoBehaviour
         return maxEnergyLevel;
     }
 
-
-    public void UpdateCharge(float amount)
+    [Tooltip("adds (or subtracts) the given value to the amount of charge")]
+    public void UpdateCharge(float adjustmentAmount)
     {
-        chargeLevel = Mathf.Min(energyLevel, chargeLevel + amount);
-        chargeLevel = Mathf.Max(0, chargeLevel + amount);
+        chargeLevel = Mathf.Min(energyLevel, chargeLevel + adjustmentAmount);
+        chargeLevel = Mathf.Max(0, chargeLevel + adjustmentAmount);
 
         OnChargeChange.Invoke();
 
