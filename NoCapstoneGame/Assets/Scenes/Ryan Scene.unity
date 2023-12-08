@@ -1004,8 +1004,7 @@ MonoBehaviour:
   maxEnergyLevel: 100
   energyLevel: 0
   chargeLevel: 0
-  maxSpeed: 100
-  speed: 0
+  maxFired: 100
   speedScale: 0.001
   OnPlayerHeal:
     m_PersistentCalls:
@@ -1023,9 +1022,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnFiredChange:
-    m_PersistentCalls:
-      m_Calls: []
-  OnSpeedChange:
     m_PersistentCalls:
       m_Calls: []
   OnGameEnterMenus:

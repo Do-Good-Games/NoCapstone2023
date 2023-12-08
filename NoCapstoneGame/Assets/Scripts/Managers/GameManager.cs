@@ -46,8 +46,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float chargeLevel;
 
 
-    public float maxSpeed;
-    public float speed; //will probably want to roll back to private after we're done prototyping speed stuff
+    public float maxFired;
+    public float firedLevel { get; private set; } 
     [Tooltip("setting speed to ints is more intuitive, but causes insane speeds. This scales it down as well as offering parameterization of how quickly speed increases")]
     [SerializeField] private float speedScale;
 
@@ -66,7 +66,6 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnChargeChange;
     public UnityEvent OnFiredChange;
 
-    public UnityEvent OnSpeedChange;
 
     public UnityEvent OnGameEnterMenus;
     public UnityEvent OnGamePause;
@@ -107,7 +106,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        CalculateSpeed(); // could also do this in update depending on how it's implemented, current implementation will only ever change with score
 
     }
 
@@ -146,11 +144,12 @@ public class GameManager : MonoBehaviour
 
         if (amount > 0)
         {
-            playerController.energyDecayTime = 0;
+            //playerController.energyDecayTime = 0; 
         }
         
         OnEnergyChange.Invoke();
     }
+
 
     public void ResetEnergy()
     {
@@ -159,6 +158,14 @@ public class GameManager : MonoBehaviour
     }
 
     public float GetEnergy() => energyLevel;
+    public void UpdateFired(float amount)
+    {
+        firedLevel = Mathf.Min(firedLevel + amount, maxFired);
+        firedLevel = Mathf.Max(firedLevel + amount, 0);
+
+        OnFiredChange.Invoke();
+
+    }
 
     public float GetMaxEnergy()
     {
@@ -233,13 +240,7 @@ public class GameManager : MonoBehaviour
         OnGameEnterMenus.Invoke();
     }
 
-    public void CalculateSpeed()
-    {
-        speed = playerController.speedManager.GetSpeed();
 
-        OnSpeedChange.Invoke();
-    }
-
-    public float GetSpeed() => speed;
+    public float GetSpeed() => firedLevel;
     public float GetSpeedScale() => speedScale;
 }
