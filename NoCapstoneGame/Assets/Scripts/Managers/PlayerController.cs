@@ -217,6 +217,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("tsgps1: " + timeSinceGracePeriodStart);
             yield return new WaitForSeconds(.1f);
         }
+        gameManager.ResetEnergy();
 
         Debug.Log("ended coroutine");
 
@@ -470,7 +471,6 @@ public class PlayerController : MonoBehaviour
 
         if (damageable) {
             //SpeedPrototypeSO.SPHit(); //prototype
-            speedManager.Hit();
 
             if (EnergyProtects){
 
@@ -499,9 +499,10 @@ public class PlayerController : MonoBehaviour
             }
             if (RightMouseHeld)
             {
-
                 RightMouseHeld = false;
                 gameManager.ResetCharge();
+
+                gameManager.UpdateFired(-gameManager.GetCharge());
             }
 
 
@@ -574,6 +575,9 @@ public class PlayerController : MonoBehaviour
                 collision.GetComponent<IDamageable>()?.Damage(100000);
             else 
                 Hit();
+        } else if (collision.GetComponent<Energy>())
+        {
+            energyDecayTime = 0;
         }
     }
 

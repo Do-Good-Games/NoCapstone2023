@@ -73,7 +73,7 @@ public class SpeedManager : MonoBehaviour
     protected enum SpeedOnExitType { Ratio, Static } //after prototyping consider having all value types be done as one universal enum
 
     [Header("boost variables")]
-    [SerializeField] protected float boostSpeed = 100;
+    public float boostSpeed = 100;
     [SerializeField] protected float minBoostEnergy = 0;
     [SerializeField] protected float boostEnergyLostPerSecond = 20;
 
@@ -125,7 +125,12 @@ public class SpeedManager : MonoBehaviour
 
     public void Fired(float charge)
     {
-        gameManager.UpdateFired(charge);
+        if(gameManager.firedLevel + charge < gameManager.GetEnergy())
+        {
+
+            gameManager.UpdateFired(charge);
+        }
+
     }
 
     public void Hit()
@@ -181,7 +186,7 @@ public class SpeedManager : MonoBehaviour
 
             yield return null;
         }
-        gameManager.EndBoost();
+        gameManager.EndBoost(numOfBoosts, speedOnExit);
         ResetVariables();
     }
 }

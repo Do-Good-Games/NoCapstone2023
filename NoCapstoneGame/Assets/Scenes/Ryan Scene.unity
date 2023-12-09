@@ -996,6 +996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 0}
+  speedManager: {fileID: 0}
   gameplayCamera: {fileID: 523322434}
   hazardTag: Hazard
   playerTag: Player
@@ -1005,6 +1006,7 @@ MonoBehaviour:
   energyLevel: 0
   chargeLevel: 0
   maxFired: 100
+  Speed: 0
   speedScale: 0.001
   OnPlayerHeal:
     m_PersistentCalls:

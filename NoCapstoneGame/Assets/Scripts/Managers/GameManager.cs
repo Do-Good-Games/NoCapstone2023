@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get { return _instance; } }
 
     public PlayerController playerController;
+    public SpeedManager speedManager;
 
     [SerializeField] public Camera gameplayCamera;
     [SerializeField] public string hazardTag;
@@ -47,8 +48,10 @@ public class GameManager : MonoBehaviour
 
 
     public float maxFired;
-    public float firedLevel { get; private set; } 
-    [Tooltip("setting speed to ints is more intuitive, but causes insane speeds. This scales it down as well as offering parameterization of how quickly speed increases")]
+    [SerializeField] public float firedLevel;
+
+    public float Speed;
+    [Tooltip("setting speed to ints (or at least floats at similar sizes to ints, such as 1.75) is more intuitive, but causes insane speeds. This scales it down as well as offering parameterization of how quickly speed increases")]
     [SerializeField] private float speedScale;
 
     // The current score (probably measured in distance)
@@ -102,6 +105,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //OnGameTogglePause.AddListener(TogglePause);
+        speedManager = playerController.speedManager;
     }
 
     private void Update()
@@ -147,6 +151,7 @@ public class GameManager : MonoBehaviour
             //playerController.energyDecayTime = 0; 
         }
         
+
         OnEnergyChange.Invoke();
     }
 
@@ -164,8 +169,8 @@ public class GameManager : MonoBehaviour
         firedLevel = Mathf.Max(firedLevel + amount, 0);
 
         OnFiredChange.Invoke();
-
     }
+
 
     public float GetMaxEnergy()
     {
@@ -198,9 +203,14 @@ public class GameManager : MonoBehaviour
         OnBoostStart.Invoke();
     }
 
-    public void EndBoost()
+    public void EndBoost(int numOfResets, float speedOnExit)
     {
+        firedLevel = 0;
+        Speed = numOfResets * speedOnExit;
+
         OnBoostEnd.Invoke();
+
+
     }
 
 
@@ -241,6 +251,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public float GetSpeed() => firedLevel;
+    public float GetSpeed() => playerController.inBoost? speedManager.boostSpeed : firedLevel + Speed;
     public float GetSpeedScale() => speedScale;
 }
