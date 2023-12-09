@@ -14,14 +14,14 @@ public class Energy : Entity
 
     bool inMagnet;
 
-    private PlayerController playerController;
+    private SpeedManager speedManager;
 
     public override void Start()
     {
         base.Start();
         inMagnet = false;
 
-        playerController = GameManager.Instance.playerController;
+        speedManager = GameManager.Instance.speedManager;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -71,7 +71,7 @@ public class Energy : Entity
     private void Collect()
     {
 
-        if (playerController.inBoost) //while the player is boosting, add diminishing returns to their energy collection to prevent them from staying in boost forever
+        if (speedManager.inBoost) //while the player is boosting, add diminishing returns to their energy collection to prevent them from staying in boost forever
         {
             float remainingRatio = (gameManager.GetCharge() / gameManager.GetMaxEnergy());
             energyGain = energyGain * remainingRatio * diminishingReturnRatio ;

@@ -63,11 +63,17 @@ public class SpeedManager : MonoBehaviour
     [SerializeField] protected SpeedOnExitType speedOnExitType;
     [SerializeField] protected float speedOnExit;
 
+    public bool inBoost { get; private set; }
+    public bool boostGracePeriod { get; private set; }
+    [Tooltip("how long (in seconds) after the player exits boost that they're immune (but don't destroy asteroids)")]
+    [SerializeField] private float boostGracePeriodDuration;
+
     #endregion boost vars
 
     private GameManager gameManager;
 
     private IEnumerator BoostCoroutineObject;
+    private IEnumerator boostGracePeriodCoroutineObject;
 
     #endregion Variables
 
@@ -75,6 +81,7 @@ public class SpeedManager : MonoBehaviour
     void Start()
     {
         gameManager = GameManager.Instance;
+        inBoost = false;
     }
 
     // Update is called once per frame
@@ -96,7 +103,6 @@ public class SpeedManager : MonoBehaviour
 
             gameManager.UpdateFired(charge );
         }
-
     }
 
     public void Hit()
@@ -134,7 +140,7 @@ public class SpeedManager : MonoBehaviour
     public IEnumerator BoostCoroutine()
     {
         Debug.Log("boost coroutine activated");
-        gameManager.StartBoost();
+        inBoost = true;
         numOfBoosts++;
         while (gameManager.GetEnergy() > minBoostEnergy)
         {
@@ -145,7 +151,29 @@ public class SpeedManager : MonoBehaviour
 
             yield return null;
         }
+        inBoost = false;
+
+        boostGracePeriodCoroutineObject = BoostGracePeriod();
+        StartCoroutine(boostGracePeriodCoroutineObject);
+
         gameManager.EndBoost(numOfBoosts, speedOnExit);
         ResetVariables();
     }
+
+    private IEnumerator BoostGracePeriod()
+    {
+        boostGracePeriod = true;
+        float timeSinceGracePeriodStart = Time.time;
+        Debug.Log("tsgps: " + timeSinceGracePeriodStart);
+        while (Time.time - timeSinceGracePeriodStart <= boostGracePeriodDuration)
+        {
+            Debug.Log("tsgps1: " + timeSinceGracePeriodStart);
+            yield return new WaitForSeconds(.1f);
+        }
+        gameManager.ResetEnergy();
+        boostGracePeriod = false;
+        Debug.Log("ended coroutine");
+
+    }
+
 }

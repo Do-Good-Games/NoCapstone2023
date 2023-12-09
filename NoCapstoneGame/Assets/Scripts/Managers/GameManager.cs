@@ -73,8 +73,6 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnGamePause;
     public UnityEvent OnGameResume;
 
-    public UnityEvent OnBoostStart; //cleanup: remove?
-    public UnityEvent OnBoostEnd;//cleanup: remove?
 
     void Awake()
     {
@@ -94,12 +92,12 @@ public class GameManager : MonoBehaviour
         playerHealth = 0;
         Time.timeScale = 1;
         Cursor.visible = false;
+        speedManager = playerController.speedManager;
     }
 
     private void Start()
     {
         //OnGameTogglePause.AddListener(TogglePause);
-        speedManager = playerController.speedManager;
     }
 
     private void Update()
@@ -193,17 +191,11 @@ public class GameManager : MonoBehaviour
         return chargeLevel;
     }
 
-    public void StartBoost()
-    {
-        OnBoostStart.Invoke();
-    }
 
     public void EndBoost(int numOfResets, float speedOnExit)
     {
         firedLevel = 0;
         Speed = numOfResets * speedOnExit;
-
-        OnBoostEnd.Invoke(); //only tied to playerController.boostEnded. cleanup: remove?
     }
 
 
@@ -244,6 +236,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public float GetSpeed() => playerController.inBoost? speedManager.boostSpeed : firedLevel + Speed;
+    public float GetSpeed() => speedManager.inBoost? speedManager.boostSpeed : firedLevel + Speed;
     public float GetSpeedScale() => speedScale;
 }
