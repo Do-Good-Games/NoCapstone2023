@@ -14,14 +14,14 @@ public class Energy : Entity
 
     bool inMagnet;
 
-    private PlayerController playerController;
+    private SpeedManager speedManager;
 
     public override void Start()
     {
         base.Start();
         inMagnet = false;
 
-        playerController = GameManager.Instance.playerController;
+        speedManager = GameManager.Instance.speedManager;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -71,12 +71,14 @@ public class Energy : Entity
     private void Collect()
     {
 
-        if (playerController.inBoost) //while the player is boosting, add diminishing returns to their energy collection to prevent them from staying in boost forever
+        if (speedManager.inBoost) //while the player is boosting, add diminishing returns to their energy collection to prevent them from staying in boost forever
         {
             float remainingRatio = (gameManager.GetCharge() / gameManager.GetMaxEnergy());
-            energyGain = energyGain * remainingRatio * diminishingReturnRatio ;
+            gameManager.UpdateEnergy(energyGain * remainingRatio * diminishingReturnRatio);
+        } else if (!speedManager.inBoostGracePeriod)//don't let the player collect energy right after boost, this is to ensure the player doesn't have spare energy after boost
+        { //otherwise, the player will occasionally destroy an asteroid, then exit boost before collecting energy. at which point they start with energy after boost
+            gameManager.UpdateEnergy(energyGain);
         }
-        gameManager.UpdateEnergy(energyGain);
 
         Destroy(this.gameObject);
     }

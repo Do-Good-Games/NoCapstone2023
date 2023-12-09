@@ -133,15 +133,11 @@ public class PlayerController : MonoBehaviour
     private bool damageable;
     private bool damageCooldownEnding;
 
-    public bool inBoost { get; private set; }
-    public float timeSinceStartingBoost { get; private set; }
-    [Tooltip("how long (in seconds) after the player exits boost that they're immune (but don't destroy asteroids)")]
-    [SerializeField] private float boostGracePeriodDuration;
 
     private IEnumerator ShootCoroutineObject;
     private IEnumerator DamageCooldownCoroutineObject;
     private IEnumerator DamageFlashCoroutineObject;
-    private IEnumerator boostGracePeriodCoroutineObject;
+
 
     private float PrevEnergyLevel = 0;
 
@@ -164,8 +160,8 @@ public class PlayerController : MonoBehaviour
         gameManager.OnGamePause.AddListener(SwitchActionMap);
         gameManager.OnGameEnterMenus.AddListener(SwitchActionMap);
 
-        gameManager.OnBoostStart.AddListener(BoostStarted);
-        gameManager.OnBoostEnd.AddListener(BoostEnded);
+        //gameManager.OnBoostStart.AddListener(BoostStarted); //cleanup: remove?
+        //gameManager.OnBoostEnd.AddListener(BoostEnded);//cleanup: remove?
 
 
         //gameManager.OnGameTogglePause.AddListener(SwitchActionMap);
@@ -180,7 +176,6 @@ public class PlayerController : MonoBehaviour
         shooting = false;
         damageable = true;
         damageCooldownEnding = false;
-        inBoost = false;
 
         currentActionMapName = "Player";
         playerInput = GetComponent<PlayerInput>();
@@ -193,36 +188,7 @@ public class PlayerController : MonoBehaviour
         //SOBoost.speedPrototype = SpeedPrototypeSO;
     }
 
-    private void BoostEnded()
-    {
-        inBoost = false;
 
-        boostGracePeriodCoroutineObject = BoostGracePeriod();
-        StartCoroutine(boostGracePeriodCoroutineObject);
-    }
-
-    private void BoostStarted()
-    {
-        timeSinceStartingBoost = Time.deltaTime;
-        inBoost = true;
-    }
-
-    private IEnumerator BoostGracePeriod()
-    {
-        damageable = false;
-        float timeSinceGracePeriodStart = Time.time;
-        Debug.Log("tsgps: " + timeSinceGracePeriodStart);
-        while(Time.time - timeSinceGracePeriodStart <= boostGracePeriodDuration)
-        {
-            Debug.Log("tsgps1: " + timeSinceGracePeriodStart);
-            yield return new WaitForSeconds(.1f);
-        }
-        gameManager.ResetEnergy();
-
-        Debug.Log("ended coroutine");
-
-        damageable = true;        
-    }
 
     public void Update()
     {
@@ -469,7 +435,7 @@ public class PlayerController : MonoBehaviour
 
     public void Hit() {
 
-        if (damageable) {
+        if (damageable && !speedManager.inBoostGracePeriod) {
             //SpeedPrototypeSO.SPHit(); //prototype
 
             if (EnergyProtects){
@@ -571,8 +537,8 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag(gameManager.hazardTag))
         {
             // Assuming inBoost is true when the player is in hyperspeed
-            if (inBoost)
-                collision.GetComponent<IDamageable>()?.Damage(100000);
+            if (speedManager.inBoost)
+                collision.GetComponent<IDamageable>()?.Damage(100000); //don't damage the asteroid, instead get theasteroid component and call destroy()
             else 
                 Hit();
         } else if (collision.GetComponent<Energy>())

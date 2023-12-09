@@ -373,14 +373,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: boostSpeed
-      value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: boostEnergyLostPerSecond
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
 --- !u!1 &447464043
@@ -879,29 +871,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 0}
-  speed: 0
-  bBoosting: 0
-  BoostMultiplier: 0
-  collected: 0
-  held: 0
-  BByEnergyHeld: 0
-  PerEnergyHeld: 0
-  BByEnergyCollected: 0
-  PerEnergyCollected: 0
   BByEnergyFired: 0
   PerEnergyFired: 0
-  BByTime: 0
-  PerSecond: 0
-  heldLostOnHit: 1
-  collectedLostOnHit: 1
-  firedLostOnHit: 1
   boostSpeed: 100
   minBoostEnergy: 0
   boostEnergyLostPerSecond: 20
-  incrByNumOfBoosts: 0
   numOfBoosts: 0
   speedOnExitType: 0
   speedOnExit: 0
+  boostGracePeriodDuration: 0
 --- !u!1 &1509115612
 GameObject:
   m_ObjectHideFlags: 0
@@ -995,7 +973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9955003bae39485fb40bf26c33b0d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 0}
+  playerController: {fileID: 1308583664}
   speedManager: {fileID: 0}
   gameplayCamera: {fileID: 523322434}
   hazardTag: Hazard
@@ -1006,6 +984,7 @@ MonoBehaviour:
   energyLevel: 0
   chargeLevel: 0
   maxFired: 100
+  firedLevel: 0
   Speed: 0
   speedScale: 0.001
   OnPlayerHeal:
@@ -1033,12 +1012,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnGameResume:
-    m_PersistentCalls:
-      m_Calls: []
-  OnBoostStart:
-    m_PersistentCalls:
-      m_Calls: []
-  OnBoostEnd:
     m_PersistentCalls:
       m_Calls: []
 --- !u!4 &2021246356

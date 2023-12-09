@@ -289,7 +289,6 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   sceneManager: {fileID: 0}
   leftMouseHeld: 0
-  boostGracePeriodDuration: 1
 --- !u!114 &8467958077101305148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,29 +302,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 3079467235973761314}
-  speed: 0
-  bBoosting: 0
-  BoostMultiplier: 0
-  collected: 0
-  held: 0
-  BByEnergyHeld: 0
-  PerEnergyHeld: 0
-  BByEnergyCollected: 0
-  PerEnergyCollected: 0
   BByEnergyFired: 1
   PerEnergyFired: 1
-  BByTime: 0
-  PerSecond: 0
-  heldLostOnHit: 1
-  collectedLostOnHit: 1
-  firedLostOnHit: 0
-  boostSpeed: 1000
+  boostSpeed: 400
   minBoostEnergy: 0
-  boostEnergyLostPerSecond: 20
-  incrByNumOfBoosts: 0
+  boostEnergyLostPerSecond: 10
   numOfBoosts: 0
   speedOnExitType: 0
-  speedOnExit: 0
+  speedOnExit: 20
+  boostGracePeriodDuration: 2
 --- !u!114 &5991089515577886123
 MonoBehaviour:
   m_ObjectHideFlags: 0
