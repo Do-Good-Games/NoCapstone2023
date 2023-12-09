@@ -64,7 +64,7 @@ public class SpeedManager : MonoBehaviour
     [SerializeField] protected float speedOnExit;
 
     public bool inBoost { get; private set; }
-    public bool boostGracePeriod { get; private set; }
+    public bool inBoostGracePeriod { get; private set; }
     [Tooltip("how long (in seconds) after the player exits boost that they're immune (but don't destroy asteroids)")]
     [SerializeField] private float boostGracePeriodDuration;
 
@@ -162,7 +162,7 @@ public class SpeedManager : MonoBehaviour
 
     private IEnumerator BoostGracePeriod()
     {
-        boostGracePeriod = true;
+        inBoostGracePeriod = true;
         float timeSinceGracePeriodStart = Time.time;
         Debug.Log("tsgps: " + timeSinceGracePeriodStart);
         while (Time.time - timeSinceGracePeriodStart <= boostGracePeriodDuration)
@@ -171,7 +171,7 @@ public class SpeedManager : MonoBehaviour
             yield return new WaitForSeconds(.1f);
         }
         gameManager.ResetEnergy();
-        boostGracePeriod = false;
+        inBoostGracePeriod = false;
         Debug.Log("ended coroutine");
 
     }

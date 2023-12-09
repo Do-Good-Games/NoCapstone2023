@@ -435,7 +435,7 @@ public class PlayerController : MonoBehaviour
 
     public void Hit() {
 
-        if (damageable && !speedManager.inBoost) {
+        if (damageable && !speedManager.inBoostGracePeriod) {
             //SpeedPrototypeSO.SPHit(); //prototype
 
             if (EnergyProtects){
