@@ -135,10 +135,10 @@ public class SpeedManager : MonoBehaviour
 
     public void Hit()
     {
-        if (playerController.inBoost)
-        {
-            gameManager.UpdateFired(-gameManager.GetCharge());
-        }
+        //    if (playerController.mouse)
+        //    {
+        //        gameManager.UpdateFired(-gameManager.GetCharge());
+        //    }
     }
 
     public void ResetVariables()

@@ -500,9 +500,9 @@ public class PlayerController : MonoBehaviour
             if (RightMouseHeld)
             {
                 RightMouseHeld = false;
+                gameManager.UpdateFired(-gameManager.GetCharge());
                 gameManager.ResetCharge();
 
-                gameManager.UpdateFired(-gameManager.GetCharge());
             }
 
 

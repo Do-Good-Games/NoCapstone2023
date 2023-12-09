@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
     public void UpdateFired(float amount)
     {
         firedLevel = Mathf.Min(firedLevel + amount, maxFired);
-        firedLevel = Mathf.Max(firedLevel + amount, 0);
+        firedLevel = Mathf.Max(firedLevel, 0);
 
         OnFiredChange.Invoke();
     }
@@ -181,7 +181,7 @@ public class GameManager : MonoBehaviour
     public void UpdateCharge(float adjustmentAmount)
     {
         chargeLevel = Mathf.Min(energyLevel, chargeLevel + adjustmentAmount);
-        chargeLevel = Mathf.Max(0, chargeLevel + adjustmentAmount);
+        chargeLevel = Mathf.Max(0, chargeLevel);
 
         OnChargeChange.Invoke();
 
