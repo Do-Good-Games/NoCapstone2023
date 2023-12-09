@@ -12,57 +12,38 @@ public class SpeedManager : MonoBehaviour
     [SerializeField] private PlayerController playerController;
 
     [Tooltip("the Current speed as calculated by the speed manager")]
-    [SerializeField] private float speed;
-    [SerializeField] private bool bBoosting;
-    [SerializeField] private float BoostMultiplier;
+    //[SerializeField] private float BoostMultiplier; //refactor to boostSpeed from playerCont
 
 
-    [SerializeField] private float collected;
-    [SerializeField] private float held;
-    [SerializeField] public float fired { get; private set;  }
-    private float currTime;
+    //[SerializeField] public float fired { get; private set;  }
+    //private float currTime;
 
-    [SerializeField] public float maxFired { get; private set; }
-
-    public float GetSpeed()
-    {
-        if (bBoosting)
-        {
-            return boostSpeed;
-        } else
-        {
-            //currently setting this in updateEnergy(), but we could also set it here 
-            //held = BByEnergyHeld ? gameManager.GetEnergy() * PerEnergyHeld : 0;
-
-            speed = fired + held + currTime + (numOfBoosts * speedOnExit);
-            return speed;
-        }
-    }
+    //[SerializeField] public float maxFired { get; private set; }
 
     #region Speed Vars
 
     [Header("speed increase balance variables")]
-    [SerializeField] protected bool BByEnergyHeld;
-    [SerializeField] protected float PerEnergyHeld;
+    //[SerializeField] protected bool BByEnergyHeld;
+    //[SerializeField] protected float PerEnergyHeld;
 
-    [SerializeField] protected bool BByEnergyCollected;
-    [SerializeField] protected float PerEnergyCollected;
+    //[SerializeField] protected bool BByEnergyCollected;
+    //[SerializeField] protected float PerEnergyCollected;
 
     [SerializeField] protected bool BByEnergyFired;
     [SerializeField] protected float PerEnergyFired;
 
-    [SerializeField] protected bool BByTime;
-    [SerializeField] protected float PerSecond;
+    //[SerializeField] protected bool BByTime;
+    //[SerializeField] protected float PerSecond;
 
     protected float prevEnergyLevel;
 
-    [Header("amount of each variable lost on hit")]
-    [Tooltip("how much of the speed calculated by amount held will be lost when hit - value from 0 to 1")]
-    [SerializeField] private float heldLostOnHit = 1;
-    [Tooltip("how much of the speed calculated by amount held will be lost when hit - value from 0 to 1")]
-    [SerializeField] private float collectedLostOnHit = 1;
-    [Tooltip("how much of the speed calculated by amount held will be lost when hit - value from 0 to 1")]
-    [SerializeField] private float firedLostOnHit = 1;
+    //[Header("amount of each variable lost on hit")]
+    //[Tooltip("how much of the speed calculated by amount held will be lost when hit - value from 0 to 1")]
+    //[SerializeField] private float heldLostOnHit = 1;
+    //[Tooltip("how much of the speed calculated by amount held will be lost when hit - value from 0 to 1")]
+    //[SerializeField] private float collectedLostOnHit = 1;
+    //[Tooltip("how much of the speed calculated by amount held will be lost when hit - value from 0 to 1")]
+    //[SerializeField] private float firedLostOnHit = 1;
     //[SerializeField] private float  =1;
 
 
@@ -76,8 +57,6 @@ public class SpeedManager : MonoBehaviour
     public float boostSpeed = 100;
     [SerializeField] protected float minBoostEnergy = 0;
     [SerializeField] protected float boostEnergyLostPerSecond = 20;
-
-    [SerializeField] protected bool incrByNumOfBoosts;
 
     [SerializeField] protected int numOfBoosts;
 
@@ -102,25 +81,12 @@ public class SpeedManager : MonoBehaviour
     void Update()
     {
 
-        if (BByTime)
-        {
-            currTime += Time.deltaTime * PerSecond;
+        //if (BByTime)
+        //{
+        //    currTime += Time.deltaTime * PerSecond;
 
-            speed += Time.deltaTime * PerSecond;
-            //Debug.Log("adjusting speed over time"); //do we perhaps want to scale this by energy levels?
-        }
-
-        if(gameManager.firedLevel >= gameManager.maxFired)
-        {
-            //ActivateBoost();
-        }
-
-    }
-
-    public void UpdateEnergy()
-    {
-        Debug.Log("unless we see this line pop up, we can remove this overload");
-        //updateEnergy()
+        //    //Debug.Log("adjusting speed over time"); //do we perhaps want to scale this by energy levels?
+        //}
     }
 
     public void Fired(float charge)
@@ -128,7 +94,7 @@ public class SpeedManager : MonoBehaviour
         if(gameManager.firedLevel + charge < gameManager.GetEnergy())
         {
 
-            gameManager.UpdateFired(charge);
+            gameManager.UpdateFired(charge );
         }
 
     }
@@ -143,16 +109,11 @@ public class SpeedManager : MonoBehaviour
 
     public void ResetVariables()
     {
-        held = 0;
-        collected = 0;
-        fired = 0;
         gameManager.OnFiredChange.Invoke();
-        speed = 0;
-        bBoosting = false;
     }
 
     //used for if we want to reset the number of boosts (aka speed baseline) as well
-    public void ResetVariables(bool fullReset){
+    public void ResetVariables(bool fullReset){ 
         ResetVariables();
         numOfBoosts = (fullReset == true ? 0 : numOfBoosts);
     }
@@ -161,7 +122,6 @@ public class SpeedManager : MonoBehaviour
     //this is the function you'll need to refactor. 
     public void ActivateBoost()
     {
-        bBoosting = true;
         Debug.Log("boost method activated");
         if (BoostCoroutineObject is not null)
         {
@@ -181,7 +141,6 @@ public class SpeedManager : MonoBehaviour
             //for some reason this removes the energy twice as quickly as it should
             gameManager.UpdateEnergy(- boostEnergyLostPerSecond * Time.deltaTime);
             gameManager.UpdateCharge(-boostEnergyLostPerSecond * Time.deltaTime);
-            fired -= boostEnergyLostPerSecond * Time.deltaTime;
             gameManager.OnFiredChange.Invoke();
 
             yield return null;

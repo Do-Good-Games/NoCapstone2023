@@ -134,7 +134,6 @@ public class PlayerController : MonoBehaviour
     private bool damageCooldownEnding;
 
     public bool inBoost { get; private set; }
-    public float timeSinceStartingBoost { get; private set; }
     [Tooltip("how long (in seconds) after the player exits boost that they're immune (but don't destroy asteroids)")]
     [SerializeField] private float boostGracePeriodDuration;
 
@@ -164,7 +163,7 @@ public class PlayerController : MonoBehaviour
         gameManager.OnGamePause.AddListener(SwitchActionMap);
         gameManager.OnGameEnterMenus.AddListener(SwitchActionMap);
 
-        gameManager.OnBoostStart.AddListener(BoostStarted);
+        gameManager.OnBoostStart.AddListener(BoostStarted); //cleanup: remove?
         gameManager.OnBoostEnd.AddListener(BoostEnded);
 
 
@@ -193,7 +192,7 @@ public class PlayerController : MonoBehaviour
         //SOBoost.speedPrototype = SpeedPrototypeSO;
     }
 
-    private void BoostEnded()
+    private void BoostEnded() //subscribed to gm.onboostended - can probably stand to migrate to speedMan
     {
         inBoost = false;
 
@@ -203,7 +202,6 @@ public class PlayerController : MonoBehaviour
 
     private void BoostStarted()
     {
-        timeSinceStartingBoost = Time.deltaTime;
         inBoost = true;
     }
 
@@ -572,7 +570,7 @@ public class PlayerController : MonoBehaviour
         {
             // Assuming inBoost is true when the player is in hyperspeed
             if (inBoost)
-                collision.GetComponent<IDamageable>()?.Damage(100000);
+                collision.GetComponent<IDamageable>()?.Damage(100000); //don't damage the asteroid, instead get theasteroid component and call destroy()
             else 
                 Hit();
         } else if (collision.GetComponent<Energy>())

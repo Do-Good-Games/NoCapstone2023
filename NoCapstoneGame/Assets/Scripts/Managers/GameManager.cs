@@ -40,12 +40,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float playerHealth;
 
     [SerializeField] private float maxEnergyLevel;
-    // The current energy level (max charge amount) (for MVP)
+    // The current energy level (max charge amount) 
     [SerializeField] private float energyLevel;
 
     // The current energy charge (for MVP)
     [SerializeField] private float chargeLevel;
-
 
     public float maxFired;
     [SerializeField] public float firedLevel;
@@ -65,25 +64,20 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnPlayerHeal;
     public UnityEvent OnPlayerHurt;
     public UnityEvent OnPlayerDeath;
+
     public UnityEvent OnEnergyChange;
     public UnityEvent OnChargeChange;
     public UnityEvent OnFiredChange;
-
 
     public UnityEvent OnGameEnterMenus;
     public UnityEvent OnGamePause;
     public UnityEvent OnGameResume;
 
-    public UnityEvent OnBoostStart;
-    public UnityEvent OnBoostEnd;
+    public UnityEvent OnBoostStart; //cleanup: remove?
+    public UnityEvent OnBoostEnd;//cleanup: remove?
 
     void Awake()
     {
-
-        //TODO: SET INITIAL VALUE in liue of the following line
-        //paused = false;
-
-
         if (_instance == null)
         {
             _instance = this;
@@ -163,6 +157,7 @@ public class GameManager : MonoBehaviour
     }
 
     public float GetEnergy() => energyLevel;
+
     public void UpdateFired(float amount)
     {
         firedLevel = Mathf.Min(firedLevel + amount, maxFired);
@@ -208,9 +203,7 @@ public class GameManager : MonoBehaviour
         firedLevel = 0;
         Speed = numOfResets * speedOnExit;
 
-        OnBoostEnd.Invoke();
-
-
+        OnBoostEnd.Invoke(); //only tied to playerController.boostEnded. cleanup: remove?
     }
 
 
