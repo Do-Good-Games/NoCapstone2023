@@ -73,7 +73,7 @@ public class SpeedManager : MonoBehaviour
     protected enum SpeedOnExitType { Ratio, Static } //after prototyping consider having all value types be done as one universal enum
 
     [Header("boost variables")]
-    [SerializeField] protected float boostSpeed = 100;
+    public float boostSpeed = 100;
     [SerializeField] protected float minBoostEnergy = 0;
     [SerializeField] protected float boostEnergyLostPerSecond = 20;
 
@@ -110,7 +110,7 @@ public class SpeedManager : MonoBehaviour
             //Debug.Log("adjusting speed over time"); //do we perhaps want to scale this by energy levels?
         }
 
-        if(gameManager.speed >= gameManager.maxSpeed)
+        if(gameManager.firedLevel >= gameManager.maxFired)
         {
             //ActivateBoost();
         }
@@ -123,92 +123,22 @@ public class SpeedManager : MonoBehaviour
         //updateEnergy()
     }
 
-    public void UpdateEnergy(bool increment)
+    public void Fired(float charge)
     {
-        //if (increment)
-        //{
-        //    collected++;
-        //    held++;
-        //}
-
-        if (BByEnergyHeld)
+        if(gameManager.firedLevel + charge < gameManager.GetEnergy())
         {
-            //if we so chose, we could also set the held variable here rather than in getSpeed()
-            held = gameManager.GetEnergy() * PerEnergyHeld;
-            
-            /*
-            if (increment)
-            {
-                //speed += PerEnergyHeld;
-                held++;
-            }
-            else
-            {
-                held--;
-                //speed -= PerEnergyHeld;
-            }*/
+
+            gameManager.UpdateFired(charge);
         }
-
-        if (BByEnergyCollected && increment)
-        {
-            collected += PerEnergyCollected;
-        }
-
-        if (increment && (gameManager.speed > gameManager.maxSpeed) )
-        {
-            //ActivateBoost();
-        }
-    }
-
-    public void Fired( float charge)
-    {
-        if (fired + charge < GameManager.Instance.GetEnergy())//if we're still below GM's energy, IE we want to increase our values
-        {
-            fired += BByEnergyFired ? charge : 0;
-            held -= BByEnergyHeld ? charge : 0;
-            
-            gameManager.OnFiredChange.Invoke();
-            
-            /*if(fired >= gameManager.GetMaxEnergy()){
-                ActivateBoost();
-            }*/
-        }
-
-        //this was how I did it in speed prototype, the active code (above) was adopted from the boost prototype
-        /*
-        if (BByEnergyFired)
-        {
-            fired++;
-            held -= charge;
-            //speed += PerEnergyFired;
-            
-            //Debug.Log("espeed2 " + speed);
-            //Debug.Log("adjusting speed by energy fired");
-        }*/
 
     }
 
     public void Hit()
     {
-
-        if (BByEnergyHeld)
-        {
-            //speed -= held *  heldLostOnHit * PerEnergyHeld;
-            held -= held * heldLostOnHit;
-        }
-
-        if (BByEnergyFired)
-        {
-            //speed -= fired * firedLostOnHit * PerEnergyFired;
-            fired -= fired * firedLostOnHit;
-        }
-
-        if (BByEnergyCollected)
-        {
-            //speed -= collected;
-            collected -= collected * collectedLostOnHit;
-        }
-
+        //    if (playerController.mouse)
+        //    {
+        //        gameManager.UpdateFired(-gameManager.GetCharge());
+        //    }
     }
 
     public void ResetVariables()
@@ -256,7 +186,7 @@ public class SpeedManager : MonoBehaviour
 
             yield return null;
         }
-        gameManager.EndBoost();
+        gameManager.EndBoost(numOfBoosts, speedOnExit);
         ResetVariables();
     }
 }

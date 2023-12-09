@@ -43,7 +43,7 @@ public class Entity : MonoBehaviour
         perpVector = new Vector3(directionVector.y, -directionVector.x, 0); //perpendicular vector for calculation with wobble
 
         this.gameManager = GameManager.Instance;
-        gameManager.OnSpeedChange.AddListener(UpdateSpeed);
+        gameManager.OnFiredChange.AddListener(UpdateSpeed);
     }
 
     virtual public void setVariables(float downSpeed, float stepSpeed, float directionAngle, float swaySpeed, float swayWidth)

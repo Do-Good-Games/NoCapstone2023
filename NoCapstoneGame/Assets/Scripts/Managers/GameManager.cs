@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get { return _instance; } }
 
     public PlayerController playerController;
+    public SpeedManager speedManager;
 
     [SerializeField] public Camera gameplayCamera;
     [SerializeField] public string hazardTag;
@@ -46,9 +47,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float chargeLevel;
 
 
-    public float maxSpeed;
-    public float speed; //will probably want to roll back to private after we're done prototyping speed stuff
-    [Tooltip("setting speed to ints is more intuitive, but causes insane speeds. This scales it down as well as offering parameterization of how quickly speed increases")]
+    public float maxFired;
+    [SerializeField] public float firedLevel;
+
+    public float Speed;
+    [Tooltip("setting speed to ints (or at least floats at similar sizes to ints, such as 1.75) is more intuitive, but causes insane speeds. This scales it down as well as offering parameterization of how quickly speed increases")]
     [SerializeField] private float speedScale;
 
     // The current score (probably measured in distance)
@@ -66,7 +69,6 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnChargeChange;
     public UnityEvent OnFiredChange;
 
-    public UnityEvent OnSpeedChange;
 
     public UnityEvent OnGameEnterMenus;
     public UnityEvent OnGamePause;
@@ -103,11 +105,11 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //OnGameTogglePause.AddListener(TogglePause);
+        speedManager = playerController.speedManager;
     }
 
     private void Update()
     {
-        CalculateSpeed(); // could also do this in update depending on how it's implemented, current implementation will only ever change with score
 
     }
 
@@ -146,11 +148,13 @@ public class GameManager : MonoBehaviour
 
         if (amount > 0)
         {
-            playerController.energyDecayTime = 0;
+            //playerController.energyDecayTime = 0; 
         }
         
+
         OnEnergyChange.Invoke();
     }
+
 
     public void ResetEnergy()
     {
@@ -159,6 +163,14 @@ public class GameManager : MonoBehaviour
     }
 
     public float GetEnergy() => energyLevel;
+    public void UpdateFired(float amount)
+    {
+        firedLevel = Mathf.Min(firedLevel + amount, maxFired);
+        firedLevel = Mathf.Max(firedLevel, 0);
+
+        OnFiredChange.Invoke();
+    }
+
 
     public float GetMaxEnergy()
     {
@@ -169,7 +181,7 @@ public class GameManager : MonoBehaviour
     public void UpdateCharge(float adjustmentAmount)
     {
         chargeLevel = Mathf.Min(energyLevel, chargeLevel + adjustmentAmount);
-        chargeLevel = Mathf.Max(0, chargeLevel + adjustmentAmount);
+        chargeLevel = Mathf.Max(0, chargeLevel);
 
         OnChargeChange.Invoke();
 
@@ -191,9 +203,14 @@ public class GameManager : MonoBehaviour
         OnBoostStart.Invoke();
     }
 
-    public void EndBoost()
+    public void EndBoost(int numOfResets, float speedOnExit)
     {
+        firedLevel = 0;
+        Speed = numOfResets * speedOnExit;
+
         OnBoostEnd.Invoke();
+
+
     }
 
 
@@ -233,13 +250,7 @@ public class GameManager : MonoBehaviour
         OnGameEnterMenus.Invoke();
     }
 
-    public void CalculateSpeed()
-    {
-        speed = playerController.speedManager.GetSpeed();
 
-        OnSpeedChange.Invoke();
-    }
-
-    public float GetSpeed() => speed;
+    public float GetSpeed() => playerController.inBoost? speedManager.boostSpeed : firedLevel + Speed;
     public float GetSpeedScale() => speedScale;
 }

@@ -164,8 +164,6 @@ public class PlayerController : MonoBehaviour
         gameManager.OnGamePause.AddListener(SwitchActionMap);
         gameManager.OnGameEnterMenus.AddListener(SwitchActionMap);
 
-        gameManager.OnEnergyChange.AddListener(CallEnergyChange);
-
         gameManager.OnBoostStart.AddListener(BoostStarted);
         gameManager.OnBoostEnd.AddListener(BoostEnded);
 
@@ -193,8 +191,6 @@ public class PlayerController : MonoBehaviour
         //SpeedPrototypeSO.ResetVariables();
         //SOBoost.ResetVariables();
         //SOBoost.speedPrototype = SpeedPrototypeSO;
-
-
     }
 
     private void BoostEnded()
@@ -204,7 +200,6 @@ public class PlayerController : MonoBehaviour
         boostGracePeriodCoroutineObject = BoostGracePeriod();
         StartCoroutine(boostGracePeriodCoroutineObject);
     }
-
 
     private void BoostStarted()
     {
@@ -222,16 +217,15 @@ public class PlayerController : MonoBehaviour
             Debug.Log("tsgps1: " + timeSinceGracePeriodStart);
             yield return new WaitForSeconds(.1f);
         }
+        gameManager.ResetEnergy();
 
         Debug.Log("ended coroutine");
 
-        damageable = true;
-        
+        damageable = true;        
     }
 
     public void Update()
     {
-
         //SpeedPrototypeSO.SPOverTime();//depreciated prototype code - no replacement necessary
         // If only the left mouse is held, increase charge value
         if (leftMouseHeld)
@@ -310,7 +304,6 @@ public class PlayerController : MonoBehaviour
     }
     #endregion cursor movement
 
-
     public void Charge(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -363,7 +356,7 @@ public class PlayerController : MonoBehaviour
         {
             if (context.started)
             {
-                if (gameManager.speed >= gameManager.maxSpeed && gameManager.GetEnergy() >= gameManager.GetMaxEnergy()) //if our fired var and our energy var are at max
+                if (gameManager.firedLevel >= gameManager.maxFired && gameManager.GetEnergy() >= gameManager.GetMaxEnergy()) //if our fired var and our energy var are at max
                 {
                     Debug.Log("context started");
                     RightMouseHeld = true;
@@ -478,7 +471,6 @@ public class PlayerController : MonoBehaviour
 
         if (damageable) {
             //SpeedPrototypeSO.SPHit(); //prototype
-            speedManager.Hit();
 
             if (EnergyProtects){
 
@@ -507,9 +499,10 @@ public class PlayerController : MonoBehaviour
             }
             if (RightMouseHeld)
             {
-
                 RightMouseHeld = false;
+                gameManager.UpdateFired(-gameManager.GetCharge());
                 gameManager.ResetCharge();
+
             }
 
 
@@ -540,34 +533,8 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void CallEnergyChange()
-    {
-        CallEnergyChange(false);
-    }
 
 
-    public void CallEnergyChange(bool fromUpdate)
-    {
-        if(fromUpdate)
-        {
-            Debug.LogWarning("callenergychange was called from update. unless you've seen this message you can just get rid of the variable ");
-        }
-
-        if(PrevEnergyLevel < gameManager.GetEnergy()) //we've gained energy 
-        {
-
-            speedManager.UpdateEnergy(true);
-
-
-
-        } else if(shooting)
-        {
-            //SpeedPrototypeSO.SPEnergyHeld(false);
-            speedManager.UpdateEnergy(false);
-        }
-        PrevEnergyLevel = gameManager.GetEnergy();
-
-    }
 
     public void togglePause(InputAction.CallbackContext context)
     {
@@ -608,6 +575,9 @@ public class PlayerController : MonoBehaviour
                 collision.GetComponent<IDamageable>()?.Damage(100000);
             else 
                 Hit();
+        } else if (collision.GetComponent<Energy>())
+        {
+            energyDecayTime = 0;
         }
     }
 

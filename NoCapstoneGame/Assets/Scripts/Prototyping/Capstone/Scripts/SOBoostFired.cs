@@ -40,12 +40,12 @@ public class SOBoostFired : SOBoostBase
         {
             if (incrByNumOfBoosts)
             {
-                speedPrototype.speed = GameManager.Instance.speed *  speedOnExit * numOfBoosts;
+                speedPrototype.speed = GameManager.Instance.firedLevel *  speedOnExit * numOfBoosts;
 
             }
             else
             {
-                speedPrototype.speed = speedOnExit * GameManager.Instance.speed;
+                speedPrototype.speed = speedOnExit * GameManager.Instance.firedLevel;
             }
         }
         int currScore = GameManager.Instance.GetScore();
