@@ -52,7 +52,11 @@ public class Asteroid : Entity, IDamageable
     public void DestroyFromLazer()
     {
         Debug.Log("destroyed from lazer");
-        destroySound.Play();
+
+        //SFXManager.Instance.Play(destroySound.clip); //THIS CALLS SFXManager.restrictAudio which kills unity
+        //destroySound.Play();
+        AudioSource.PlayClipAtPoint(destroySound.clip, transform.position);
+
         gameManager.UpdateScore(score);
         //asteroidRenderer.enabled = false;
         //asteroidCollider.enabled = false;
