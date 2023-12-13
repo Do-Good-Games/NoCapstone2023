@@ -69,8 +69,7 @@ public class PauseUIScript : MonoBehaviour
 
     private void MainMenuClicked()
     {
-        sceneManager.GoToMainMenu();
-      
+        sceneManager.GoToMainMenu();    
     }
 
 
