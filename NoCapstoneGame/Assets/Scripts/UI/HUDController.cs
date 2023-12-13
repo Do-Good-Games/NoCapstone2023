@@ -73,7 +73,7 @@ public class HUDController: MonoBehaviour
     void Update()
     {
         scoreDisplay.text = gameManager.GetScore().ToString().PadLeft(5, '0');
-        speedDisplay.text = gameManager.GetCurrentSpeed().ToString() + "kph";
+        speedDisplay.text = gameManager.GetUnscaledSpeed().ToString() + "kph";
         speedNeedle.style.rotate = new StyleRotate(new Rotate(new Angle(gameManager.relativeSpeed - 90, AngleUnit.Degree)));    //https://docs.unity3d.com/Manual/UIE-Transform.html
     }
 

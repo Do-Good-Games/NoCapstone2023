@@ -66,7 +66,7 @@ public class Entity : MonoBehaviour
     {
         Vector3 oldPos = entityBody.transform.position;//store the current position of the entity
 
-        gmSpeed = gameManager.GetCurrentSpeed() * gameManager.GetSpeedScale();
+        gmSpeed = gameManager.GetUnscaledSpeed() * gameManager.GetSpeedScale();
 
         
 
