@@ -78,8 +78,8 @@ public class HUDController: MonoBehaviour
     void Update()
     {
         scoreDisplay.text = gameManager.GetScore().ToString().PadLeft(5, '0');
-        speedDisplay.text = gameManager.GetSpeed().ToString() + "kph";
-        speedNeedle.style.rotate = new StyleRotate(new Rotate(new Angle(gameManager.firedLevel - 90, AngleUnit.Degree)));    //https://docs.unity3d.com/Manual/UIE-Transform.html
+        speedDisplay.text = gameManager.GetCurrentSpeed().ToString() + "kph";
+        speedNeedle.style.rotate = new StyleRotate(new Rotate(new Angle(gameManager.relativeSpeed - 90, AngleUnit.Degree)));    //https://docs.unity3d.com/Manual/UIE-Transform.html
     }
 
     void UpdateHealthBar()
@@ -120,6 +120,7 @@ public class HUDController: MonoBehaviour
     void UpdateFiredBar()
     {
         //firedBar.value = gameManager.firedLevel / gameManager.maxFired * firedBar.highValue; //cleanup: remove
+        firedBar.value = gameManager.relativeSpeed / gameManager.maxFired * firedBar.highValue; //cleanup: remove
         firedBar1.value = gameManager.speed / gameManager.maxSpeed * firedBar1.highValue;
         firedBar2.value = gameManager.speed / gameManager.maxSpeed * firedBar2.highValue;
 
