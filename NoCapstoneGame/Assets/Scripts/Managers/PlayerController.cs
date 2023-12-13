@@ -323,7 +323,7 @@ public class PlayerController : MonoBehaviour
         {
             if (context.started)
             {
-                if (gameManager.firedLevel >= gameManager.maxFired && gameManager.GetEnergy() >= gameManager.GetMaxEnergy()) //if our fired var and our energy var are at max
+                if (gameManager.relativeSpeed >= gameManager.maxFired && gameManager.GetEnergy() >= gameManager.GetMaxEnergy()) //if our fired var and our energy var are at max
                 {
                     Debug.Log("context started");
                     RightMouseHeld = true;
