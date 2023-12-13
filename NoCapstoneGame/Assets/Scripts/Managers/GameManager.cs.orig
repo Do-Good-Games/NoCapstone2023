@@ -27,11 +27,8 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
-<<<<<<< HEAD
     public PlayerController playerController;
-=======
-    [SerializeField] public PlayerController playerController;
->>>>>>> energySystemRework
+    public SpeedManager speedManager;
 
     [SerializeField] public Camera gameplayCamera;
     [SerializeField] public string hazardTag;
@@ -43,17 +40,23 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float playerHealth;
 
     [SerializeField] private float maxEnergyLevel;
-    // The current energy level (max charge amount) (for MVP)
+    // The current energy level (max charge amount) 
     [SerializeField] private float energyLevel;
 
     // The current energy charge (for MVP)
     [SerializeField] private float chargeLevel;
 
+    public float maxFired;
+    [SerializeField] public float firedLevel;
 
-    public float maxSpeed;
-    public float speed; //will probably want to roll back to private after we're done prototyping speed stuff
-    [Tooltip("setting speed to ints is more intuitive, but causes insane speeds. This scales it down as well as offering parameterization of how quickly speed increases")]
+    public float Speed;
+    [Tooltip("setting speed to ints (or at least floats at similar sizes to ints, such as 1.75) is more intuitive, but causes insane speeds. This scales it down as well as offering parameterization of how quickly speed increases")]
     [SerializeField] private float speedScale;
+
+    [Tooltip("This modifies asteroid values to make the game harder with each level")]
+    [SerializeField] private float levelScale = 1;
+
+    [SerializeField] public GameObject explosionPrefab; //I will hopefully not need to keep this here (bobby)
 
     // The current score (probably measured in distance)
     private int score;
@@ -66,26 +69,22 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnPlayerHeal;
     public UnityEvent OnPlayerHurt;
     public UnityEvent OnPlayerDeath;
+
     public UnityEvent OnEnergyChange;
     public UnityEvent OnChargeChange;
     public UnityEvent OnFiredChange;
-
-    public UnityEvent OnSpeedChange;
 
     public UnityEvent OnGameEnterMenus;
     public UnityEvent OnGamePause;
     public UnityEvent OnGameResume;
 
-    public UnityEvent OnBoostStart;
-    public UnityEvent OnBoostEnd;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/BobbyAlpha
     void Awake()
     {
-
-        //TODO: SET INITIAL VALUE in liue of the following line
-        //paused = false;
-
-
         if (_instance == null)
         {
             _instance = this;
@@ -95,13 +94,14 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        cameraBounds = new Vector2(gameplayCamera.orthographicSize, gameplayCamera.orthographicSize * gameplayCamera.aspect);
+        cameraBounds = new Vector2(gameplayCamera.orthographicSize - 1, (gameplayCamera.orthographicSize * gameplayCamera.aspect) - 1.5f);
 
         // Initilize playerHealth to 0, the player will call AddPlayerHealth() when the game starts.
         // This allows max health to be configued in the player object or at runtime
         playerHealth = 0;
         Time.timeScale = 1;
         Cursor.visible = false;
+        speedManager = playerController.speedManager;
     }
 
     private void Start()
@@ -111,7 +111,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        CalculateSpeed(); // could also do this in update depending on how it's implemented, current implementation will only ever change with score
 
     }
 
@@ -145,21 +144,28 @@ public class GameManager : MonoBehaviour
 
     public void UpdateEnergy(float amount)
     {
+<<<<<<< HEAD
         energyLevel = Mathf.Min(energyLevel+ amount, maxEnergyLevel);
         energyLevel = Mathf.Max(energyLevel+ amount, 0);
 
-<<<<<<< HEAD
+        if (amount > 0)
+        {
+            //playerController.energyDecayTime = 0; 
+        }
         
 
 =======
-        if (amount > 0)
+        //energyLevel = Mathf.Min(energyLevel+ amount, maxEnergyLevel);
+        energyLevel = energyLevel + amount;
+        if(energyLevel >= maxEnergyLevel)
         {
-            playerController.energyDecayTime = 0;
+            levelScale += .1f;
+            SceneManager.Instance.SwitchToScene("BobbyAlphaScene");
         }
-        
->>>>>>> energySystemRework
+>>>>>>> origin/BobbyAlpha
         OnEnergyChange.Invoke();
     }
+
 
     public void ResetEnergy()
     {
@@ -169,16 +175,32 @@ public class GameManager : MonoBehaviour
 
     public float GetEnergy() => energyLevel;
 
+    public void UpdateFired(float amount)
+    {
+        firedLevel = Mathf.Min(firedLevel + amount, maxFired);
+        firedLevel = Mathf.Max(firedLevel, 0);
+
+        OnFiredChange.Invoke();
+    }
+
+
     public float GetMaxEnergy()
     {
         return maxEnergyLevel;
     }
 
+<<<<<<< HEAD
+    [Tooltip("adds (or subtracts) the given value to the amount of charge")]
+    public void UpdateCharge(float adjustmentAmount)
+=======
+    public float GetLevelScale() => levelScale;
+
 
     public void UpdateCharge(float amount)
+>>>>>>> origin/BobbyAlpha
     {
-        chargeLevel = Mathf.Min(energyLevel, chargeLevel + amount);
-        chargeLevel = Mathf.Max(0, chargeLevel + amount);
+        chargeLevel = Mathf.Min(energyLevel, chargeLevel + adjustmentAmount);
+        chargeLevel = Mathf.Max(0, chargeLevel);
 
         OnChargeChange.Invoke();
 
@@ -195,14 +217,11 @@ public class GameManager : MonoBehaviour
         return chargeLevel;
     }
 
-    public void StartBoost()
-    {
-        OnBoostStart.Invoke();
-    }
 
-    public void EndBoost()
+    public void EndBoost(int numOfResets, float speedOnExit)
     {
-        OnBoostEnd.Invoke();
+        firedLevel = 0;
+        Speed = numOfResets * speedOnExit;
     }
 
 
@@ -242,13 +261,7 @@ public class GameManager : MonoBehaviour
         OnGameEnterMenus.Invoke();
     }
 
-    public void CalculateSpeed()
-    {
-        speed = playerController.speedManager.GetSpeed();
 
-        OnSpeedChange.Invoke();
-    }
-
-    public float GetSpeed() => speed;
+    public float GetSpeed() => speedManager.inBoost? speedManager.boostSpeed : firedLevel + Speed;
     public float GetSpeedScale() => speedScale;
 }

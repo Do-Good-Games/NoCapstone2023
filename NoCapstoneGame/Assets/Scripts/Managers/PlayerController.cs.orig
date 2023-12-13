@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     //[SerializeField] public SPSOBase SpeedPrototypeSO;
     //[SerializeField] public SOBoostBase SOBoost;
 
+    //TODO when releasing rightmb reset energy
+
 
     [Header("energy and charge values")]
     [SerializeField] public float ChargeGainPerSecond;
@@ -131,15 +133,11 @@ public class PlayerController : MonoBehaviour
     private bool damageable;
     private bool damageCooldownEnding;
 
-    public bool inBoost { get; private set; }
-    public float timeSinceStartingBoost { get; private set; }
-    [Tooltip("how long (in seconds) after the player exits boost that they're immune (but don't destroy asteroids)")]
-    [SerializeField] private float boostGracePeriodDuration;
 
     private IEnumerator ShootCoroutineObject;
     private IEnumerator DamageCooldownCoroutineObject;
     private IEnumerator DamageFlashCoroutineObject;
-    private IEnumerator boostGracePeriodCoroutineObject;
+
 
     private float PrevEnergyLevel = 0;
 
@@ -162,10 +160,8 @@ public class PlayerController : MonoBehaviour
         gameManager.OnGamePause.AddListener(SwitchActionMap);
         gameManager.OnGameEnterMenus.AddListener(SwitchActionMap);
 
-        gameManager.OnEnergyChange.AddListener(CallEnergyChange);
-
-        gameManager.OnBoostStart.AddListener(BoostStarted);
-        gameManager.OnBoostEnd.AddListener(BoostEnded);
+        //gameManager.OnBoostStart.AddListener(BoostStarted); //cleanup: remove?
+        //gameManager.OnBoostEnd.AddListener(BoostEnded);//cleanup: remove?
 
 
         //gameManager.OnGameTogglePause.AddListener(SwitchActionMap);
@@ -180,7 +176,6 @@ public class PlayerController : MonoBehaviour
         shooting = false;
         damageable = true;
         damageCooldownEnding = false;
-        inBoost = false;
 
         currentActionMapName = "Player";
         playerInput = GetComponent<PlayerInput>();
@@ -191,45 +186,12 @@ public class PlayerController : MonoBehaviour
         //SpeedPrototypeSO.ResetVariables();
         //SOBoost.ResetVariables();
         //SOBoost.speedPrototype = SpeedPrototypeSO;
-
-
-    }
-
-    private void BoostEnded()
-    {
-        inBoost = false;
-
-        boostGracePeriodCoroutineObject = BoostGracePeriod();
-        StartCoroutine(boostGracePeriodCoroutineObject);
     }
 
 
-    private void BoostStarted()
-    {
-        timeSinceStartingBoost = Time.deltaTime;
-        inBoost = true;
-    }
-
-    private IEnumerator BoostGracePeriod()
-    {
-        damageable = false;
-        float timeSinceGracePeriodStart = Time.time;
-        Debug.Log("tsgps: " + timeSinceGracePeriodStart);
-        while(Time.time - timeSinceGracePeriodStart <= boostGracePeriodDuration)
-        {
-            Debug.Log("tsgps1: " + timeSinceGracePeriodStart);
-            yield return new WaitForSeconds(.1f);
-        }
-
-        Debug.Log("ended coroutine");
-
-        damageable = true;
-        
-    }
 
     public void Update()
     {
-
         //SpeedPrototypeSO.SPOverTime();//depreciated prototype code - no replacement necessary
         // If only the left mouse is held, increase charge value
         if (leftMouseHeld)
@@ -239,17 +201,12 @@ public class PlayerController : MonoBehaviour
             //SOBoost.incFired(ChargeGainPerSecond * Time.deltaTime); //depreciated prototype code - changed to sm.fired()
 
             UpdateEnergySphere();
-<<<<<<< HEAD
+            energyDecayTime = 0;
         }else if(RightMouseHeld) {
             gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
+            energyDecayTime = 0;
         }
         else if (!shooting) //decaying energy while we're actively firing causes unwanted behavior with the speed var, plus we probably shouldn't anyway
-        {
-            //Debug.Log("decaying energy");
-            DecayEnergy();
-=======
-            energyDecayTime = 0;
-        } else
         {
             if(energyDecayTime >= energyDecayDelay)
             {
@@ -259,7 +216,6 @@ public class PlayerController : MonoBehaviour
             {
                 energyDecayTime += Time.deltaTime;
             }
->>>>>>> energySystemRework
         }
       
     }
@@ -314,7 +270,6 @@ public class PlayerController : MonoBehaviour
     }
     #endregion cursor movement
 
-
     public void Charge(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -346,6 +301,8 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+
     public void OnRightClick(InputAction.CallbackContext context)
     {
         if (context.canceled)
@@ -356,13 +313,16 @@ public class PlayerController : MonoBehaviour
             if (gameManager.GetCharge() >= gameManager.GetMaxEnergy()) //if our charge is at max (max calc'd as max energy)
             {
                 speedManager.ActivateBoost();
+            } else
+            {
+                gameManager.ResetCharge();
             }
         }
         else
         {
             if (context.started)
             {
-                if (gameManager.speed >= gameManager.maxSpeed && gameManager.GetEnergy() >= gameManager.GetMaxEnergy()) //if our fired var and our energy var are at max
+                if (gameManager.firedLevel >= gameManager.maxFired && gameManager.GetEnergy() >= gameManager.GetMaxEnergy()) //if our fired var and our energy var are at max
                 {
                     Debug.Log("context started");
                     RightMouseHeld = true;
@@ -465,6 +425,20 @@ public class PlayerController : MonoBehaviour
         energySphereCollider.radius = (energySphereSize / 2) - EnergySphereHitboxGraceArea;
     }
 
+<<<<<<< HEAD
+=======
+    private void FireLasers()
+    {
+
+        gameManager.UpdateEnergy(-ChargeSpentPerShot);
+        // tell every spawner to spawn a laser
+        foreach (LaserSpawner spawner in spawners)
+        {
+            shootSound.Play();
+            spawner.SpawnLaser();
+        }
+    }
+>>>>>>> origin/BobbyAlpha
 
     private void LaunchChargeShot(Vector2 position, Vector2 launchVector)
     {
@@ -475,9 +449,8 @@ public class PlayerController : MonoBehaviour
 
     public void Hit() {
 
-        if (damageable) {
+        if (damageable && !speedManager.inBoostGracePeriod) {
             //SpeedPrototypeSO.SPHit(); //prototype
-            speedManager.Hit();
 
             if (EnergyProtects){
 
@@ -502,6 +475,13 @@ public class PlayerController : MonoBehaviour
 
 
                 }
+
+            }
+            if (RightMouseHeld)
+            {
+                RightMouseHeld = false;
+                gameManager.UpdateFired(-gameManager.GetCharge());
+                gameManager.ResetCharge();
 
             }
 
@@ -533,34 +513,8 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void CallEnergyChange()
-    {
-        CallEnergyChange(false);
-    }
 
 
-    public void CallEnergyChange(bool fromUpdate)
-    {
-        if(fromUpdate)
-        {
-            Debug.LogWarning("callenergychange was called from update. unless you've seen this message you can just get rid of the variable ");
-        }
-
-        if(PrevEnergyLevel < gameManager.GetEnergy()) //we've gained energy 
-        {
-
-            speedManager.UpdateEnergy(true);
-
-
-
-        } else if(shooting)
-        {
-            //SpeedPrototypeSO.SPEnergyHeld(false);
-            speedManager.UpdateEnergy(false);
-        }
-        PrevEnergyLevel = gameManager.GetEnergy();
-
-    }
 
     public void togglePause(InputAction.CallbackContext context)
     {
@@ -597,10 +551,13 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag(gameManager.hazardTag))
         {
             // Assuming inBoost is true when the player is in hyperspeed
-            if (inBoost)
-                collision.GetComponent<IDamageable>()?.Damage(100000);
+            if (speedManager.inBoost)
+                collision.GetComponent<IDamageable>()?.Damage(100000); //don't damage the asteroid, instead get theasteroid component and call destroy()
             else 
                 Hit();
+        } else if (collision.GetComponent<Energy>())
+        {
+            energyDecayTime = 0;
         }
     }
 

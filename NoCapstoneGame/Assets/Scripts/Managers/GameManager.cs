@@ -53,6 +53,11 @@ public class GameManager : MonoBehaviour
     [Tooltip("setting speed to ints (or at least floats at similar sizes to ints, such as 1.75) is more intuitive, but causes insane speeds. This scales it down as well as offering parameterization of how quickly speed increases")]
     [SerializeField] private float speedScale;
 
+    [Tooltip("This modifies asteroid values to make the game harder with each level")]
+    [SerializeField] private float levelScale = 1;
+
+    [SerializeField] public GameObject explosionPrefab; //I will hopefully not need to keep this here (bobby)
+
     // The current score (probably measured in distance)
     private int score;
 
@@ -72,6 +77,7 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnGameEnterMenus;
     public UnityEvent OnGamePause;
     public UnityEvent OnGameResume;
+
 
 
     void Awake()
@@ -135,7 +141,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateEnergy(float amount)
     {
-        energyLevel = Mathf.Min(energyLevel+ amount, maxEnergyLevel);
+        //energyLevel = Mathf.Min(energyLevel+ amount, maxEnergyLevel);
         energyLevel = Mathf.Max(energyLevel+ amount, 0);
 
         if (amount > 0)
@@ -169,6 +175,8 @@ public class GameManager : MonoBehaviour
     {
         return maxEnergyLevel;
     }
+
+    public float GetLevelScale() => levelScale;
 
     [Tooltip("adds (or subtracts) the given value to the amount of charge")]
     public void UpdateCharge(float adjustmentAmount)

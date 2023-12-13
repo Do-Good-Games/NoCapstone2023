@@ -426,6 +426,8 @@ public class PlayerController : MonoBehaviour
     }
 
 
+        gameManager.UpdateEnergy(-ChargeSpentPerShot);
+
     private void LaunchChargeShot(Vector2 position, Vector2 launchVector)
     {
         ChargeShotProjectile projectile = GameObject.Instantiate<ChargeShotProjectile>(chargeShotPrefab, position, Quaternion.identity);
