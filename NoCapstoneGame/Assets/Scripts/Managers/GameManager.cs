@@ -47,9 +47,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float chargeLevel;
 
     public float maxFired;
-    [SerializeField] public float firedLevel;
+    [SerializeField] public float relativeSpeed;
 
-    public float Speed;
+    [Tooltip("the minimum speed the player will go, relative to the number of boosts the player has undergone")]
+    public float baseSpeed;
     [Tooltip("setting speed to ints (or at least floats at similar sizes to ints, such as 1.75) is more intuitive, but causes insane speeds. This scales it down as well as offering parameterization of how quickly speed increases")]
     [SerializeField] private float speedScale;
 
@@ -164,8 +165,8 @@ public class GameManager : MonoBehaviour
 
     public void UpdateFired(float amount)
     {
-        firedLevel = Mathf.Min(firedLevel + amount, maxFired);
-        firedLevel = Mathf.Max(firedLevel, 0);
+        relativeSpeed = Mathf.Min(relativeSpeed + amount, maxFired);
+        relativeSpeed = Mathf.Max(relativeSpeed, 0);
 
         OnFiredChange.Invoke();
     }
@@ -202,8 +203,8 @@ public class GameManager : MonoBehaviour
 
     public void EndBoost(int numOfResets, float speedOnExit)
     {
-        firedLevel = 0;
-        Speed = numOfResets * speedOnExit;
+        relativeSpeed = 0;
+        baseSpeed = numOfResets * speedOnExit;
     }
 
 
@@ -243,7 +244,7 @@ public class GameManager : MonoBehaviour
         OnGameEnterMenus.Invoke();
     }
 
-
-    public float GetSpeed() => speedManager.inBoost? speedManager.boostSpeed : firedLevel + Speed;
+    [Tooltip("if not in boost, returns the total of the current relative speed, plus the base speed")]
+    public float GetCurrentSpeed() => speedManager.inBoost? speedManager.boostSpeed : relativeSpeed + baseSpeed;
     public float GetSpeedScale() => speedScale;
 }
