@@ -82,10 +82,15 @@ public class Asteroid : Entity, IDamageable
     public void DestroyFromLazer()
     {
 <<<<<<< HEAD
-=======
-        //Debug.Log("destroyed from lazer");
->>>>>>> origin/BobbyAlpha
         destroySound.Play();
+=======
+        Debug.Log("destroyed from lazer");
+
+        //SFXManager.Instance.Play(destroySound.clip); //THIS CALLS SFXManager.restrictAudio which kills unity
+        //destroySound.Play();
+        AudioSource.PlayClipAtPoint(destroySound.clip, transform.position);
+
+>>>>>>> soundManager
         gameManager.UpdateScore(score);
         //asteroidRenderer.enabled = false;
         //asteroidCollider.enabled = false;

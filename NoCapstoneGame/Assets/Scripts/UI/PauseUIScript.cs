@@ -9,6 +9,9 @@ public class PauseUIScript : MonoBehaviour
 {
     private GameManager gameManager;
     private SceneManager sceneManager;
+    private SFXManager sfxManager;
+
+    [SerializeField] AudioReference pauseReference; // BOBBY CHECK HERE -  likely an unset reference
 
     [SerializeField] private UIDocument UIDoc;
 
@@ -26,6 +29,8 @@ public class PauseUIScript : MonoBehaviour
 
         sceneManager = SceneManager.Instance;
         gameManager = GameManager.Instance;
+
+
 
         root = UIDoc.rootVisualElement;
 
@@ -48,6 +53,8 @@ public class PauseUIScript : MonoBehaviour
         root.style.visibility = Visibility.Hidden;
         //root.SetEnabled(false);
         //root.visible = false;
+        
+        sfxManager = SFXManager.Instance;
     }
 
     private void OnEnable()
@@ -71,6 +78,19 @@ public class PauseUIScript : MonoBehaviour
     //to see whether this method is getting called in menus (which it shouldn't). 
     private void ShowHidePauseMenu()
     {
+    
+    
+        if(pauseReference != null)
+        {
+            Debug.Log("successfully instanced");
+            sfxManager.Play(pauseReference.GetClip());
+
+        } else
+        {
+            Debug.LogWarning("PAUSEREFERENCE INVALID");
+
+        }
+        
         if (gameManager.gameState == GameState.paused)
         {
             root.style.visibility = Visibility.Visible;

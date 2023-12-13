@@ -1,0 +1,73 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
+
+public class LoseSceneScript : MonoBehaviour
+{
+    private SceneManager sceneManager;
+
+    VisualElement root;
+
+    Button restartButton ;
+    Button quitButton;
+
+<<<<<<< HEAD
+=======
+    SoundPlayer soundPlayer ;
+    [SerializeField] AudioReference deathSoundReference;
+    SFXManager sfxManager;
+
+>>>>>>> soundManager
+    private void OnEnable()
+    {
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        sceneManager = SceneManager.Instance;
+<<<<<<< HEAD
+=======
+        sfxManager = SFXManager.Instance;
+>>>>>>> soundManager
+        //Application.Quit();
+
+
+        root = GetComponent<UIDocument>().rootVisualElement;
+
+        restartButton = root.Q<Button>("RestartButton");
+        quitButton = root.Q<Button>("QuitButton");
+
+<<<<<<< HEAD
+        restartButton.clicked += () => sceneManager.SwitchToScene(sceneManager.gameplaySceneName);
+        quitButton.clicked += () => Application.Quit(); //make this quit the game
+=======
+        restartButton.clicked += () => sceneManager.SwitchToSceneName(sceneManager.gameplaySceneName);
+        quitButton.clicked += () => Application.Quit(); //make this quit the game
+
+
+        sfxManager.Play(deathSoundReference.GetClip());
+        /*
+        if(soundPlayer = GetComponentInParent<SoundPlayer>()){
+            soundPlayer.RequestPlay();
+
+        } else
+        {
+            Debug.Log("soundplayer not valid");
+        }
+        */
+>>>>>>> soundManager
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+<<<<<<< HEAD
+        
+=======
+        //soundPlayer.RequestPlay();
+>>>>>>> soundManager
+    }
+}

@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AnimationCurve protectionThreshold;
 
 
+
     [Header("energy sphere")]
     [Tooltip("The size increase for the Energy Sphere per unit charged")]
     [SerializeField] public float EnergySizePerUnitCharged;
@@ -380,6 +381,7 @@ public class PlayerController : MonoBehaviour
         foreach (LaserSpawner spawner in spawners)
         {
             shootSound.Play();
+        gameManager.UpdateEnergy(-ChargeSpentPerShot);
             spawner.SpawnLaser();
         }
     }
@@ -426,7 +428,6 @@ public class PlayerController : MonoBehaviour
     }
 
 
-        gameManager.UpdateEnergy(-ChargeSpentPerShot);
 
     private void LaunchChargeShot(Vector2 position, Vector2 launchVector)
     {
