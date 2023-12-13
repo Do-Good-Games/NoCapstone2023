@@ -245,6 +245,7 @@ public class GameManager : MonoBehaviour
     }
 
     [Tooltip("if not in boost, returns the total of the current relative speed, plus the base speed")]
-    public float GetCurrentSpeed() => speedManager.inBoost? speedManager.boostSpeed : relativeSpeed + baseSpeed;
+    public float GetUnscaledSpeed() => speedManager.inBoost? speedManager.boostSpeed : relativeSpeed + baseSpeed;
     public float GetSpeedScale() => speedScale;
+    public float GetScaledSpeed() => GetUnscaledSpeed() * GetSpeedScale();
 }
