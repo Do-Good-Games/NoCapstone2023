@@ -90,8 +90,7 @@ public class EntityManager : MonoBehaviour
             //wait for the length of time set by generationTime - untill then do nothing
             yield return new WaitForSeconds(generationTime);
 
-            float iterGenerationTime = Random.Range(generationTimeRange.x, generationTimeRange.y);
-
+            float iterGenerationTime = getGenerationTime();
 
             //spawning
             float iterSpawn = Random.Range(spawnRange.x, spawnRange.y);
@@ -124,6 +123,12 @@ public class EntityManager : MonoBehaviour
         SetVariables(entity);
         entity.entityManager = this;
         return gameObject;
+    }
+
+    virtual protected float getGenerationTime()
+    {
+        float generationTime = Random.Range(generationTimeRange.x, generationTimeRange.y);
+        return generationTime;
     }
 
     virtual public void SetVariables(Entity entity)
