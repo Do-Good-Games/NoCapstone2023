@@ -38,7 +38,7 @@ public class LoseSceneScript : MonoBehaviour
         quitButton.clicked += () => Application.Quit(); //make this quit the game
 
 
-        sfxManager.Play(deathSoundReference.GetClip());
+        //sfxManager.Play(deathSoundReference.GetClip());
         /*
         if(soundPlayer = GetComponentInParent<SoundPlayer>()){
             soundPlayer.RequestPlay();
