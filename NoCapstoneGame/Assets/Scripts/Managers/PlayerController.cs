@@ -36,10 +36,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float EnergySpentPerShot;
     [Tooltip("The time between individual shots in a volley, in seconds")]
     [SerializeField] public float TimeBetweenShots;
-    [Tooltip("whether or not we want energy to act as a \"buffer\" to the player taking damage - when this is true, the player will not take damage when hit provided they have energy")]
-    [SerializeField] private bool EnergyProtects;
-    [Tooltip("the amount of energy the player loses when they get hit - represented as a ratio of how much energy they have currently")]
-    [SerializeField] private float energyLostOnHit;
+    
+    //energy decay
     private enum EnergyDecayType { none, currentRatio, totalRatio, fixedAmount}
     [Tooltip("which type of energy decay we want to use")]
     [SerializeField] private EnergyDecayType energyDecayType;
@@ -48,6 +46,13 @@ public class PlayerController : MonoBehaviour
     [Tooltip("the amount of time (in seconds) until the energy decay occurs")]
     [SerializeField] private float energyDecayDelay;
     private float energyDecayTime;
+    
+    //on hit
+    [SerializeField] private AnimationCurve protectionThreshold;
+    [Tooltip("whether or not we want energy to act as a \"buffer\" to the player taking damage - when this is true, the player will not take damage when hit provided they have energy")]
+    [SerializeField] private bool EnergyProtects;
+    [Tooltip("the amount of energy the player loses when they get hit - represented as a ratio of the total energy the player can hold")]
+    [SerializeField] private float energyLostOnHit;
 
     //[Tooltip("the minimum amount of energy needed for the player to protect against damage, represented as a ratio from 0-1 \n to disable this mechanic, set to 0")]
     //[SerializeField] float protectionThreshold;
@@ -55,7 +60,6 @@ public class PlayerController : MonoBehaviour
     //[Tooltip("point at which the player will start receiving \"partial\" protection below the full threshold. value from 0-1 representing a proportion of "]
     //[SerializeField] float protectionRatio;
 
-    [SerializeField] private AnimationCurve protectionThreshold;
 
 
 
@@ -435,7 +439,7 @@ public class PlayerController : MonoBehaviour
                     float damageAmount = (healthLostOnHit * amount);
                     //Debug.Log("player at least partially protected " + damageAmount);
                     gameManager.RemovePlayerHealth(damageAmount);
-                    gameManager.UpdateEnergy(-(gameManager.GetEnergy() * energyLostOnHit));
+                    gameManager.UpdateEnergy(- gameManager.GetMaxEnergy() * energyLostOnHit);
                 }
                 else
                 {
@@ -481,9 +485,6 @@ public class PlayerController : MonoBehaviour
         Destroy(this.gameObject, 0.5f);
         //switch action map to UI
     }
-
-
-
 
 
     public void togglePause(InputAction.CallbackContext context)
