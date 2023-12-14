@@ -270,11 +270,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseReference: {fileID: 0}
   UIDoc: {fileID: 390202842}
---- !u!1 &417410875 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7894004486926316019, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-  m_PrefabInstance: {fileID: 429762499}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &429762499
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -373,6 +368,10 @@ PrefabInstance:
     - target: {fileID: 6383936347403402451, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: speedOnExitType
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
@@ -785,34 +784,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
   m_PrefabInstance: {fileID: 429762499}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 417410875}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27a4806fa10234ffca69fde4ee9475e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1308583666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 417410875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1124c83cc1602644ad09c4ef3d14c08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerController: {fileID: 0}
-  BByEnergyFired: 0
-  PerEnergyFired: 0
-  boostSpeed: 100
-  minBoostEnergy: 0
-  boostEnergyLostPerSecond: 20
-  numOfBoosts: 0
-  speedOnExitType: 0
-  speedOnExit: 0
-  boostGracePeriodDuration: 0
 --- !u!1 &1509115612
 GameObject:
   m_ObjectHideFlags: 0
@@ -917,8 +894,8 @@ MonoBehaviour:
   energyLevel: 0
   chargeLevel: 0
   maxFired: 100
-  firedLevel: 0
-  Speed: 0
+  relativeSpeed: 0
+  baseSpeed: 0
   speedScale: 0.001
   levelScale: 1
   explosionPrefab: {fileID: 6879541595993959296, guid: 571feb7a7dd70094993bf4a35444d289, type: 3}

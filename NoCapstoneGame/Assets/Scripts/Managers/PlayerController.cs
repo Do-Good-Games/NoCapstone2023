@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -42,16 +43,11 @@ public class PlayerController : MonoBehaviour
     private enum EnergyDecayType { none, currentRatio, totalRatio, fixedAmount}
     [Tooltip("which type of energy decay we want to use")]
     [SerializeField] private EnergyDecayType energyDecayType;
-    [Tooltip("rate at which the player loses energy over time - as a ratio (or percentage) of the player's CURRENT energy amount")]
-    [SerializeField] private float energyDecayRatioCurrent;
-    [Tooltip("rate at which the player loses energy over time - as a ratio (or percentage) of the player's CURRENT energy amount")]
-    [SerializeField] private float energyDecayRatioTotal;
-    [Tooltip("rate at which the player loses energy over time - as a fixed amount")]
-    [SerializeField] private float energyDecayFixed;
-
+    [Tooltip("rate at which the player loses energy over time")]
+    [SerializeField] private float energyDecayAmount;
     [Tooltip("the amount of time (in seconds) until the energy decay occurs")]
     [SerializeField] private float energyDecayDelay;
-    public float energyDecayTime;
+    private float energyDecayTime;
 
     //[Tooltip("the minimum amount of energy needed for the player to protect against damage, represented as a ratio from 0-1 \n to disable this mechanic, set to 0")]
     //[SerializeField] float protectionThreshold;
@@ -70,14 +66,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float MaxEnergySphereSize;
     [Tooltip("The difference in the visual size of the energy sphere and its hitbox")]
     [SerializeField] public float EnergySphereHitboxGraceArea;
-
-    [Header("Slingshot")]
-
-    [SerializeField] private float MinChargeForSlingshot;
-    [SerializeField] private float SlingshotLaunchFactor;
-    [SerializeField] private float SpaceshipStretchFactor;
-    [SerializeField] private float EnergySphereStretchFactor;
-
 
 
     [Header("Visuals")]
@@ -116,9 +104,8 @@ public class PlayerController : MonoBehaviour
 
 
 
-    public GameManager gameManager;
-    public SceneManager sceneManager;
-    private Camera gameplayCamera;
+    private GameManager gameManager;
+    private SceneManager sceneManager;
     private Vector2 cameraBounds;
     private LaserSpawner[] spawners;
 
@@ -128,7 +115,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 cursorPos;
     private Vector2 slingshotAnchor;
     private Vector2 cursorPosPrePause;
-    float energySphereSize;
+    private float energySphereSize;
 
     private bool shooting;
     private bool damageable;
@@ -143,13 +130,12 @@ public class PlayerController : MonoBehaviour
     private float PrevEnergyLevel = 0;
 
 
+
+
     public void Start()
     {
         gameManager = GameManager.Instance;
-        gameManager.playerController = this;
         sceneManager = SceneManager.Instance;
-        gameManager.playerController = this;
-        gameplayCamera = gameManager.gameplayCamera;
         cameraBounds = gameManager.cameraBounds - (Vector2) shipCollider.bounds.extents;
 
         gameManager.AddPlayerHealth(maxHealth);
@@ -198,7 +184,11 @@ public class PlayerController : MonoBehaviour
         if (leftMouseHeld)
         {
             gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
-            speedManager.Fired(ChargeGainPerSecond * Time.deltaTime);
+            if (gameManager.relativeSpeed < gameManager.GetEnergy())
+            {
+                gameManager.UpdateRelativeSpeed(ChargeGainPerSecond * Time.deltaTime);
+            }
+
             //SOBoost.incFired(ChargeGainPerSecond * Time.deltaTime); //depreciated prototype code - changed to sm.fired()
 
             UpdateEnergySphere();
@@ -252,15 +242,6 @@ public class PlayerController : MonoBehaviour
         shipTransform.position = inBoundsPosition;
         energyTransform.position = inBoundsPosition;
         magnetTransform.position = inBoundsPosition;
-    }
-
-    private void SetStretchedPositions(Vector2 position)
-    {
-        Vector2 stretchedShipPosition = Vector2.Lerp(slingshotAnchor, position, SpaceshipStretchFactor);
-        stretchedShipPosition = KeepInBounds(stretchedShipPosition);
-        shipTransform.position = stretchedShipPosition;
-        energyTransform.position = Vector2.Lerp(slingshotAnchor, stretchedShipPosition, EnergySphereStretchFactor);
-        magnetTransform.position = stretchedShipPosition;
     }
 
     private Vector2 KeepInBounds(Vector2 position)
@@ -609,15 +590,15 @@ public class PlayerController : MonoBehaviour
             case (EnergyDecayType.none):
                 break;
             case (EnergyDecayType.fixedAmount):
-                decayAmount = energyDecayFixed * Time.deltaTime;
+                decayAmount = energyDecayAmount * Time.deltaTime;
                 gameManager.UpdateEnergy(-decayAmount);
                 break;
             case (EnergyDecayType.currentRatio):
-                decayAmount = gameManager.GetEnergy() * energyDecayRatioCurrent * Time.deltaTime;
+                decayAmount = gameManager.GetEnergy() * energyDecayAmount * Time.deltaTime;
                 gameManager.UpdateEnergy(-decayAmount);
                 break;
             case (EnergyDecayType.totalRatio):
-                decayAmount = gameManager.GetMaxEnergy() * energyDecayRatioCurrent * Time.deltaTime;
+                decayAmount = gameManager.GetMaxEnergy() * energyDecayAmount * Time.deltaTime;
                 gameManager.UpdateEnergy(-decayAmount);
                 break;
         }

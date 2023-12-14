@@ -51,7 +51,6 @@ public class SpeedManager : MonoBehaviour
 
 
     #region boost vars
-    protected enum SpeedOnExitType { Ratio, Static } //after prototyping consider having all value types be done as one universal enum
 
     [Header("boost variables")]
     public float boostSpeed = 100;
@@ -60,7 +59,6 @@ public class SpeedManager : MonoBehaviour
 
     [SerializeField] protected int numOfBoosts;
 
-    [SerializeField] protected SpeedOnExitType speedOnExitType;
     [SerializeField] protected float speedOnExit;
 
     public bool inBoost { get; private set; }
@@ -82,35 +80,6 @@ public class SpeedManager : MonoBehaviour
     {
         gameManager = GameManager.Instance;
         inBoost = false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-        //if (BByTime)
-        //{
-        //    currTime += Time.deltaTime * PerSecond;
-
-        //    //Debug.Log("adjusting speed over time"); //do we perhaps want to scale this by energy levels?
-        //}
-    }
-
-    public void Fired(float charge)
-    {
-        if(gameManager.relativeSpeed < gameManager.GetEnergy())
-        {
-
-            gameManager.UpdateRelativeSpeed(charge );
-        }
-    }
-
-    public void Hit()
-    {
-        //    if (playerController.mouse)
-        //    {
-        //        gameManager.UpdateFired(-gameManager.GetCharge());
-        //    }
     }
 
     public void ResetVariables()
