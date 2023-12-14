@@ -254,7 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PanelSettings: {fileID: 11400000, guid: fd46ece6b5e45c64ab9715db990010d2, type: 2}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: c9872a7655ae53c4bba7b389d45996ac, type: 3}
+  sourceAsset: {fileID: 9197481963319205126, guid: eba088e1c2ec49c4bb244f8bf2c94fe6, type: 3}
   m_SortingOrder: 1
 --- !u!114 &390202843
 MonoBehaviour:
@@ -268,6 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66cbb419c304b8749a7f507a61b370e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseReference: {fileID: 11400000, guid: 202b29f53e4e0e3429675735e3996d03, type: 2}
   UIDoc: {fileID: 390202842}
 --- !u!1 &417410875 stripped
 GameObject:
@@ -294,6 +295,14 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 2021246355}
+    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: sceneManager
+      value: 
+      objectReference: {fileID: 447464044}
+    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: energyDecayType
       value: 0
       objectReference: {fileID: 0}
@@ -319,12 +328,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1308583673}
+      objectReference: {fileID: 1308583664}
     - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -335,11 +344,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ActivateBoost
+      value: OnRightClick
       objectReference: {fileID: 0}
     - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SpeedManager, Assembly-CSharp
+      value: PlayerController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -347,7 +356,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6383936347403402448, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6383936347403402448, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -451,7 +460,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &447464047
 MonoBehaviour:
@@ -639,74 +648,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &979707760
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 979707763}
-  - component: {fileID: 979707762}
-  - component: {fileID: 979707761}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &979707761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 979707760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
---- !u!114 &979707762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 979707760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!4 &979707763
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 979707760}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1089636374
 GameObject:
@@ -898,30 +839,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1124c83cc1602644ad09c4ef3d14c08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 0}
-  speed: 0
-  bBoosting: 0
-  BoostMultiplier: 0
-  collected: 0
-  held: 0
-  BByEnergyHeld: 0
-  PerEnergyHeld: 0
-  BByEnergyCollected: 0
-  PerEnergyCollected: 0
+  playerController: {fileID: 1308583664}
   BByEnergyFired: 0
   PerEnergyFired: 0
-  BByTime: 0
-  PerSecond: 0
-  heldLostOnHit: 1
-  collectedLostOnHit: 1
-  firedLostOnHit: 1
   boostSpeed: 100
   minBoostEnergy: 0
   boostEnergyLostPerSecond: 20
-  incrByNumOfBoosts: 0
   numOfBoosts: 0
   speedOnExitType: 0
   speedOnExit: 0
+  boostGracePeriodDuration: 0
 --- !u!114 &1308583673 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
@@ -1026,7 +953,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9955003bae39485fb40bf26c33b0d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 0}
+  playerController: {fileID: 1308583664}
+  speedManager: {fileID: 1308583673}
   gameplayCamera: {fileID: 523322434}
   hazardTag: Hazard
   playerTag: Player
@@ -1035,9 +963,12 @@ MonoBehaviour:
   maxEnergyLevel: 100
   energyLevel: 0
   chargeLevel: 0
-  maxSpeed: 100
-  speed: 0
+  maxRelativeSpeed: 100
+  relativeSpeed: 0
+  baseSpeed: 0
   speedScale: 0.001
+  levelScale: 1
+  explosionPrefab: {fileID: 6879541595993959296, guid: 571feb7a7dd70094993bf4a35444d289, type: 3}
   OnPlayerHeal:
     m_PersistentCalls:
       m_Calls: []
@@ -1054,9 +985,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnFiredChange:
-    m_PersistentCalls:
-      m_Calls: []
-  OnSpeedChange:
     m_PersistentCalls:
       m_Calls: []
   OnGameEnterMenus:

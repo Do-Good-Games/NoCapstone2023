@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     // The current energy charge (for MVP)
     [SerializeField] private float chargeLevel;
 
-    public float maxFired;
+    public float maxRelativeSpeed;
     [SerializeField] public float relativeSpeed;
 
     [Tooltip("the minimum speed the player will go, relative to the number of boosts the player has undergone")]
@@ -79,6 +79,8 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnGamePause;
     public UnityEvent OnGameResume;
 
+    public UnityEvent OnBoostStart;
+    public UnityEvent OnBoostEnd;
 
 
     void Awake()
@@ -109,7 +111,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-
+        
     }
 
     public void AddPlayerHealth(float amount)
@@ -165,7 +167,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateFired(float amount)
     {
-        relativeSpeed = Mathf.Min(relativeSpeed + amount, maxFired);
+        relativeSpeed = Mathf.Min(relativeSpeed + amount, maxRelativeSpeed);
         relativeSpeed = Mathf.Max(relativeSpeed, 0);
 
         OnFiredChange.Invoke();
@@ -174,6 +176,7 @@ public class GameManager : MonoBehaviour
 
     public float GetMaxEnergy()
     {
+        Debug.Log("Max energy: " + maxEnergyLevel);
         return maxEnergyLevel;
     }
 
@@ -197,14 +200,17 @@ public class GameManager : MonoBehaviour
 
     public float GetCharge()
     {
+        Debug.Log("Charge: " + chargeLevel);
         return chargeLevel;
     }
 
 
     public void EndBoost(int numOfResets, float speedOnExit)
     {
+        Debug.Log("i caught you");
         relativeSpeed = 0;
         baseSpeed = numOfResets * speedOnExit;
+        Debug.Log("number of resets, speed on exit " + numOfResets + " " + speedOnExit);
     }
 
 
@@ -231,9 +237,11 @@ public class GameManager : MonoBehaviour
     public void ResumeGame()
     {
         gameState = GameState.gameplay;
+        Debug.Log("check 1.25");
         Time.timeScale = 1;
-
+        Debug.Log("check 1.5");
         OnGameResume.Invoke();
+        Debug.Log("check 2");
     }
 
     public void EnterMenus()

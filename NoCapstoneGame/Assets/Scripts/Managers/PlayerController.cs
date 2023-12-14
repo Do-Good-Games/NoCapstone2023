@@ -306,6 +306,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnRightClick(InputAction.CallbackContext context)
     {
+        Debug.Log("is this being read?");
         if (context.canceled)
         {
             Debug.Log("context cancelled");
@@ -313,9 +314,11 @@ public class PlayerController : MonoBehaviour
 
             if (gameManager.GetCharge() >= gameManager.GetMaxEnergy()) //if our charge is at max (max calc'd as max energy)
             {
+                Debug.Log("activating boost");
                 speedManager.ActivateBoost();
             } else
             {
+                Debug.Log("not activating boost");
                 gameManager.ResetCharge();
             }
         }
@@ -323,7 +326,7 @@ public class PlayerController : MonoBehaviour
         {
             if (context.started)
             {
-                if (gameManager.relativeSpeed >= gameManager.maxFired && gameManager.GetEnergy() >= gameManager.GetMaxEnergy()) //if our fired var and our energy var are at max
+                if (gameManager.relativeSpeed >= gameManager.maxRelativeSpeed && gameManager.GetEnergy() >= gameManager.GetMaxEnergy()) //if our fired var and our energy var are at max
                 {
                     Debug.Log("context started");
                     RightMouseHeld = true;
@@ -552,7 +555,7 @@ public class PlayerController : MonoBehaviour
 
     private void SwitchActionMap()
     {
-
+        Debug.Log("check 3");
         if (gameManager.gameState == GameState.paused)
         {
             cursorPosPrePause = cursorPos;
@@ -572,6 +575,7 @@ public class PlayerController : MonoBehaviour
             SetActionMapPlayer();
             //Debug.Log("cursorPos:" + cursorPos + " pre pause: " + cursorPosPrePause + " w2sp: " + gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
         }
+        Debug.Log("check 4");
     }
 
     private void SetActionMapPlayer() { SetActionMap("Playing"); }

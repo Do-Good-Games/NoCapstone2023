@@ -39,7 +39,6 @@ public class Asteroid : Entity, IDamageable
             int RandomRoll = Random.Range(0, 100);
             if (RandomRoll > 90)
             {
-                Debug.Log("spawn explosive");
                 isExplosive = true;
                 //isGold = true;
                 asteroidRenderer.color = UnityEngine.Color.red ; //CHANGE THE SPRITE INSTEAD OF THE COLOR
@@ -48,7 +47,6 @@ public class Asteroid : Entity, IDamageable
             }
             else if(RandomRoll > 80)
             {
-                Debug.Log("spawn gold");
                 isGold = true;
                 //asteroidRenderer.color = new UnityEngine.Color(236f, 223f, 72f, 255f);
                 asteroidRenderer.color = UnityEngine.Color.yellow;

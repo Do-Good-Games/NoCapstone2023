@@ -30,6 +30,8 @@ public class HUDController: MonoBehaviour
     private float maxHealth;
     private float maxEnergy;
 
+    private bool isBoosting;
+
 
     public float fired;//prototype var to be more cleanly implemented later
 
@@ -78,8 +80,10 @@ public class HUDController: MonoBehaviour
     void Update()
     {
         scoreDisplay.text = gameManager.GetScore().ToString().PadLeft(5, '0');
+        //Debug.Log("score display " + scoreDisplay.text);
         speedDisplay.text = gameManager.GetUnscaledSpeed().ToString() + "kph";
-        speedNeedle.style.rotate = new StyleRotate(new Rotate(new Angle(gameManager.relativeSpeed - 90, AngleUnit.Degree)));    //https://docs.unity3d.com/Manual/UIE-Transform.html
+        //Debug.Log("speed display " + speedDisplay.text);
+        speedNeedle.style.rotate = new StyleRotate(new Rotate(new Angle(gameManager.GetUnscaledSpeed() - 90, AngleUnit.Degree)));    //https://docs.unity3d.com/Manual/UIE-Transform.html
     }
 
     void UpdateHealthBar()
@@ -119,12 +123,10 @@ public class HUDController: MonoBehaviour
 
     void UpdateFiredBar()
     {
-        //firedBar.value = gameManager.firedLevel / gameManager.maxFired * firedBar.highValue; //cleanup: remove
-        firedBar.value = gameManager.relativeSpeed / gameManager.maxFired * firedBar.highValue; //cleanup: remove
-        firedBar1.value = gameManager.speed / gameManager.maxSpeed * firedBar1.highValue;
-        firedBar2.value = gameManager.speed / gameManager.maxSpeed * firedBar2.highValue;
+        firedBar1.value = gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar1.highValue;
+        firedBar2.value = gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar2.highValue;
 
-        Debug.Log(firedBar1.value);
+        //Debug.Log("baseSpeed, MaxRelativeSpeed, HighValue " + gameManager.baseSpeed + " " + gameManager.maxRelativeSpeed + " " + firedBar1.highValue);
 
         if(firedBar1.value == 400)
         {
