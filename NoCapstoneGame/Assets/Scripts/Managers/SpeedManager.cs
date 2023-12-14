@@ -98,10 +98,10 @@ public class SpeedManager : MonoBehaviour
 
     public void Fired(float charge)
     {
-        if(gameManager.relativeSpeed + charge < gameManager.GetEnergy())
+        if(gameManager.relativeSpeed < gameManager.GetEnergy())
         {
 
-            gameManager.UpdateFired(charge );
+            gameManager.UpdateRelativeSpeed(charge );
         }
     }
 

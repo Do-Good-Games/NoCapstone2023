@@ -145,8 +145,10 @@ public class GameManager : MonoBehaviour
 
     public void UpdateEnergy(float amount)
     {
-        //energyLevel = Mathf.Min(energyLevel+ amount, maxEnergyLevel);
-        energyLevel = Mathf.Max(energyLevel+ amount, 0);
+        //energyLevel = Mathf.Clamp(0, energyLevel + amount, maxEnergyLevel);
+
+        energyLevel = Mathf.Min(maxEnergyLevel, energyLevel + amount);
+        energyLevel = Mathf.Max(0, energyLevel);
 
         if (amount > 0)
         {
@@ -166,10 +168,21 @@ public class GameManager : MonoBehaviour
 
     public float GetEnergy() => energyLevel;
 
-    public void UpdateFired(float amount)
+    public void UpdateRelativeSpeed(float amount)
     {
-        relativeSpeed = Mathf.Min(relativeSpeed + amount, maxFired);
-        relativeSpeed = Mathf.Max(relativeSpeed, 0);
+        if(amount > 0)
+        {
+
+            relativeSpeed = Mathf.Min(relativeSpeed + amount,
+                Mathf.Min(energyLevel, maxFired));
+
+        } else //we're decreasing
+        {
+
+            relativeSpeed = Mathf.Max(relativeSpeed, 0); //make sure we don't go below zero
+        }
+
+
 
         OnFiredChange.Invoke();
     }
