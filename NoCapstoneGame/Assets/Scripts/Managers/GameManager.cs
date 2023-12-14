@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     // The current health of the player
     [SerializeField] private float playerHealth;
 
+    [SerializeField] public float startingSpeedUnscaled; 
+
     [SerializeField] private float maxEnergyLevel;
     // The current energy level (max charge amount) 
     [SerializeField] private float energyLevel;
@@ -105,6 +107,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //OnGameTogglePause.AddListener(TogglePause);
+        relativeSpeed = startingSpeedUnscaled;
     }
 
     private void Update()

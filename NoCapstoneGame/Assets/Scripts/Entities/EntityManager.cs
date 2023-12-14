@@ -14,8 +14,11 @@ public class EntityManager : MonoBehaviour
     [SerializeField] public ObjectPool<GameObject> objectPool;
 
     [SerializeField] public GameObject entityPrefab;
-       
+
     [Header("Generation timers and probabilities")]
+    [Tooltip("The amount of asteroids per unscaled unit")]
+    [SerializeField] private float density;
+
     [Tooltip("the amount of time between when entities generate")]
     [SerializeField] private float generationTime;
     [Tooltip("the minimum and maximum possible generation time")]
@@ -90,8 +93,7 @@ public class EntityManager : MonoBehaviour
             //wait for the length of time set by generationTime - untill then do nothing
             yield return new WaitForSeconds(generationTime);
 
-            float iterGenerationTime = Random.Range(generationTimeRange.x, generationTimeRange.y);
-
+            float iterGenerationTime = GetGenerationTime();
 
             //spawning
             float iterSpawn = Random.Range(spawnRange.x, spawnRange.y);
@@ -104,6 +106,16 @@ public class EntityManager : MonoBehaviour
   
             generationTime = iterGenerationTime;
         }
+    }
+
+    protected float GetGenerationTime()
+    {
+        //float generationTime = Random.Range(generationTimeRange.x, generationTimeRange.y);
+
+        float generationTime = 1 / ((gameManager.GetUnscaledSpeed() / (float) 0.02) * density);
+        Debug.Log(generationTime);
+        return generationTime;
+
     }
 
     protected void GenerateAmountOnPoint(int amount, Vector3 point)
@@ -119,7 +131,8 @@ public class EntityManager : MonoBehaviour
 
     virtual public GameObject SpawnEntity(float spawnX, float spawnY)
     {
-        GameObject gameObject = Instantiate(entityPrefab, new Vector3(spawnX, spawnY, 0), Quaternion.identity);
+        GameObject gameObject = Instantiate(entityPrefab, this.transform);
+        gameObject.transform.position = new Vector3(spawnX, spawnY, 0);
         Entity entity = gameObject.GetComponent<Entity>();
         SetVariables(entity);
         entity.entityManager = this;
