@@ -594,7 +594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityPrefab: {fileID: 3380691668930087719, guid: 5641c79b82253468c89976f5813fa6f4, type: 3}
-  density: 0.0009
+  density: 0.01
   generationTime: 0.7
   generationTimeRange: {x: 0.5, y: 1.5}
   generatingEntities: 0
@@ -648,7 +648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityPrefab: {fileID: 2447030393251289635, guid: ec9fd64a6784d4588afc9836cdca4b6e, type: 3}
-  density: 0.0002
+  density: 0.002
   generationTime: 0.5
   generationTimeRange: {x: 0.1, y: 0.7}
   generatingEntities: 0
@@ -919,7 +919,7 @@ MonoBehaviour:
   playerTag: Player
   cameraBounds: {x: 0, y: 0}
   playerHealth: 0
-  startingSpeedUnscaled: 100
+  startingSpeedUnscaled: 10
   maxEnergyLevel: 100
   energyLevel: 0
   chargeLevel: 0

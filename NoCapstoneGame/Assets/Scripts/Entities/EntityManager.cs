@@ -112,7 +112,7 @@ public class EntityManager : MonoBehaviour
     {
         //float generationTime = Random.Range(generationTimeRange.x, generationTimeRange.y);
 
-        float generationTime = 1/((gameManager.GetUnscaledSpeed() / (float)0.02) * density);
+        float generationTime = 1/((gameManager.GetUnscaledSpeed() / Time.fixedTime) * density);
         Debug.Log(generationTime);
         return generationTime;
 

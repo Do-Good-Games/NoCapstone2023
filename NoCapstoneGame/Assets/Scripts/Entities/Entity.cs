@@ -64,11 +64,19 @@ public class Entity : MonoBehaviour
 
     virtual public void Move()
     {
+        gmSpeed = gameManager.GetScaledSpeed();
+
+        Vector3 newPos = (new Vector3(entityBody.transform.position.x, entityBody.transform.position.y - gmSpeed, entityBody.transform.position.z));
+
+        entityBody.MovePosition(newPos);
+    }
+
+    /*
+    virtual public void Move()
+    {
         Vector3 oldPos = entityBody.transform.position;//store the current position of the entity
 
         gmSpeed = gameManager.GetScaledSpeed() - gameManager.startingSpeedUnscaled * gameManager.GetSpeedScale();
-
-        
 
         if ((oldPos.y < -15) || (Mathf.Abs(oldPos.x) > 40))
         {
@@ -78,15 +86,16 @@ public class Entity : MonoBehaviour
         float swayScale = swayWidth * Mathf.Cos(swaySpeed * Time.fixedTime) * swaySpeed;//convert the current time and sway variables into an oscillating value from 1 to -1
         //we use cos rather than sin because this is the amoutn we SCALE the sideways vector, not the offset itself. starting at 1 means we start the loop moving at fulls peed to the left from zero
 
-        Vector3 speedVector = new Vector3(0, gmSpeed, 0);
+        Vector3 speedVector = new Vector3(0, -gmSpeed, 0);
 
         //set the new position to the old position, plus the vector representing the overall direction in which we are going
-        Vector3 newPos = oldPos + directionVector + (perpVector * swayScale) - speedVector;
+        Vector3 newPos = oldPos + directionVector + (perpVector * swayScale);
 
         //newPos.y -= (gmSpeed * gameManager.GetSpeedScale());
 
-        entityBody.MovePosition(newPos);
+        entityBody.MovePosition(newPos + speedVector);
     }
+    */
 
     virtual public void DestroyEntity()
     {
