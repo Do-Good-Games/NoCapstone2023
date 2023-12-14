@@ -74,7 +74,7 @@ public class Energy : Entity
         if (speedManager.inBoost) //while the player is boosting, add diminishing returns to their energy collection to prevent them from staying in boost forever
         {
             float remainingRatio = (gameManager.GetCharge() / gameManager.GetMaxEnergy());
-            gameManager.UpdateEnergy(energyGain * remainingRatio * diminishingReturnRatio);
+            gameManager.UpdateEnergy(energyGain * diminishingReturnRatio);
         } else if (!speedManager.inBoostGracePeriod)//don't let the player collect energy right after boost, this is to ensure the player doesn't have spare energy after boost
         { //otherwise, the player will occasionally destroy an asteroid, then exit boost before collecting energy. at which point they start with energy after boost
             gameManager.UpdateEnergy(energyGain);
