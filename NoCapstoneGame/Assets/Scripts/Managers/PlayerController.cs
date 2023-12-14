@@ -323,21 +323,24 @@ public class PlayerController : MonoBehaviour
         int i = 0;
         while (shooting)
         {
-            while (RightMouseHeld)
+            while (RightMouseHeld) //while we're still holding mouse, don't fire yet
             {
                 yield return null;
             }
 
-            if (gameManager.GetCharge() >= ChargeSpentPerShot) //provided this won't cause us to run out of charge
+            float chargeLevel = gameManager.GetCharge();
+            float energyLevel = gameManager.GetEnergy();
+
+            if (chargeLevel >= ChargeSpentPerShot) //provided this won't cause us to run out of charge
             {
                 //SpeedPrototypeSO.SPEnergyFired(ChargeSpentPerShot); //from prototyping - removed as we wanted the firing changes to happen from the way we did it on boost
                 //speedManager.Fired(ChargeSpentPerShot);
+                gameManager.UpdateCharge(-ChargeSpentPerShot);
                 gameManager.UpdateEnergy(-ChargeSpentPerShot);
                 FireLasers();
-                gameManager.UpdateCharge(-ChargeSpentPerShot);
                 UpdateEnergySphere();
             }
-            else if (gameManager.GetEnergy() >= EnergySpentPerShot) //if we will run out of charge, (but we won't run out of energy)
+            else if (energyLevel >= EnergySpentPerShot) //if we will run out of charge, (but we won't run out of energy)
             {
                 //SpeedPrototypeSO.SPEnergyFired(ChargeSpentPerShot);//from prototyping - removed as we wanted the firing changes to happen from the way we did it on boost
                 gameManager.UpdateEnergy(-ChargeSpentPerShot);
@@ -352,7 +355,7 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("yes it does");
 
 
-            if (gameManager.GetCharge() <= ChargeSpentPerShot)
+            if (chargeLevel < ChargeSpentPerShot)
             {
                 gameManager.ResetCharge();
                 UpdateEnergySphere();
