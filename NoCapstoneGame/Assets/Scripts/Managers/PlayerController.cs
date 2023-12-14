@@ -150,6 +150,7 @@ public class PlayerController : MonoBehaviour
         gameManager.OnGameResume.AddListener(SwitchActionMap); 
         gameManager.OnGamePause.AddListener(SwitchActionMap);
         gameManager.OnGameEnterMenus.AddListener(SwitchActionMap);
+        
 
         //gameManager.OnBoostStart.AddListener(BoostStarted); //cleanup: remove?
         //gameManager.OnBoostEnd.AddListener(BoostEnded);//cleanup: remove?
@@ -351,7 +352,7 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("yes it does");
 
 
-            if (gameManager.GetCharge() < ChargeSpentPerShot)
+            if (gameManager.GetCharge() <= ChargeSpentPerShot)
             {
                 gameManager.ResetCharge();
                 UpdateEnergySphere();
@@ -366,7 +367,7 @@ public class PlayerController : MonoBehaviour
         foreach (LaserSpawner spawner in spawners)
         {
             shootSound.Play();
-        gameManager.UpdateEnergy(-ChargeSpentPerShot);
+            gameManager.UpdateEnergy(-ChargeSpentPerShot);
             spawner.SpawnLaser();
         }
     }
@@ -483,6 +484,7 @@ public class PlayerController : MonoBehaviour
         sceneManager.SwitchToScene("LoseScene");
 
         Destroy(this.gameObject, 0.5f);
+        SetActionMapUI();
         //switch action map to UI
     }
 
@@ -501,7 +503,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (gameManager.gameState == GameState.menus)
             {
-                throw new Exception("togglePause() (the input callback) is somehow being called when the game is in menus - this shouldn't be able to happen");  
+                //throw new Exception("togglePause() (the input callback) is somehow being called when the game is in menus - this shouldn't be able to happen");  
             }
             //gameManager.OnGameTogglePause.Invoke();
         }

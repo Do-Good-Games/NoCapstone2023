@@ -122,23 +122,20 @@ public class GameManager : MonoBehaviour
     {
         playerHealth -= amount;
         OnPlayerHurt.Invoke();
-        if (playerHealth <= 0)
+
+        if (playerHealth <= 0)//if player is at or below zero health, kill them
         {
-            KillPlayer();
+            playerHealth = 0;
+            OnPlayerDeath.Invoke();
+            EnterMenus();   
         }
     }
 
-    public void KillPlayer()
-    {
-        playerHealth = 0;
-        OnPlayerDeath.Invoke();
-    }
 
     public float GetPlayerHealth()
     {
         return playerHealth;
     }
-
 
     public void UpdateEnergy(float amount)
     {
