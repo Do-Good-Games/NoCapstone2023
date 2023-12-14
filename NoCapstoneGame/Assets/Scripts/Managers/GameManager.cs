@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     // The current health of the player
     [SerializeField] private float playerHealth;
 
+    [SerializeField] public float startingSpeedUnscaled; 
+
     [SerializeField] private float maxEnergyLevel;
     // The current energy level (max charge amount) 
     [SerializeField] private float energyLevel;
@@ -105,6 +107,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //OnGameTogglePause.AddListener(TogglePause);
+        baseSpeed = startingSpeedUnscaled ;
     }
 
     private void Update()
@@ -245,6 +248,7 @@ public class GameManager : MonoBehaviour
     }
 
     [Tooltip("if not in boost, returns the total of the current relative speed, plus the base speed")]
-    public float GetCurrentSpeed() => speedManager.inBoost? speedManager.boostSpeed : relativeSpeed + baseSpeed;
+    public float GetUnscaledSpeed() => speedManager.inBoost? speedManager.boostSpeed : relativeSpeed + baseSpeed;
     public float GetSpeedScale() => speedScale;
+    public float GetScaledSpeed() => GetUnscaledSpeed() * GetSpeedScale();
 }

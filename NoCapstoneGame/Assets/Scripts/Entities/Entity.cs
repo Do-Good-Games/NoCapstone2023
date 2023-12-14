@@ -11,7 +11,7 @@ public class Entity : MonoBehaviour
     [Header("Movement")]
     protected float gmSpeed;
     protected float gmSpeedScale;
-    [SerializeField] public float downSpeed;
+    [SerializeField] public float extraSway;
     [Tooltip("general movement speed of each entity, recommended range approx. .1")]
     [SerializeField] public float stepSpeed; //technically used as the hypoteneuse of the triangle used to calculate movement
     [Tooltip("the direction of movement by the entity - represented as an angle from -90 to 90, 0 = straight down - set relative to directionAngle")]
@@ -36,7 +36,7 @@ public class Entity : MonoBehaviour
         // setting variables for direction triangle calculations
         float directionRadians = directionAngle * Mathf.Deg2Rad;//convert the direction angle into radians
         float downMovementAmount = Mathf.Sin(directionRadians) * stepSpeed; //calculated as the adjacent side of triangle/ y coord
-        float sidewaysMovementAmount = Mathf.Cos(directionRadians) * stepSpeed * downSpeed; // calculated as the opposite side of triangle/ x coord
+        float sidewaysMovementAmount = Mathf.Cos(directionRadians) * stepSpeed * extraSway; // calculated as the opposite side of triangle/ x coord
 
         directionVector = new Vector3(-downMovementAmount, -sidewaysMovementAmount, 0);// vector representing the direction the ship will move in
 
@@ -46,9 +46,9 @@ public class Entity : MonoBehaviour
         gameManager.OnFiredChange.AddListener(UpdateSpeed);
     }
 
-    virtual public void setVariables(float downSpeed, float stepSpeed, float directionAngle, float swaySpeed, float swayWidth)
+    virtual public void setVariables(float extraSway, float stepSpeed, float directionAngle, float swaySpeed, float swayWidth)
     {
-        this.downSpeed = downSpeed;
+        this.extraSway = extraSway;
         this.stepSpeed = stepSpeed;
         this.directionAngle = directionAngle;
         this.swaySpeed = swaySpeed;
@@ -66,7 +66,7 @@ public class Entity : MonoBehaviour
     {
         Vector3 oldPos = entityBody.transform.position;//store the current position of the entity
 
-        gmSpeed = gameManager.GetCurrentSpeed() * gameManager.GetSpeedScale();
+        gmSpeed = gameManager.GetScaledSpeed() - gameManager.startingSpeedUnscaled * gameManager.GetSpeedScale();
 
         
 
