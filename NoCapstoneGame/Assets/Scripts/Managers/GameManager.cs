@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //OnGameTogglePause.AddListener(TogglePause);
-        relativeSpeed = startingSpeedUnscaled;
+        baseSpeed = startingSpeedUnscaled ;
     }
 
     private void Update()
