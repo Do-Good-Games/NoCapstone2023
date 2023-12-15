@@ -41,13 +41,13 @@ public class SFXManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void Play(AudioReference audio)
     {
         //check whether a clip can be played, main thing to check is whether something is already playing I believe. but consider other edge cases
-        if(canPlayAudio)
+        if (canPlayAudio)
         {
             m_AudioSource.clip = audio.GetClip();
             m_AudioSource.Play();
@@ -71,16 +71,16 @@ public class SFXManager : MonoBehaviour
 
     private void restrictAudio()
     {
-        Debug.Log("play trip 3");
-        canPlayAudio = false;
-        if(m_AudioSource.isPlaying)
-        {
-            while (m_AudioSource.isPlaying)
-            {
-                //wait for audio to finish
-            }
-        }
-        Debug.Log("play trip 4");
-        canPlayAudio = true;
+        //Debug.Log("play trip 3");
+        //canPlayAudio = false;
+        //if (m_AudioSource.isPlaying)
+        //{
+        //    while (m_AudioSource.isPlaying)
+        //    {
+        //        //wait for audio to finish
+        //    }
+        //}
+        //Debug.Log("play trip 4");
+        //canPlayAudio = true;
     }
 }
