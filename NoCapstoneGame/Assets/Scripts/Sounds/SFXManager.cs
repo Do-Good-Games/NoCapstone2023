@@ -51,7 +51,7 @@ public class SFXManager : MonoBehaviour
         {
             m_AudioSource.clip = audio.GetClip();
             m_AudioSource.Play();
-            restrictAudio();
+            RestrictAudio();
         }
     }
 
@@ -63,24 +63,22 @@ public class SFXManager : MonoBehaviour
             Debug.Log("play trip 2");
             m_AudioSource.clip = clip;
             m_AudioSource.Play();
-            restrictAudio();
+            StartCoroutine(RestrictAudio());
             Debug.Log("play trip 2.5");
         }
 
     }
 
-    private void restrictAudio()
+    //consider passing an object to destroy
+    private IEnumerator RestrictAudio()
     {
-        //Debug.Log("play trip 3");
-        //canPlayAudio = false;
-        //if (m_AudioSource.isPlaying)
-        //{
-        //    while (m_AudioSource.isPlaying)
-        //    {
-        //        //wait for audio to finish
-        //    }
-        //}
-        //Debug.Log("play trip 4");
-        //canPlayAudio = true;
+        Debug.Log("play trip 3");
+        canPlayAudio = false;
+        while (m_AudioSource.isPlaying)
+        {
+            yield return null;
+        }
+        Debug.Log("play trip 4");
+        canPlayAudio = true;
     }
 }
