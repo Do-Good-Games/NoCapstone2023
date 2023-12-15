@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms;
@@ -23,28 +24,17 @@ public class SpeedManager : MonoBehaviour
     #region Speed Vars
 
     [Header("speed increase balance variables")]
-    //[SerializeField] protected bool BByEnergyHeld;
-    //[SerializeField] protected float PerEnergyHeld;
-
-    //[SerializeField] protected bool BByEnergyCollected;
-    //[SerializeField] protected float PerEnergyCollected;
 
     [SerializeField] protected bool BByEnergyFired;
     [SerializeField] protected float PerEnergyFired;
 
-    //[SerializeField] protected bool BByTime;
-    //[SerializeField] protected float PerSecond;
 
     protected float prevEnergyLevel;
 
-    //[Header("amount of each variable lost on hit")]
-    //[Tooltip("how much of the speed calculated by amount held will be lost when hit - value from 0 to 1")]
-    //[SerializeField] private float heldLostOnHit = 1;
-    //[Tooltip("how much of the speed calculated by amount held will be lost when hit - value from 0 to 1")]
-    //[SerializeField] private float collectedLostOnHit = 1;
-    //[Tooltip("how much of the speed calculated by amount held will be lost when hit - value from 0 to 1")]
-    //[SerializeField] private float firedLostOnHit = 1;
-    //[SerializeField] private float  =1;
+    [Tooltip("the amount of energy the player collects when they have ZERO energy during the boost")]
+    [SerializeField] private float lowerThresholdForDimRet;
+    [Tooltip("the smount of energy the player collects when they have FULL energy during the boost")]
+    [SerializeField] private float upperThresholdForDimRet;
 
 
     #endregion
@@ -142,7 +132,22 @@ public class SpeedManager : MonoBehaviour
         gameManager.ResetEnergy();
         inBoostGracePeriod = false;
         Debug.Log("ended coroutine");
-
     }
 
+    public void CollectEnergyInBoost(float charge)
+    {
+
+        float remainingRatio = (gameManager.GetEnergy() / gameManager.GetMaxEnergy()); //use this line to ONLY calculate by energy
+        //float remainingRatio = (gameManager.GetEnergy() + gameManager.GetCharge()) /( 2* gameManager.GetMaxEnergy()); //use this line to calculate by energy and charge
+        //old range = 1
+        float dimRetRange = upperThresholdForDimRet - lowerThresholdForDimRet;
+        float dimRetRatio = Mathf.Lerp(lowerThresholdForDimRet, upperThresholdForDimRet, remainingRatio);
+            //((remainingRatio* dimRetRange) + lowerThresholdForDimRet); //
+                                                                                       //the ratio between the diminishing return upper and lower value,
+        //calculated by the amount of energy the player has. if the player has full energy, this value will be upperThresholdForDimRet, as the amount decreases,
+        //it will approach the lowerThreshold
+        Debug.Log("energy amount" + gameManager.GetEnergy() + " remaining ratio: " + remainingRatio + " dimRetRatio " + dimRetRatio);
+        gameManager.UpdateEnergy(dimRetRatio * charge);
+
+    }
 }
