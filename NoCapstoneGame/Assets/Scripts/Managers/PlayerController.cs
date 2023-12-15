@@ -526,9 +526,16 @@ public class PlayerController : MonoBehaviour
         {
             // Assuming inBoost is true when the player is in hyperspeed
             if (speedManager.inBoost)
-                collision.GetComponent<IDamageable>()?.Damage(100000); //don't damage the asteroid, instead get theasteroid component and call destroy()
-            else 
+            {
+                Asteroid asteroid = collision.GetComponent<Asteroid>();
+                if (asteroid != null)
+                {//if the hazard contains an asteroid component, destroy it
+                    asteroid.DestroyAsteroid();
+                }            
+            } else
+            { // if we're not in boost, hit the player
                 Hit();
+            }
         } else if (collision.GetComponent<Energy>())
         {
             energyDecayTime = 0;
