@@ -39,7 +39,6 @@ public class Asteroid : Entity, IDamageable
             int RandomRoll = Random.Range(0, 100);
             if (RandomRoll > 90)
             {
-                Debug.Log("spawn explosive");
                 isExplosive = true;
                 //isGold = true;
                 asteroidRenderer.color = UnityEngine.Color.red ; //CHANGE THE SPRITE INSTEAD OF THE COLOR
@@ -48,7 +47,6 @@ public class Asteroid : Entity, IDamageable
             }
             else if(RandomRoll > 80)
             {
-                Debug.Log("spawn gold");
                 isGold = true;
                 //asteroidRenderer.color = new UnityEngine.Color(236f, 223f, 72f, 255f);
                 asteroidRenderer.color = UnityEngine.Color.yellow;
@@ -93,20 +91,18 @@ public class Asteroid : Entity, IDamageable
         {
             if(isGold)
             {
-                Debug.Log("dropping gold!");
                 DropEntitiesGoldAsteroid();
             }
             else if(isExplosive)
             {
-                Debug.Log("exploding");
                 //take current position and place an explosion object here
                 GameObject explosion = GameObject.Instantiate(GameManager.Instance.explosionPrefab, this.transform.position, this.transform.rotation);
             }
 
 
+
             else if(isSplitter)
             {
-                Debug.Log("splitting");
                 //GameObject entity = EntityManager.instance.GenerateAmountOnPoint(4, this.transform.position); //THIS SHOULD WORK, I JUST NEED TO CREATE AN INSTANCE FOR ENTITY MANAGER
                 //alternatively I could store some small asteroids and spawn them in here.
 
@@ -117,7 +113,6 @@ public class Asteroid : Entity, IDamageable
             }
             else
             {
-                Debug.Log("dropping normally");
                 DropEntities();
             }
 
@@ -144,10 +139,8 @@ public class Asteroid : Entity, IDamageable
     }
     private void DropEntitiesGoldAsteroid()
     {
-        Debug.Log("am i alive?");
         for (int i = 0; i < numDropsGoldAsteroid; i++)
         {
-            Debug.Log("dropped");
             Vector2 spawnPoint = (Random.insideUnitCircle * (size / 2)) + (Vector2)transform.position;
             droppedEntityManager.SpawnEntity(spawnPoint.x, spawnPoint.y);
         }
