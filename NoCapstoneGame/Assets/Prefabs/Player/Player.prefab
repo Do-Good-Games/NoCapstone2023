@@ -295,9 +295,44 @@ MonoBehaviour:
   playerController: {fileID: 3079467235973761314}
   BByEnergyFired: 1
   PerEnergyFired: 1
+  lowerThresholdForDimRet: 0
+  upperThresholdForDimRet: 0
+  dimRetCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.40999234
+      value: 0.4936374
+      inSlope: 0.12419954
+      outSlope: 0.12419954
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.20289339
+    - serializedVersion: 3
+      time: 1
+      value: 0.986969
+      inSlope: 2.7317119
+      outSlope: 2.7317119
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.09167653
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   boostSpeed: 400
   minBoostEnergy: 0
-  boostEnergyLostPerSecond: 10
+  boostEnergyLostPerSecond: 20
   numOfBoosts: 0
   speedOnExit: 20
   boostGracePeriodDuration: 2

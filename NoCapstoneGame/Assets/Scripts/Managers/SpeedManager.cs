@@ -36,6 +36,8 @@ public class SpeedManager : MonoBehaviour
     [Tooltip("the smount of energy the player collects when they have FULL energy during the boost")]
     [SerializeField] private float upperThresholdForDimRet;
 
+    [SerializeField] private AnimationCurve dimRetCurve;
+
 
     #endregion
 
@@ -137,13 +139,15 @@ public class SpeedManager : MonoBehaviour
     public void CollectEnergyInBoost(float charge)
     {
 
-        float remainingRatio = (gameManager.GetEnergy() / gameManager.GetMaxEnergy()); //use this line to ONLY calculate by energy
-        //float remainingRatio = (gameManager.GetEnergy() + gameManager.GetCharge()) /( 2* gameManager.GetMaxEnergy()); //use this line to calculate by energy and charge
+        //float remainingRatio = (gameManager.GetEnergy() / gameManager.GetMaxEnergy()); //use this line to ONLY calculate by energy
+        float remainingRatio = (gameManager.GetEnergy() + gameManager.GetCharge()) / (2 * gameManager.GetMaxEnergy()); //use this line to calculate by energy and charge
         //old range = 1
         float dimRetRange = upperThresholdForDimRet - lowerThresholdForDimRet;
-        float dimRetRatio = Mathf.Lerp(lowerThresholdForDimRet, upperThresholdForDimRet, remainingRatio);
-            //((remainingRatio* dimRetRange) + lowerThresholdForDimRet); //
-                                                                                       //the ratio between the diminishing return upper and lower value,
+        //float dimRetRatio = Mathf.Lerp(lowerThresholdForDimRet, upperThresholdForDimRet, remainingRatio);
+        float dimRetRatio = dimRetCurve.Evaluate(remainingRatio);
+
+        //((remainingRatio* dimRetRange) + lowerThresholdForDimRet); //
+        //the ratio between the diminishing return upper and lower value,
         //calculated by the amount of energy the player has. if the player has full energy, this value will be upperThresholdForDimRet, as the amount decreases,
         //it will approach the lowerThreshold
         Debug.Log("energy amount" + gameManager.GetEnergy() + " remaining ratio: " + remainingRatio + " dimRetRatio " + dimRetRatio);

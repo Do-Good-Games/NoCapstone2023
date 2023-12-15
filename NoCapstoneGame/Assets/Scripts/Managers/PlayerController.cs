@@ -334,14 +334,14 @@ public class PlayerController : MonoBehaviour
                 //SpeedPrototypeSO.SPEnergyFired(ChargeSpentPerShot); //from prototyping - removed as we wanted the firing changes to happen from the way we did it on boost
                 //speedManager.Fired(ChargeSpentPerShot);
                 gameManager.UpdateCharge(-ChargeSpentPerShot);
-                gameManager.UpdateEnergy(-ChargeSpentPerShot);
+                gameManager.UpdateEnergy(-EnergySpentPerShot);
                 FireLasers();
                 UpdateEnergySphere();
             }
             else if (energyLevel >= EnergySpentPerShot) //if we will run out of charge, (but we won't run out of energy)
             {
                 //SpeedPrototypeSO.SPEnergyFired(ChargeSpentPerShot);//from prototyping - removed as we wanted the firing changes to happen from the way we did it on boost
-                gameManager.UpdateEnergy(-ChargeSpentPerShot);
+                gameManager.UpdateEnergy(-EnergySpentPerShot);
                 FireLasers();
                 gameManager.ResetCharge();
                 UpdateEnergySphere();
@@ -368,7 +368,7 @@ public class PlayerController : MonoBehaviour
         foreach (LaserSpawner spawner in spawners)
         {
             shootSound.Play();
-            gameManager.UpdateEnergy(-ChargeSpentPerShot);
+            gameManager.UpdateEnergy(-EnergySpentPerShot);
             spawner.SpawnLaser();
         }
     }
