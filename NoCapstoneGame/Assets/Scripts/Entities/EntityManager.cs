@@ -119,7 +119,7 @@ public class EntityManager : MonoBehaviour
 
     virtual public GameObject SpawnEntity(float spawnX, float spawnY)
     {
-        GameObject gameObject = Instantiate(entityPrefab, new Vector3(spawnX, spawnY, 0), Quaternion.identity);
+        GameObject gameObject = Instantiate(entityPrefab, new Vector3(spawnX, spawnY, Random.Range(-.5f, .5f)), Quaternion.identity);
         Entity entity = gameObject.GetComponent<Entity>();
         SetVariables(entity);
         entity.entityManager = this;
