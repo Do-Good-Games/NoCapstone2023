@@ -230,7 +230,6 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
-
         gameState = GameState.paused;
         Time.timeScale = 0;
 
@@ -238,12 +237,11 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void ResumeGame()
+    public void ResumeGame(bool invokeEvent = true)
     {
         gameState = GameState.gameplay;
         Time.timeScale = 1;
-
-        OnGameResume.Invoke();
+        if (invokeEvent) { OnGameResume.Invoke(); }        
     }
 
     public void EnterMenus()

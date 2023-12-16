@@ -171,7 +171,9 @@ public class PlayerController : MonoBehaviour
 
         currentActionMapName = "Player";
         playerInput = GetComponent<PlayerInput>();
-        gameManager.ResumeGame();
+        //could we instead 
+        gameManager.ResumeGame(false);
+        SwitchActionMap();
         
 
         //depreciated prototype code - no replacement necessary
