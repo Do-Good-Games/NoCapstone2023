@@ -9,8 +9,8 @@
                 <ui:VisualElement name="EnergyAndChargeBars" style="width: 80px; height: 518px; left: 178px; top: 308px;">
                     <VerticalProgressBar name="EnergyBar" value="0.6" high-value="1" class="energy" style="position: relative; left: 5px; top: 0; right: 0; bottom: 0; width: 100%; height: 100%;" />
                     <VerticalProgressBar name="ChargeBar" value="0" high-value="1" class="charge" style="width: 100%; height: 100%; position: absolute; background-color: rgba(76, 82, 106, 0);" />
-                    <VerticalProgressBar name="FiredBar1" value="0" class="charge" style="width: 100%; height: 100%; position: absolute; background-color: rgba(76, 82, 106, 0); left: 94px;" />
-                    <VerticalProgressBar name="FiredBar2" value="0" title="200" class="charge" style="width: 100%; height: 100%; position: absolute; background-color: rgba(76, 82, 106, 0); left: 1397px;" />
+                    <VerticalProgressBar name="FiredBar1" value="0" class="charge" style="width: 100%; height: 528px; position: absolute; background-color: rgba(76, 82, 106, 0); left: 94px;" />
+                    <VerticalProgressBar name="FiredBar2" value="0" title="200" class="charge" style="width: 100%; height: 529px; position: absolute; background-color: rgba(76, 82, 106, 0); left: 1397px;" />
                     <ui:VisualElement name="Background" style="left: 1366px; top: -803px; height: 597px; width: 355px; background-color: rgb(34, 32, 52); min-height: 182px;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="Tubes1" style="height: 510px; width: 176px; left: 86px; top: -205px; background-image: url(&apos;project://database/Assets/UI/Art/TUBES%20Glass%20Soft%20Light%2080%20Opacity.png?fileID=2800000&amp;guid=6ee492e5dde3176489047baeecea16a5&amp;type=3#TUBES Glass Soft Light 80 Opacity&apos;); opacity: 0.39;">

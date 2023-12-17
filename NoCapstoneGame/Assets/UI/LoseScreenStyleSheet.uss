@@ -4,21 +4,56 @@ VisualElement {
 .button {
     width: 800px;
     height: 120px;
-    background-color: rgb(92, 110, 144);
+    background-color: rgba(56, 56, 56, 0);
     font-size: 62px;
     border-left-width: 15px;
     border-right-width: 15px;
     border-top-width: 15px;
     border-bottom-width: 15px;
     transition-duration: 3s;
-    border-left-color: rgb(70, 71, 94);
-    border-right-color: rgb(70, 71, 94);
-    border-top-color: rgb(110, 110, 126);
-    border-bottom-color: rgb(57, 57, 75);
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
+    background-image: url('project://database/Assets/UI/Art/PauseArt/BUTTON-normal.png?fileID=2800000&guid=37fcdae3bec83ae40b7560dd79e1554c&type=3#BUTTON-normal');
 }
 
 .label {
     font-size: 30px;
     color: rgb(95, 146, 221);
     -unity-font: resource('FlatSkin/Font/Roboto-Bold');
+}
+
+.buttonPressed {
+    width: 800px;
+    height: 120px;
+    background-color: rgba(56, 56, 56, 0);
+    font-size: 62px;
+    border-left-width: 15px;
+    border-right-width: 15px;
+    border-top-width: 15px;
+    border-bottom-width: 15px;
+    transition-duration: 3s;
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
+    background-image: url('project://database/Assets/UI/Art/PauseArt/BUTTON-pressed.png?fileID=2800000&guid=b196f6994095aa740b0680ad63a262c1&type=3#BUTTON-pressed');
+}
+
+.buttonHover {
+    width: 800px;
+    height: 120px;
+    background-color: rgba(56, 56, 56, 0);
+    font-size: 62px;
+    border-left-width: 15px;
+    border-right-width: 15px;
+    border-top-width: 15px;
+    border-bottom-width: 15px;
+    transition-duration: 3s;
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
+    background-image: url('project://database/Assets/UI/Art/PauseArt/BUTTON-hoverl.png?fileID=2800000&guid=c3a0468d11da18f4c8651184b7a268d5&type=3#BUTTON-hoverl');
 }

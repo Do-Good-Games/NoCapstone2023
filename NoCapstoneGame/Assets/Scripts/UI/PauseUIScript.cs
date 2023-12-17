@@ -15,6 +15,11 @@ public class PauseUIScript : MonoBehaviour
 
     [SerializeField] private UIDocument UIDoc;
 
+    [SerializeField] private StyleSheet normalStyleSheet;
+    [SerializeField] private StyleSheet hoverStyleSheet;
+    [SerializeField] private StyleSheet clickedStyleSheet;
+
+
     private VisualElement root;
     private Button resumeButton;
     private Button restartButton;
@@ -30,8 +35,6 @@ public class PauseUIScript : MonoBehaviour
         sceneManager = SceneManager.Instance;
         gameManager = GameManager.Instance;
 
-
-
         root = UIDoc.rootVisualElement;
 
         resumeButton = UIDoc.rootVisualElement.Q<Button>("ResumeButton");
@@ -45,6 +48,20 @@ public class PauseUIScript : MonoBehaviour
         restartButton.clicked += RestartClicked;
         quitButton.clicked += () => Application.Quit();
 
+        //https://forum.unity.com/threads/question-how-do-i-detect-if-the-mouse-is-over-any-ui-element-ui-elements.829575/
+        //mainMenuButton.RegisterCallback<MouseEnterEvent> 
+        mainMenuButton.RegisterCallback<MouseDownEvent>(MainMenuDown);
+        mainMenuButton.RegisterCallback<MouseEnterEvent> (MainMenuHovered);
+        mainMenuButton.RegisterCallback<MouseLeaveEvent>(MainMenuLeft);
+
+        restartButton.RegisterCallback<MouseDownEvent>(RestartDown);
+        restartButton.RegisterCallback<MouseEnterEvent>(RestartHovered);
+        restartButton.RegisterCallback<MouseLeaveEvent>(RestartLeft);
+
+        resumeButton.RegisterCallback<MouseDownEvent>(ResumeDown);
+        resumeButton.RegisterCallback<MouseEnterEvent>(ResumeHovered);
+        resumeButton.RegisterCallback<MouseLeaveEvent>(ResumeLeft);
+
         gameManager.OnGamePause.AddListener(ShowHidePauseMenu);//see comments prefacing method declaration for explanation(?) on why I'm doing it like this
         gameManager.OnGameResume.AddListener(ShowHidePauseMenu);
 
@@ -56,6 +73,74 @@ public class PauseUIScript : MonoBehaviour
         
         sfxManager = SFXManager.Instance;
     }
+
+
+    private void MainMenuDown(MouseDownEvent evt)
+    {
+        //https://forum.unity.com/threads/how-would-i-change-a-property-from-a-stylesheet-selector-by-script.1385697/
+        Debug.Log("down");
+        mainMenuButton.AddToClassList("buttonPressed");
+        mainMenuButton.RemoveFromClassList("buttonHover");
+        mainMenuButton.RemoveFromClassList("button");
+    }
+
+    private void MainMenuHovered(MouseEnterEvent evt)
+    {
+        mainMenuButton.AddToClassList("buttonHover");
+        mainMenuButton.RemoveFromClassList("button");
+        mainMenuButton.RemoveFromClassList("buttonPressed");
+    }
+
+    private void MainMenuLeft(MouseLeaveEvent evt)
+    {
+        mainMenuButton.AddToClassList("button");
+        mainMenuButton.RemoveFromClassList("buttonHover");
+        mainMenuButton.RemoveFromClassList("buttonPressed");
+    }
+
+
+    private void RestartDown(MouseDownEvent evt)
+    {
+        restartButton.AddToClassList("buttonPressed");
+        restartButton.RemoveFromClassList("buttonHover");
+        restartButton.RemoveFromClassList("button");
+    }
+
+    private void RestartHovered(MouseEnterEvent evt)
+    {
+        restartButton.AddToClassList("buttonHover");
+        restartButton.RemoveFromClassList("button");
+        restartButton.RemoveFromClassList("buttonPressed");
+    }
+
+    private void RestartLeft(MouseLeaveEvent evt)
+    {
+        restartButton.AddToClassList("button");
+        restartButton.RemoveFromClassList("buttonHover");
+        restartButton.RemoveFromClassList("buttonPressed");
+    }
+
+    private void ResumeDown(MouseDownEvent evt)
+    {
+        resumeButton.AddToClassList("buttonPressed");
+        resumeButton.RemoveFromClassList("buttonHover");
+        resumeButton.RemoveFromClassList("button");
+    }
+
+    private void ResumeHovered(MouseEnterEvent evt)
+    {
+        resumeButton.AddToClassList("buttonHover");
+        resumeButton.RemoveFromClassList("button");
+        resumeButton.RemoveFromClassList("buttonPressed");
+    }
+
+    private void ResumeLeft(MouseLeaveEvent evt)
+    {
+        resumeButton.AddToClassList("button");
+        resumeButton.RemoveFromClassList("buttonHover");
+        resumeButton.RemoveFromClassList("buttonPressed");
+    }
+
 
     private void OnEnable()
     {
