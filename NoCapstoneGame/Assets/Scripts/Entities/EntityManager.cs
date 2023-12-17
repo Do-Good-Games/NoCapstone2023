@@ -112,8 +112,8 @@ public class EntityManager : MonoBehaviour
     {
         //float generationTime = Random.Range(generationTimeRange.x, generationTimeRange.y);
 
-        float generationTime = 1/((gameManager.GetUnscaledSpeed() / Time.fixedTime) * density);
-        Debug.Log(generationTime);
+        float generationTime = 1/((gameManager.GetUnscaledSpeed() / 0.02f) * density);
+        Debug.Log(gameManager.GetUnscaledSpeed() + "," + generationTime);
         return generationTime;
 
     }
@@ -139,11 +139,6 @@ public class EntityManager : MonoBehaviour
         return gameObject;
     }
 
-    virtual protected float getGenerationTime()
-    {
-        float generationTime = Random.Range(generationTimeRange.x, generationTimeRange.y);
-        return generationTime;
-    }
 
     virtual public void SetVariables(Entity entity)
     {
