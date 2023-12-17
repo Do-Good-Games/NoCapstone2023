@@ -139,8 +139,8 @@ public class GameManager : MonoBehaviour
 
     public void UpdateEnergy(float amount)
     {
-        //energyLevel = Mathf.Min(energyLevel+ amount, maxEnergyLevel);
-        energyLevel = Mathf.Max(energyLevel+ amount, 0);
+        energyLevel = Mathf.Min(energyLevel+ amount, maxEnergyLevel);
+        energyLevel = Mathf.Max(energyLevel, 0);
 
         if (amount > 0)
         {

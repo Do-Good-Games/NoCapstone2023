@@ -11,7 +11,7 @@ public class SpeedManager : MonoBehaviour
     [Header("fundamentals")]
     [SerializeField] private PlayerController playerController;
 
-    [Tooltip("the Current speed as calculated by the speed manager")]
+    //[Tooltip("the Current speed as calculated by the speed manager")]
     //[SerializeField] private float BoostMultiplier; //refactor to boostSpeed from playerCont
 
 
@@ -29,8 +29,9 @@ public class SpeedManager : MonoBehaviour
     //[SerializeField] protected bool BByEnergyCollected;
     //[SerializeField] protected float PerEnergyCollected;
 
-    [SerializeField] protected bool BByEnergyFired;
-    [SerializeField] protected float PerEnergyFired;
+
+    [Tooltip("a value to determine how quickly relative speed increases when the player increases the amount fired")]
+    [SerializeField] private float speedIncreaseScale;
 
     //[SerializeField] protected bool BByTime;
     //[SerializeField] protected float PerSecond;
@@ -98,10 +99,16 @@ public class SpeedManager : MonoBehaviour
 
     public void Fired(float charge)
     {
-        if(gameManager.relativeSpeed + charge < gameManager.GetEnergy())
-        {
+        float speedRatio = gameManager.relativeSpeed / gameManager.maxRelativeSpeed; //a ratio from 0 to 1 representing how much of the total the player's relative speed currently is
+        float energyRatio = gameManager.GetEnergy() / gameManager.GetMaxEnergy(); //ratio from 0-1 representing how much of the total the player's currently energy is
+        charge = charge * speedIncreaseScale; //scale charge by the increase scale
 
-            gameManager.UpdateFired(charge );
+        //float speedRatio = gameManager.relativeSpeed + charge / gameManager.maxRelativeSpeed; //a ratio from 0 to 1 representing how much of the total the player's relative speed currently is
+        //INCLUDING how much speed the player will have if we increase their charge
+
+        if (speedRatio < energyRatio) //if the amount of speed the player has is less than the amount of energy they have (porportional to the respective totals)
+        {
+            gameManager.UpdateFired(charge);
         }
     }
 

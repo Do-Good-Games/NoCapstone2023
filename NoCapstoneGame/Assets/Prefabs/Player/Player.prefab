@@ -302,14 +302,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 3079467235973761314}
-  BByEnergyFired: 1
-  PerEnergyFired: 1
-  boostSpeed: 400
+  speedIncreaseScale: 0.1
+  boostSpeed: 40
   minBoostEnergy: 0
   boostEnergyLostPerSecond: 10
   numOfBoosts: 0
   speedOnExitType: 0
-  speedOnExit: 20
+  speedOnExit: 1
   boostGracePeriodDuration: 2
 --- !u!114 &5991089515577886123
 MonoBehaviour:
