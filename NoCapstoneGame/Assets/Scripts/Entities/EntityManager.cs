@@ -19,9 +19,7 @@ public class EntityManager : MonoBehaviour
     [Tooltip("The amount of asteroids per unscaled unit")]
     [SerializeField] private float density;
 
-    [Tooltip("the amount of time between when entities generate")]
-    [SerializeField] private float generationTime;
-    [Tooltip("the minimum and maximum possible generation time")]
+    [Tooltip("the minimum and maximum possible variation to generation time")]
     [SerializeField] private Vector2 generationTimeRange;
 
     [SerializeField] private bool generatingEntities;
@@ -29,11 +27,7 @@ public class EntityManager : MonoBehaviour
     [Header("per entity variables")]
 
     [Header("Movement")]
-    [SerializeField] public Vector2 downSpeedRange;
-    [Tooltip("general movement speed of each entity, recommended range approx. .1")]
-    [SerializeField] public Vector2 stepSpeedRange; //technically used as the hypoteneuse of the triangle used to calculate movement
-    [Tooltip("the direction of movement by the entity - represented as an angle from -90 to 90, 0 = straight down - set relative to directionAngle")]
-    [SerializeField] public Vector2 directionAngleRange;
+    [SerializeField] public Vector2 upwardsSpeedRange;
 
     [Header("wobble")]
     [Tooltip("the frequency by which each sway repeats. higher = more rapid movement back and forth. scale of ~ 1 -10 ")]
@@ -90,32 +84,25 @@ public class EntityManager : MonoBehaviour
         generatingEntities = true;
         while (generatingEntities)
         {
-            //wait for the length of time set by generationTime - untill then do nothing
+            //wait for the length of time set by generationTime - until then do nothing
+            float generationTime = GetGenerationTime();
             yield return new WaitForSeconds(generationTime);
-
-            float iterGenerationTime = GetGenerationTime();
 
             //spawning
             float iterSpawn = Random.Range(spawnRange.x, spawnRange.y);
-
 
             //SpawnEntity(iterSpawn, spawnHeight);
             GameObject entity;
             entity = objectPool.Get();
             entity.transform.position = new Vector3(iterSpawn, spawnHeight, 0);
-  
-            generationTime = iterGenerationTime;
         }
     }
 
     protected float GetGenerationTime()
     {
-        //float generationTime = Random.Range(generationTimeRange.x, generationTimeRange.y);
-
-        float generationTime = 1/((gameManager.GetUnscaledSpeed() / 0.02f) * density);
-        Debug.Log(gameManager.GetUnscaledSpeed() + "," + generationTime);
+        float generationTime = 1/((gameManager.GetCameraSpeed()) * density);
+        Debug.Log(gameManager.GetCameraSpeed() + "," + generationTime);
         return generationTime;
-
     }
 
     protected void GenerateAmountOnPoint(int amount, Vector3 point)
@@ -142,16 +129,12 @@ public class EntityManager : MonoBehaviour
 
     virtual public void SetVariables(Entity entity)
     {
-        //Debug.Log("set variables called as BASE CLASS");
         //Movement
-        float iterDownSpeed = Random.Range(downSpeedRange.x, downSpeedRange.y);
-
-        float iterStepSpeed = Random.Range(stepSpeedRange.x, stepSpeedRange.y);
-        float iterDirectionAngle = Random.Range(directionAngleRange.x, directionAngleRange.y);
+        float iterUpSpeed = Random.Range(upwardsSpeedRange.x, upwardsSpeedRange.y);
 
         //Wobble
         float iterSwaySpeed = Random.Range(swaySpeedRange.x, swaySpeedRange.y);
         float iterSwayWidth = Random.Range(swayWidthRange.x, swayWidthRange.y);
-        entity.setVariables(iterDownSpeed, iterStepSpeed, iterDirectionAngle, iterSwaySpeed, iterSwayWidth);
+        entity.setVariables(iterUpSpeed, iterSwaySpeed, iterSwayWidth);
     }
 }

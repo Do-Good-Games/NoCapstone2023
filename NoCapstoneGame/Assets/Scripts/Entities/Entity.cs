@@ -8,18 +8,8 @@ public class Entity : MonoBehaviour
 {
     [SerializeField] protected Rigidbody2D entityBody;
 
-    [Header("Movement")]
-    protected float gmSpeed;
-    protected float gmSpeedScale;
-    [SerializeField] public float extraSway;
-    [Tooltip("general movement speed of each entity, recommended range approx. .1")]
-    [SerializeField] public float stepSpeed; //technically used as the hypoteneuse of the triangle used to calculate movement
-    [Tooltip("the direction of movement by the entity - represented as an angle from -90 to 90, 0 = straight down - set relative to directionAngle")]
-    [SerializeField] public float directionAngle;
-    [Tooltip("the vector representing the direction the entity is moving in")]
-    [SerializeField] protected Vector3 directionVector;
-    [Tooltip("vector perpendicular to the direction vector - used to calculate wobble")]
-    protected Vector3 perpVector;
+    [Tooltip("The speed of the entity AWAY from the player, lowering this value increases the relative speed")]
+    [SerializeField] public float upwardsSpeed;
 
     [Header("wobble")]
     [Tooltip("the frequency by which each sway repeats. higher = more rapid movement back and forth. scale of ~ 1-10 ")]
@@ -33,24 +23,13 @@ public class Entity : MonoBehaviour
     // Start is called before the first frame update
     virtual public void Start()
     {
-        // setting variables for direction triangle calculations
-        float directionRadians = directionAngle * Mathf.Deg2Rad;//convert the direction angle into radians
-        float downMovementAmount = Mathf.Sin(directionRadians) * stepSpeed; //calculated as the adjacent side of triangle/ y coord
-        float sidewaysMovementAmount = Mathf.Cos(directionRadians) * stepSpeed * extraSway; // calculated as the opposite side of triangle/ x coord
-
-        directionVector = new Vector3(-downMovementAmount, -sidewaysMovementAmount, 0);// vector representing the direction the ship will move in
-
-        perpVector = new Vector3(directionVector.y, -directionVector.x, 0); //perpendicular vector for calculation with wobble
-
         this.gameManager = GameManager.Instance;
         gameManager.OnFiredChange.AddListener(UpdateSpeed);
     }
 
-    virtual public void setVariables(float extraSway, float stepSpeed, float directionAngle, float swaySpeed, float swayWidth)
+    virtual public void setVariables(float upwardsSpeed, float swaySpeed, float swayWidth)
     {
-        this.extraSway = extraSway;
-        this.stepSpeed = stepSpeed;
-        this.directionAngle = directionAngle;
+        this.upwardsSpeed = upwardsSpeed;
         this.swaySpeed = swaySpeed;
         this.swayWidth = swayWidth;
         //this.gmSpeed = gameManager.getSpeed();
@@ -64,11 +43,22 @@ public class Entity : MonoBehaviour
 
     virtual public void Move()
     {
-        gmSpeed = gameManager.GetScaledSpeed();
+        float cameraSpeed = gameManager.GetCameraSpeed();
+        float cameraDistance = cameraSpeed * Time.deltaTime;
 
-        Vector3 newPos = (new Vector3(entityBody.transform.position.x, entityBody.transform.position.y - gmSpeed, entityBody.transform.position.z));
+        float entityDistance = upwardsSpeed * Time.deltaTime;
 
-        entityBody.MovePosition(newPos);
+        float swayAmount = swaySpeed * Time.deltaTime;
+        float swayOffset = swayAmount * Mathf.Cos(swaySpeed * Time.fixedTime) * swayAmount; //I dont think the second swaySpeed bit makes a ton of sense, but I'm leaving it so everything performs the same
+
+        Vector2 movementVector = new Vector3(swayOffset,entityDistance - cameraDistance);
+        entityBody.position += movementVector;
+
+        //OOB check
+        if ((entityBody.position.y < -gameManager.cameraBounds.y) || (Mathf.Abs(entityBody.position.x) > gameManager.cameraBounds.x))
+        {
+            DestroyEntity();
+        }
     }
 
     /*
