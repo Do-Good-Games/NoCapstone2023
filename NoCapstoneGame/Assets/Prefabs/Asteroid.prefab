@@ -101,21 +101,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityBody: {fileID: 2447030393251289624}
-  downSpeed: 0.02
-  stepSpeed: 0
-  directionAngle: 0
+  upwardsSpeed: 0
   swaySpeed: 1
   swayWidth: 0
   entityManager: {fileID: 0}
-  asteroidCollider: {fileID: 9102387809521579522}
-  asteroidRenderer: {fileID: 2447030393251289638}
+  m_collider: {fileID: 9102387809521579522}
+  m_spriteRenderer: {fileID: 2447030393251289638}
   droppedEntityManager: {fileID: 0}
   numDrops: 0
+  numDropsGoldAsteroid: 3
   health: 2
   size: 0
   laserTag: Laser
   score: 10
-  destroySound: {fileID: 4692610660959000773}
+  isExplosive: 0
+  isGold: 0
+  isSplitter: 0
+  asteroidVersions: 1
+  goldenAsteroidEnergyRatio: 4
+  audioSource: {fileID: 4692610660959000773}
+  destroySoundArray: {fileID: 11400000, guid: 97edd5c4d9ab141409ca59c7f7215173, type: 2}
 --- !u!50 &2447030393251289624
 Rigidbody2D:
   serializedVersion: 4
@@ -163,7 +168,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8e57f4c9763a048b0a17ab7f64eca1f3, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

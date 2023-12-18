@@ -40,6 +40,11 @@ public class AudioReference : ScriptableObject
         return m_ClipArr[index];
     }
 
+    public int GetSize()
+    {
+        return m_ClipArr.Count;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

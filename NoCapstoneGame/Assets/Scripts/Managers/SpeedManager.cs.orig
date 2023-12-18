@@ -74,6 +74,9 @@ public class SpeedManager : MonoBehaviour
         gameManager = GameManager.Instance;
         inBoost = false;
     }
+
+<<<<<<< HEAD
+=======
     // Update is called once per frame
     void Update()
     {
@@ -97,8 +100,7 @@ public class SpeedManager : MonoBehaviour
 
         if (speedRatio < energyRatio) //if the amount of speed the player has is less than the amount of energy they have (porportional to the respective totals)
         {
-            gameManager.UpdateRelativeSpeed(charge);
-            Debug.Log("fired 2");
+            gameManager.UpdateFired(charge);
         }
     }
 
@@ -109,6 +111,8 @@ public class SpeedManager : MonoBehaviour
         //        gameManager.UpdateFired(-gameManager.GetCharge());
         //    }
     }
+
+>>>>>>> Speed-Refactor
     public void ResetVariables()
     {
         gameManager.OnFiredChange.Invoke();
@@ -138,7 +142,7 @@ public class SpeedManager : MonoBehaviour
         Debug.Log("boost coroutine activated");
         inBoost = true;
         numOfBoosts++;
-        while (gameManager.GetEnergy() > minBoostEnergy) //if relative speed >= max relative speed you can charge.
+        while (gameManager.GetEnergy() > minBoostEnergy)
         {
             //for some reason this removes the energy twice as quickly as it should
             gameManager.UpdateEnergy(- boostEnergyLostPerSecond * Time.deltaTime);
@@ -151,8 +155,6 @@ public class SpeedManager : MonoBehaviour
 
         boostGracePeriodCoroutineObject = BoostGracePeriod();
         StartCoroutine(boostGracePeriodCoroutineObject);
-
-        Debug.Log("uwu");
 
         gameManager.EndBoost(numOfBoosts, speedOnExit);
         ResetVariables();

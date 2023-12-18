@@ -291,9 +291,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5a7ba9cdb60cb0b48b855ee377cf2473, type: 2}
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: maxHealth
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: SpeedPrototypeSO
       value: 
       objectReference: {fileID: 11400000, guid: b97d875deacca3d4387a6a6ded43b6f8, type: 2}
+    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: ChargeGainPerSecond
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -590,12 +598,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityPrefab: {fileID: 3380691668930087719, guid: 5641c79b82253468c89976f5813fa6f4, type: 3}
-  generationTime: 0.7
+  density: 0.05
   generationTimeRange: {x: 0.5, y: 1.5}
-  generatingEntities: 0
-  downSpeedRange: {x: 0.5, y: 2}
-  stepSpeedRange: {x: 0.05, y: 0.15}
-  directionAngleRange: {x: 10, y: 10}
+  generatingEntities: 1
+  upwardsSpeedRange: {x: 4, y: 7}
   swaySpeedRange: {x: 1, y: 5}
   swayWidthRange: {x: 0, y: 0.01}
 --- !u!4 &755147822
@@ -643,12 +649,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityPrefab: {fileID: 2447030393251289635, guid: ec9fd64a6784d4588afc9836cdca4b6e, type: 3}
-  generationTime: 0.5
+  density: 0.2
   generationTimeRange: {x: 0.1, y: 0.7}
-  generatingEntities: 0
-  downSpeedRange: {x: 0.5, y: 1}
-  stepSpeedRange: {x: 0.05, y: 0.15}
-  directionAngleRange: {x: 10, y: 10}
+  generatingEntities: 1
+  upwardsSpeedRange: {x: 4, y: 7}
   swaySpeedRange: {x: 1, y: 1.5}
   swayWidthRange: {x: 0, y: 0.3}
   energyManager: {fileID: 755147821}
@@ -804,8 +808,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 0}
-  BByEnergyFired: 0
-  PerEnergyFired: 0
+  speedIncreaseScale: 0
   boostSpeed: 100
   minBoostEnergy: 0
   boostEnergyLostPerSecond: 20
@@ -908,20 +911,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 1308583664}
   speedManager: {fileID: 0}
+  cameraBounds: {x: 0, y: 0}
+  playerHealth: 3
+  maxEnergyLevel: 50
+  maxRelativeSpeed: 5
+  baseSpeed: 10
+  levelScale: 1
+  explosionPrefab: {fileID: 6879541595993959296, guid: 571feb7a7dd70094993bf4a35444d289, type: 3}
   gameplayCamera: {fileID: 523322434}
   hazardTag: Hazard
   playerTag: Player
-  cameraBounds: {x: 0, y: 0}
-  playerHealth: 0
-  maxEnergyLevel: 100
   energyLevel: 0
   chargeLevel: 0
-  maxFired: 100
-  firedLevel: 0
-  Speed: 0
-  speedScale: 0.001
-  levelScale: 1
-  explosionPrefab: {fileID: 6879541595993959296, guid: 571feb7a7dd70094993bf4a35444d289, type: 3}
+  relativeSpeed: 0
   OnPlayerHeal:
     m_PersistentCalls:
       m_Calls: []

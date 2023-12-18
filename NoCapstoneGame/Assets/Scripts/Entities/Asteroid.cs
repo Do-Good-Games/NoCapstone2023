@@ -7,26 +7,31 @@ using UnityEngine;
 
 public class Asteroid : Entity, IDamageable
 {
-    [SerializeField] private Collider2D asteroidCollider;
-    [SerializeField] private SpriteRenderer asteroidRenderer;
-    [SerializeField] private EntityManager droppedEntityManager;
+    [SerializeField] private Collider2D m_collider;
+    [SerializeField] public SpriteRenderer m_spriteRenderer;
+    [SerializeField] public EntityManager droppedEntityManager;
     [SerializeField] private int numDrops;
     [SerializeField] private int numDropsGoldAsteroid;
 
 
-    [Header("Interaction")] 
-	[SerializeField] private float health;
+    [Header("Interaction")]
+    [SerializeField] private float health;
     [SerializeField] private float size;
-	[SerializeField] private string laserTag;
+    [SerializeField] private string laserTag;
     [SerializeField] private int score;
     [SerializeField] private bool isExplosive = false;
     [SerializeField] private bool isGold = false;
     [SerializeField] private bool isSplitter = false;
     [SerializeField] private bool asteroidVersions = true;
-
+    [SerializeField] private float goldenAsteroidEnergyRatio;
 
     [Header("Sound")]
-    [SerializeField] public AudioSource destroySound;
+
+    [SerializeField] public AudioSource audioSource;
+    [SerializeField] public AudioReference destroySoundArray;
+
+
+    private IEnumerator DestroyAsteroidCoroutine;
 
     public override void Start()
     {
@@ -34,22 +39,22 @@ public class Asteroid : Entity, IDamageable
         base.Start();
         this.transform.localScale = new Vector2(size, size);
 
-        if(asteroidVersions == true)
+        if (asteroidVersions == true)
         {
             int RandomRoll = Random.Range(0, 100);
             if (RandomRoll > 90)
             {
                 isExplosive = true;
                 //isGold = true;
-                asteroidRenderer.color = UnityEngine.Color.red ; //CHANGE THE SPRITE INSTEAD OF THE COLOR
+                m_spriteRenderer.color = UnityEngine.Color.red; //CHANGE THE SPRITE INSTEAD OF THE COLOR
                 //AsteroidSpriteRenderer = GetComponent<SpriteRenderer>();
                 //AsteroidSpriteRenderer.color = Color.Red;
             }
-            else if(RandomRoll > 80)
+            else if (RandomRoll > 80)
             {
                 isGold = true;
                 //asteroidRenderer.color = new UnityEngine.Color(236f, 223f, 72f, 255f);
-                asteroidRenderer.color = UnityEngine.Color.yellow;
+                m_spriteRenderer.color = UnityEngine.Color.yellow;
             }
         }
 
@@ -61,8 +66,10 @@ public class Asteroid : Entity, IDamageable
         this.size = size;
         this.droppedEntityManager = droppedEntityManager;
         this.numDrops = numDrops;
-        this.numDropsGoldAsteroid = numDrops*5;
+        this.numDropsGoldAsteroid = Mathf.FloorToInt(numDrops * goldenAsteroidEnergyRatio);
         this.transform.localScale = new Vector2(size, size);
+
+
 
     }
 
@@ -71,40 +78,51 @@ public class Asteroid : Entity, IDamageable
         health -= damageAmount;
         if (health <= 0)
         {
-            DestroyFromLazer();
+            DestroyAsteroid();
             return true;
         }
         return false;
     }
 
-    public void DestroyFromLazer()
+    private IEnumerator PlaySoundThenDestroy()
     {
+        m_spriteRenderer.enabled = false;
+        m_collider.enabled = false;
 
-        //SFXManager.Instance.Play(destroySound.clip); //THIS CALLS SFXManager.restrictAudio which kills unity
-        //destroySound.Play();
-        AudioSource.PlayClipAtPoint(destroySound.clip, transform.position);
+        audioSource.clip = destroySoundArray.GetRandomClip();
 
+        audioSource.Play();
+
+        while (audioSource.isPlaying)
+        {
+            yield return null;
+        }
+
+        m_spriteRenderer.enabled = true;
+        m_collider.enabled = true;
+
+        DestroyEntity();
+    }
+
+    //could theoretically also do this as an override of DestroyEntity(), though that would involve an extra bool to differentiate the case of the asteroid going offscreen, as we don't want to play sound or drop
+    //energy when it does that. this still felt cleaner
+    public void DestroyAsteroid()
+    { 
         gameManager.UpdateScore(score);
-        //asteroidRenderer.enabled = false;
-        //asteroidCollider.enabled = false;
         if (droppedEntityManager != null && numDrops > 0)
         {
             if(isGold)
             {
-                Debug.Log("dropping gold!");
                 DropEntitiesGoldAsteroid();
             }
             else if(isExplosive)
             {
-                Debug.Log("exploding");
                 //take current position and place an explosion object here
                 GameObject explosion = GameObject.Instantiate(GameManager.Instance.explosionPrefab, this.transform.position, this.transform.rotation);
             }
 
-
             else if(isSplitter)
             {
-                Debug.Log("splitting");
                 //GameObject entity = EntityManager.instance.GenerateAmountOnPoint(4, this.transform.position); //THIS SHOULD WORK, I JUST NEED TO CREATE AN INSTANCE FOR ENTITY MANAGER
                 //alternatively I could store some small asteroids and spawn them in here.
 
@@ -115,22 +133,27 @@ public class Asteroid : Entity, IDamageable
             }
             else
             {
-                Debug.Log("dropping normally");
                 DropEntities();
             }
 
         }
         //Destroy(this.gameObject, 0.5f);
-        DestroyEntity();
+
+        DestroyAsteroidCoroutine = PlaySoundThenDestroy();
+        StartCoroutine(DestroyAsteroidCoroutine);
     }
 
-    /*override public void DestroyEntity()
+    override public void DestroyEntity()
     {
-        base.DestroyEntity();
+        if (DestroyAsteroidCoroutine == null)
+        {//if the object is already being destroyed then we don't want it to interupt that process (edge case is when in boost, player destroys asteroid, and it goes OOB before the sound fully plays, cutting the sound off
+            base.DestroyEntity();
+        }
+
         //entityManager.objectPool.Release(gameObject);
 
         //Destroy(this.gameObject, 0.5f);
-    }*/
+    }
 
     private void DropEntities()
     {
@@ -142,10 +165,8 @@ public class Asteroid : Entity, IDamageable
     }
     private void DropEntitiesGoldAsteroid()
     {
-        Debug.Log("am i alive?");
         for (int i = 0; i < numDropsGoldAsteroid; i++)
         {
-            Debug.Log("dropped");
             Vector2 spawnPoint = (Random.insideUnitCircle * (size / 2)) + (Vector2)transform.position;
             droppedEntityManager.SpawnEntity(spawnPoint.x, spawnPoint.y);
         }
