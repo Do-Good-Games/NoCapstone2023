@@ -306,7 +306,6 @@ public class PlayerController : MonoBehaviour
 
     public void OnRightClick(InputAction.CallbackContext context)
     {
-        Debug.Log("is this being read?");
         if (context.canceled)
         {
             Debug.Log("context cancelled");
@@ -314,18 +313,16 @@ public class PlayerController : MonoBehaviour
 
             if (gameManager.GetCharge() >= gameManager.GetMaxEnergy()) //if our charge is at max (max calc'd as max energy)
             {
-                Debug.Log("activating boost");
                 speedManager.ActivateBoost();
             } else
             {
-                Debug.Log("not activating boost");
                 gameManager.ResetCharge();
             }
         }
         else
         {
             if (context.started)
-            {
+            {//below had gameManager.maxFired instead of gameManager.maxRelativeSpeed
                 if (gameManager.relativeSpeed >= gameManager.maxRelativeSpeed && gameManager.GetEnergy() >= gameManager.GetMaxEnergy()) //if our fired var and our energy var are at max
                 {
                     Debug.Log("context started");
@@ -472,7 +469,10 @@ public class PlayerController : MonoBehaviour
             if (RightMouseHeld)
             {
                 RightMouseHeld = false;
-                gameManager.UpdateFired(-gameManager.GetCharge());
+
+                //the below line is causing an error because UpdateRelative speed does not exist anymore
+                gameManager.UpdateRelativeSpeed(-gameManager.GetCharge());
+
                 gameManager.ResetCharge();
 
             }
@@ -490,6 +490,7 @@ public class PlayerController : MonoBehaviour
 
     private void Die()
     {
+        sceneManager.canSwitchScenes = true;
         StopAllCoroutines();
 
        // playerCollider.enabled = false;
@@ -555,9 +556,10 @@ public class PlayerController : MonoBehaviour
 
     private void SwitchActionMap()
     {
-        Debug.Log("check 3");
+        Debug.Log("swapping action map1");
         if (gameManager.gameState == GameState.paused)
         {
+            Debug.Log("swapping action map2");
             cursorPosPrePause = cursorPos;
             SetPositions(cursorPosPrePause);
             SetActionMapUI();
@@ -565,17 +567,18 @@ public class PlayerController : MonoBehaviour
         }
         else if (gameManager.gameState == GameState.menus)
         {
+            Debug.Log("swapping action map3");
             cursorPosPrePause = cursorPos; //check here if player position is wack upon loading the game
             SetPositions(cursorPosPrePause);
             SetActionMapUI();
         } else
         {
+            Debug.Log("swapping action map4");
             Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
             SetPositions(cursorPosPrePause);
             SetActionMapPlayer();
             //Debug.Log("cursorPos:" + cursorPos + " pre pause: " + cursorPosPrePause + " w2sp: " + gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
         }
-        Debug.Log("check 4");
     }
 
     private void SetActionMapPlayer() { SetActionMap("Playing"); }

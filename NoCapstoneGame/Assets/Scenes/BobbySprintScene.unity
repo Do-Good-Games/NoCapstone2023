@@ -270,6 +270,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseReference: {fileID: 11400000, guid: 202b29f53e4e0e3429675735e3996d03, type: 2}
   UIDoc: {fileID: 390202842}
+  normalStyleSheet: {fileID: 0}
+  hoverStyleSheet: {fileID: 0}
+  clickedStyleSheet: {fileID: 0}
 --- !u!1 &417410875 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7894004486926316019, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
@@ -290,6 +293,10 @@ PrefabInstance:
       propertyPath: SOBoost
       value: 
       objectReference: {fileID: 11400000, guid: 5a7ba9cdb60cb0b48b855ee377cf2473, type: 2}
+    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: maxHealth
       value: 3

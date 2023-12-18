@@ -24,7 +24,7 @@ VisualElement {
     -unity-font: resource('FlatSkin/Font/Roboto-Bold');
 }
 
-.buttonPressed {
+.button:hover:active {
     width: 800px;
     height: 120px;
     background-color: rgba(56, 56, 56, 0);
@@ -41,7 +41,7 @@ VisualElement {
     background-image: url('project://database/Assets/UI/Art/PauseArt/BUTTON-pressed.png?fileID=2800000&guid=b196f6994095aa740b0680ad63a262c1&type=3#BUTTON-pressed');
 }
 
-.buttonHover {
+.button:hover {
     width: 800px;
     height: 120px;
     background-color: rgba(56, 56, 56, 0);
@@ -56,4 +56,55 @@ VisualElement {
     border-top-color: rgba(255, 255, 255, 0);
     border-bottom-color: rgba(255, 255, 255, 0);
     background-image: url('project://database/Assets/UI/Art/PauseArt/BUTTON-hoverl.png?fileID=2800000&guid=c3a0468d11da18f4c8651184b7a268d5&type=3#BUTTON-hoverl');
+}
+
+.quit {
+    width: 800px;
+    height: 120px;
+    background-color: rgba(196, 196, 196, 0);
+    font-size: 62px;
+    border-left-width: 15px;
+    border-right-width: 15px;
+    border-top-width: 15px;
+    border-bottom-width: 15px;
+    transition-duration: 3s;
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
+    background-image: url('project://database/Assets/UI/Art/PauseArt/PAUSE_QUIT_normal.png?fileID=2800000&guid=f425ece7920209848a566f6449e31048&type=3#PAUSE_QUIT_normal');
+}
+
+.quit:hover {
+    width: 800px;
+    height: 120px;
+    background-color: rgba(196, 196, 196, 0);
+    font-size: 62px;
+    border-left-width: 15px;
+    border-right-width: 15px;
+    border-top-width: 15px;
+    border-bottom-width: 15px;
+    transition-duration: 3s;
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
+    background-image: url('project://database/Assets/UI/Art/PauseArt/PAUSE_QUIT_hover.png?fileID=2800000&guid=33c1b2b980200a44b950001c5698d8b6&type=3#PAUSE_QUIT_hover');
+}
+
+.quit:hover:active {
+    width: 800px;
+    height: 120px;
+    background-color: rgba(196, 196, 196, 0);
+    font-size: 62px;
+    border-left-width: 15px;
+    border-right-width: 15px;
+    border-top-width: 15px;
+    border-bottom-width: 15px;
+    transition-duration: 3s;
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
+    background-image: url('project://database/Assets/UI/Art/PauseArt/PAUSE_QUIT_pressed.png?fileID=2800000&guid=c0384524994bbf74ba9fa7a61bb2e5aa&type=3#PAUSE_QUIT_pressed');
 }
