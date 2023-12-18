@@ -201,7 +201,7 @@ MonoBehaviour:
   DamageCooldownTime: 1
   healthLostOnHit: 1
   speedManager: {fileID: 8467958077101305148}
-  ChargeGainPerSecond: 10
+  ChargeGainPerSecond: 20
   ChargeSpentPerShot: 1
   EnergySpentPerShot: 1
   TimeBetweenShots: 0.07
