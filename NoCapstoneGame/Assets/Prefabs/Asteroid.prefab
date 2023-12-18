@@ -101,10 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityBody: {fileID: 2447030393251289624}
-  downSpeed: 0.02
-  stepSpeed: 0
-  directionAngle: 0
-  directionVector: {x: 0, y: 0, z: 0}
+  upwardsSpeed: 0
   swaySpeed: 1
   swayWidth: 0
   entityManager: {fileID: 0}
@@ -112,7 +109,7 @@ MonoBehaviour:
   m_spriteRenderer: {fileID: 2447030393251289638}
   droppedEntityManager: {fileID: 0}
   numDrops: 0
-  numDropsGoldAsteroid: 0
+  numDropsGoldAsteroid: 3
   health: 2
   size: 0
   laserTag: Laser
@@ -121,6 +118,7 @@ MonoBehaviour:
   isGold: 0
   isSplitter: 0
   asteroidVersions: 1
+  goldenAsteroidEnergyRatio: 4
   audioSource: {fileID: 4692610660959000773}
   destroySoundArray: {fileID: 11400000, guid: 97edd5c4d9ab141409ca59c7f7215173, type: 2}
 --- !u!50 &2447030393251289624

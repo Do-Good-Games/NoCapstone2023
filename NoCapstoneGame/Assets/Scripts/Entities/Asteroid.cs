@@ -23,12 +23,15 @@ public class Asteroid : Entity, IDamageable
     [SerializeField] private bool isGold = false;
     [SerializeField] private bool isSplitter = false;
     [SerializeField] private bool asteroidVersions = true;
-
+    [SerializeField] private float goldenAsteroidEnergyRatio;
 
     [Header("Sound")]
 
     [SerializeField] public AudioSource audioSource;
     [SerializeField] public AudioReference destroySoundArray;
+
+
+    private IEnumerator DestroyAsteroidCoroutine;
 
     public override void Start()
     {
@@ -63,7 +66,7 @@ public class Asteroid : Entity, IDamageable
         this.size = size;
         this.droppedEntityManager = droppedEntityManager;
         this.numDrops = numDrops;
-        this.numDropsGoldAsteroid = numDrops * 5;
+        this.numDropsGoldAsteroid = Mathf.FloorToInt(numDrops * goldenAsteroidEnergyRatio);
         this.transform.localScale = new Vector2(size, size);
 
 
@@ -97,7 +100,6 @@ public class Asteroid : Entity, IDamageable
 
         m_spriteRenderer.enabled = true;
         m_collider.enabled = true;
-
 
         DestroyEntity();
     }
@@ -136,16 +138,22 @@ public class Asteroid : Entity, IDamageable
 
         }
         //Destroy(this.gameObject, 0.5f);
-        StartCoroutine(PlaySoundThenDestroy());
+
+        DestroyAsteroidCoroutine = PlaySoundThenDestroy();
+        StartCoroutine(DestroyAsteroidCoroutine);
     }
 
-    /*override public void DestroyEntity()
+    override public void DestroyEntity()
     {
-        base.DestroyEntity();
+        if (DestroyAsteroidCoroutine == null)
+        {//if the object is already being destroyed then we don't want it to interupt that process (edge case is when in boost, player destroys asteroid, and it goes OOB before the sound fully plays, cutting the sound off
+            base.DestroyEntity();
+        }
+
         //entityManager.objectPool.Release(gameObject);
 
         //Destroy(this.gameObject, 0.5f);
-    }*/
+    }
 
     private void DropEntities()
     {
