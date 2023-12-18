@@ -30,36 +30,31 @@ public class GameManager : MonoBehaviour
     public PlayerController playerController;
     public SpeedManager speedManager;
 
+    public Vector2 cameraBounds;
+
+    [Header("Balance")]
+    [Tooltip("The starting/current health of the player")]
+    [SerializeField] private float playerHealth;
+    [SerializeField] private float maxEnergyLevel;
+    [SerializeField] public float maxRelativeSpeed;
+    [Tooltip("The starting/current base speed of the player")]
+    [SerializeField] private float baseSpeed;
+    [Tooltip("This modifies asteroid values to make the game harder with each level")]
+    [SerializeField] private float levelScale = 1;
+
+    [Header("References")]
+    [SerializeField] public GameObject explosionPrefab; //I will hopefully not need to keep this here (bobby)
     [SerializeField] public Camera gameplayCamera;
     [SerializeField] public string hazardTag;
     [SerializeField] public string playerTag;
 
-    public Vector2 cameraBounds;
-
-    // The current health of the player
-    [SerializeField] private float playerHealth;
-
-    [SerializeField] public float startingSpeedUnscaled; 
-
-    [SerializeField] private float maxEnergyLevel;
-    // The current energy level (max charge amount) 
+    [Header("Info")]
+    [Tooltip("The current energy level (max charge amount")] 
     [SerializeField] private float energyLevel;
-
-    // The current energy charge (for MVP)
+    [Tooltip("The current energy charge")]
     [SerializeField] private float chargeLevel;
-
-    public float maxFired;
+    [Tooltip("The current value of the third bar, added to base speed")]
     [SerializeField] public float relativeSpeed;
-
-    [Tooltip("the minimum speed the player will go, relative to the number of boosts the player has undergone")]
-    public float baseSpeed;
-    [Tooltip("setting speed to ints (or at least floats at similar sizes to ints, such as 1.75) is more intuitive, but causes insane speeds. This scales it down as well as offering parameterization of how quickly speed increases")]
-    [SerializeField] private float speedScale;
-
-    [Tooltip("This modifies asteroid values to make the game harder with each level")]
-    [SerializeField] private float levelScale = 1;
-
-    [SerializeField] public GameObject explosionPrefab; //I will hopefully not need to keep this here (bobby)
 
     // The current score (probably measured in distance)
     private int score;
@@ -107,7 +102,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //OnGameTogglePause.AddListener(TogglePause);
-        baseSpeed = startingSpeedUnscaled ;
     }
 
     private void Update()
@@ -171,7 +165,7 @@ public class GameManager : MonoBehaviour
         {
 
             relativeSpeed = Mathf.Min(relativeSpeed + amount,
-                Mathf.Min(energyLevel, maxFired));
+                Mathf.Min(energyLevel, maxRelativeSpeed));
 
         } else //we're decreasing
         {
@@ -214,10 +208,10 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void EndBoost(int numOfResets, float speedOnExit)
+    public void EndBoost(float numOfBoosts, float speedOnExit)
     {
         relativeSpeed = 0;
-        baseSpeed = numOfResets * speedOnExit;
+        baseSpeed += speedOnExit;
     }
 
 
@@ -256,7 +250,5 @@ public class GameManager : MonoBehaviour
     }
 
     [Tooltip("if not in boost, returns the total of the current relative speed, plus the base speed")]
-    public float GetUnscaledSpeed() => speedManager.inBoost? speedManager.boostSpeed : relativeSpeed + baseSpeed;
-    public float GetSpeedScale() => speedScale;
-    public float GetScaledSpeed() => GetUnscaledSpeed() * GetSpeedScale();
+    public float GetCameraSpeed() => speedManager.inBoost? speedManager.boostSpeed : relativeSpeed + baseSpeed;
 }

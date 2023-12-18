@@ -1,15 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-<<<<<<< HEAD
 using UnityEngine.Android;
-=======
->>>>>>> soundManager
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-<<<<<<< HEAD
 /// <summary>
 /// Parameters:
 ///     menus:
@@ -26,61 +22,39 @@ public enum GameState
     menus, gameplay, paused
 }
 
-=======
->>>>>>> soundManager
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
-<<<<<<< HEAD
     public PlayerController playerController;
     public SpeedManager speedManager;
 
-=======
->>>>>>> soundManager
+    public Vector2 cameraBounds;
+
+    [Header("Balance")]
+    [Tooltip("The starting/current health of the player")]
+    [SerializeField] private float playerHealth;
+    [SerializeField] private float maxEnergyLevel;
+    [SerializeField] public float maxRelativeSpeed;
+    [Tooltip("The starting/current base speed of the player")]
+    [SerializeField] private float baseSpeed;
+    [Tooltip("This modifies asteroid values to make the game harder with each level")]
+    [SerializeField] private float levelScale = 1;
+
+    [Header("References")]
+    [SerializeField] public GameObject explosionPrefab; //I will hopefully not need to keep this here (bobby)
     [SerializeField] public Camera gameplayCamera;
     [SerializeField] public string hazardTag;
     [SerializeField] public string playerTag;
 
-    public Vector2 cameraBounds;
-
-    // The current health of the player
-<<<<<<< HEAD
-    [SerializeField] private float playerHealth;
-
-    [SerializeField] private float maxEnergyLevel;
-    // The current energy level (max charge amount) 
-=======
-    private int playerHealth;
-
-    [SerializeField] private float maxEnergyLevel;
-    // The current energy level (max charge amount) (for MVP)
->>>>>>> soundManager
+    [Header("Info")]
+    [Tooltip("The current energy level (max charge amount")] 
     [SerializeField] private float energyLevel;
-
-    // The current energy charge (for MVP)
+    [Tooltip("The current energy charge")]
     [SerializeField] private float chargeLevel;
-
-<<<<<<< HEAD
-    public float maxFired;
-    [SerializeField] public float firedLevel;
-
-    public float Speed;
-    [Tooltip("setting speed to ints (or at least floats at similar sizes to ints, such as 1.75) is more intuitive, but causes insane speeds. This scales it down as well as offering parameterization of how quickly speed increases")]
-    [SerializeField] private float speedScale;
-
-    [Tooltip("This modifies asteroid values to make the game harder with each level")]
-    [SerializeField] private float levelScale = 1;
-
-    [SerializeField] public GameObject explosionPrefab; //I will hopefully not need to keep this here (bobby)
-=======
-    [SerializeField] private float speed;
-    [Tooltip("setting speed to ints is more intuitive, but causes insane speeds. This scales it down as well as offering parameterization of how quickly speed increases")]
-    [SerializeField] private float speedScale;
-
-    [SerializeField] public SFXManager sfxManager;
->>>>>>> soundManager
+    [Tooltip("The current value of the third bar, added to base speed")]
+    [SerializeField] public float relativeSpeed;
 
     // The current score (probably measured in distance)
     private int score;
@@ -88,7 +62,6 @@ public class GameManager : MonoBehaviour
     //whether or not the game is currently paused
     public bool paused { get; private set; } //may want to expand this an enum
 
-<<<<<<< HEAD
     [SerializeField] public GameState gameState { get; private set; }
 
     public UnityEvent OnPlayerHeal;
@@ -107,20 +80,6 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-=======
-    public UnityEvent OnPlayerHeal;
-    public UnityEvent OnPlayerHurt;
-    public UnityEvent OnPlayerDeath;
-    public UnityEvent OnEnergyChange;
-    public UnityEvent OnChargeChange;
-
-    public UnityEvent OnGameTogglePause;
-
-    void Awake()
-    {
-        paused = false;
-
->>>>>>> soundManager
         if (_instance == null)
         {
             _instance = this;
@@ -130,21 +89,14 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-<<<<<<< HEAD
         cameraBounds = new Vector2(gameplayCamera.orthographicSize - 1, (gameplayCamera.orthographicSize * gameplayCamera.aspect) - 1.5f);
-=======
-        cameraBounds = new Vector2(gameplayCamera.orthographicSize, gameplayCamera.orthographicSize * gameplayCamera.aspect);
->>>>>>> soundManager
 
         // Initilize playerHealth to 0, the player will call AddPlayerHealth() when the game starts.
         // This allows max health to be configued in the player object or at runtime
         playerHealth = 0;
         Time.timeScale = 1;
         Cursor.visible = false;
-<<<<<<< HEAD
         speedManager = playerController.speedManager;
-=======
->>>>>>> soundManager
     }
 
     private void Start()
@@ -152,56 +104,47 @@ public class GameManager : MonoBehaviour
         //OnGameTogglePause.AddListener(TogglePause);
     }
 
-<<<<<<< HEAD
     private void Update()
     {
 
     }
 
     public void AddPlayerHealth(float amount)
-=======
-    public void AddPlayerHealth(int amount)
->>>>>>> soundManager
     {
         playerHealth += amount;
         OnPlayerHeal.Invoke();
     }
 
-<<<<<<< HEAD
     public void RemovePlayerHealth(float amount)
-=======
-    public void RemovePlayerHealth(int amount)
->>>>>>> soundManager
     {
         playerHealth -= amount;
         OnPlayerHurt.Invoke();
-        if (playerHealth <= 0)
+
+        if (playerHealth <= 0)//if player is at or below zero health, kill them
         {
-            KillPlayer();
+            playerHealth = 0;
+            OnPlayerDeath.Invoke();
+            EnterMenus();   
         }
     }
 
-    public void KillPlayer()
-    {
-        playerHealth = 0;
-        OnPlayerDeath.Invoke();
-    }
 
-<<<<<<< HEAD
     public float GetPlayerHealth()
-=======
-    public int GetPlayerHealth()
->>>>>>> soundManager
     {
         return playerHealth;
     }
 
-
     public void UpdateEnergy(float amount)
     {
 <<<<<<< HEAD
-        //energyLevel = Mathf.Min(energyLevel+ amount, maxEnergyLevel);
-        energyLevel = Mathf.Max(energyLevel+ amount, 0);
+        //energyLevel = Mathf.Clamp(0, energyLevel + amount, maxEnergyLevel);
+
+        energyLevel = Mathf.Min(maxEnergyLevel, energyLevel + amount);
+        energyLevel = Mathf.Max(0, energyLevel);
+=======
+        energyLevel = Mathf.Min(energyLevel+ amount, maxEnergyLevel);
+        energyLevel = Mathf.Max(energyLevel, 0);
+>>>>>>> Speed-Refactor
 
         if (amount > 0)
         {
@@ -213,12 +156,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-=======
-        energyLevel = Mathf.Min(energyLevel+ amount, maxEnergyLevel);
-        OnEnergyChange.Invoke();
-    }
-
->>>>>>> soundManager
     public void ResetEnergy()
     {
         energyLevel = 0;
@@ -227,24 +164,36 @@ public class GameManager : MonoBehaviour
 
     public float GetEnergy() => energyLevel;
 
-<<<<<<< HEAD
-    public void UpdateFired(float amount)
+    public void UpdateRelativeSpeed(float amount)
     {
-        firedLevel = Mathf.Min(firedLevel + amount, maxFired);
-        firedLevel = Mathf.Max(firedLevel, 0);
+<<<<<<< HEAD
+        if(amount > 0)
+        {
+
+            relativeSpeed = Mathf.Min(relativeSpeed + amount,
+                Mathf.Min(energyLevel, maxFired));
+
+        } else //we're decreasing
+        {
+
+            relativeSpeed = Mathf.Max(relativeSpeed, 0); //make sure we don't go below zero
+        }
+
+
+=======
+        relativeSpeed = Mathf.Min(relativeSpeed + amount, maxRelativeSpeed);
+        relativeSpeed = Mathf.Max(relativeSpeed, 0);
+>>>>>>> Speed-Refactor
 
         OnFiredChange.Invoke();
     }
 
 
-=======
->>>>>>> soundManager
     public float GetMaxEnergy()
     {
         return maxEnergyLevel;
     }
 
-<<<<<<< HEAD
     public float GetLevelScale() => levelScale;
 
     [Tooltip("adds (or subtracts) the given value to the amount of charge")]
@@ -255,13 +204,6 @@ public class GameManager : MonoBehaviour
 
         OnChargeChange.Invoke();
 
-=======
-
-    public void UpdateCharge(float amount)
-    {
-        chargeLevel = Mathf.Min(energyLevel, chargeLevel + amount);
-        OnChargeChange.Invoke();
->>>>>>> soundManager
     }
 
     public void ResetCharge()
@@ -276,23 +218,16 @@ public class GameManager : MonoBehaviour
     }
 
 
-<<<<<<< HEAD
-    public void EndBoost(int numOfResets, float speedOnExit)
+    public void EndBoost(float numOfBoosts, float speedOnExit)
     {
-        firedLevel = 0;
-        Speed = numOfResets * speedOnExit;
+        relativeSpeed = 0;
+        baseSpeed += speedOnExit;
     }
 
 
     public void UpdateScore(int amount)
     {
         score += amount;
-=======
-    public void UpdateScore(int amount)
-    {
-        score += amount;
-        CalculateSpeed(); // could also do this in update depending on how it's implemented, current implementation will only ever change with score
->>>>>>> soundManager
     }
 
     public int GetScore()
@@ -300,10 +235,8 @@ public class GameManager : MonoBehaviour
         return score;
     }
 
-<<<<<<< HEAD
     public void PauseGame()
     {
-
         gameState = GameState.paused;
         Time.timeScale = 0;
 
@@ -311,12 +244,11 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void ResumeGame()
+    public void ResumeGame(bool invokeEvent = true)
     {
         gameState = GameState.gameplay;
         Time.timeScale = 1;
-
-        OnGameResume.Invoke();
+        if (invokeEvent) { OnGameResume.Invoke(); }        
     }
 
     public void EnterMenus()
@@ -327,32 +259,6 @@ public class GameManager : MonoBehaviour
         OnGameEnterMenus.Invoke();
     }
 
-
-    public float GetSpeed() => speedManager.inBoost? speedManager.boostSpeed : firedLevel + Speed;
-=======
-    public void TogglePause()
-    {
-        if (paused)
-        {
-            paused = false;
-            Time.timeScale = 1;
-            ///wil also want to invoke the pause event
-
-        } else
-        {
-            paused = true;
-            Time.timeScale = 0;
-        }
-
-        OnGameTogglePause.Invoke();
-    }
-
-    public void CalculateSpeed()
-    {
-        speed = score / 10;
-    }
-
-    public float GetSpeed() => speed;
->>>>>>> soundManager
-    public float GetSpeedScale() => speedScale;
+    [Tooltip("if not in boost, returns the total of the current relative speed, plus the base speed")]
+    public float GetCameraSpeed() => speedManager.inBoost? speedManager.boostSpeed : relativeSpeed + baseSpeed;
 }
