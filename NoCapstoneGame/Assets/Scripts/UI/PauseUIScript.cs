@@ -83,7 +83,15 @@ public class PauseUIScript : MonoBehaviour
         if(pauseReference != null)
         {
             Debug.Log("successfully instanced");
-            sfxManager.Play(pauseReference.GetClip());
+
+            if(sfxManager != null)
+            {
+                sfxManager.Play(pauseReference.GetClip());
+            } else
+            {
+                Debug.LogWarning("SFXManager INVALID");
+
+            }
 
         } else
         {

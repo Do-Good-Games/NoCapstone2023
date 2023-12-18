@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Aim",
+                    "name": "ChargeBoost",
                     "type": "Button",
                     "id": "69b76181-e88f-4f9b-9c60-675dd70d81fa",
                     "expectedControlType": "Button",
@@ -32,7 +32,7 @@
                     "interactions": "",
                     "initialStateCheck": false
                 },
-		{
+                {
                     "name": "Pause",
                     "type": "Button",
                     "id": "753f0dec-9289-41b9-8116-42f8f37c90d5",
@@ -72,7 +72,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Aim",
+                    "action": "ChargeBoost",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -83,7 +83,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Aim",
+                    "action": "ChargeBoost",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

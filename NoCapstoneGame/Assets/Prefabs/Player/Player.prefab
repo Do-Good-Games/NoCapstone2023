@@ -205,14 +205,9 @@ MonoBehaviour:
   ChargeSpentPerShot: 1
   EnergySpentPerShot: 1
   TimeBetweenShots: 0.07
-  EnergyProtects: 1
-  energyLostOnHit: 1
-  energyDecayType: 1
-  energyDecayRatioCurrent: 0.03
-  energyDecayRatioTotal: 0.01
-  energyDecayFixed: 1
+  energyDecayType: 0
+  energyDecayAmount: 0
   energyDecayDelay: 1.5
-  energyDecayTime: 0
   protectionThreshold:
     serializedVersion: 2
     m_Curve:
@@ -264,13 +259,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  EnergyProtects: 1
+  energyLostOnHit: 0.5
   EnergySizePerUnitCharged: 0.5
   MaxEnergySphereSize: 10
   EnergySphereHitboxGraceArea: 0.1
-  MinChargeForSlingshot: 0
-  SlingshotLaunchFactor: 0
-  SpaceshipStretchFactor: 0
-  EnergySphereStretchFactor: 0
   DamageFlashSpeed: 0.05
   DamageFlashSpeedupTime: 0.7
   DamageFlashFastSpeed: 0.02
@@ -286,8 +279,6 @@ MonoBehaviour:
   energyTransform: {fileID: 6186289636870546082}
   magnetTransform: {fileID: 3690117720725237577}
   chargeShotPrefab: {fileID: 4293999573908980727, guid: 51048a21004e749b4aac65c8b7af4692, type: 3}
-  gameManager: {fileID: 0}
-  sceneManager: {fileID: 0}
   leftMouseHeld: 0
 --- !u!114 &8467958077101305148
 MonoBehaviour:
@@ -304,11 +295,45 @@ MonoBehaviour:
   playerController: {fileID: 3079467235973761314}
   BByEnergyFired: 1
   PerEnergyFired: 1
+  lowerThresholdForDimRet: 0
+  upperThresholdForDimRet: 0
+  dimRetCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.40999234
+      value: 0.4936374
+      inSlope: 0.12419954
+      outSlope: 0.12419954
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.20289339
+    - serializedVersion: 3
+      time: 1
+      value: 0.986969
+      inSlope: 2.7317119
+      outSlope: 2.7317119
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.09167653
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   boostSpeed: 400
   minBoostEnergy: 0
-  boostEnergyLostPerSecond: 10
+  boostEnergyLostPerSecond: 20
   numOfBoosts: 0
-  speedOnExitType: 0
   speedOnExit: 20
   boostGracePeriodDuration: 2
 --- !u!114 &5991089515577886123
@@ -369,7 +394,19 @@ MonoBehaviour:
     m_ActionId: a71c2401-fcf2-448f-95dc-e5f43b34352a
     m_ActionName: Playing/New action1
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3079467235973761314}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnRightClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 69b76181-e88f-4f9b-9c60-675dd70d81fa
     m_ActionName: Playing/Aim[/Mouse/rightButton]
   - m_PersistentCalls:

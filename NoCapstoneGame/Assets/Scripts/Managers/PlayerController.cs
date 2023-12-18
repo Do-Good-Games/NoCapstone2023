@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -35,23 +36,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float EnergySpentPerShot;
     [Tooltip("The time between individual shots in a volley, in seconds")]
     [SerializeField] public float TimeBetweenShots;
-    [Tooltip("whether or not we want energy to act as a \"buffer\" to the player taking damage - when this is true, the player will not take damage when hit provided they have energy")]
-    [SerializeField] private bool EnergyProtects;
-    [Tooltip("the amount of energy the player loses when they get hit - represented as a ratio of how much energy they have currently")]
-    [SerializeField] private float energyLostOnHit;
+    
+    //energy decay
     private enum EnergyDecayType { none, currentRatio, totalRatio, fixedAmount}
     [Tooltip("which type of energy decay we want to use")]
     [SerializeField] private EnergyDecayType energyDecayType;
-    [Tooltip("rate at which the player loses energy over time - as a ratio (or percentage) of the player's CURRENT energy amount")]
-    [SerializeField] private float energyDecayRatioCurrent;
-    [Tooltip("rate at which the player loses energy over time - as a ratio (or percentage) of the player's CURRENT energy amount")]
-    [SerializeField] private float energyDecayRatioTotal;
-    [Tooltip("rate at which the player loses energy over time - as a fixed amount")]
-    [SerializeField] private float energyDecayFixed;
-
+    [Tooltip("rate at which the player loses energy over time")]
+    [SerializeField] private float energyDecayAmount;
     [Tooltip("the amount of time (in seconds) until the energy decay occurs")]
     [SerializeField] private float energyDecayDelay;
-    public float energyDecayTime;
+    private float energyDecayTime;
+    
+    //on hit
+    [SerializeField] private AnimationCurve protectionThreshold;
+    [Tooltip("whether or not we want energy to act as a \"buffer\" to the player taking damage - when this is true, the player will not take damage when hit provided they have energy")]
+    [SerializeField] private bool EnergyProtects;
+    [Tooltip("the amount of energy the player loses when they get hit - represented as a ratio of the total energy the player can hold")]
+    [SerializeField] private float energyLostOnHit;
 
     //[Tooltip("the minimum amount of energy needed for the player to protect against damage, represented as a ratio from 0-1 \n to disable this mechanic, set to 0")]
     //[SerializeField] float protectionThreshold;
@@ -59,7 +60,6 @@ public class PlayerController : MonoBehaviour
     //[Tooltip("point at which the player will start receiving \"partial\" protection below the full threshold. value from 0-1 representing a proportion of "]
     //[SerializeField] float protectionRatio;
 
-    [SerializeField] private AnimationCurve protectionThreshold;
 
 
 
@@ -70,14 +70,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float MaxEnergySphereSize;
     [Tooltip("The difference in the visual size of the energy sphere and its hitbox")]
     [SerializeField] public float EnergySphereHitboxGraceArea;
-
-    [Header("Slingshot")]
-
-    [SerializeField] private float MinChargeForSlingshot;
-    [SerializeField] private float SlingshotLaunchFactor;
-    [SerializeField] private float SpaceshipStretchFactor;
-    [SerializeField] private float EnergySphereStretchFactor;
-
 
 
     [Header("Visuals")]
@@ -116,9 +108,8 @@ public class PlayerController : MonoBehaviour
 
 
 
-    public GameManager gameManager;
-    public SceneManager sceneManager;
-    private Camera gameplayCamera;
+    private GameManager gameManager;
+    private SceneManager sceneManager;
     private Vector2 cameraBounds;
     private LaserSpawner[] spawners;
 
@@ -128,7 +119,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 cursorPos;
     private Vector2 slingshotAnchor;
     private Vector2 cursorPosPrePause;
-    float energySphereSize;
+    private float energySphereSize;
 
     private bool shooting;
     private bool damageable;
@@ -143,13 +134,12 @@ public class PlayerController : MonoBehaviour
     private float PrevEnergyLevel = 0;
 
 
+
+
     public void Start()
     {
         gameManager = GameManager.Instance;
-        gameManager.playerController = this;
         sceneManager = SceneManager.Instance;
-        gameManager.playerController = this;
-        gameplayCamera = gameManager.gameplayCamera;
         cameraBounds = gameManager.cameraBounds - (Vector2) shipCollider.bounds.extents;
 
         gameManager.AddPlayerHealth(maxHealth);
@@ -160,6 +150,7 @@ public class PlayerController : MonoBehaviour
         gameManager.OnGameResume.AddListener(SwitchActionMap); 
         gameManager.OnGamePause.AddListener(SwitchActionMap);
         gameManager.OnGameEnterMenus.AddListener(SwitchActionMap);
+        
 
         //gameManager.OnBoostStart.AddListener(BoostStarted); //cleanup: remove?
         //gameManager.OnBoostEnd.AddListener(BoostEnded);//cleanup: remove?
@@ -180,7 +171,9 @@ public class PlayerController : MonoBehaviour
 
         currentActionMapName = "Player";
         playerInput = GetComponent<PlayerInput>();
-        gameManager.ResumeGame();
+        //could we instead 
+        gameManager.ResumeGame(false);
+        SwitchActionMap();
         
 
         //depreciated prototype code - no replacement necessary
@@ -198,7 +191,11 @@ public class PlayerController : MonoBehaviour
         if (leftMouseHeld)
         {
             gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
-            speedManager.Fired(ChargeGainPerSecond * Time.deltaTime);
+            if (gameManager.relativeSpeed < gameManager.GetEnergy())
+            {
+                gameManager.UpdateRelativeSpeed(ChargeGainPerSecond * Time.deltaTime);
+            }
+
             //SOBoost.incFired(ChargeGainPerSecond * Time.deltaTime); //depreciated prototype code - changed to sm.fired()
 
             UpdateEnergySphere();
@@ -254,15 +251,6 @@ public class PlayerController : MonoBehaviour
         magnetTransform.position = inBoundsPosition;
     }
 
-    private void SetStretchedPositions(Vector2 position)
-    {
-        Vector2 stretchedShipPosition = Vector2.Lerp(slingshotAnchor, position, SpaceshipStretchFactor);
-        stretchedShipPosition = KeepInBounds(stretchedShipPosition);
-        shipTransform.position = stretchedShipPosition;
-        energyTransform.position = Vector2.Lerp(slingshotAnchor, stretchedShipPosition, EnergySphereStretchFactor);
-        magnetTransform.position = stretchedShipPosition;
-    }
-
     private Vector2 KeepInBounds(Vector2 position)
     {
         float clampedXPos = Mathf.Clamp(position.x, -cameraBounds.x, cameraBounds.x);
@@ -308,7 +296,6 @@ public class PlayerController : MonoBehaviour
     {
         if (context.canceled)
         {
-            Debug.Log("context cancelled");
             RightMouseHeld = false;
 
             if (gameManager.GetCharge() >= gameManager.GetMaxEnergy()) //if our charge is at max (max calc'd as max energy)
@@ -325,7 +312,6 @@ public class PlayerController : MonoBehaviour
             {
                 if (gameManager.relativeSpeed >= gameManager.maxFired && gameManager.GetEnergy() >= gameManager.GetMaxEnergy()) //if our fired var and our energy var are at max
                 {
-                    Debug.Log("context started");
                     RightMouseHeld = true;
                 }
             }
@@ -337,24 +323,27 @@ public class PlayerController : MonoBehaviour
         int i = 0;
         while (shooting)
         {
-            while (RightMouseHeld)
+            while (RightMouseHeld) //while we're still holding mouse, don't fire yet
             {
                 yield return null;
             }
 
-            if (gameManager.GetCharge() >= ChargeSpentPerShot) //provided this won't cause us to run out of charge
+            float chargeLevel = gameManager.GetCharge();
+            float energyLevel = gameManager.GetEnergy();
+
+            if (chargeLevel >= ChargeSpentPerShot) //provided this won't cause us to run out of charge
             {
                 //SpeedPrototypeSO.SPEnergyFired(ChargeSpentPerShot); //from prototyping - removed as we wanted the firing changes to happen from the way we did it on boost
                 //speedManager.Fired(ChargeSpentPerShot);
-                gameManager.UpdateEnergy(-ChargeSpentPerShot);
-                FireLasers();
                 gameManager.UpdateCharge(-ChargeSpentPerShot);
+                gameManager.UpdateEnergy(-EnergySpentPerShot);
+                FireLasers();
                 UpdateEnergySphere();
             }
-            else if (gameManager.GetEnergy() >= EnergySpentPerShot) //if we will run out of charge, (but we won't run out of energy)
+            else if (energyLevel >= EnergySpentPerShot) //if we will run out of charge, (but we won't run out of energy)
             {
                 //SpeedPrototypeSO.SPEnergyFired(ChargeSpentPerShot);//from prototyping - removed as we wanted the firing changes to happen from the way we did it on boost
-                gameManager.UpdateEnergy(-ChargeSpentPerShot);
+                gameManager.UpdateEnergy(-EnergySpentPerShot);
                 FireLasers();
                 gameManager.ResetCharge();
                 UpdateEnergySphere();
@@ -366,7 +355,7 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("yes it does");
 
 
-            if (gameManager.GetCharge() < ChargeSpentPerShot)
+            if (chargeLevel < ChargeSpentPerShot)
             {
                 gameManager.ResetCharge();
                 UpdateEnergySphere();
@@ -381,7 +370,7 @@ public class PlayerController : MonoBehaviour
         foreach (LaserSpawner spawner in spawners)
         {
             shootSound.Play();
-        gameManager.UpdateEnergy(-ChargeSpentPerShot);
+            gameManager.UpdateEnergy(-EnergySpentPerShot);
             spawner.SpawnLaser();
         }
     }
@@ -454,7 +443,7 @@ public class PlayerController : MonoBehaviour
                     float damageAmount = (healthLostOnHit * amount);
                     //Debug.Log("player at least partially protected " + damageAmount);
                     gameManager.RemovePlayerHealth(damageAmount);
-                    gameManager.UpdateEnergy(-(gameManager.GetEnergy() * energyLostOnHit));
+                    gameManager.UpdateEnergy(- gameManager.GetMaxEnergy() * energyLostOnHit);
                 }
                 else
                 {
@@ -498,11 +487,9 @@ public class PlayerController : MonoBehaviour
         sceneManager.SwitchToScene("LoseScene");
 
         Destroy(this.gameObject, 0.5f);
+        SetActionMapUI();
         //switch action map to UI
     }
-
-
-
 
 
     public void togglePause(InputAction.CallbackContext context)
@@ -519,7 +506,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (gameManager.gameState == GameState.menus)
             {
-                throw new Exception("togglePause() (the input callback) is somehow being called when the game is in menus - this shouldn't be able to happen");  
+                //throw new Exception("togglePause() (the input callback) is somehow being called when the game is in menus - this shouldn't be able to happen");  
             }
             //gameManager.OnGameTogglePause.Invoke();
         }
@@ -541,9 +528,16 @@ public class PlayerController : MonoBehaviour
         {
             // Assuming inBoost is true when the player is in hyperspeed
             if (speedManager.inBoost)
-                collision.GetComponent<IDamageable>()?.Damage(100000); //don't damage the asteroid, instead get theasteroid component and call destroy()
-            else 
+            {
+                Asteroid asteroid = collision.GetComponent<Asteroid>();
+                if (asteroid != null)
+                {//if the hazard contains an asteroid component, destroy it
+                    asteroid.DestroyAsteroid();
+                }            
+            } else
+            { // if we're not in boost, hit the player
                 Hit();
+            }
         } else if (collision.GetComponent<Energy>())
         {
             energyDecayTime = 0;
@@ -609,15 +603,15 @@ public class PlayerController : MonoBehaviour
             case (EnergyDecayType.none):
                 break;
             case (EnergyDecayType.fixedAmount):
-                decayAmount = energyDecayFixed * Time.deltaTime;
+                decayAmount = energyDecayAmount * Time.deltaTime;
                 gameManager.UpdateEnergy(-decayAmount);
                 break;
             case (EnergyDecayType.currentRatio):
-                decayAmount = gameManager.GetEnergy() * energyDecayRatioCurrent * Time.deltaTime;
+                decayAmount = gameManager.GetEnergy() * energyDecayAmount * Time.deltaTime;
                 gameManager.UpdateEnergy(-decayAmount);
                 break;
             case (EnergyDecayType.totalRatio):
-                decayAmount = gameManager.GetMaxEnergy() * energyDecayRatioCurrent * Time.deltaTime;
+                decayAmount = gameManager.GetMaxEnergy() * energyDecayAmount * Time.deltaTime;
                 gameManager.UpdateEnergy(-decayAmount);
                 break;
         }

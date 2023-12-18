@@ -58,7 +58,7 @@ MonoBehaviour:
   energyCollider: {fileID: 3493999520594003082}
   energyRenderer: {fileID: 3380691668930087720}
   energyGain: 1
-  diminishingReturnRatio: 1
+  diminishingReturnRatio: 0.25
 --- !u!212 &3380691668930087720
 SpriteRenderer:
   m_ObjectHideFlags: 0
