@@ -11,7 +11,7 @@ VisualElement {
     width: 386px;
     height: 104px;
     background-color: rgba(56, 56, 56, 0);
-    font-size: 62px;
+    font-size: 32px;
     border-left-width: 15px;
     border-right-width: 15px;
     border-top-width: 15px;
@@ -27,6 +27,8 @@ VisualElement {
     margin-top: 30px;
     margin-bottom: 30px;
     color: rgb(37, 190, 213);
+    -unity-font-definition: url('project://database/Assets/UI/Art/PauseArt/8-bit-hud%20SDF.asset?fileID=11400000&guid=ebe3bad336d2f044faa41d02b7df2694&type=2#8-bit-hud SDF');
+    -unity-font-style: italic;
 }
 
 .button:hover:active {

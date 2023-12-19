@@ -1,13 +1,13 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/LoseScreenStyleSheet.uss?fileID=7433441132597879392&amp;guid=7595c89e7613af445ac256b5763d84af&amp;type=3#LoseScreenStyleSheet" />
-    <ui:VisualElement name="root" style="height: 1080px; width: 1920px; align-items: center; justify-content: center;">
+    <ui:VisualElement name="root" style="height: 1080px; width: 1920px; align-items: center; justify-content: center; opacity: 0.8;">
         <ui:VisualElement name="Background" style="height: 776px; background-image: url(&apos;project://database/Assets/UI/Art/PauseArt/Pause%20Menu%20BG.png?fileID=2800000&amp;guid=0726c395b37bb9043ad124e3b5fa6eb8&amp;type=3#Pause Menu BG&apos;); width: 834px; translate: 0 0; scale: 1 1; transform-origin: center; justify-content: flex-start; align-items: stretch;">
             <ui:VisualElement name="ButtonContainer" style="justify-content: center; align-items: center; height: 669px; translate: 0 59px; top: -20px;">
-                <ui:Button text="Resume" display-tooltip-when-elided="true" name="ResumeButton" class="button" style="transition-duration: 0s; -unity-font: url(&apos;project://database/Assets/UI/Art/PauseArt/8-bit-hud.ttf?fileID=12800000&amp;guid=3737689ed1c776c45b5026f6f556808c&amp;type=3#8-bit-hud&apos;); -unity-font-style: normal;" />
+                <ui:Button text="Resume" display-tooltip-when-elided="true" name="ResumeButton" class="button" style="transition-duration: 0s; -unity-font: url(&apos;project://database/Assets/UI/Art/PauseArt/8-bit-hud.ttf?fileID=12800000&amp;guid=3737689ed1c776c45b5026f6f556808c&amp;type=3#8-bit-hud&apos;);" />
                 <ui:Button text="Main Menu" display-tooltip-when-elided="true" name="MainMenuButton" class="button" style="transition-duration: 0s; -unity-font: url(&apos;project://database/Assets/UI/Art/PauseArt/8-bit-hud.ttf?fileID=12800000&amp;guid=3737689ed1c776c45b5026f6f556808c&amp;type=3#8-bit-hud&apos;);" />
                 <ui:Button text="Restart" display-tooltip-when-elided="true" name="RestartButton" class="button" style="transition-duration: 0s; -unity-font: url(&apos;project://database/Assets/UI/Art/PauseArt/8-bit-hud.ttf?fileID=12800000&amp;guid=3737689ed1c776c45b5026f6f556808c&amp;type=3#8-bit-hud&apos;);" />
             </ui:VisualElement>
-            <ui:Button display-tooltip-when-elided="true" name="QuitButton" class="quit" style="transition-duration: 0s; -unity-font: url(&apos;project://database/Assets/UI/Art/PauseArt/8-bit-hud.ttf?fileID=12800000&amp;guid=3737689ed1c776c45b5026f6f556808c&amp;type=3#8-bit-hud&apos;); left: 9px; top: 48px; height: 45px; width: 307px; background-color: rgba(196, 196, 196, 0);" />
+            <ui:Button display-tooltip-when-elided="true" name="QuitButton" class="quit" style="transition-duration: 0s; -unity-font: url(&apos;project://database/Assets/UI/Art/PauseArt/8-bit-hud.ttf?fileID=12800000&amp;guid=3737689ed1c776c45b5026f6f556808c&amp;type=3#8-bit-hud&apos;); left: 9px; top: 46px; height: 45px; width: 307px; background-color: rgba(196, 196, 196, 0);" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
