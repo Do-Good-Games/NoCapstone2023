@@ -217,7 +217,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("i caught you");
         relativeSpeed = 0;
         baseSpeed += speedOnExit;
-        Debug.Log("number of resets, speed on exit " + numOfResets + " " + speedOnExit);
+        Debug.Log("number of resets, speed on exit " + numOfBoosts + " " + speedOnExit);
     }
 
 

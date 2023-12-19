@@ -1,9 +1,15 @@
 VisualElement {
 }
 
+.label {
+    font-size: 30px;
+    color: rgb(95, 146, 221);
+    -unity-font: resource('FlatSkin/Font/Roboto-Bold');
+}
+
 .button {
-    width: 800px;
-    height: 120px;
+    width: 386px;
+    height: 104px;
     background-color: rgba(56, 56, 56, 0);
     font-size: 62px;
     border-left-width: 15px;
@@ -16,17 +22,17 @@ VisualElement {
     border-top-color: rgba(255, 255, 255, 0);
     border-bottom-color: rgba(255, 255, 255, 0);
     background-image: url('project://database/Assets/UI/Art/PauseArt/BUTTON-normal.png?fileID=2800000&guid=37fcdae3bec83ae40b7560dd79e1554c&type=3#BUTTON-normal');
-}
-
-.label {
-    font-size: 30px;
-    color: rgb(95, 146, 221);
-    -unity-font: resource('FlatSkin/Font/Roboto-Bold');
+    -unity-font: url('project://database/Assets/UI/Art/PauseArt/8-bit-hud.ttf?fileID=12800000&guid=3737689ed1c776c45b5026f6f556808c&type=3#8-bit-hud');
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: rgb(37, 190, 213);
 }
 
 .button:hover:active {
-    width: 800px;
-    height: 120px;
+    width: 386px;
+    height: 104px;
     background-color: rgba(56, 56, 56, 0);
     font-size: 62px;
     border-left-width: 15px;
@@ -39,11 +45,12 @@ VisualElement {
     border-top-color: rgba(255, 255, 255, 0);
     border-bottom-color: rgba(255, 255, 255, 0);
     background-image: url('project://database/Assets/UI/Art/PauseArt/BUTTON-pressed.png?fileID=2800000&guid=b196f6994095aa740b0680ad63a262c1&type=3#BUTTON-pressed');
+    color: rgb(217, 237, 246);
 }
 
 .button:hover {
-    width: 800px;
-    height: 120px;
+    width: 386px;
+    height: 104px;
     background-color: rgba(56, 56, 56, 0);
     font-size: 62px;
     border-left-width: 15px;
@@ -56,6 +63,7 @@ VisualElement {
     border-top-color: rgba(255, 255, 255, 0);
     border-bottom-color: rgba(255, 255, 255, 0);
     background-image: url('project://database/Assets/UI/Art/PauseArt/BUTTON-hoverl.png?fileID=2800000&guid=c3a0468d11da18f4c8651184b7a268d5&type=3#BUTTON-hoverl');
+    color: rgb(217, 237, 246);
 }
 
 .quit {
