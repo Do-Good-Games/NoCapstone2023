@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] public float relativeSpeed;
 
     // The current score (probably measured in distance)
-    private int score;
+    private float score;
 
     //whether or not the game is currently paused
     public bool paused { get; private set; } //may want to expand this an enum
@@ -101,14 +101,9 @@ public class GameManager : MonoBehaviour
         speedManager = playerController.speedManager;
     }
 
-    private void Start()
+    private void FixedUpdate()
     {
-        //OnGameTogglePause.AddListener(TogglePause);
-    }
-
-    private void Update()
-    {
-        
+        score += GetCameraSpeed() * Time.deltaTime;
     }
 
     public void AddPlayerHealth(float amount)
@@ -130,11 +125,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-    public float GetPlayerHealth()
-    {
-        return playerHealth;
-    }
 
     public void UpdateEnergy(float amount)
     {
@@ -159,8 +149,6 @@ public class GameManager : MonoBehaviour
         OnEnergyChange.Invoke();
     }
 
-    public float GetEnergy() => energyLevel;
-
     public void UpdateRelativeSpeed(float amount)
     {
         if(amount > 0)
@@ -178,13 +166,6 @@ public class GameManager : MonoBehaviour
 
 
         OnFiredChange.Invoke();
-    }
-
-
-    public float GetMaxEnergy()
-    {
-        Debug.Log("Max energy: " + maxEnergyLevel);
-        return maxEnergyLevel;
     }
 
     public float GetLevelScale() => levelScale;
@@ -205,13 +186,6 @@ public class GameManager : MonoBehaviour
         OnChargeChange.Invoke();
     }
 
-    public float GetCharge()
-    {
-        Debug.Log("Charge: " + chargeLevel);
-        return chargeLevel;
-    }
-
-
     public void EndBoost(float numOfBoosts, float speedOnExit)
     {
         Debug.Log("i caught you");
@@ -226,10 +200,6 @@ public class GameManager : MonoBehaviour
         score += amount;
     }
 
-    public int GetScore()
-    {
-        return score;
-    }
 
     public void PauseGame()
     {
@@ -259,4 +229,10 @@ public class GameManager : MonoBehaviour
 
     [Tooltip("if not in boost, returns the total of the current relative speed, plus the base speed")]
     public float GetCameraSpeed() => speedManager.inBoost? speedManager.boostSpeed : relativeSpeed + baseSpeed;
+
+    public float GetPlayerHealth() => playerHealth;
+    public float GetEnergy() => energyLevel;
+    public float GetMaxEnergy() => maxEnergyLevel;
+    public float GetCharge() => chargeLevel;
+    public float GetScore() => score;
 }

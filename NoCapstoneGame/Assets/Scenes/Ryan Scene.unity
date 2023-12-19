@@ -270,6 +270,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseReference: {fileID: 0}
   UIDoc: {fileID: 390202842}
+  normalStyleSheet: {fileID: 0}
+  hoverStyleSheet: {fileID: 0}
+  clickedStyleSheet: {fileID: 0}
 --- !u!1 &417410875 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7894004486926316019, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
@@ -876,6 +879,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 465030af6516bb74184f0adb31bbc192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreSpeedScale: 100
+  speedUnits: kph
+  scoreUnits: km
   player: {fileID: 1308583664}
   UIDoc: {fileID: 1509115613}
   fired: 0
@@ -948,6 +954,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnGameResume:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBoostStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBoostEnd:
     m_PersistentCalls:
       m_Calls: []
 --- !u!4 &2021246356

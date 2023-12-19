@@ -53,16 +53,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float energyLevel;
     [Tooltip("The current energy charge")]
     [SerializeField] private float chargeLevel;
-<<<<<<< HEAD
-
-    public float maxRelativeSpeed;
-=======
     [Tooltip("The current value of the third bar, added to base speed")]
->>>>>>> Integration
     [SerializeField] public float relativeSpeed;
 
     // The current score (probably measured in distance)
-    private int score;
+    private float score;
 
     //whether or not the game is currently paused
     public bool paused { get; private set; } //may want to expand this an enum
@@ -106,14 +101,18 @@ public class GameManager : MonoBehaviour
         speedManager = playerController.speedManager;
     }
 
-    private void Start()
+    private void FixedUpdate()
     {
+<<<<<<< HEAD
         //OnGameTogglePause.AddListener(TogglePause);
     }
 
     private void Update()
     {
         
+=======
+        score += GetCameraSpeed() * Time.deltaTime;
+>>>>>>> origin/Speed-Refactor
     }
 
     public void AddPlayerHealth(float amount)
@@ -136,10 +135,13 @@ public class GameManager : MonoBehaviour
     }
 
 
+<<<<<<< HEAD
     public float GetPlayerHealth()
     {
         return playerHealth;
     }
+=======
+>>>>>>> origin/Speed-Refactor
 
     public void UpdateEnergy(float amount)
     {
@@ -164,14 +166,14 @@ public class GameManager : MonoBehaviour
         OnEnergyChange.Invoke();
     }
 
+<<<<<<< HEAD
     public float GetEnergy() => energyLevel;
 
     public void UpdateRelativeSpeed(float amount)
-    {
-<<<<<<< HEAD
-        relativeSpeed = Mathf.Min(relativeSpeed + amount, maxRelativeSpeed);
-        relativeSpeed = Mathf.Max(relativeSpeed, 0);
 =======
+    public void UpdateFired(float amount)
+>>>>>>> origin/Speed-Refactor
+    {
         if(amount > 0)
         {
 
@@ -185,11 +187,11 @@ public class GameManager : MonoBehaviour
         }
 
 
->>>>>>> Integration
 
         OnFiredChange.Invoke();
     }
 
+<<<<<<< HEAD
 
     public float GetMaxEnergy()
     {
@@ -197,6 +199,8 @@ public class GameManager : MonoBehaviour
         return maxEnergyLevel;
     }
 
+=======
+>>>>>>> origin/Speed-Refactor
     public float GetLevelScale() => levelScale;
 
     [Tooltip("adds (or subtracts) the given value to the amount of charge")]
@@ -215,6 +219,7 @@ public class GameManager : MonoBehaviour
         OnChargeChange.Invoke();
     }
 
+<<<<<<< HEAD
     public float GetCharge()
     {
         Debug.Log("Charge: " + chargeLevel);
@@ -222,16 +227,14 @@ public class GameManager : MonoBehaviour
     }
 
 
+=======
+>>>>>>> origin/Speed-Refactor
     public void EndBoost(float numOfBoosts, float speedOnExit)
     {
         Debug.Log("i caught you");
         relativeSpeed = 0;
-<<<<<<< HEAD
-        baseSpeed = numOfResets * speedOnExit;
-        Debug.Log("number of resets, speed on exit " + numOfResets + " " + speedOnExit);
-=======
         baseSpeed += speedOnExit;
->>>>>>> Integration
+        Debug.Log("number of resets, speed on exit " + numOfBoosts + " " + speedOnExit);
     }
 
 
@@ -240,10 +243,6 @@ public class GameManager : MonoBehaviour
         score += amount;
     }
 
-    public int GetScore()
-    {
-        return score;
-    }
 
     public void PauseGame()
     {
@@ -259,13 +258,8 @@ public class GameManager : MonoBehaviour
         gameState = GameState.gameplay;
         Debug.Log("check 1.25");
         Time.timeScale = 1;
-<<<<<<< HEAD
-        Debug.Log("check 1.5");
-        OnGameResume.Invoke();
-        Debug.Log("check 2");
-=======
         if (invokeEvent) { OnGameResume.Invoke(); }        
->>>>>>> Integration
+        Debug.Log("check 2");
     }
 
     public void EnterMenus()
@@ -278,4 +272,10 @@ public class GameManager : MonoBehaviour
 
     [Tooltip("if not in boost, returns the total of the current relative speed, plus the base speed")]
     public float GetCameraSpeed() => speedManager.inBoost? speedManager.boostSpeed : relativeSpeed + baseSpeed;
+
+    public float GetPlayerHealth() => playerHealth;
+    public float GetEnergy() => energyLevel;
+    public float GetMaxEnergy() => maxEnergyLevel;
+    public float GetCharge() => chargeLevel;
+    public float GetScore() => score;
 }

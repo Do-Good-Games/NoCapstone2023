@@ -49,7 +49,7 @@ public class SOBoostSimple : SOBoostBase
         }
 
         //you can probably throw these following lines out, in fact I'd probably advise doing so
-        int currScore = GameManager.Instance.GetScore();
+        int currScore = (int) GameManager.Instance.GetScore();
 
         GameManager.Instance.UpdateScore( -currScore);//resets score
         GameManager.Instance.UpdateScore(Mathf.FloorToInt((float)currScore * scoreMultiplier));//multiplies score by modifier, rounding down

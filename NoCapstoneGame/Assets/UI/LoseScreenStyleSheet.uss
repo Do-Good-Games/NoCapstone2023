@@ -35,7 +35,6 @@ VisualElement {
     width: 386px;
     height: 104px;
     background-color: rgba(56, 56, 56, 0);
-    font-size: 62px;
     border-left-width: 15px;
     border-right-width: 15px;
     border-top-width: 15px;
@@ -47,13 +46,14 @@ VisualElement {
     border-bottom-color: rgba(255, 255, 255, 0);
     background-image: url('project://database/Assets/UI/Art/PauseArt/BUTTON-pressed.png?fileID=2800000&guid=b196f6994095aa740b0680ad63a262c1&type=3#BUTTON-pressed');
     color: rgb(217, 237, 246);
+    font-size: 32px;
 }
 
 .button:hover {
     width: 386px;
     height: 104px;
     background-color: rgba(56, 56, 56, 0);
-    font-size: 62px;
+    font-size: 32px;
     border-left-width: 15px;
     border-right-width: 15px;
     border-top-width: 15px;

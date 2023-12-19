@@ -8,6 +8,10 @@ using UnityEngine.UIElements;
 
 public class HUDController: MonoBehaviour
 {
+    [Tooltip("The amount to scale the internal distance by when calculating score and speed")]
+    [SerializeField] float scoreSpeedScale;
+    [SerializeField] string speedUnits = "kph";
+    [SerializeField] string scoreUnits = "km";
     [SerializeField] PlayerController player;
     [SerializeField] UIDocument UIDoc;
     [SerializeField] Event triggerEvent;
@@ -81,12 +85,13 @@ public class HUDController: MonoBehaviour
 
     void Update()
     {
-        scoreDisplay.text = gameManager.GetScore().ToString().PadLeft(5, '0');
-        speedDisplay.text = gameManager.GetCameraSpeed().ToString() + "kph";
-        //speedDisplay.text = gameManager.GetUnscaledSpeed()+50.ToString() + "kph";
-        //Debug.Log("speed display " + speedDisplay.text);
-        //speedNeedle.style.rotate = new StyleRotate(new Rotate(new Angle(gameManager.GetUnscaledSpeed() - 90, AngleUnit.Degree)));    //https://docs.unity3d.com/Manual/UIE-Transform.html
-        speedNeedle.style.rotate = new StyleRotate(new Rotate(new Angle((180 * (gameManager.relativeSpeed / gameManager.maxRelativeSpeed)) - 90, AngleUnit.Degree)));
+        float scaledSpeed = Mathf.FloorToInt(gameManager.GetCameraSpeed() * scoreSpeedScale);
+        speedDisplay.text = scaledSpeed.ToString() + speedUnits;
+
+        int scaledScore = Mathf.FloorToInt(gameManager.GetScore() * scoreSpeedScale);
+        scoreDisplay.text = scaledScore.ToString().PadLeft(5, '0') + scoreUnits;
+
+        speedNeedle.style.rotate = new StyleRotate(new Rotate(new Angle(gameManager.relativeSpeed / gameManager.maxRelativeSpeed * 180 - 90, AngleUnit.Degree)));    //https://docs.unity3d.com/Manual/UIE-Transform.html
     }
 
     private void FixedUpdate()
