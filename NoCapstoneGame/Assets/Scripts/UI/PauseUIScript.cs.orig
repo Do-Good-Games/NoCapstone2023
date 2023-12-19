@@ -1,10 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-<<<<<<< HEAD
 using System;
-=======
->>>>>>> soundManager
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 
@@ -12,23 +9,22 @@ public class PauseUIScript : MonoBehaviour
 {
     private GameManager gameManager;
     private SceneManager sceneManager;
+    private SFXManager sfxManager;
+
+    [SerializeField] AudioReference pauseReference; // BOBBY CHECK HERE -  likely an unset reference
 
     [SerializeField] private UIDocument UIDoc;
 
+    [SerializeField] private StyleSheet normalStyleSheet;
+    [SerializeField] private StyleSheet hoverStyleSheet;
+    [SerializeField] private StyleSheet clickedStyleSheet;
+
+
     private VisualElement root;
     private Button resumeButton;
-<<<<<<< HEAD
     private Button restartButton;
     private Button mainMenuButton;
     Button quitButton;
-=======
-    [SerializeField] private Button mainMenuButton;
-    Button quitButton;
-    [SerializeField] AudioReference pauseReference;
-    //SoundPlayer soundPlayer;
-    SFXManager sfxManager;
-
->>>>>>> soundManager
 
 
 
@@ -43,7 +39,6 @@ public class PauseUIScript : MonoBehaviour
 
         resumeButton = UIDoc.rootVisualElement.Q<Button>("ResumeButton");
         mainMenuButton = UIDoc.rootVisualElement.Q<Button>("MainMenuButton");
-<<<<<<< HEAD
         restartButton = UIDoc.rootVisualElement.Q<Button>("RestartButton");
         quitButton = UIDoc.rootVisualElement.Q<Button>("QuitButton");
 
@@ -53,38 +48,26 @@ public class PauseUIScript : MonoBehaviour
         restartButton.clicked += RestartClicked;
         quitButton.clicked += () => Application.Quit();
 
+
         gameManager.OnGamePause.AddListener(ShowHidePauseMenu);//see comments prefacing method declaration for explanation(?) on why I'm doing it like this
         gameManager.OnGameResume.AddListener(ShowHidePauseMenu);
-=======
-        quitButton = UIDoc.rootVisualElement.Q<Button>("QuitButton");
-
-        //resumeButton.clicked += () => sceneManager.SwitchToSceneName(sceneManager.gameplaySceneName); //unpause the game
-        resumeButton.clicked += () => { gameManager.TogglePause(); };
-        mainMenuButton.clicked += MainMenuClicked;
-        quitButton.clicked += () => Application.Quit();
-
-        gameManager.OnGameTogglePause.AddListener(TogglePauseMenu);
->>>>>>> soundManager
 
         //root.SetEnabled(false); root.visible = false;
 
         root.style.visibility = Visibility.Hidden;
         //root.SetEnabled(false);
         //root.visible = false;
-<<<<<<< HEAD
-=======
-
-        //soundPlayer = GetComponentInParent<SoundPlayer>();
+        
         sfxManager = SFXManager.Instance;
->>>>>>> soundManager
     }
+
+
 
     private void OnEnable()
     {
 
     }
 
-<<<<<<< HEAD
     private void RestartClicked()
     {
         sceneManager.SwitchToScene(sceneManager.gameplaySceneName);
@@ -92,8 +75,7 @@ public class PauseUIScript : MonoBehaviour
 
     private void MainMenuClicked()
     {
-        sceneManager.GoToMainMenu();
-      
+        sceneManager.GoToMainMenu();    
     }
 
 
@@ -101,50 +83,52 @@ public class PauseUIScript : MonoBehaviour
     //to see whether this method is getting called in menus (which it shouldn't). 
     private void ShowHidePauseMenu()
     {
-        if (gameManager.gameState == GameState.paused)
-=======
-    private void MainMenuClicked()
-    {
-        sceneManager.GoToMainMenu();
-        //TODO: implement main menu switching
-    }
-
-    private void TogglePauseMenu()
-    {
+    
+        Debug.Log("check 6");
         if(pauseReference != null)
         {
+            Debug.Log("check 6.1");
             Debug.Log("successfully instanced");
-            sfxManager.Play(pauseReference.GetClip());
+<<<<<<< HEAD
+            //sfxManager.Play(pauseReference.GetClip());
+=======
+
+            if(sfxManager != null)
+            {
+                sfxManager.Play(pauseReference.GetClip());
+            } else
+            {
+                Debug.LogWarning("SFXManager INVALID");
+
+            }
+>>>>>>> Integration
 
         } else
         {
-            Debug.Log("INCORRECT BUZZER");
+            Debug.Log("check 6.2");
+            Debug.LogWarning("PAUSEREFERENCE INVALID");
 
         }
-        if (gameManager.paused)
->>>>>>> soundManager
+        
+        if (gameManager.gameState == GameState.paused)
         {
+            Debug.Log("check 6.3");
             root.style.visibility = Visibility.Visible;
             //root.SetEnabled(true);
             //root.visible = true;
-<<<<<<< HEAD
-        } else if(gameManager.gameState == GameState.gameplay)
-=======
-        } else
->>>>>>> soundManager
+        } 
+        else if(gameManager.gameState == GameState.gameplay)
         {
+            Debug.Log("check 6.4");
             root.style.visibility = Visibility.Hidden;
 
             //root.SetEnabled(false);
             //root.visible = false;
-<<<<<<< HEAD
         } else
         {
             throw new Exception("Pausemenu.TogglePause is somehow being called in an unpredicted gamestate");
         }
-        
-=======
-        }
->>>>>>> soundManager
+        Debug.Log("check 7");
+
     }
 }

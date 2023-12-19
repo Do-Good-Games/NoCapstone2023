@@ -15,6 +15,11 @@ public class PauseUIScript : MonoBehaviour
 
     [SerializeField] private UIDocument UIDoc;
 
+    [SerializeField] private StyleSheet normalStyleSheet;
+    [SerializeField] private StyleSheet hoverStyleSheet;
+    [SerializeField] private StyleSheet clickedStyleSheet;
+
+
     private VisualElement root;
     private Button resumeButton;
     private Button restartButton;
@@ -30,8 +35,6 @@ public class PauseUIScript : MonoBehaviour
         sceneManager = SceneManager.Instance;
         gameManager = GameManager.Instance;
 
-
-
         root = UIDoc.rootVisualElement;
 
         resumeButton = UIDoc.rootVisualElement.Q<Button>("ResumeButton");
@@ -45,6 +48,7 @@ public class PauseUIScript : MonoBehaviour
         restartButton.clicked += RestartClicked;
         quitButton.clicked += () => Application.Quit();
 
+
         gameManager.OnGamePause.AddListener(ShowHidePauseMenu);//see comments prefacing method declaration for explanation(?) on why I'm doing it like this
         gameManager.OnGameResume.AddListener(ShowHidePauseMenu);
 
@@ -56,6 +60,8 @@ public class PauseUIScript : MonoBehaviour
         
         sfxManager = SFXManager.Instance;
     }
+
+
 
     private void OnEnable()
     {
@@ -69,8 +75,7 @@ public class PauseUIScript : MonoBehaviour
 
     private void MainMenuClicked()
     {
-        sceneManager.GoToMainMenu();
-      
+        sceneManager.GoToMainMenu();    
     }
 
 
@@ -79,9 +84,10 @@ public class PauseUIScript : MonoBehaviour
     private void ShowHidePauseMenu()
     {
     
-    
+        Debug.Log("check 6");
         if(pauseReference != null)
         {
+            Debug.Log("check 6.1");
             Debug.Log("successfully instanced");
 
             if(sfxManager != null)
@@ -95,17 +101,21 @@ public class PauseUIScript : MonoBehaviour
 
         } else
         {
+            Debug.Log("check 6.2");
             Debug.LogWarning("PAUSEREFERENCE INVALID");
 
         }
         
         if (gameManager.gameState == GameState.paused)
         {
+            Debug.Log("check 6.3");
             root.style.visibility = Visibility.Visible;
             //root.SetEnabled(true);
             //root.visible = true;
-        } else if(gameManager.gameState == GameState.gameplay)
+        } 
+        else if(gameManager.gameState == GameState.gameplay)
         {
+            Debug.Log("check 6.4");
             root.style.visibility = Visibility.Hidden;
 
             //root.SetEnabled(false);
@@ -114,6 +124,7 @@ public class PauseUIScript : MonoBehaviour
         {
             throw new Exception("Pausemenu.TogglePause is somehow being called in an unpredicted gamestate");
         }
-        
+        Debug.Log("check 7");
+
     }
 }

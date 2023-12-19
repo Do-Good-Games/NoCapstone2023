@@ -18,7 +18,8 @@ public class HUDController: MonoBehaviour
     private VerticalProgressBar healthBar;
     private VerticalProgressBar energyBar;
     private VerticalProgressBar chargeBar;
-    private VerticalProgressBar firedBar;
+    private VerticalProgressBar firedBar1;
+    private VerticalProgressBar firedBar2;
     private Label scoreDisplay;
     private Label speedDisplay;
     private VisualElement speedNeedle;
@@ -28,6 +29,10 @@ public class HUDController: MonoBehaviour
     private VisualElement statusPanel4;
     private float maxHealth;
     private float maxEnergy;
+
+    private int timer;
+
+    private bool isBoosting;
 
 
     public float fired;//prototype var to be more cleanly implemented later
@@ -42,7 +47,8 @@ public class HUDController: MonoBehaviour
         healthBar = root.Q<VerticalProgressBar>("HealthBar");
         energyBar = root.Q<VerticalProgressBar>("EnergyBar");
         chargeBar = root.Q<VerticalProgressBar>("ChargeBar");
-        firedBar = root.Q<VerticalProgressBar>("FiredBar");
+        firedBar1 = root.Q<VerticalProgressBar>("FiredBar1");
+        firedBar2 = root.Q<VerticalProgressBar>("FiredBar2");
 
         scoreDisplay = root.Q<Label>("ScoreDisplay");
         speedDisplay = root.Q<Label>("SpeedDisplay");
@@ -63,6 +69,9 @@ public class HUDController: MonoBehaviour
         gameManager.OnEnergyChange.AddListener(UpdateEnergyBar);
         gameManager.OnChargeChange.AddListener(UpdateChargeBar);
         gameManager.OnFiredChange.AddListener(UpdateFiredBar);
+
+        gameManager.OnBoostStart.AddListener(EmptyFiredBar);
+        gameManager.OnBoostEnd.AddListener(EmptyFiredBar);
     }
 
     private void UpdateChargeBar()
@@ -74,7 +83,36 @@ public class HUDController: MonoBehaviour
     {
         scoreDisplay.text = gameManager.GetScore().ToString().PadLeft(5, '0');
         speedDisplay.text = gameManager.GetCameraSpeed().ToString() + "kph";
-        speedNeedle.style.rotate = new StyleRotate(new Rotate(new Angle(gameManager.relativeSpeed - 90, AngleUnit.Degree)));    //https://docs.unity3d.com/Manual/UIE-Transform.html
+        //speedDisplay.text = gameManager.GetUnscaledSpeed()+50.ToString() + "kph";
+        //Debug.Log("speed display " + speedDisplay.text);
+        //speedNeedle.style.rotate = new StyleRotate(new Rotate(new Angle(gameManager.GetUnscaledSpeed() - 90, AngleUnit.Degree)));    //https://docs.unity3d.com/Manual/UIE-Transform.html
+        speedNeedle.style.rotate = new StyleRotate(new Rotate(new Angle((180 * (gameManager.relativeSpeed / gameManager.maxRelativeSpeed)) - 90, AngleUnit.Degree)));
+    }
+
+    private void FixedUpdate()
+    {
+        if(timer < 100)
+        {
+            timer +=1;
+        }
+        else
+        {
+            timer = 0;
+        }
+        if(timer < 50 && healthBar.value <= .3)
+        {
+            Debug.Log("oh shit he's grooving");
+            if(statusPanel4.visible)
+            {
+                statusPanel4.visible = false;
+                statusPanel3.visible = true;
+            }
+            else
+            {
+                statusPanel4.visible = true;
+                statusPanel3.visible = false;
+            }
+        }
     }
 
     void UpdateHealthBar()
@@ -108,14 +146,28 @@ public class HUDController: MonoBehaviour
 
     void UpdateEnergyBar()
     {
-
         energyBar.value = (float) ((float)gameManager.GetEnergy()/(float)maxEnergy);
         //transform.localScale = new Vector3(transform.localScale.x, totalHeight, transform.localScale.z);
     }
 
     void UpdateFiredBar()
     {
-        firedBar.value = gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar.highValue; //cleanup: remove
+        firedBar1.value = gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar1.highValue;
+        firedBar2.value = gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar2.highValue;
+
+        //Debug.Log("baseSpeed, MaxRelativeSpeed, HighValue " + gameManager.baseSpeed + " " + gameManager.maxRelativeSpeed + " " + firedBar1.highValue);
+
+        if(firedBar1.value == 400)
+        {
+            firedBar1.value = 0;
+            firedBar2.value = 0;
+        }
     }
 
+    void EmptyFiredBar()
+    {
+        Debug.Log("EMPTY FIRED BAR");
+        firedBar1.value = 0;
+        firedBar2.value = 0;
+    }
 }

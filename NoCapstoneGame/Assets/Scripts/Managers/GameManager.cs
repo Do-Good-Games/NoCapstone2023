@@ -76,6 +76,8 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnGamePause;
     public UnityEvent OnGameResume;
 
+    public UnityEvent OnBoostStart;
+    public UnityEvent OnBoostEnd;
 
 
     void Awake()
@@ -106,7 +108,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-
+        
     }
 
     public void AddPlayerHealth(float amount)
@@ -181,6 +183,7 @@ public class GameManager : MonoBehaviour
 
     public float GetMaxEnergy()
     {
+        Debug.Log("Max energy: " + maxEnergyLevel);
         return maxEnergyLevel;
     }
 
@@ -204,14 +207,17 @@ public class GameManager : MonoBehaviour
 
     public float GetCharge()
     {
+        Debug.Log("Charge: " + chargeLevel);
         return chargeLevel;
     }
 
 
     public void EndBoost(float numOfBoosts, float speedOnExit)
     {
+        Debug.Log("i caught you");
         relativeSpeed = 0;
         baseSpeed += speedOnExit;
+        Debug.Log("number of resets, speed on exit " + numOfBoosts + " " + speedOnExit);
     }
 
 
@@ -237,8 +243,10 @@ public class GameManager : MonoBehaviour
     public void ResumeGame(bool invokeEvent = true)
     {
         gameState = GameState.gameplay;
+        Debug.Log("check 1.25");
         Time.timeScale = 1;
         if (invokeEvent) { OnGameResume.Invoke(); }        
+        Debug.Log("check 2");
     }
 
     public void EnterMenus()

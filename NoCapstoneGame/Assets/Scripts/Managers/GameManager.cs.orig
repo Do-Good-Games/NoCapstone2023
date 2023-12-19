@@ -53,7 +53,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float energyLevel;
     [Tooltip("The current energy charge")]
     [SerializeField] private float chargeLevel;
+<<<<<<< HEAD
+
+    public float maxRelativeSpeed;
+=======
     [Tooltip("The current value of the third bar, added to base speed")]
+>>>>>>> Integration
     [SerializeField] public float relativeSpeed;
 
     // The current score (probably measured in distance)
@@ -76,6 +81,8 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnGamePause;
     public UnityEvent OnGameResume;
 
+    public UnityEvent OnBoostStart;
+    public UnityEvent OnBoostEnd;
 
 
     void Awake()
@@ -106,7 +113,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-
+        
     }
 
     public void AddPlayerHealth(float amount)
@@ -136,15 +143,10 @@ public class GameManager : MonoBehaviour
 
     public void UpdateEnergy(float amount)
     {
-<<<<<<< HEAD
         //energyLevel = Mathf.Clamp(0, energyLevel + amount, maxEnergyLevel);
 
         energyLevel = Mathf.Min(maxEnergyLevel, energyLevel + amount);
         energyLevel = Mathf.Max(0, energyLevel);
-=======
-        energyLevel = Mathf.Min(energyLevel+ amount, maxEnergyLevel);
-        energyLevel = Mathf.Max(energyLevel, 0);
->>>>>>> Speed-Refactor
 
         if (amount > 0)
         {
@@ -167,11 +169,14 @@ public class GameManager : MonoBehaviour
     public void UpdateRelativeSpeed(float amount)
     {
 <<<<<<< HEAD
+        relativeSpeed = Mathf.Min(relativeSpeed + amount, maxRelativeSpeed);
+        relativeSpeed = Mathf.Max(relativeSpeed, 0);
+=======
         if(amount > 0)
         {
 
             relativeSpeed = Mathf.Min(relativeSpeed + amount,
-                Mathf.Min(energyLevel, maxFired));
+                Mathf.Min(energyLevel, maxRelativeSpeed));
 
         } else //we're decreasing
         {
@@ -180,10 +185,7 @@ public class GameManager : MonoBehaviour
         }
 
 
-=======
-        relativeSpeed = Mathf.Min(relativeSpeed + amount, maxRelativeSpeed);
-        relativeSpeed = Mathf.Max(relativeSpeed, 0);
->>>>>>> Speed-Refactor
+>>>>>>> Integration
 
         OnFiredChange.Invoke();
     }
@@ -191,6 +193,7 @@ public class GameManager : MonoBehaviour
 
     public float GetMaxEnergy()
     {
+        Debug.Log("Max energy: " + maxEnergyLevel);
         return maxEnergyLevel;
     }
 
@@ -214,14 +217,21 @@ public class GameManager : MonoBehaviour
 
     public float GetCharge()
     {
+        Debug.Log("Charge: " + chargeLevel);
         return chargeLevel;
     }
 
 
     public void EndBoost(float numOfBoosts, float speedOnExit)
     {
+        Debug.Log("i caught you");
         relativeSpeed = 0;
+<<<<<<< HEAD
+        baseSpeed = numOfResets * speedOnExit;
+        Debug.Log("number of resets, speed on exit " + numOfResets + " " + speedOnExit);
+=======
         baseSpeed += speedOnExit;
+>>>>>>> Integration
     }
 
 
@@ -247,8 +257,15 @@ public class GameManager : MonoBehaviour
     public void ResumeGame(bool invokeEvent = true)
     {
         gameState = GameState.gameplay;
+        Debug.Log("check 1.25");
         Time.timeScale = 1;
+<<<<<<< HEAD
+        Debug.Log("check 1.5");
+        OnGameResume.Invoke();
+        Debug.Log("check 2");
+=======
         if (invokeEvent) { OnGameResume.Invoke(); }        
+>>>>>>> Integration
     }
 
     public void EnterMenus()

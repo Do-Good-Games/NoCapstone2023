@@ -306,7 +306,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             if (context.started)
-            {
+            {//below had gameManager.maxFired instead of gameManager.maxRelativeSpeed
                 if (gameManager.relativeSpeed >= gameManager.maxRelativeSpeed && gameManager.GetEnergy() >= gameManager.GetMaxEnergy()) //if our fired var and our energy var are at max
                 {
                     RightMouseHeld = true;
@@ -456,6 +456,9 @@ public class PlayerController : MonoBehaviour
             {
                 RightMouseHeld = false;
                 gameManager.UpdateRelativeSpeed(-gameManager.GetCharge());
+                //the below line is causing an error because UpdateRelative speed does not exist anymore
+                gameManager.UpdateRelativeSpeed(-gameManager.GetCharge());
+
                 gameManager.ResetCharge();
 
             }
@@ -473,6 +476,7 @@ public class PlayerController : MonoBehaviour
 
     private void Die()
     {
+        sceneManager.canSwitchScenes = true;
         StopAllCoroutines();
 
        // playerCollider.enabled = false;
@@ -543,9 +547,10 @@ public class PlayerController : MonoBehaviour
 
     private void SwitchActionMap()
     {
-
+        Debug.Log("swapping action map1");
         if (gameManager.gameState == GameState.paused)
         {
+            Debug.Log("swapping action map2");
             cursorPosPrePause = cursorPos;
             SetPositions(cursorPosPrePause);
             SetActionMapUI();
@@ -553,11 +558,13 @@ public class PlayerController : MonoBehaviour
         }
         else if (gameManager.gameState == GameState.menus)
         {
+            Debug.Log("swapping action map3");
             cursorPosPrePause = cursorPos; //check here if player position is wack upon loading the game
             SetPositions(cursorPosPrePause);
             SetActionMapUI();
         } else
         {
+            Debug.Log("swapping action map4");
             Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
             SetPositions(cursorPosPrePause);
             SetActionMapPlayer();

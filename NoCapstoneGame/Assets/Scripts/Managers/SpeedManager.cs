@@ -138,7 +138,7 @@ public class SpeedManager : MonoBehaviour
         Debug.Log("boost coroutine activated");
         inBoost = true;
         numOfBoosts++;
-        while (gameManager.GetEnergy() > minBoostEnergy)
+        while (gameManager.GetEnergy() > minBoostEnergy) //if relative speed >= max relative speed you can charge.
         {
             //for some reason this removes the energy twice as quickly as it should
             gameManager.UpdateEnergy(- boostEnergyLostPerSecond * Time.deltaTime);
@@ -151,6 +151,8 @@ public class SpeedManager : MonoBehaviour
 
         boostGracePeriodCoroutineObject = BoostGracePeriod();
         StartCoroutine(boostGracePeriodCoroutineObject);
+
+        Debug.Log("uwu");
 
         gameManager.EndBoost(numOfBoosts, speedOnExit);
         ResetVariables();

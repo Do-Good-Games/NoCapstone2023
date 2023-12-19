@@ -14,7 +14,7 @@
     flex-shrink: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(76, 82, 106, 255);
+    background-color: rgb(76, 82, 106);
 }
 
 .unity-progress-bar {
@@ -46,7 +46,7 @@
 .charge .unity-vertical-progress-bar__progress {
     flex-shrink: 0;
     flex-grow: 1;
-    background-color: rgb(172, 202, 11);
+    background-color: rgb(193, 229, 0);
     position: absolute;
     display: flex;
 }
@@ -73,6 +73,6 @@
 }
 
 .energy .unity-vertical-progress-bar__progress {
-    background-color: rgba(172, 202, 11, 0.53);
+    background-color: rgba(215, 255, 0, 0.53);
     opacity: 1;
 }
