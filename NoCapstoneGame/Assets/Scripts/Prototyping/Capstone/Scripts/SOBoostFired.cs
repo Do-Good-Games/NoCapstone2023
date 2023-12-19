@@ -48,7 +48,7 @@ public class SOBoostFired : SOBoostBase
                 speedPrototype.speed = speedOnExit * GameManager.Instance.relativeSpeed;
             }
         }
-        int currScore = GameManager.Instance.GetScore();
+        int currScore = (int) GameManager.Instance.GetScore();
 
         GameManager.Instance.UpdateScore( -currScore);//resets score
         GameManager.Instance.UpdateScore(Mathf.FloorToInt((float)currScore * scoreMultiplier));//multiplies score by modifier, rounding down

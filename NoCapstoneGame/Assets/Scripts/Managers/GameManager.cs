@@ -42,6 +42,10 @@ public class GameManager : MonoBehaviour
     [Tooltip("This modifies asteroid values to make the game harder with each level")]
     [SerializeField] private float levelScale = 1;
 
+    [Header("Visual")]
+    [Tooltip("The amount to scale the internal distance by when calculating score")]
+    [SerializeField] float scoreScale;
+
     [Header("References")]
     [SerializeField] public GameObject explosionPrefab; //I will hopefully not need to keep this here (bobby)
     [SerializeField] public Camera gameplayCamera;
@@ -57,7 +61,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] public float relativeSpeed;
 
     // The current score (probably measured in distance)
-    private int score;
+    private float score;
 
     //whether or not the game is currently paused
     public bool paused { get; private set; } //may want to expand this an enum
@@ -99,14 +103,9 @@ public class GameManager : MonoBehaviour
         speedManager = playerController.speedManager;
     }
 
-    private void Start()
+    private void FixedUpdate()
     {
-        //OnGameTogglePause.AddListener(TogglePause);
-    }
-
-    private void Update()
-    {
-
+        score += GetCameraSpeed() * Time.deltaTime * scoreScale;
     }
 
     public void AddPlayerHealth(float amount)
@@ -225,5 +224,5 @@ public class GameManager : MonoBehaviour
     public float GetEnergy() => energyLevel;
     public float GetMaxEnergy() => maxEnergyLevel;
     public float GetCharge() => chargeLevel;
-    public int GetScore() => score;
+    public float GetScore() => score;
 }
