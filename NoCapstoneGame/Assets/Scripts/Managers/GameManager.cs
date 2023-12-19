@@ -131,11 +131,6 @@ public class GameManager : MonoBehaviour
         OnPlayerDeath.Invoke();
     }
 
-    public float GetPlayerHealth()
-    {
-        return playerHealth;
-    }
-
 
     public void UpdateEnergy(float amount)
     {
@@ -158,20 +153,12 @@ public class GameManager : MonoBehaviour
         OnEnergyChange.Invoke();
     }
 
-    public float GetEnergy() => energyLevel;
-
     public void UpdateFired(float amount)
     {
         relativeSpeed = Mathf.Min(relativeSpeed + amount, maxRelativeSpeed);
         relativeSpeed = Mathf.Max(relativeSpeed, 0);
 
         OnFiredChange.Invoke();
-    }
-
-
-    public float GetMaxEnergy()
-    {
-        return maxEnergyLevel;
     }
 
     public float GetLevelScale() => levelScale;
@@ -192,12 +179,6 @@ public class GameManager : MonoBehaviour
         OnChargeChange.Invoke();
     }
 
-    public float GetCharge()
-    {
-        return chargeLevel;
-    }
-
-
     public void EndBoost(float numOfBoosts, float speedOnExit)
     {
         relativeSpeed = 0;
@@ -210,10 +191,6 @@ public class GameManager : MonoBehaviour
         score += amount;
     }
 
-    public int GetScore()
-    {
-        return score;
-    }
 
     public void PauseGame()
     {
@@ -243,4 +220,10 @@ public class GameManager : MonoBehaviour
 
     [Tooltip("if not in boost, returns the total of the current relative speed, plus the base speed")]
     public float GetCameraSpeed() => speedManager.inBoost? speedManager.boostSpeed : relativeSpeed + baseSpeed;
+
+    public float GetPlayerHealth() => playerHealth;
+    public float GetEnergy() => energyLevel;
+    public float GetMaxEnergy() => maxEnergyLevel;
+    public float GetCharge() => chargeLevel;
+    public int GetScore() => score;
 }
