@@ -86,7 +86,7 @@ public class HUDController: MonoBehaviour
         //speedDisplay.text = gameManager.GetUnscaledSpeed()+50.ToString() + "kph";
         //Debug.Log("speed display " + speedDisplay.text);
         //speedNeedle.style.rotate = new StyleRotate(new Rotate(new Angle(gameManager.GetUnscaledSpeed() - 90, AngleUnit.Degree)));    //https://docs.unity3d.com/Manual/UIE-Transform.html
-        speedNeedle.style.rotate = new StyleRotate(new Rotate(new Angle((180 * (gameManager.GetCameraSpeed() / 100)) - 90, AngleUnit.Degree)));
+        speedNeedle.style.rotate = new StyleRotate(new Rotate(new Angle((180 * (gameManager.relativeSpeed / gameManager.maxRelativeSpeed)) - 90, AngleUnit.Degree)));
     }
 
     private void FixedUpdate()
