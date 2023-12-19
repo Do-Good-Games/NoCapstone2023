@@ -101,7 +101,7 @@ public class Asteroid : Entity, IDamageable
         m_spriteRenderer.enabled = true;
         m_collider.enabled = true;
 
-        DestroyEntity();
+        base.DestroyEntity();
     }
 
     //could theoretically also do this as an override of DestroyEntity(), though that would involve an extra bool to differentiate the case of the asteroid going offscreen, as we don't want to play sound or drop
