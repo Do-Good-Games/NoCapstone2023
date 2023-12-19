@@ -8,6 +8,8 @@ using UnityEngine.UIElements;
 
 public class HUDController: MonoBehaviour
 {
+    [Tooltip("The amount to scale the internal distance by when calculating score and speed")]
+    [SerializeField] float scoreSpeedScale;
     [SerializeField] string speedUnits = "kph";
     [SerializeField] string scoreUnits = "km";
     [SerializeField] PlayerController player;
@@ -74,8 +76,12 @@ public class HUDController: MonoBehaviour
 
     void Update()
     {
-        speedDisplay.text = gameManager.GetCameraSpeed().ToString() + speedUnits;
-        scoreDisplay.text = ((int)gameManager.GetScore()).ToString().PadLeft(5, '0') + scoreUnits;
+        float scaledSpeed = gameManager.GetCameraSpeed() * scoreSpeedScale;
+        speedDisplay.text = scaledSpeed.ToString() + speedUnits;
+
+        int scaledScore = (int) (gameManager.GetScore() * scoreSpeedScale);
+        scoreDisplay.text = scaledScore.ToString().PadLeft(5, '0') + scoreUnits;
+
         speedNeedle.style.rotate = new StyleRotate(new Rotate(new Angle(gameManager.relativeSpeed / gameManager.maxRelativeSpeed * 180 - 90, AngleUnit.Degree)));    //https://docs.unity3d.com/Manual/UIE-Transform.html
     }
 

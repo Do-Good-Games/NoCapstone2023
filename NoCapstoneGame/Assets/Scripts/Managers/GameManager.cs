@@ -42,10 +42,6 @@ public class GameManager : MonoBehaviour
     [Tooltip("This modifies asteroid values to make the game harder with each level")]
     [SerializeField] private float levelScale = 1;
 
-    [Header("Visual")]
-    [Tooltip("The amount to scale the internal distance by when calculating score")]
-    [SerializeField] float scoreScale;
-
     [Header("References")]
     [SerializeField] public GameObject explosionPrefab; //I will hopefully not need to keep this here (bobby)
     [SerializeField] public Camera gameplayCamera;
@@ -105,7 +101,7 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        score += GetCameraSpeed() * Time.deltaTime * scoreScale;
+        score += GetCameraSpeed() * Time.deltaTime;
     }
 
     public void AddPlayerHealth(float amount)

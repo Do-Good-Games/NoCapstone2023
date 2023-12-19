@@ -877,6 +877,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 465030af6516bb74184f0adb31bbc192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreSpeedScale: 10
+  speedUnits: kph
+  scoreUnits: km
   player: {fileID: 1308583664}
   UIDoc: {fileID: 1509115613}
   fired: 0
