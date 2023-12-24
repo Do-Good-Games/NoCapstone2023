@@ -477,12 +477,25 @@ public class PlayerController : MonoBehaviour
 
         //playerCollider.enabled = false;
         playerRenderer.enabled = false;
-        deathSound.Play();
         SetActionMapUI();
+        StartCoroutine(PlaySoundThenDestroy());
 
-        //refactor to coroutine
-        Destroy(this.gameObject, 0.5f);
         //switch action map to UI
+    }
+
+    private IEnumerator PlaySoundThenDestroy()
+    {
+        playerRenderer.enabled = false;
+        //m_collider.enabled = false;
+
+        deathSound.Play();
+
+
+        while (deathSound.isPlaying)
+        {
+            yield return null;
+        }
+        Destroy(this.gameObject);
     }
 
 
