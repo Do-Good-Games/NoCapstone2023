@@ -9,8 +9,6 @@ public class SceneManager : MonoBehaviour
     private static SceneManager _instance;
     public static SceneManager Instance { get { return _instance; } }
 
-    private GameManager _gameManager;
-
     public bool canSwitchScenes = true;
 
     public VisualElement sceneTransitionElement;
@@ -72,7 +70,6 @@ public class SceneManager : MonoBehaviour
         //LoadCurrentSceneCoroutine();
 
         StartCoroutine(LoadCurrentSceneCoroutine());
-        _gameManager = GameManager.Instance;
     }
 
 
@@ -119,7 +116,6 @@ public class SceneManager : MonoBehaviour
     {
         if (canSwitchScenes)
         {
-            gameManager.gameState = GameState.switchingScene;
             canSwitchScenes = false;
 
             //place the sprite
@@ -127,6 +123,7 @@ public class SceneManager : MonoBehaviour
             sceneTransitionUIDoc.sortingOrder = 5;
 
             //sceneTransitionUIDoc.enabled = true;
+
 
             //fade in the sprite
             opacitySafety = 0;

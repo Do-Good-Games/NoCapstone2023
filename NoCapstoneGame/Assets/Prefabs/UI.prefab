@@ -373,7 +373,7 @@ GameObject:
   - component: {fileID: 303155256375209404}
   - component: {fileID: 9062373081166270480}
   - component: {fileID: 2941848194285598579}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: LoseMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -424,3 +424,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathSoundReference: {fileID: 0}
+  UIDoc: {fileID: 9062373081166270480}

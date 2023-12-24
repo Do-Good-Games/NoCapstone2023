@@ -19,7 +19,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public enum GameState
 {
-    mainMenu, gameplay, paused, dead, switchingScene
+    mainMenu, gameplay, paused, dead
 }
 
 public class GameManager : MonoBehaviour
@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 
     public PlayerController playerController;
     public SpeedManager speedManager;
-    
+    public LoseMenuController loseMenuController;
 
     public Vector2 cameraBounds;
 
@@ -67,7 +67,6 @@ public class GameManager : MonoBehaviour
 
     public UnityEvent OnPlayerHeal;
     public UnityEvent OnPlayerHurt;
-    public UnityEvent OnPlayerDeath;
 
     public UnityEvent OnEnergyChange;
     public UnityEvent OnChargeChange;
@@ -142,7 +141,7 @@ public class GameManager : MonoBehaviour
 
         playerController.SwitchActionMap();
 
-
+        loseMenuController.ShowDeathMenu();
 
     }
 

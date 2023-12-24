@@ -420,6 +420,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6081647577904341581, guid: 6c2de6333e659f948bd3e7abdda028cb, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6081647579795861667, guid: 6c2de6333e659f948bd3e7abdda028cb, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -468,6 +472,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 9062373081166270480, guid: 6c2de6333e659f948bd3e7abdda028cb, type: 3}
+      propertyPath: m_SortingOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9062373081166270480, guid: 6c2de6333e659f948bd3e7abdda028cb, type: 3}
+      propertyPath: m_PanelSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: fd46ece6b5e45c64ab9715db990010d2, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c2de6333e659f948bd3e7abdda028cb, type: 3}
 --- !u!1 &755147820
@@ -616,6 +628,17 @@ MonoBehaviour:
   numOfBoosts: 0
   speedOnExit: 0
   boostGracePeriodDuration: 0
+--- !u!114 &1538539958 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2941848194285598579, guid: 6c2de6333e659f948bd3e7abdda028cb, type: 3}
+  m_PrefabInstance: {fileID: 674971625}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 254881e7e17e2cc46b887a4ae3e32116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2021246354
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,6 +670,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 1308583664}
   speedManager: {fileID: 0}
+  loseMenuController: {fileID: 1538539958}
   cameraBounds: {x: 0, y: 0}
   playerHealth: 3
   maxEnergyLevel: 50
@@ -666,9 +690,6 @@ MonoBehaviour:
   OnPlayerHurt:
     m_PersistentCalls:
       m_Calls: []
-  OnPlayerDeath:
-    m_PersistentCalls:
-      m_Calls: []
   OnEnergyChange:
     m_PersistentCalls:
       m_Calls: []
@@ -676,9 +697,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnFiredChange:
-    m_PersistentCalls:
-      m_Calls: []
-  OnGameEnterMenus:
     m_PersistentCalls:
       m_Calls: []
   OnGamePause:

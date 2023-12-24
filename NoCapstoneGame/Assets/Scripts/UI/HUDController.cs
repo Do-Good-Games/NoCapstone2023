@@ -44,7 +44,8 @@ public class HUDController: MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameManager.Instance;   
+        gameManager = GameManager.Instance;
+        player = gameManager.playerController;
 
         //UIDoc stuff
         root = UIDoc.rootVisualElement;

@@ -425,6 +425,14 @@ public class PlayerController : MonoBehaviour
         if (damageable && !speedManager.inBoostGracePeriod) {
             //SpeedPrototypeSO.SPHit(); //prototype
 
+            hitSound.Play();
+
+            DamageCooldownCoroutineObject = DamageCooldownCoroutine();
+            StartCoroutine(DamageCooldownCoroutineObject);
+
+            DamageFlashCoroutineObject = DamageFlashCoroutine();
+            StartCoroutine(DamageFlashCoroutineObject);
+
             if (EnergyProtects){
 
                 float amount;
@@ -460,15 +468,6 @@ public class PlayerController : MonoBehaviour
                 gameManager.ResetCharge();
 
             }
-
-
-            hitSound.Play();
-
-            DamageCooldownCoroutineObject = DamageCooldownCoroutine();
-            StartCoroutine(DamageCooldownCoroutineObject);
-
-            DamageFlashCoroutineObject = DamageFlashCoroutine();
-            StartCoroutine(DamageFlashCoroutineObject);
         }
     }
 
@@ -476,7 +475,7 @@ public class PlayerController : MonoBehaviour
     {
         StopAllCoroutines();
 
-       // playerCollider.enabled = false;
+        //playerCollider.enabled = false;
         playerRenderer.enabled = false;
         deathSound.Play();
         SetActionMapUI();
@@ -542,7 +541,7 @@ public class PlayerController : MonoBehaviour
     public void SwitchActionMap()
     {
         Debug.Log("swapping action map1");
-        if (gameManager.gameState == GameState.paused)
+        if (gameManager.gameState == GameState.paused || gameManager.gameState == GameState.dead)
         {
             Debug.Log("swapping action map2");
             cursorPosPrePause = cursorPos;
@@ -550,7 +549,7 @@ public class PlayerController : MonoBehaviour
             SetActionMapUI();
             //here we'll want to swap the action mapping
         }
-        else if (gameManager.gameState == GameState.mainMenu || gameManager.gameState == GameState.dead)
+        else if (gameManager.gameState == GameState.mainMenu)
         {
             Debug.Log("swapping action map3");
             cursorPosPrePause = cursorPos; //check here if player position is wack upon loading the game
