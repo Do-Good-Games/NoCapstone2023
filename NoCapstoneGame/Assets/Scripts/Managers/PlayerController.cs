@@ -553,10 +553,8 @@ public class PlayerController : MonoBehaviour
 
     public void SwitchActionMap()
     {
-        Debug.Log("swapping action map1");
         if (gameManager.gameState == GameState.paused || gameManager.gameState == GameState.dead)
         {
-            Debug.Log("swapping action map2");
             cursorPosPrePause = cursorPos;
             SetPositions(cursorPosPrePause);
             SetActionMapUI();
@@ -564,13 +562,11 @@ public class PlayerController : MonoBehaviour
         }
         else if (gameManager.gameState == GameState.mainMenu)
         {
-            Debug.Log("swapping action map3");
             cursorPosPrePause = cursorPos; //check here if player position is wack upon loading the game
             SetPositions(cursorPosPrePause);
             SetActionMapUI();
         } else
         {
-            Debug.Log("swapping action map4");
             Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
             SetPositions(cursorPosPrePause);
             SetActionMapPlayer();

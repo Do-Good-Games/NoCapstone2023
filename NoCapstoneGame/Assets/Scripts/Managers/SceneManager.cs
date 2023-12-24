@@ -60,9 +60,9 @@ public class SceneManager : MonoBehaviour
             Debug.Log("ping");
         }
 
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
         //DontDestroyOnLoad(sceneTransitionUIDoc.rootVisualElement);
-        DontDestroyOnLoad(sceneTransitionUIDoc);
+        //DontDestroyOnLoad(sceneTransitionUIDoc);
         //SwitchToScene("SampleScene");
         sceneTransitionElement.style.opacity = 0;
         //sceneTransitionUIDoc.enabled = false;

@@ -98,7 +98,6 @@ public class SpeedManager : MonoBehaviour
         if (speedRatio < energyRatio) //if the amount of speed the player has is less than the amount of energy they have (porportional to the respective totals)
         {
             gameManager.UpdateRelativeSpeed(charge);
-            Debug.Log("fired 2");
         }
     }
 
@@ -124,7 +123,6 @@ public class SpeedManager : MonoBehaviour
     //this is the function you'll need to refactor. 
     public void ActivateBoost()
     {
-        Debug.Log("boost method activated");
         if (BoostCoroutineObject is not null)
         {
             StopCoroutine(BoostCoroutineObject);
@@ -135,7 +133,6 @@ public class SpeedManager : MonoBehaviour
 
     public IEnumerator BoostCoroutine()
     {
-        Debug.Log("boost coroutine activated");
         inBoost = true;
         numOfBoosts++;
         while (gameManager.GetEnergy() > minBoostEnergy) //if relative speed >= max relative speed you can charge.
@@ -152,7 +149,6 @@ public class SpeedManager : MonoBehaviour
         boostGracePeriodCoroutineObject = BoostGracePeriod();
         StartCoroutine(boostGracePeriodCoroutineObject);
 
-        Debug.Log("uwu");
 
         gameManager.EndBoost(numOfBoosts, speedOnExit);
         ResetVariables();
@@ -162,15 +158,12 @@ public class SpeedManager : MonoBehaviour
     {
         inBoostGracePeriod = true;
         float timeSinceGracePeriodStart = Time.time;
-        Debug.Log("tsgps: " + timeSinceGracePeriodStart);
         while (Time.time - timeSinceGracePeriodStart <= boostGracePeriodDuration)
         {
-            Debug.Log("tsgps1: " + timeSinceGracePeriodStart);
             yield return new WaitForSeconds(.1f);
         }
         gameManager.ResetEnergy();
         inBoostGracePeriod = false;
-        Debug.Log("ended coroutine");
     }
 
     public void CollectEnergyInBoost(float charge)
@@ -187,7 +180,7 @@ public class SpeedManager : MonoBehaviour
         //the ratio between the diminishing return upper and lower value,
         //calculated by the amount of energy the player has. if the player has full energy, this value will be upperThresholdForDimRet, as the amount decreases,
         //it will approach the lowerThreshold
-        Debug.Log("energy amount" + gameManager.GetEnergy() + " remaining ratio: " + remainingRatio + " dimRetRatio " + dimRetRatio);
+        //Debug.Log("energy amount" + gameManager.GetEnergy() + " remaining ratio: " + remainingRatio + " dimRetRatio " + dimRetRatio);
         gameManager.UpdateEnergy(dimRetRatio * charge);
 
     }

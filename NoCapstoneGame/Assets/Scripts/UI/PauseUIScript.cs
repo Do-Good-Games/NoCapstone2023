@@ -86,7 +86,6 @@ public class PauseUIScript : MonoBehaviour
     
         if(pauseReference != null)
         {
-            Debug.Log("successfully instanced");
 
             if(sfxManager != null)
             {
