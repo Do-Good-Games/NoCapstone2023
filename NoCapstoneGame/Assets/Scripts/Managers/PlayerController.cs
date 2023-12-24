@@ -139,17 +139,15 @@ public class PlayerController : MonoBehaviour
     public void Start()
     {
         gameManager = GameManager.Instance;
-        sceneManager = SceneManager.Instance;
         cameraBounds = gameManager.cameraBounds - (Vector2) shipCollider.bounds.extents;
 
         gameManager.AddPlayerHealth(maxHealth);
 
-        gameManager.OnPlayerDeath.AddListener(Die);
+        //gameManager.OnPlayerDeath.AddListener(Die);
 
         //all three of these reference the same method as that one contains code and logic that would be difficult to translate on a different set of case-by-case bases
         gameManager.OnGameResume.AddListener(SwitchActionMap); 
         gameManager.OnGamePause.AddListener(SwitchActionMap);
-        gameManager.OnGameEnterMenus.AddListener(SwitchActionMap);
         
 
         //gameManager.OnBoostStart.AddListener(BoostStarted); //cleanup: remove?
@@ -474,21 +472,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void Die()
     {
-        sceneManager.canSwitchScenes = true;
         StopAllCoroutines();
 
        // playerCollider.enabled = false;
         playerRenderer.enabled = false;
         deathSound.Play();
-
-        gameManager.EnterMenus();
-
-        sceneManager.SwitchToScene("LoseScene");
-
-        Destroy(this.gameObject, 0.5f);
         SetActionMapUI();
+
+        //refactor to coroutine
+        Destroy(this.gameObject, 0.5f);
         //switch action map to UI
     }
 
@@ -505,7 +499,7 @@ public class PlayerController : MonoBehaviour
             {
                 gameManager.ResumeGame();
             }
-            else if (gameManager.gameState == GameState.menus)
+            else if (gameManager.gameState == GameState.mainMenu)
             {
                 //throw new Exception("togglePause() (the input callback) is somehow being called when the game is in menus - this shouldn't be able to happen");  
             }
@@ -545,7 +539,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void SwitchActionMap()
+    public void SwitchActionMap()
     {
         Debug.Log("swapping action map1");
         if (gameManager.gameState == GameState.paused)
@@ -556,7 +550,7 @@ public class PlayerController : MonoBehaviour
             SetActionMapUI();
             //here we'll want to swap the action mapping
         }
-        else if (gameManager.gameState == GameState.menus)
+        else if (gameManager.gameState == GameState.mainMenu || gameManager.gameState == GameState.dead)
         {
             Debug.Log("swapping action map3");
             cursorPosPrePause = cursorPos; //check here if player position is wack upon loading the game
