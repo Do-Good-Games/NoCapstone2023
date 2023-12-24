@@ -232,10 +232,8 @@ public class GameManager : MonoBehaviour
     public void ResumeGame(bool invokeEvent = true)
     {
         gameState = GameState.gameplay;
-        Debug.Log("check 1.25");
         Time.timeScale = 1;
         if (invokeEvent) { OnGameResume.Invoke(); }        
-        Debug.Log("check 2");
     }
 
 

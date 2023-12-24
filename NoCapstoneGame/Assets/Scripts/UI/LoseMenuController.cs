@@ -37,7 +37,7 @@ public class LoseMenuController : MonoBehaviour
         restartButton = UIDoc.rootVisualElement.Q<Button>("RestartButton");
         quitButton = UIDoc.rootVisualElement.Q<Button>("QuitButton");
 
-        restartButton.clicked += () => { Debug.Log("butt clicked"); sceneManager.SwitchToScene(sceneManager.gameplaySceneName); };
+        restartButton.clicked += () => { sceneManager.SwitchToScene(sceneManager.gameplaySceneName); };
         quitButton.clicked += () => Application.Quit(); //make this quit the game
 
         root.style.visibility = Visibility.Hidden;

@@ -84,10 +84,8 @@ public class PauseUIScript : MonoBehaviour
     private void ShowHidePauseMenu()
     {
     
-        Debug.Log("check 6");
         if(pauseReference != null)
         {
-            Debug.Log("check 6.1");
             Debug.Log("successfully instanced");
 
             if(sfxManager != null)
@@ -101,21 +99,18 @@ public class PauseUIScript : MonoBehaviour
 
         } else
         {
-            Debug.Log("check 6.2");
             Debug.LogWarning("PAUSEREFERENCE INVALID");
 
         }
         
         if (gameManager.gameState == GameState.paused)
         {
-            Debug.Log("check 6.3");
             root.style.visibility = Visibility.Visible;
             //root.SetEnabled(true);
             //root.visible = true;
         } 
         else if(gameManager.gameState == GameState.gameplay)
         {
-            Debug.Log("check 6.4");
             root.style.visibility = Visibility.Hidden;
 
             //root.SetEnabled(false);
@@ -124,7 +119,6 @@ public class PauseUIScript : MonoBehaviour
         {
             throw new Exception("Pausemenu.TogglePause is somehow being called in an unpredicted gamestate");
         }
-        Debug.Log("check 7");
 
     }
 }

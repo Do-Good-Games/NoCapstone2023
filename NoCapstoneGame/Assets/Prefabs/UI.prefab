@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66cbb419c304b8749a7f507a61b370e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseReference: {fileID: 0}
+  pauseReference: {fileID: 11400000, guid: 202b29f53e4e0e3429675735e3996d03, type: 2}
   UIDoc: {fileID: 6081647578092048253}
   normalStyleSheet: {fileID: 0}
   hoverStyleSheet: {fileID: 0}

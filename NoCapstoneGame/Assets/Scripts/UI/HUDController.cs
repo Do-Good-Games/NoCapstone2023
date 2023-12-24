@@ -107,7 +107,6 @@ public class HUDController: MonoBehaviour
         }
         if(timer < 50 && healthBar.value <= .3)
         {
-            Debug.Log("oh shit he's grooving");
             if(statusPanel4.visible)
             {
                 statusPanel4.visible = false;

@@ -101,7 +101,7 @@ public class EntityManager : MonoBehaviour
     protected float GetGenerationTime()
     {
         float generationTime = 1/((gameManager.GetCameraSpeed()) * density);
-        Debug.Log(gameManager.GetCameraSpeed() + "," + generationTime);
+        //Debug.Log(gameManager.GetCameraSpeed() + "," + generationTime);
         return generationTime;
     }
 
