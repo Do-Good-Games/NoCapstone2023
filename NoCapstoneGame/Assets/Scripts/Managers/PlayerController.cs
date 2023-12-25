@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -125,6 +126,7 @@ public class PlayerController : MonoBehaviour
     private bool damageable;
     private bool damageCooldownEnding;
 
+    private bool initPlayerHasMovedAfterPause = true;
 
     private IEnumerator ShootCoroutineObject;
     private IEnumerator DamageCooldownCoroutineObject;
@@ -172,7 +174,8 @@ public class PlayerController : MonoBehaviour
         //could we instead 
         gameManager.ResumeGame(false);
         SwitchActionMap();
-        
+
+        initPlayerHasMovedAfterPause = true;
 
         //depreciated prototype code - no replacement necessary
         //SpeedPrototypeSO.ResetVariables();
@@ -210,22 +213,39 @@ public class PlayerController : MonoBehaviour
                 energyDecayTime += Time.deltaTime;
             }
         }
+
+        //UpdateCursorPosFromUpdate();
       
     }
+
+    Vector2 prevScreenSpaceCursorPos;
 
     #region cursor movement
     public void UpdateCursorPosition(InputAction.CallbackContext context)
     {
         // converts cursor position (in screen space) to world space based on camera position/size
         Vector2 screenSpaceCursorPos = context.ReadValue<Vector2>();
+        
         if (gameManager != null)
         {
             cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
 
         }
+
+        if (!initPlayerHasMovedAfterPause) //if player hasn't moved after pause
+        {
+            if(Vector2.Distance(cursorPos, cursorPosPrePause) < .1) // if cursorPos is approx. posPrePause
+            { // this happens after the player moves the mouse, causing the game to update the previous position
+                initPlayerHasMovedAfterPause = true;
+            } else {
+                cursorPos = cursorPosPrePause;
+            }
+        }
+
         SetPositions(cursorPos);
 
-
+        Debug.Log("cursor pos: " + cursorPos +" gs " + gameManager.gameState);
+        
 
         //if (ChargingBoost)
         //{
@@ -235,6 +255,23 @@ public class PlayerController : MonoBehaviour
         //{
         //    SetPositions(cursorPos);
         //}
+    }
+
+    public void UpdateCursorPosFromUpdate()
+    {
+
+
+        // converts cursor position (in screen space) to world space based on camera position/size
+        Vector2 screenSpaceCursorPos = playerInput.actions["Move"].ReadValue<Vector2>();
+        if (gameManager != null)
+        {
+            cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
+
+        }
+        SetPositions(cursorPos);
+
+        Debug.Log("cursor pos: " + cursorPos + " gs " + gameManager.gameState);
+        
     }
 
     private void SetPositions(Vector2 position)
@@ -556,6 +593,7 @@ public class PlayerController : MonoBehaviour
         if (gameManager.gameState == GameState.paused || gameManager.gameState == GameState.dead)
         {
             cursorPosPrePause = cursorPos;
+            Debug.Log("pre pause: " + cursorPosPrePause);
             SetPositions(cursorPosPrePause);
             SetActionMapUI();
             //here we'll want to swap the action mapping
@@ -563,11 +601,15 @@ public class PlayerController : MonoBehaviour
         else if (gameManager.gameState == GameState.mainMenu)
         {
             cursorPosPrePause = cursorPos; //check here if player position is wack upon loading the game
+            Debug.Log("pre pause: " + cursorPosPrePause);
             SetPositions(cursorPosPrePause);
             SetActionMapUI();
         } else
         {
+            initPlayerHasMovedAfterPause = false;
+
             Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
+            Debug.Log("set mouse pos" + Mouse.current.position);
             SetPositions(cursorPosPrePause);
             SetActionMapPlayer();
             //Debug.Log("cursorPos:" + cursorPos + " pre pause: " + cursorPosPrePause + " w2sp: " + gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
