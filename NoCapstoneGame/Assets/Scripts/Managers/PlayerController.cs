@@ -213,9 +213,6 @@ public class PlayerController : MonoBehaviour
                 energyDecayTime += Time.deltaTime;
             }
         }
-
-        //UpdateCursorPosFromUpdate();
-      
     }
 
     Vector2 prevScreenSpaceCursorPos;
@@ -243,36 +240,8 @@ public class PlayerController : MonoBehaviour
         }
 
         SetPositions(cursorPos);
-
-        Debug.Log("cursor pos: " + cursorPos +" gs " + gameManager.gameState);
-        
-
-        //if (ChargingBoost)
-        //{
-        //    SetStretchedPositions(cursorPos);
-        //}
-        //else
-        //{
-        //    SetPositions(cursorPos);
-        //}
     }
 
-    public void UpdateCursorPosFromUpdate()
-    {
-
-
-        // converts cursor position (in screen space) to world space based on camera position/size
-        Vector2 screenSpaceCursorPos = playerInput.actions["Move"].ReadValue<Vector2>();
-        if (gameManager != null)
-        {
-            cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
-
-        }
-        SetPositions(cursorPos);
-
-        Debug.Log("cursor pos: " + cursorPos + " gs " + gameManager.gameState);
-        
-    }
 
     private void SetPositions(Vector2 position)
     {
