@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class Asteroid : Entity, IDamageable
 {
-    [SerializeField] private Collider2D m_collider;
     [SerializeField] public SpriteRenderer m_spriteRenderer;
     [SerializeField] public EntityManager droppedEntityManager;
     [SerializeField] private int numDrops;
@@ -87,7 +86,7 @@ public class Asteroid : Entity, IDamageable
     private IEnumerator PlaySoundThenDestroy()
     {
         m_spriteRenderer.enabled = false;
-        m_collider.enabled = false;
+        entityCollider.enabled = false;
 
         audioSource.clip = destroySoundArray.GetRandomClip();
 
@@ -99,7 +98,7 @@ public class Asteroid : Entity, IDamageable
         }
 
         m_spriteRenderer.enabled = true;
-        m_collider.enabled = true;
+        entityCollider.enabled = true;
 
         base.DestroyEntity();
     }

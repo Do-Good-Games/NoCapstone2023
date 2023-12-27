@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityBody: {fileID: -2089473547261698542}
+  entityCollider: {fileID: 3493999520594003082}
   upwardsSpeed: 0
   swaySpeed: 0
   swayWidth: 0
@@ -55,7 +56,6 @@ MonoBehaviour:
   energyCollider: {fileID: 3493999520594003082}
   energyRenderer: {fileID: 3380691668930087720}
   energyGain: 2
-  diminishingReturnRatio: 1
 --- !u!212 &3380691668930087720
 SpriteRenderer:
   m_ObjectHideFlags: 0

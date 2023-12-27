@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityBody: {fileID: 2447030393251289624}
+  entityCollider: {fileID: 9102387809521579522}
   upwardsSpeed: 0
   swaySpeed: 1
   swayWidth: 0
