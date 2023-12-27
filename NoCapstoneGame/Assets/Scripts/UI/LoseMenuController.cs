@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 
-public class LoseSceneScript : MonoBehaviour
+public class LoseMenuController : MonoBehaviour
 {
     private SceneManager sceneManager;
 
@@ -16,6 +16,9 @@ public class LoseSceneScript : MonoBehaviour
     SoundPlayer soundPlayer ;
     [SerializeField] AudioReference deathSoundReference;
     SFXManager sfxManager;
+
+    [SerializeField] private UIDocument UIDoc;
+
 
     private void OnEnable()
     {
@@ -29,25 +32,21 @@ public class LoseSceneScript : MonoBehaviour
         //Application.Quit();
 
 
-        root = GetComponent<UIDocument>().rootVisualElement;
+        root = UIDoc.rootVisualElement;
 
-        restartButton = root.Q<Button>("RestartButton");
-        quitButton = root.Q<Button>("QuitButton");
+        restartButton = UIDoc.rootVisualElement.Q<Button>("RestartButton");
+        quitButton = UIDoc.rootVisualElement.Q<Button>("QuitButton");
 
-        restartButton.clicked += () => sceneManager.SwitchToScene(sceneManager.gameplaySceneName);
+        restartButton.clicked += () => { sceneManager.SwitchToScene(sceneManager.gameplaySceneName); };
         quitButton.clicked += () => Application.Quit(); //make this quit the game
 
+        root.style.visibility = Visibility.Hidden;
 
-        //sfxManager.Play(deathSoundReference.GetClip());
-        /*
-        if(soundPlayer = GetComponentInParent<SoundPlayer>()){
-            soundPlayer.RequestPlay();
+    }
 
-        } else
-        {
-            Debug.Log("soundplayer not valid");
-        }
-        */
+    public void ShowDeathMenu()
+    {
+        root.style.visibility = Visibility.Visible;
     }
 
     // Update is called once per frame

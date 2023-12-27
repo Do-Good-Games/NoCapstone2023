@@ -44,7 +44,8 @@ public class HUDController: MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameManager.Instance;   
+        gameManager = GameManager.Instance;
+        player = gameManager.playerController;
 
         //UIDoc stuff
         root = UIDoc.rootVisualElement;
@@ -106,7 +107,6 @@ public class HUDController: MonoBehaviour
         }
         if(timer < 50 && healthBar.value <= .3)
         {
-            Debug.Log("oh shit he's grooving");
             if(statusPanel4.visible)
             {
                 statusPanel4.visible = false;

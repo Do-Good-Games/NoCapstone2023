@@ -19,7 +19,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public enum GameState
 {
-    menus, gameplay, paused
+    mainMenu, gameplay, paused, dead
 }
 
 public class GameManager : MonoBehaviour
@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     public PlayerController playerController;
     public SpeedManager speedManager;
+    public LoseMenuController loseMenuController;
 
     public Vector2 cameraBounds;
 
@@ -62,17 +63,15 @@ public class GameManager : MonoBehaviour
     //whether or not the game is currently paused
     public bool paused { get; private set; } //may want to expand this an enum
 
-    [SerializeField] public GameState gameState { get; private set; }
+    [SerializeField] public GameState gameState { get; protected set; }
 
     public UnityEvent OnPlayerHeal;
     public UnityEvent OnPlayerHurt;
-    public UnityEvent OnPlayerDeath;
 
     public UnityEvent OnEnergyChange;
     public UnityEvent OnChargeChange;
     public UnityEvent OnFiredChange;
 
-    public UnityEvent OnGameEnterMenus;
     public UnityEvent OnGamePause;
     public UnityEvent OnGameResume;
 
@@ -101,6 +100,7 @@ public class GameManager : MonoBehaviour
         speedManager = playerController.speedManager;
     }
 
+
     private void FixedUpdate()
     {
         score += GetCameraSpeed() * Time.deltaTime;
@@ -117,14 +117,33 @@ public class GameManager : MonoBehaviour
         playerHealth -= amount;
         OnPlayerHurt.Invoke();
 
+
+
         if (playerHealth <= 0)//if player is at or below zero health, kill them
         {
+            
             playerHealth = 0;
-            OnPlayerDeath.Invoke();
-            EnterMenus();   
+
+            Die();
         }
     }
 
+    private void Die()
+    {
+        playerController.Die();
+
+        StopAllCoroutines();
+
+        // playerCollider.enabled = false;
+
+        gameState = GameState.dead;
+        Time.timeScale = 0;
+
+        playerController.SwitchActionMap();
+
+        loseMenuController.ShowDeathMenu();
+
+    }
 
     public void UpdateEnergy(float amount)
     {
@@ -188,10 +207,9 @@ public class GameManager : MonoBehaviour
 
     public void EndBoost(float numOfBoosts, float speedOnExit)
     {
-        Debug.Log("i caught you");
         relativeSpeed = 0;
         baseSpeed += speedOnExit;
-        Debug.Log("number of resets, speed on exit " + numOfBoosts + " " + speedOnExit);
+        //Debug.Log("number of resets, speed on exit " + numOfBoosts + " " + speedOnExit);
     }
 
 
@@ -213,19 +231,10 @@ public class GameManager : MonoBehaviour
     public void ResumeGame(bool invokeEvent = true)
     {
         gameState = GameState.gameplay;
-        Debug.Log("check 1.25");
         Time.timeScale = 1;
         if (invokeEvent) { OnGameResume.Invoke(); }        
-        Debug.Log("check 2");
     }
 
-    public void EnterMenus()
-    {
-        gameState = GameState.menus;
-        Time.timeScale = 0;
-
-        OnGameEnterMenus.Invoke();
-    }
 
     [Tooltip("if not in boost, returns the total of the current relative speed, plus the base speed")]
     public float GetCameraSpeed() => speedManager.inBoost? speedManager.boostSpeed : relativeSpeed + baseSpeed;

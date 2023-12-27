@@ -57,14 +57,11 @@ public class SFXManager : MonoBehaviour
 
     public void Play(AudioClip clip)
     {
-        Debug.Log("play trip 1");
         if(canPlayAudio)
         {
-            Debug.Log("play trip 2");
             m_AudioSource.clip = clip;
             m_AudioSource.Play();
             StartCoroutine(RestrictAudio());
-            Debug.Log("play trip 2.5");
         }
 
     }
@@ -72,13 +69,11 @@ public class SFXManager : MonoBehaviour
     //consider passing an object to destroy
     private IEnumerator RestrictAudio()
     {
-        Debug.Log("play trip 3");
         canPlayAudio = false;
         while (m_AudioSource.isPlaying)
         {
             yield return null;
         }
-        Debug.Log("play trip 4");
         canPlayAudio = true;
     }
 }

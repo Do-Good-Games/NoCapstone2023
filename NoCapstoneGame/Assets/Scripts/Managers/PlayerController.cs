@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -125,6 +126,7 @@ public class PlayerController : MonoBehaviour
     private bool damageable;
     private bool damageCooldownEnding;
 
+    private bool initPlayerHasMovedAfterPause = true;
 
     private IEnumerator ShootCoroutineObject;
     private IEnumerator DamageCooldownCoroutineObject;
@@ -139,17 +141,15 @@ public class PlayerController : MonoBehaviour
     public void Start()
     {
         gameManager = GameManager.Instance;
-        sceneManager = SceneManager.Instance;
         cameraBounds = gameManager.cameraBounds - (Vector2) shipCollider.bounds.extents;
 
         gameManager.AddPlayerHealth(maxHealth);
 
-        gameManager.OnPlayerDeath.AddListener(Die);
+        //gameManager.OnPlayerDeath.AddListener(Die);
 
         //all three of these reference the same method as that one contains code and logic that would be difficult to translate on a different set of case-by-case bases
         gameManager.OnGameResume.AddListener(SwitchActionMap); 
         gameManager.OnGamePause.AddListener(SwitchActionMap);
-        gameManager.OnGameEnterMenus.AddListener(SwitchActionMap);
         
 
         //gameManager.OnBoostStart.AddListener(BoostStarted); //cleanup: remove?
@@ -174,7 +174,8 @@ public class PlayerController : MonoBehaviour
         //could we instead 
         gameManager.ResumeGame(false);
         SwitchActionMap();
-        
+
+        initPlayerHasMovedAfterPause = true;
 
         //depreciated prototype code - no replacement necessary
         //SpeedPrototypeSO.ResetVariables();
@@ -212,32 +213,35 @@ public class PlayerController : MonoBehaviour
                 energyDecayTime += Time.deltaTime;
             }
         }
-      
     }
+
+    Vector2 prevScreenSpaceCursorPos;
 
     #region cursor movement
     public void UpdateCursorPosition(InputAction.CallbackContext context)
     {
         // converts cursor position (in screen space) to world space based on camera position/size
         Vector2 screenSpaceCursorPos = context.ReadValue<Vector2>();
+        
         if (gameManager != null)
         {
             cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
 
         }
+
+        if (!initPlayerHasMovedAfterPause) //if player hasn't moved after pause
+        {
+            if(Vector2.Distance(cursorPos, cursorPosPrePause) < .1) // if cursorPos is approx. posPrePause
+            { // this happens after the player moves the mouse, causing the game to update the previous position
+                initPlayerHasMovedAfterPause = true;
+            } else {
+                cursorPos = cursorPosPrePause;
+            }
+        }
+
         SetPositions(cursorPos);
-
-
-
-        //if (ChargingBoost)
-        //{
-        //    SetStretchedPositions(cursorPos);
-        //}
-        //else
-        //{
-        //    SetPositions(cursorPos);
-        //}
     }
+
 
     private void SetPositions(Vector2 position)
     {
@@ -427,6 +431,14 @@ public class PlayerController : MonoBehaviour
         if (damageable && !speedManager.inBoostGracePeriod) {
             //SpeedPrototypeSO.SPHit(); //prototype
 
+            hitSound.Play();
+
+            DamageCooldownCoroutineObject = DamageCooldownCoroutine();
+            StartCoroutine(DamageCooldownCoroutineObject);
+
+            DamageFlashCoroutineObject = DamageFlashCoroutine();
+            StartCoroutine(DamageFlashCoroutineObject);
+
             if (EnergyProtects){
 
                 float amount;
@@ -462,34 +474,34 @@ public class PlayerController : MonoBehaviour
                 gameManager.ResetCharge();
 
             }
-
-
-            hitSound.Play();
-
-            DamageCooldownCoroutineObject = DamageCooldownCoroutine();
-            StartCoroutine(DamageCooldownCoroutineObject);
-
-            DamageFlashCoroutineObject = DamageFlashCoroutine();
-            StartCoroutine(DamageFlashCoroutineObject);
         }
     }
 
-    private void Die()
+    public void Die()
     {
-        sceneManager.canSwitchScenes = true;
         StopAllCoroutines();
 
-       // playerCollider.enabled = false;
+        //playerCollider.enabled = false;
         playerRenderer.enabled = false;
+        SetActionMapUI();
+        StartCoroutine(PlaySoundThenDestroy());
+
+        //switch action map to UI
+    }
+
+    private IEnumerator PlaySoundThenDestroy()
+    {
+        playerRenderer.enabled = false;
+        //m_collider.enabled = false;
+
         deathSound.Play();
 
-        gameManager.EnterMenus();
 
-        sceneManager.SwitchToScene("LoseScene");
-
-        Destroy(this.gameObject, 0.5f);
-        SetActionMapUI();
-        //switch action map to UI
+        while (deathSound.isPlaying)
+        {
+            yield return null;
+        }
+        Destroy(this.gameObject);
     }
 
 
@@ -505,7 +517,7 @@ public class PlayerController : MonoBehaviour
             {
                 gameManager.ResumeGame();
             }
-            else if (gameManager.gameState == GameState.menus)
+            else if (gameManager.gameState == GameState.mainMenu)
             {
                 //throw new Exception("togglePause() (the input callback) is somehow being called when the game is in menus - this shouldn't be able to happen");  
             }
@@ -545,27 +557,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void SwitchActionMap()
+    public void SwitchActionMap()
     {
-        Debug.Log("swapping action map1");
-        if (gameManager.gameState == GameState.paused)
+        if (gameManager.gameState == GameState.paused || gameManager.gameState == GameState.dead)
         {
-            Debug.Log("swapping action map2");
             cursorPosPrePause = cursorPos;
+            Debug.Log("pre pause: " + cursorPosPrePause);
             SetPositions(cursorPosPrePause);
             SetActionMapUI();
             //here we'll want to swap the action mapping
         }
-        else if (gameManager.gameState == GameState.menus)
+        else if (gameManager.gameState == GameState.mainMenu)
         {
-            Debug.Log("swapping action map3");
             cursorPosPrePause = cursorPos; //check here if player position is wack upon loading the game
+            Debug.Log("pre pause: " + cursorPosPrePause);
             SetPositions(cursorPosPrePause);
             SetActionMapUI();
         } else
         {
-            Debug.Log("swapping action map4");
+            initPlayerHasMovedAfterPause = false;
+
             Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
+            Debug.Log("set mouse pos" + Mouse.current.position);
             SetPositions(cursorPosPrePause);
             SetActionMapPlayer();
             //Debug.Log("cursorPos:" + cursorPos + " pre pause: " + cursorPosPrePause + " w2sp: " + gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
