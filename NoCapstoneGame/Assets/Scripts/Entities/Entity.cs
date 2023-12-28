@@ -57,7 +57,10 @@ public class Entity : MonoBehaviour
 
         //OOB check
 
-        if ((entityBody.position.y + entityCollider.bounds.size.y < -gameManager.cameraBounds.y) || (Mathf.Abs(entityBody.position.x) + entityCollider.bounds.size.x > gameManager.cameraBounds.x))
+
+
+        if ((transform.position.y + entityCollider.bounds.size.y < -gameManager.cameraBounds.y) ||
+            (Mathf.Abs(transform.position.x) - entityCollider.bounds.size.x > gameManager.cameraBounds.x))
         {
             DestroyEntity();
         }
@@ -91,6 +94,7 @@ public class Entity : MonoBehaviour
 
     virtual public void DestroyEntity()
     {
+        entityBody.position = Vector2.zero;
         entityManager.objectPool.Release(gameObject);
         //Destroy(this.gameObject, 0.5f);
     }
