@@ -858,7 +858,7 @@ MonoBehaviour:
   playerController: {fileID: 1308583664}
   speedManager: {fileID: 0}
   loseMenuController: {fileID: 1538539958}
-  cameraBounds: {x: 0, y: 0}
+  cameraBounds: {x: 10, y: 10}
   playerHealth: 3
   maxEnergyLevel: 50
   maxRelativeSpeed: 5
