@@ -165,7 +165,7 @@ public class EntityManager : MonoBehaviour
 
 
     [System.Serializable]
-    protected class EntityOption : MonoBehaviour
+    protected class EntityOption
     {
         [SerializeField] public GameObject entity;
         [SerializeField] public float weight;
