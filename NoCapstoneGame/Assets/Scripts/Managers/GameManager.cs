@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     public SpeedManager speedManager;
     public LoseMenuController loseMenuController;
 
+    [Tooltip("size of playing field rep'd by (height, width)")]
     public Vector2 cameraBounds;
 
     [Header("Balance")]
@@ -44,7 +45,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float levelScale = 1;
 
     [Header("References")]
-    [SerializeField] public GameObject explosionPrefab; //I will hopefully not need to keep this here (bobby)
     [SerializeField] public Camera gameplayCamera;
     [SerializeField] public string hazardTag;
     [SerializeField] public string playerTag;
@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        cameraBounds = new Vector2(gameplayCamera.orthographicSize - 1, (gameplayCamera.orthographicSize * gameplayCamera.aspect) - 1.5f);
+        cameraBounds = new Vector2(gameplayCamera.orthographicSize - 1, (gameplayCamera.orthographicSize * gameplayCamera.aspect) - 1f);
 
         // Initilize playerHealth to 0, the player will call AddPlayerHealth() when the game starts.
         // This allows max health to be configued in the player object or at runtime

@@ -20,10 +20,15 @@ public class AsteroidManager : EntityManager
     private void Awake()
     {
         // Type check
-        if (entityPrefab.GetComponent<Asteroid>() == null){
-            Debug.LogError(entityPrefab + " has no Asteroid component!");
-            Destroy(this.gameObject);
+        foreach (EntityOption option in entityOptions)
+        {
+            if (option.entity.GetComponent<Asteroid>() == null)
+            {
+                Debug.LogError(option.entity + " has no Asteroid component!");
+                Destroy(this.gameObject);
+            }
         }
+        
     }
 
     public override void Start()

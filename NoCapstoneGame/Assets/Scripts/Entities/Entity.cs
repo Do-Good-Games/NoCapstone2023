@@ -7,6 +7,7 @@ using UnityEngine.Pool;
 public class Entity : MonoBehaviour
 {
     [SerializeField] protected Rigidbody2D entityBody;
+    [SerializeField] protected Collider2D entityCollider;
 
     [Tooltip("The speed of the entity AWAY from the player, lowering this value increases the relative speed")]
     [SerializeField] public float upwardsSpeed;
@@ -55,7 +56,11 @@ public class Entity : MonoBehaviour
         entityBody.position += movementVector;
 
         //OOB check
-        if ((entityBody.position.y < -gameManager.cameraBounds.y) || (Mathf.Abs(entityBody.position.x) > gameManager.cameraBounds.x))
+
+
+
+        if ((transform.position.y + entityCollider.bounds.size.y < -gameManager.cameraBounds.y) ||
+            (Mathf.Abs(transform.position.x) - entityCollider.bounds.size.x > gameManager.cameraBounds.x))
         {
             DestroyEntity();
         }
@@ -89,6 +94,7 @@ public class Entity : MonoBehaviour
 
     virtual public void DestroyEntity()
     {
+        entityBody.position = Vector2.zero;
         entityManager.objectPool.Release(gameObject);
         //Destroy(this.gameObject, 0.5f);
     }
