@@ -24,7 +24,7 @@ public class Asteroid : Entity, IDamageable
     [SerializeField] public AudioSource audioSource;
     [SerializeField] public AudioReference destroySoundArray;
 
-
+    private bool playingSound;
     private IEnumerator DestroyAsteroidCoroutine;
 
     public override void Start()
@@ -72,6 +72,7 @@ public class Asteroid : Entity, IDamageable
 
     private IEnumerator PlaySoundThenDestroy()
     {
+        playingSound = true;
         m_spriteRenderer.enabled = false;
         entityCollider.enabled = false;
 
@@ -87,6 +88,7 @@ public class Asteroid : Entity, IDamageable
         m_spriteRenderer.enabled = true;
         entityCollider.enabled = true;
 
+        playingSound = false;
         base.DestroyEntity();
     }
 
@@ -122,7 +124,7 @@ public class Asteroid : Entity, IDamageable
 
     override public void DestroyEntity()
     {
-        if (DestroyAsteroidCoroutine == null)
+        if (!playingSound)
         {//if the object is already being destroyed then we don't want it to interupt that process (edge case is when in boost, player destroys asteroid, and it goes OOB before the sound fully plays, cutting the sound off
 
             base.DestroyEntity();
