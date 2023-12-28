@@ -51,6 +51,7 @@ public class Asteroid : Entity, IDamageable
         this.numDropsGoldAsteroid = Mathf.FloorToInt(numDrops * goldenAsteroidEnergyRatio);
         this.transform.localScale = new Vector2(size, size);
 
+        ChangeAsteroidType();
 
 
     }
@@ -61,7 +62,6 @@ public class Asteroid : Entity, IDamageable
         if (health <= 0)
         {
             DestroyAsteroid();
-            ChangeAsteroidType();
             return true;
         }
 
@@ -107,6 +107,7 @@ public class Asteroid : Entity, IDamageable
     //energy when it does that. this still felt cleaner
     public void DestroyAsteroid()
     { 
+
         gameManager.UpdateScore(score);
         if (droppedEntityManager != null && numDrops > 0)
         {
@@ -146,6 +147,7 @@ public class Asteroid : Entity, IDamageable
     {
         if (DestroyAsteroidCoroutine == null)
         {//if the object is already being destroyed then we don't want it to interupt that process (edge case is when in boost, player destroys asteroid, and it goes OOB before the sound fully plays, cutting the sound off
+
             base.DestroyEntity();
         }
 
@@ -171,7 +173,7 @@ public class Asteroid : Entity, IDamageable
         }
     }
 
-    private void ChangeAsteroidType()
+    public void ChangeAsteroidType()
     {
         if (asteroidVersions == true)
         {
