@@ -56,6 +56,7 @@ public class SpeedManager : MonoBehaviour
 
     public bool inBoost { get; private set; }
     public bool inBoostGracePeriod { get; private set; }
+    public float speedAdditionFromBoost { get; private set; }
     [Tooltip("how long (in seconds) after the player exits boost that they're immune (but don't destroy asteroids)")]
     [SerializeField] private float boostGracePeriodDuration;
 
@@ -134,6 +135,7 @@ public class SpeedManager : MonoBehaviour
     public IEnumerator BoostCoroutine()
     {
         inBoost = true;
+        speedAdditionFromBoost = boostSpeed;
         numOfBoosts++;
         while (gameManager.GetEnergy() > minBoostEnergy) //if relative speed >= max relative speed you can charge.
         {
@@ -144,26 +146,21 @@ public class SpeedManager : MonoBehaviour
 
             yield return null;
         }
-        inBoost = false;
 
-        boostGracePeriodCoroutineObject = BoostGracePeriod();
-        StartCoroutine(boostGracePeriodCoroutineObject);
-
-
-        gameManager.EndBoost(numOfBoosts, speedOnExit);
-        ResetVariables();
-    }
-
-    private IEnumerator BoostGracePeriod()
-    {
         inBoostGracePeriod = true;
         float timeSinceGracePeriodStart = Time.time;
         while (Time.time - timeSinceGracePeriodStart <= boostGracePeriodDuration)
         {
+            speedAdditionFromBoost = Mathf.Lerp(boostSpeed, 0, (Time.time - timeSinceGracePeriodStart) / boostGracePeriodDuration);
             yield return new WaitForSeconds(.1f);
         }
         gameManager.ResetEnergy();
         inBoostGracePeriod = false;
+
+        inBoost = false;
+
+        gameManager.EndBoost(numOfBoosts, speedOnExit);
+        ResetVariables();
     }
 
     public void CollectEnergyInBoost(float charge)

@@ -237,7 +237,7 @@ public class GameManager : MonoBehaviour
 
 
     [Tooltip("if not in boost, returns the total of the current relative speed, plus the base speed")]
-    public float GetCameraSpeed() => speedManager.inBoost? speedManager.boostSpeed : relativeSpeed + baseSpeed;
+    public float GetCameraSpeed() => speedManager.inBoost ? speedManager.speedAdditionFromBoost + baseSpeed : relativeSpeed + baseSpeed;
 
     public float GetPlayerHealth() => playerHealth;
     public float GetEnergy() => energyLevel;
