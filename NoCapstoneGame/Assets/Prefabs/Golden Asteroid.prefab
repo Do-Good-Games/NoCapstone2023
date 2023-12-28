@@ -234,20 +234,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityBody: {fileID: 2447030393251289624}
+  entityCollider: {fileID: 9102387809521579522}
   upwardsSpeed: 0
   swaySpeed: 0
   swayWidth: 0
   entityManager: {fileID: 0}
-  m_collider: {fileID: 9102387809521579522}
   m_spriteRenderer: {fileID: 2447030393251289638}
   droppedEntityManager: {fileID: 0}
   numDrops: 0
+  maxHealth: 0
   health: 2
   size: 0
   laserTag: Laser
   score: 0
-  isSplitter: 0
-  goldenAsteroidEnergyRatio: 0
   audioSource: {fileID: 4692610660959000773}
   destroySoundArray: {fileID: 11400000, guid: 97edd5c4d9ab141409ca59c7f7215173, type: 2}
   extraDropsRange: {x: 4, y: 5}

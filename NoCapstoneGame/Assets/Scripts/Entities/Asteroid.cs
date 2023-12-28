@@ -7,13 +7,13 @@ using UnityEngine;
 
 public class Asteroid : Entity, IDamageable
 {
-    [SerializeField] private Collider2D m_collider;
     [SerializeField] public SpriteRenderer m_spriteRenderer;
     [SerializeField] public EntityManager droppedEntityManager;
     [SerializeField] protected int numDrops;
 
 
     [Header("Interaction")]
+    [SerializeField] private float maxHealth;
     [SerializeField] private float health;
     [SerializeField] private float size;
     [SerializeField] private string laserTag;
@@ -35,6 +35,7 @@ public class Asteroid : Entity, IDamageable
 
     public void setVariables(float health, float size, EntityManager droppedEntityManager, int numDrops)
     {
+        this.maxHealth = health;
         this.health = health;
         this.size = size;
         this.droppedEntityManager = droppedEntityManager;
@@ -50,13 +51,29 @@ public class Asteroid : Entity, IDamageable
             DestroyAsteroid();
             return true;
         }
+
+        //change the asteroid sprite
+        if(health <= (maxHealth * 1 / 3))
+        {
+            Debug.Log("switch to 2nd damage sprite");
+        }
+        else if (health <= (maxHealth * 2 / 3))
+        {
+            Debug.Log("switch to 1st damage sprite");
+        }
+        else
+        {
+            //this needs to happen when the sprite is destroyed as well
+            Debug.Log("stay in undamaged sprite");
+        }
+
         return false;
     }
 
     private IEnumerator PlaySoundThenDestroy()
     {
         m_spriteRenderer.enabled = false;
-        m_collider.enabled = false;
+        entityCollider.enabled = false;
 
         audioSource.clip = destroySoundArray.GetRandomClip();
 
@@ -68,7 +85,7 @@ public class Asteroid : Entity, IDamageable
         }
 
         m_spriteRenderer.enabled = true;
-        m_collider.enabled = true;
+        entityCollider.enabled = true;
 
         base.DestroyEntity();
     }
@@ -77,6 +94,7 @@ public class Asteroid : Entity, IDamageable
     //energy when it does that. this still felt cleaner
     virtual public void DestroyAsteroid()
     { 
+
         gameManager.UpdateScore(score);
         if (droppedEntityManager != null && numDrops > 0)
         {
@@ -106,6 +124,7 @@ public class Asteroid : Entity, IDamageable
     {
         if (DestroyAsteroidCoroutine == null)
         {//if the object is already being destroyed then we don't want it to interupt that process (edge case is when in boost, player destroys asteroid, and it goes OOB before the sound fully plays, cutting the sound off
+
             base.DestroyEntity();
         }
 
@@ -122,4 +141,5 @@ public class Asteroid : Entity, IDamageable
             droppedEntityManager.SpawnEntity(spawnPoint.x, spawnPoint.y);
         }
     }
+
 }
