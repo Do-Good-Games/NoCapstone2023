@@ -47,25 +47,31 @@ public class EntityManager : MonoBehaviour
         spawnRange = new Vector2(-gameManager.cameraBounds.x, gameManager.cameraBounds.x);
         spawnHeight = gameManager.cameraBounds.y + 1;
 
-        objectPool = new ObjectPool<GameObject>(
-            createFunc: () => { 
-                GameObject go = SpawnEntity(Random.Range(spawnRange.x, spawnRange.y), spawnHeight);
-                //Debug.Log("--SPAWN entity called from object pool");
-                return go;
-            },
-            actionOnGet: (obj) => { 
-                obj.SetActive(true); 
-                //Debug.Log("GET entity called from object pool for " + obj.name); 
-            },
-            actionOnRelease: (obj) => { 
-                obj.SetActive(false); 
-                SetVariables(obj.GetComponent<Entity>()); 
-            },
-            actionOnDestroy: (obj) => Destroy(obj),
-            collectionCheck: false,
-            defaultCapacity: 75,
-            maxSize: 150
+        foreach (EntityOption option in entityOptions)
+        {
+            objectPool = new ObjectPool<GameObject>(
+                createFunc: () => {
+                    GameObject go = SpawnEntity(Random.Range(spawnRange.x, spawnRange.y), spawnHeight);
+                    //Debug.Log("--SPAWN entity called from object pool");
+                    return go;
+                },
+                actionOnGet: (obj) => {
+                    obj.SetActive(true);
+                    //Debug.Log("GET entity called from object pool for " + obj.name); 
+                },
+                actionOnRelease: (obj) => {
+                    obj.SetActive(false);
+                    SetVariables(obj.GetComponent<Entity>());
+                },
+                actionOnDestroy: (obj) => Destroy(obj),
+                collectionCheck: false,
+                defaultCapacity: 75,
+                maxSize: 150
             );
+
+            option.objectPool = objectPool;
+        }
+
 
         StartGenerating();
     }
@@ -159,9 +165,16 @@ public class EntityManager : MonoBehaviour
 
 
     [System.Serializable]
-    protected class EntityOption
+    protected class EntityOption : MonoBehaviour
     {
         [SerializeField] public GameObject entity;
         [SerializeField] public float weight;
+        public ObjectPool<GameObject> objectPool;
+
+        void SetObjectPool(ObjectPool<GameObject> pool)
+        {
+            objectPool = pool;
+        }
+        
     }
 }
