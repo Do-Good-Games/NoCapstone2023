@@ -13,7 +13,8 @@ public class EntityManager : MonoBehaviour
 
     [SerializeField] public ObjectPool<GameObject> objectPool;
 
-    [SerializeField] public GameObject entityPrefab;
+    //[SerializeField] public Dictionary<GameObject, float> entityPrefabs;
+    [SerializeField] protected List<EntityOption> entityOptions;
 
     [Header("Generation timers and probabilities")]
     [Tooltip("The amount of asteroids per unscaled unit")]
@@ -47,7 +48,7 @@ public class EntityManager : MonoBehaviour
         spawnHeight = gameManager.cameraBounds.y + 1;
 
         objectPool = new ObjectPool<GameObject>(
-            createFunc: () => {
+            createFunc: () => { 
                 GameObject go = SpawnEntity(Random.Range(spawnRange.x, spawnRange.y), spawnHeight);
                 //Debug.Log("--SPAWN entity called from object pool");
                 return go;
@@ -116,8 +117,26 @@ public class EntityManager : MonoBehaviour
         }
     }
 
+    virtual public GameObject getEntity()
+    {
+        float roll = Random.value; // float between 0 and 1, inclusive
+        float weightReached = 0;
+        foreach (EntityOption option in entityOptions){
+            weightReached += option.weight;
+            if (roll <= weightReached)
+            {
+                return option.entity;
+            }
+        }
+
+        //This should never happen
+        Debug.Log("rolled a null entity, weights are fucked up");
+        return null;
+    }
+
     virtual public GameObject SpawnEntity(float spawnX, float spawnY)
     {
+        GameObject entityPrefab = getEntity();
         GameObject gameObject = Instantiate(entityPrefab, new Vector3(spawnX, spawnY, Random.Range(-.5f, .5f)), Quaternion.identity);
         gameObject.transform.position = new Vector3(spawnX, spawnY, 0);
         Entity entity = gameObject.GetComponent<Entity>();
@@ -136,5 +155,13 @@ public class EntityManager : MonoBehaviour
         float iterSwaySpeed = Random.Range(swaySpeedRange.x, swaySpeedRange.y);
         float iterSwayWidth = Random.Range(swayWidthRange.x, swayWidthRange.y);
         entity.setVariables(iterUpSpeed, iterSwaySpeed, iterSwayWidth);
+    }
+
+
+    [System.Serializable]
+    protected class EntityOption
+    {
+        [SerializeField] public GameObject entity;
+        [SerializeField] public float weight;
     }
 }

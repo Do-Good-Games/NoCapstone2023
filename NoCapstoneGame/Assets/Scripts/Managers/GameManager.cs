@@ -44,7 +44,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float levelScale = 1;
 
     [Header("References")]
-    [SerializeField] public GameObject explosionPrefab; //I will hopefully not need to keep this here (bobby)
     [SerializeField] public Camera gameplayCamera;
     [SerializeField] public string hazardTag;
     [SerializeField] public string playerTag;

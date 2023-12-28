@@ -654,7 +654,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ea434c37a952bb2831c13b07c71c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityPrefab: {fileID: 3380691668930087719, guid: 5641c79b82253468c89976f5813fa6f4, type: 3}
+  entityOptions:
+  - entity: {fileID: 3380691668930087719, guid: 5641c79b82253468c89976f5813fa6f4, type: 3}
+    weight: 1
   density: 0.05
   generationTimeRange: {x: 0.5, y: 1.5}
   generatingEntities: 1
@@ -705,7 +707,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 094e6f33839da489c93ecc9417acacc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityPrefab: {fileID: 2447030393251289635, guid: ec9fd64a6784d4588afc9836cdca4b6e, type: 3}
+  entityOptions:
+  - entity: {fileID: 2447030393251289635, guid: ec9fd64a6784d4588afc9836cdca4b6e, type: 3}
+    weight: 0.8
+  - entity: {fileID: 2447030393251289635, guid: 60cc895f3f4f844e59886287b7cddd4a, type: 3}
+    weight: 0.1
+  - entity: {fileID: 2447030393251289635, guid: bd3f869aa00504802bb377edfef8198b, type: 3}
+    weight: 0.1
   density: 0.2
   generationTimeRange: {x: 0.1, y: 0.7}
   generatingEntities: 1
@@ -856,7 +864,6 @@ MonoBehaviour:
   maxRelativeSpeed: 5
   baseSpeed: 10
   levelScale: 1
-  explosionPrefab: {fileID: 6879541595993959296, guid: 571feb7a7dd70094993bf4a35444d289, type: 3}
   gameplayCamera: {fileID: 523322434}
   hazardTag: Hazard
   playerTag: Player
