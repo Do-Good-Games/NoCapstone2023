@@ -14,6 +14,7 @@ public class Asteroid : Entity, IDamageable
 
 
     [Header("Interaction")]
+    [SerializeField] private float maxHealth;
     [SerializeField] private float health;
     [SerializeField] private float size;
     [SerializeField] private string laserTag;
@@ -37,30 +38,12 @@ public class Asteroid : Entity, IDamageable
 
         base.Start();
         this.transform.localScale = new Vector2(size, size);
-
-        if (asteroidVersions == true)
-        {
-            int RandomRoll = Random.Range(0, 100);
-            if (RandomRoll > 90)
-            {
-                isExplosive = true;
-                //isGold = true;
-                m_spriteRenderer.color = UnityEngine.Color.red; //CHANGE THE SPRITE INSTEAD OF THE COLOR
-                //AsteroidSpriteRenderer = GetComponent<SpriteRenderer>();
-                //AsteroidSpriteRenderer.color = Color.Red;
-            }
-            else if (RandomRoll > 80)
-            {
-                isGold = true;
-                //asteroidRenderer.color = new UnityEngine.Color(236f, 223f, 72f, 255f);
-                m_spriteRenderer.color = UnityEngine.Color.yellow;
-            }
-        }
-
+        ChangeAsteroidType();
     }
 
     public void setVariables(float health, float size, EntityManager droppedEntityManager, int numDrops)
     {
+        this.maxHealth = health;
         this.health = health;
         this.size = size;
         this.droppedEntityManager = droppedEntityManager;
@@ -78,8 +61,25 @@ public class Asteroid : Entity, IDamageable
         if (health <= 0)
         {
             DestroyAsteroid();
+            ChangeAsteroidType();
             return true;
         }
+
+        //change the asteroid sprite
+        if(health <= (maxHealth * 1 / 3))
+        {
+            Debug.Log("switch to 2nd damage sprite");
+        }
+        else if (health <= (maxHealth * 2 / 3))
+        {
+            Debug.Log("switch to 1st damage sprite");
+        }
+        else
+        {
+            //this needs to happen when the sprite is destroyed as well
+            Debug.Log("stay in undamaged sprite");
+        }
+
         return false;
     }
 
@@ -169,5 +169,28 @@ public class Asteroid : Entity, IDamageable
             Vector2 spawnPoint = (Random.insideUnitCircle * (size / 2)) + (Vector2)transform.position;
             droppedEntityManager.SpawnEntity(spawnPoint.x, spawnPoint.y);
         }
+    }
+
+    private void ChangeAsteroidType()
+    {
+        if (asteroidVersions == true)
+        {
+            int RandomRoll = Random.Range(0, 100);
+            if (RandomRoll > 90)
+            {
+                isExplosive = true;
+                //isGold = true;
+                m_spriteRenderer.color = UnityEngine.Color.red; //CHANGE THE SPRITE INSTEAD OF THE COLOR
+                //AsteroidSpriteRenderer = GetComponent<SpriteRenderer>();
+                //AsteroidSpriteRenderer.color = Color.Red;
+            }
+            else if (RandomRoll > 80)
+            {
+                isGold = true;
+                //asteroidRenderer.color = new UnityEngine.Color(236f, 223f, 72f, 255f);
+                m_spriteRenderer.color = UnityEngine.Color.yellow;
+            }
+        }
+
     }
 }
