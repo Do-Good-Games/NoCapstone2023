@@ -14,7 +14,7 @@ public class SceneManager : MonoBehaviour
     public VisualElement sceneTransitionElement;
     public UIDocument sceneTransitionUIDoc;
     
-    [SerializeField] public string gameplaySceneName = "Ryan Scene";
+    [SerializeField] public string gameplaySceneName = "GameplayScene";
     
 
 

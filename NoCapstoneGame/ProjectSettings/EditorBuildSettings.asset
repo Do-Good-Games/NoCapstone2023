@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/LoseScene.unity
     guid: 3516c7613a9144c4db112605c5ddecdf
   - enabled: 1
-    path: Assets/Scenes/Ryan Scene.unity
+    path: Assets/Scenes/GameplayScene.unity
     guid: 7ab5ea64b8a2636448d49bad3dd6ba15
   - enabled: 1
     path: Assets/Scenes/MainMenuScene.unity
