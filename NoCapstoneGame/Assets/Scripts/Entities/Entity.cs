@@ -21,6 +21,8 @@ public class Entity : MonoBehaviour
     protected GameManager gameManager;
     public EntityManager entityManager;
 
+    public ObjectPool<GameObject> pool;
+
     // Start is called before the first frame update
     virtual public void Start()
     {
@@ -28,8 +30,9 @@ public class Entity : MonoBehaviour
         gameManager.OnFiredChange.AddListener(UpdateSpeed);
     }
 
-    virtual public void setVariables(float upwardsSpeed, float swaySpeed, float swayWidth)
+    virtual public void SetVariables(ObjectPool<GameObject> pool, float upwardsSpeed, float swaySpeed, float swayWidth)
     {
+        this.pool = pool;
         this.upwardsSpeed = upwardsSpeed;
         this.swaySpeed = swaySpeed;
         this.swayWidth = swayWidth;
@@ -95,7 +98,7 @@ public class Entity : MonoBehaviour
     virtual public void DestroyEntity()
     {
         entityBody.position = Vector2.zero;
-        entityManager.objectPool.Release(gameObject);
+        pool.Release(gameObject);
         //Destroy(this.gameObject, 0.5f);
     }
 
