@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class AsteroidManager : EntityManager
 {
@@ -37,10 +38,10 @@ public class AsteroidManager : EntityManager
         StartGenerating();
     }
 
-    override public void SetVariables(Entity entity)
+    override public void SetVariables(Entity entity, ObjectPool<GameObject> pool)
     {
         //Debug.Log("set variables called as INHERITED CLASS (asteroid");
-        base.SetVariables(entity);
+        base.SetVariables(entity, pool);
         float iterHealth = Random.Range(healthRange.x, healthRange.y) * GameManager.Instance.GetLevelScale();
         // Maps iterHealth to the size range based on the health range
         float iterSize = Mathf.Lerp(sizeRange.x, sizeRange.y, Mathf.InverseLerp(healthRange.x, healthRange.y, (iterHealth/ GameManager.Instance.GetLevelScale())));

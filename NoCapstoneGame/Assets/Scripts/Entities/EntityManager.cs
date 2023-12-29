@@ -11,8 +11,6 @@ public class EntityManager : MonoBehaviour
 {
     GameManager gameManager;
 
-    [SerializeField] public ObjectPool<GameObject> objectPool;
-
     //[SerializeField] public Dictionary<GameObject, float> entityPrefabs;
     [SerializeField] protected List<EntityOption> entityOptions;
 
@@ -49,7 +47,7 @@ public class EntityManager : MonoBehaviour
 
         foreach (EntityOption option in entityOptions)
         {
-            objectPool = new ObjectPool<GameObject>(
+            ObjectPool <GameObject> objectPool = new ObjectPool<GameObject>(
                 createFunc: () => {
                     GameObject go = SpawnEntity(Random.Range(spawnRange.x, spawnRange.y), spawnHeight);
                     //Debug.Log("--SPAWN entity called from object pool");
@@ -61,7 +59,7 @@ public class EntityManager : MonoBehaviour
                 },
                 actionOnRelease: (obj) => {
                     obj.SetActive(false);
-                    SetVariables(obj.GetComponent<Entity>());
+                    SetVariables(obj.GetComponent<Entity>(), option.objectPool);
                 },
                 actionOnDestroy: (obj) => Destroy(obj),
                 collectionCheck: false,
@@ -69,7 +67,7 @@ public class EntityManager : MonoBehaviour
                 maxSize: 150
             );
 
-            option.objectPool = objectPool;
+            option.SetObjectPool(objectPool);
         }
 
 
@@ -99,8 +97,8 @@ public class EntityManager : MonoBehaviour
             float iterSpawn = Random.Range(spawnRange.x, spawnRange.y);
 
             //SpawnEntity(iterSpawn, spawnHeight);
-            GameObject entity;
-            entity = objectPool.Get();
+            EntityOption entityOption = GetEntityOption();
+            GameObject entity = entityOption.objectPool.Get();
             entity.transform.position = new Vector3(iterSpawn, spawnHeight, 0);
         }
     }
@@ -117,21 +115,23 @@ public class EntityManager : MonoBehaviour
         generatingEntities = true;
         for(int i = 0; i < amount; i++)
         {
-            GameObject entity;
-            entity = objectPool.Get();
+            EntityOption entityOption = GetEntityOption();
+            GameObject entity = entityOption.objectPool.Get();
             entity.transform.position = point;
         }
     }
 
-    virtual public GameObject GetEntity()
+    virtual protected EntityOption GetEntityOption()
     {
         float roll = Random.value; // float between 0 and 1, inclusive
         float weightReached = 0;
         foreach (EntityOption option in entityOptions){
             weightReached += option.weight;
+            Debug.Log(roll + " " + weightReached);
             if (roll <= weightReached)
             {
-                return option.entity;
+                //Debug.Log(option.entity);
+                return option;
             }
         }
 
@@ -142,17 +142,17 @@ public class EntityManager : MonoBehaviour
 
     virtual public GameObject SpawnEntity(float spawnX, float spawnY)
     {
-        GameObject entityPrefab = GetEntity();
-        GameObject gameObject = Instantiate(entityPrefab, new Vector3(spawnX, spawnY, Random.Range(-.5f, .5f)), Quaternion.identity, transform);
+        EntityOption entityOption = GetEntityOption();
+        GameObject gameObject = Instantiate(entityOption.entity, new Vector3(spawnX, spawnY, Random.Range(-.5f, .5f)), Quaternion.identity, transform);
         gameObject.transform.position = new Vector3(spawnX, spawnY, 0);
         Entity entity = gameObject.GetComponent<Entity>();
-        SetVariables(entity);
+        SetVariables(entity, entityOption.objectPool);
         entity.entityManager = this;
         return gameObject;
     }
 
 
-    virtual public void SetVariables(Entity entity)
+    virtual public void SetVariables(Entity entity, ObjectPool<GameObject> pool)
     {
         //Movement
         float iterUpSpeed = Random.Range(upwardsSpeedRange.x, upwardsSpeedRange.y);
@@ -160,7 +160,7 @@ public class EntityManager : MonoBehaviour
         //Wobble
         float iterSwaySpeed = Random.Range(swaySpeedRange.x, swaySpeedRange.y);
         float iterSwayWidth = Random.Range(swayWidthRange.x, swayWidthRange.y);
-        entity.setVariables(iterUpSpeed, iterSwaySpeed, iterSwayWidth);
+        entity.SetVariables(pool, iterUpSpeed, iterSwaySpeed, iterSwayWidth);
     }
 
 
@@ -171,7 +171,7 @@ public class EntityManager : MonoBehaviour
         [SerializeField] public float weight;
         public ObjectPool<GameObject> objectPool;
 
-        void SetObjectPool(ObjectPool<GameObject> pool)
+        public void SetObjectPool(ObjectPool<GameObject> pool)
         {
             objectPool = pool;
         }
