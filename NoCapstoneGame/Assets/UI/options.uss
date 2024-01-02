@@ -1,0 +1,6 @@
+Slider Label {
+}
+
+.volumeSlider {
+    height: 50px;
+}
