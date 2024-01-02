@@ -15,13 +15,28 @@ public class OptionsManager : MonoBehaviour
     [SerializeField] AudioMixerGroup sfxMixerGroup;
 
     [SerializeField] UIDocument UIDoc;
-    VisualElement root;
+    private VisualElement root;
+    private Slider masterVolSlider;
+    private Slider musicVolSlider;
+    private Slider sfxVolSlider;
+
+
+    public float masterVolume;
+    public float musicVolume;
+    public float sfxVolume;
+
+    [Tooltip("scale of 0 to 100")]
+    [SerializeField] private float defaultVolume;
 
     // Start is called before the first frame update
     void Start()
     {
-        //SINGLETON PATTERN - ensures that there only ever exists a single optionsManager
+        root = UIDoc.rootVisualElement;
+        masterVolSlider = root.Q<Slider>("MasterVolSlider");
+        musicVolSlider = root.Q<Slider>("MusicVolSlider");
+        sfxVolSlider = root.Q<Slider>("SFXVolSlider");
 
+        //SINGLETON PATTERN - ensures that there only ever exists a single optionsManager
         //is this the first time we've created this singleton
         if (_instance == null)
         {
@@ -35,41 +50,92 @@ public class OptionsManager : MonoBehaviour
             //if there's another one, then destroy this one
             Destroy(this.gameObject);
         }
+
+        //if any key hasn't been set, set it to the default
         if (!PlayerPrefs.HasKey("masterVolume"))
         {
-            Debug.Log("uwu1");
-            PlayerPrefs.SetFloat("masterVolume", .75f);
+            PlayerPrefs.SetFloat("masterVolume", defaultVolume);
         }
         if (!PlayerPrefs.HasKey("musicVolume"))
         {
-            Debug.Log("uwu1");
-            PlayerPrefs.SetFloat("musicVolume", .75f);
+            PlayerPrefs.SetFloat("musicVolume", defaultVolume);
 
         }
         if (!PlayerPrefs.HasKey("sfxVolume"))
         {
-            Debug.Log("uwu2");
-            PlayerPrefs.SetFloat("sfxVolume", .75f);
+            PlayerPrefs.SetFloat("sfxVolume", defaultVolume);
         }
 
-        if (!PlayerPrefs.HasKey("showToolTips"))
-        {
-            PlayerPrefs.SetInt("showToolTips", BoolToInt(true));
-        }
+        masterVolSlider.RegisterValueChangedCallback(OnMasterSliderValueChange);
+        musicVolSlider.RegisterValueChangedCallback(OnMusicSliderValueChange);
+        sfxVolSlider.RegisterValueChangedCallback(OnSfxSliderValueChange);
 
+        Load();
 
-        //Load();
-        gameObject.SetActive(false);
+        HideOptionsMenu();
     }
 
-    private int BoolToInt(bool b)
+    public void ShowOptionsMenu()
     {
-        return b ? 1 : 0;
+        UIDoc.rootVisualElement.style.display = DisplayStyle.Flex;
+
+
+        root.style.visibility = Visibility.Visible;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void HideOptionsMenu()
     {
-        
+        UIDoc.rootVisualElement.style.display = DisplayStyle.None;
+        root.style.visibility = Visibility.Hidden;
+    }
+
+    public void OnMasterSliderValueChange(ChangeEvent<float> evt)
+    {
+        masterVolume = evt.newValue;
+        masterMixerGroup.audioMixer.SetFloat("MasterVolParam", Mathf.Log10(evt.newValue) * 20);
+        PlayerPrefs.SetFloat("masterVolume", masterVolume);
+    }
+
+    public void OnMusicSliderValueChange(ChangeEvent<float> evt)
+    {
+        musicVolume = evt.newValue;
+        musicMixerGroup.audioMixer.SetFloat("MusicVolParam", Mathf.Log10(evt.newValue) * 20);
+        PlayerPrefs.SetFloat("MusicVolume", musicVolume);
+    }
+    public void OnSfxSliderValueChange(ChangeEvent<float> evt)
+    {
+        sfxVolume = evt.newValue;
+        sfxMixerGroup.audioMixer.SetFloat("SFXVolParam", Mathf.Log10(evt.newValue) * 20);
+        PlayerPrefs.SetFloat("SfxVolume", sfxVolume);
+    }
+
+    public void OnDestroy()
+    {
+        Save();
+    }
+
+
+    public void Load()
+    {
+        masterVolSlider.value = PlayerPrefs.GetFloat("masterVolume");
+        musicVolSlider.value = PlayerPrefs.GetFloat("musicVolume");
+        sfxVolSlider.value = PlayerPrefs.GetFloat("sfxVolume");
+
+        masterVolume = PlayerPrefs.GetFloat("masterVolume");
+        musicVolume = PlayerPrefs.GetFloat("musicVolume");
+        sfxVolume = PlayerPrefs.GetFloat("sfxVolume");
+
+        masterMixerGroup.audioMixer.SetFloat("MasterVolParam", Mathf.Log10(masterVolSlider.value) * 20);
+        musicMixerGroup.audioMixer.SetFloat("MusicVolParam", Mathf.Log10(musicVolSlider.value) * 20);
+        sfxMixerGroup.audioMixer.SetFloat("SFXVolParam", Mathf.Log10(sfxVolSlider.value) * 20);
+        //if we were storing tooltips elsewhere, then we'd set that here as well
+
+    }
+
+    private void Save()
+    {
+        PlayerPrefs.SetFloat("masterVolume", masterVolume);
+        PlayerPrefs.SetFloat("musicVolume", musicVolume);
+        PlayerPrefs.SetFloat("sfxVolume", sfxVolume);
     }
 }

@@ -10,6 +10,8 @@ public class PauseUIScript : MonoBehaviour
     private GameManager gameManager;
     private SceneManager sceneManager;
     private SFXManager sfxManager;
+    
+    [SerializeField] private OptionsManager optionsManager;
 
     [SerializeField] AudioReference pauseReference; // BOBBY CHECK HERE -  likely an unset reference
 
@@ -20,9 +22,11 @@ public class PauseUIScript : MonoBehaviour
     [SerializeField] private StyleSheet clickedStyleSheet;
 
 
+
     private VisualElement root;
     private Button resumeButton;
     private Button restartButton;
+    private Button optionsButton;
     private Button mainMenuButton;
     Button quitButton;
 
@@ -40,12 +44,14 @@ public class PauseUIScript : MonoBehaviour
         resumeButton = UIDoc.rootVisualElement.Q<Button>("ResumeButton");
         mainMenuButton = UIDoc.rootVisualElement.Q<Button>("MainMenuButton");
         restartButton = UIDoc.rootVisualElement.Q<Button>("RestartButton");
+        optionsButton = UIDoc.rootVisualElement.Q<Button>("OptionsButton");
         quitButton = UIDoc.rootVisualElement.Q<Button>("QuitButton");
 
         //resumeButton.clicked += () => sceneManager.SwitchToSceneName(sceneManager.gameplaySceneName); //unpause the game
         resumeButton.clicked += () => { gameManager.ResumeGame(); };
         mainMenuButton.clicked += MainMenuClicked;
         restartButton.clicked += RestartClicked;
+        optionsButton.clicked += OptionsClicked;
         quitButton.clicked += () => Application.Quit();
 
 
@@ -61,13 +67,10 @@ public class PauseUIScript : MonoBehaviour
         sfxManager = SFXManager.Instance;
     }
 
-
-
-    private void OnEnable()
+    private void OptionsClicked()
     {
-
+        optionsManager.ShowOptionsMenu();
     }
-
     private void RestartClicked()
     {
         sceneManager.SwitchToScene(sceneManager.gameplaySceneName);

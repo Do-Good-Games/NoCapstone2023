@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66cbb419c304b8749a7f507a61b370e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionsManager: {fileID: 6179676403516755038}
   pauseReference: {fileID: 11400000, guid: 202b29f53e4e0e3429675735e3996d03, type: 2}
   UIDoc: {fileID: 6081647578092048253}
   normalStyleSheet: {fileID: 0}
@@ -410,8 +411,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PanelSettings: {fileID: 11400000, guid: fd46ece6b5e45c64ab9715db990010d2, type: 2}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 0}
-  m_SortingOrder: 0
+  sourceAsset: {fileID: 9197481963319205126, guid: c2f918e231d73c7419c980641901889e, type: 3}
+  m_SortingOrder: 3
 --- !u!114 &6179676403516755038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -424,10 +425,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ffd1b1cb358e4e4889bef54cff1bd24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masterMixerGroup: {fileID: 0}
-  musicMixerGroup: {fileID: 0}
-  sfxMixerGroup: {fileID: 0}
-  UIDoc: {fileID: 0}
+  masterMixerGroup: {fileID: 24300002, guid: 4052d8261cba7c84d8c3f660847dfdac, type: 2}
+  musicMixerGroup: {fileID: -6828639567131704999, guid: 4052d8261cba7c84d8c3f660847dfdac, type: 2}
+  sfxMixerGroup: {fileID: 370495301599186931, guid: 4052d8261cba7c84d8c3f660847dfdac, type: 2}
+  UIDoc: {fileID: 7916300305618636546}
+  masterVolume: 0
+  musicVolume: 0
+  sfxVolume: 0
+  defaultVolume: 50
 --- !u!1 &6285439991449670777
 GameObject:
   m_ObjectHideFlags: 0
