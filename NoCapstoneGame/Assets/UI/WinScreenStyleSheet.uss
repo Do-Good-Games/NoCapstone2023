@@ -20,3 +20,99 @@ VisualElement {
     font-size: 30px;
     color: rgb(95, 146, 221);
 }
+
+.startButton {
+    width: 400px;
+    height: 400px;
+    background-color: rgba(92, 110, 144, 0);
+    font-size: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-left-color: rgb(70, 71, 94);
+    border-right-color: rgb(70, 71, 94);
+    border-top-color: rgb(109, 110, 125);
+    border-bottom-color: rgb(57, 57, 75);
+    background-image: url('project://database/Assets/UI/Art/MainMenuArt/NewAssets/START_normal.png?fileID=2800000&guid=079e5c2384bfde140a347ed7a774159a&type=3#START_normal');
+}
+
+.creditsButton {
+    width: 400px;
+    height: 400px;
+    background-color: rgba(92, 110, 144, 0);
+    font-size: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-left-color: rgb(70, 71, 94);
+    border-right-color: rgb(70, 71, 94);
+    border-top-color: rgb(109, 110, 125);
+    border-bottom-color: rgb(57, 57, 75);
+    background-image: url('project://database/Assets/UI/Art/MainMenuArt/NewAssets/CREDITS_normal.png?fileID=2800000&guid=922d3ba24cc7b0c4281c7fca1d3c9663&type=3#CREDITS_normal');
+}
+
+.optionsButton {
+    width: 400px;
+    height: 400px;
+    background-color: rgba(92, 110, 144, 0);
+    font-size: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-left-color: rgb(70, 71, 94);
+    border-right-color: rgb(70, 71, 94);
+    border-top-color: rgb(109, 110, 125);
+    border-bottom-color: rgb(57, 57, 75);
+    background-image: url('project://database/Assets/UI/Art/MainMenuArt/NewAssets/OPTIONS_normal.png?fileID=2800000&guid=f66e137a6878ef24985d198ed06be467&type=3#OPTIONS_normal');
+}
+
+.startButton:hover {
+    width: 400px;
+    height: 400px;
+    background-color: rgba(92, 110, 144, 0);
+    font-size: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-left-color: rgb(70, 71, 94);
+    border-right-color: rgb(70, 71, 94);
+    border-top-color: rgb(109, 110, 125);
+    border-bottom-color: rgb(57, 57, 75);
+    background-image: url('project://database/Assets/UI/Art/MainMenuArt/NewAssets/START_hover.png?fileID=2800000&guid=dc8da316726080a4dad265623a616ec7&type=3#START_hover');
+}
+
+.creditsButton:hover {
+    width: 400px;
+    height: 400px;
+    background-color: rgba(92, 110, 144, 0);
+    font-size: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-left-color: rgb(70, 71, 94);
+    border-right-color: rgb(70, 71, 94);
+    border-top-color: rgb(109, 110, 125);
+    border-bottom-color: rgb(57, 57, 75);
+    background-image: url('project://database/Assets/UI/Art/MainMenuArt/NewAssets/CREDITS_hover.png?fileID=2800000&guid=65bd6a3c5642ca14f9654061f6358783&type=3#CREDITS_hover');
+}
+
+.optionsButton:hover {
+    width: 400px;
+    height: 400px;
+    background-color: rgba(92, 110, 144, 0);
+    font-size: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-left-color: rgb(70, 71, 94);
+    border-right-color: rgb(70, 71, 94);
+    border-top-color: rgb(109, 110, 125);
+    border-bottom-color: rgb(57, 57, 75);
+    background-image: url('project://database/Assets/UI/Art/MainMenuArt/NewAssets/OPTIONS_hover.png?fileID=2800000&guid=5a46003c47442934bbc0a7e883e49081&type=3#OPTIONS_hover');
+}

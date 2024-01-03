@@ -5,9 +5,9 @@
             <ui:Label text="Galactic Grand Prix" display-tooltip-when-elided="true" class="label" style="justify-content: center; align-items: center; height: 260px; font-size: 0; background-image: url(&apos;project://database/Assets/UI/Art/MainMenuArt/NewAssets/Title.png?fileID=2800000&amp;guid=95aa075a4810a784ca0c031504e81040&amp;type=3#Title&apos;); width: 1540px;" />
         </ui:VisualElement>
         <ui:VisualElement name="ButtonContainer" style="justify-content: space-around; align-items: center; flex-direction: row; margin-left: 250px; margin-right: 250px;">
-            <ui:Button text="Start" display-tooltip-when-elided="true" name="StartButton" class="button" style="background-image: url(&apos;project://database/Assets/UI/Art/MainMenuArt/START_normal.png?fileID=2800000&amp;guid=82ef95bee5957b649a7e6f9de24c1e2b&amp;type=3#START_normal&apos;);" />
-            <ui:Button text="Credits" display-tooltip-when-elided="true" name="CreditsButton" class="button" style="background-image: url(&apos;project://database/Assets/UI/Art/MainMenuArt/CREDITS_normal.png?fileID=2800000&amp;guid=5fd6c549e6f113546942ddfa5d5e25a6&amp;type=3#CREDITS_normal&apos;); top: 336px;" />
-            <ui:Button text="Credits" display-tooltip-when-elided="true" name="OptionsButton" class="button" style="background-image: url(&apos;project://database/Assets/UI/Art/MainMenuArt/NewAssets/OPTIONS_normal.png?fileID=2800000&amp;guid=f66e137a6878ef24985d198ed06be467&amp;type=3#OPTIONS_normal&apos;); -unity-font-style: italic;" />
+            <ui:Button text="Start" display-tooltip-when-elided="true" name="StartButton" class="startButton" />
+            <ui:Button text="Credits" display-tooltip-when-elided="true" name="CreditsButton" class="creditsButton" style="top: 336px;" />
+            <ui:Button text="Credits" display-tooltip-when-elided="true" name="OptionsButton" class="optionsButton" style="-unity-font-style: italic;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
