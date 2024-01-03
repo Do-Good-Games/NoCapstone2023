@@ -2,21 +2,21 @@ VisualElement {
 }
 
 .button {
-    width: 500px;
-    height: 80px;
-    background-color: rgba(92, 110, 144, 255);
-    font-size: 37px;
-    border-left-width: 16px;
-    border-right-width: 16px;
-    border-top-width: 16px;
-    border-bottom-width: 16px;
-    border-left-color: rgba(70, 71, 94, 255);
-    border-right-color: rgba(70, 71, 94, 255);
-    border-top-color: rgba(109, 110, 125, 255);
-    border-bottom-color: rgba(57, 57, 75, 255);
+    width: 400px;
+    height: 400px;
+    background-color: rgba(92, 110, 144, 0);
+    font-size: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-left-color: rgb(70, 71, 94);
+    border-right-color: rgb(70, 71, 94);
+    border-top-color: rgb(109, 110, 125);
+    border-bottom-color: rgb(57, 57, 75);
 }
 
 .label {
     font-size: 30px;
-    color: rgba(95, 146, 221, 255);
+    color: rgb(95, 146, 221);
 }
