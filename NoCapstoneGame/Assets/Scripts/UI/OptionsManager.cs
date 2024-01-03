@@ -13,13 +13,14 @@ public class OptionsManager : MonoBehaviour
     [SerializeField] AudioMixerGroup masterMixerGroup;
     [SerializeField] AudioMixerGroup musicMixerGroup;
     [SerializeField] AudioMixerGroup sfxMixerGroup;
+     
 
     [SerializeField] UIDocument UIDoc;
     private VisualElement root;
     private Slider masterVolSlider;
     private Slider musicVolSlider;
     private Slider sfxVolSlider;
-
+    private Button backButton;
 
     public float masterVolume;
     public float musicVolume;
@@ -35,6 +36,8 @@ public class OptionsManager : MonoBehaviour
         masterVolSlider = root.Q<Slider>("MasterVolSlider");
         musicVolSlider = root.Q<Slider>("MusicVolSlider");
         sfxVolSlider = root.Q<Slider>("SFXVolSlider");
+
+        backButton = root.Q<Button>("BackButton");
 
         //SINGLETON PATTERN - ensures that there only ever exists a single optionsManager
         //is this the first time we've created this singleton
@@ -70,10 +73,14 @@ public class OptionsManager : MonoBehaviour
         musicVolSlider.RegisterValueChangedCallback(OnMusicSliderValueChange);
         sfxVolSlider.RegisterValueChangedCallback(OnSfxSliderValueChange);
 
+        backButton.clicked += HideOptionsMenu;
+
         Load();
 
         HideOptionsMenu();
     }
+
+    
 
     public void ShowOptionsMenu()
     {
