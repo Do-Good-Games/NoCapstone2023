@@ -20,10 +20,11 @@ public class MainMenuSceneScript : MonoBehaviour
     private VisualElement creditsRoot;
     private Button creditsCloseButton;
 
+    [SerializeField] private OptionsManager optionsManager;
+    private Button optionsButton;
 
-    private void OnEnable()
-    {
-    }
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,7 @@ public class MainMenuSceneScript : MonoBehaviour
         creditsButton = root.Q<Button>("CreditsButton");
         quitButton = root.Q<Button>("QuitButton");
 
+        optionsButton = root.Q<Button>("OptionsButton");
 
         creditsRoot = CreditsUIDoc.rootVisualElement;
         creditsRoot.visible = false;
@@ -45,6 +47,8 @@ public class MainMenuSceneScript : MonoBehaviour
         startButton.clicked += () => { Debug.Log("pingu"); sceneManager.SwitchToScene(sceneManager.gameplaySceneName); };
         creditsButton.clicked += () => { creditsRoot.visible = true;  root.visible = false; } ;
         quitButton.clicked += () => { Application.Quit(); };//make this quit the game 
+        optionsButton.clicked += () => optionsManager.ShowOptionsMenu();
+
 
         creditsCloseButton.clicked += () => { creditsRoot.visible = false; root.visible = true; };
     }
