@@ -5,8 +5,8 @@
             <ui:Label text="Options Menu " display-tooltip-when-elided="true" name="Label" style="font-size: 79px; color: rgb(255, 255, 255);" />
             <ui:VisualElement style="visibility: visible; align-items: center; justify-content: space-around; -unity-background-image-tint-color: rgb(255, 255, 255); background-color: rgb(1, 52, 79);">
                 <ui:Slider picking-mode="Ignore" label="Master Volume" value="74" name="MasterVolSlider" high-value="1" low-value="0.0001" class="volumeSlider" style="justify-content: flex-start; flex-wrap: nowrap;" />
-                <ui:Slider picking-mode="Ignore" label="Sound Effects" value="42" high-value="1" name="SFXVolSlider" low-value="0.0001" class="volumeSlider" />
                 <ui:Slider picking-mode="Ignore" label="Music Volume" value="42" high-value="1" name="MusicVolSlider" low-value="0.0001" class="volumeSlider" />
+                <ui:Slider picking-mode="Ignore" label="Sound Effects" value="42" high-value="1" name="SFXVolSlider" low-value="0.0001" class="volumeSlider" />
             </ui:VisualElement>
             <ui:Button text="Back" display-tooltip-when-elided="true" name="BackButton" />
         </ui:VisualElement>
