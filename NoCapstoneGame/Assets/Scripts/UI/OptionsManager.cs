@@ -99,20 +99,20 @@ public class OptionsManager : MonoBehaviour
     public void OnMasterSliderValueChange(ChangeEvent<float> evt)
     {
         masterVolume = evt.newValue;
-        masterMixerGroup.audioMixer.SetFloat("MasterVolParam", SliderValToMixerVol(masterVolSlider));
+        masterMixerGroup.audioMixer.SetFloat("MasterVolParam", Mathf.Log10(evt.newValue) * 20);
         PlayerPrefs.SetFloat("masterVolume", masterVolume);
     }
 
     public void OnMusicSliderValueChange(ChangeEvent<float> evt)
     {
         musicVolume = evt.newValue;
-        musicMixerGroup.audioMixer.SetFloat("MusicVolParam", SliderValToMixerVol(musicVolSlider));
+        musicMixerGroup.audioMixer.SetFloat("MusicVolParam", Mathf.Log10(evt.newValue) * 20);
         PlayerPrefs.SetFloat("MusicVolume", musicVolume);
     }
     public void OnSfxSliderValueChange(ChangeEvent<float> evt)
     {
         sfxVolume = evt.newValue;
-        sfxMixerGroup.audioMixer.SetFloat("SFXVolParam", SliderValToMixerVol(sfxVolSlider));
+        sfxMixerGroup.audioMixer.SetFloat("SFXVolParam", Mathf.Log10(evt.newValue) * 20);
         PlayerPrefs.SetFloat("SfxVolume", sfxVolume);
     }
 
@@ -132,9 +132,9 @@ public class OptionsManager : MonoBehaviour
         musicVolume = PlayerPrefs.GetFloat("musicVolume");
         sfxVolume = PlayerPrefs.GetFloat("sfxVolume");
 
-        masterMixerGroup.audioMixer.SetFloat("MasterVolParam", SliderValToMixerVol(masterVolSlider) );
-        musicMixerGroup.audioMixer.SetFloat("MusicVolParam", SliderValToMixerVol( musicVolSlider));
-        sfxMixerGroup.audioMixer.SetFloat("SFXVolParam", SliderValToMixerVol(sfxVolSlider));
+        masterMixerGroup.audioMixer.SetFloat("MasterVolParam", Mathf.Log10(masterVolSlider.value) * 20);
+        musicMixerGroup.audioMixer.SetFloat("MusicVolParam", Mathf.Log10(musicVolSlider.value) * 20);
+        sfxMixerGroup.audioMixer.SetFloat("SFXVolParam", Mathf.Log10(sfxVolSlider.value) * 20);
         //if we were storing tooltips elsewhere, then we'd set that here as well
 
     }
@@ -144,10 +144,5 @@ public class OptionsManager : MonoBehaviour
         PlayerPrefs.SetFloat("masterVolume", masterVolume);
         PlayerPrefs.SetFloat("musicVolume", musicVolume);
         PlayerPrefs.SetFloat("sfxVolume", sfxVolume);
-    }
-
-    private float SliderValToMixerVol(Slider slider)
-    {
-        return Mathf.Lerp(-80, 20, slider.value / slider.highValue);//Mathf.Log10(slider.value / slider.highValue)
     }
 }
