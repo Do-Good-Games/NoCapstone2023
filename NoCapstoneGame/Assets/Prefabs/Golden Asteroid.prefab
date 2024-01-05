@@ -248,5 +248,5 @@ MonoBehaviour:
   laserTag: Laser
   score: 0
   audioSource: {fileID: 4692610660959000773}
-  destroySoundArray: {fileID: 11400000, guid: 97edd5c4d9ab141409ca59c7f7215173, type: 2}
+  destroySoundArray: {fileID: 11400000, guid: 55dc097c8b9f62c438905c3dfec0f82c, type: 2}
   extraDropsRange: {x: 4, y: 5}
