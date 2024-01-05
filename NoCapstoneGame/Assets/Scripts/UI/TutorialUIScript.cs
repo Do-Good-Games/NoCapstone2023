@@ -29,10 +29,12 @@ public class TutorialUIScript : MonoBehaviour
         leftButton = root.Q<Button>("LeftButton");
         rightButton = root.Q<Button>("RightButton");
 
-        backgroundArray = new StyleBackground[4];
-        backgroundArray[0] = new StyleBackground(UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Sprites/Asteroid-Fiona.bmp"));
+        backgroundArray = new StyleBackground[3];
+        backgroundArray[0] = new StyleBackground(UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>("Assets/UI/Art/TutorialArt/Slide1.png"));
+        backgroundArray[1] = new StyleBackground(UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>("Assets/UI/Art/TutorialArt/Slide2.png"));
+        backgroundArray[2] = new StyleBackground(UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>("Assets/UI/Art/TutorialArt/Slide3.png"));
 
-        https://docs.unity3d.com/Manual/UIE-set-background-images-with-an-image-asset.html
+    https://docs.unity3d.com/Manual/UIE-set-background-images-with-an-image-asset.html
         root.style.backgroundImage = backgroundArray[0];
 
         leftButton.clicked += () => TutorialSlideLeft();
@@ -48,7 +50,6 @@ public class TutorialUIScript : MonoBehaviour
 
     private void TutorialSlideLeft()
     {
-        Debug.Log("sliding left");
         if(backGroundArrayValue > 0)
         {
             backGroundArrayValue--;
@@ -63,7 +64,6 @@ public class TutorialUIScript : MonoBehaviour
 
     private void TutorialSlideRight()
     {
-        Debug.Log("sliding right");
         if (backGroundArrayValue < (backgroundArray.Length - 1))
         {
             backGroundArrayValue++;
@@ -72,9 +72,8 @@ public class TutorialUIScript : MonoBehaviour
         }
         else
         {
-            //the tutorial is done
+            Debug.Log("finish tutorial");
             return;
         }
     }
-
 }
