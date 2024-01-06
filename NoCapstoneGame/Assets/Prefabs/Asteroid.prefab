@@ -106,20 +106,14 @@ MonoBehaviour:
   swaySpeed: 1
   swayWidth: 0
   entityManager: {fileID: 0}
-  m_collider: {fileID: 9102387809521579522}
   m_spriteRenderer: {fileID: 2447030393251289638}
   droppedEntityManager: {fileID: 0}
   numDrops: 0
-  numDropsGoldAsteroid: 3
+  maxHealth: 0
   health: 2
   size: 0
   laserTag: Laser
   score: 10
-  isExplosive: 0
-  isGold: 0
-  isSplitter: 0
-  asteroidVersions: 1
-  goldenAsteroidEnergyRatio: 4
   audioSource: {fileID: 4692610660959000773}
   destroySoundArray: {fileID: 11400000, guid: 97edd5c4d9ab141409ca59c7f7215173, type: 2}
 --- !u!50 &2447030393251289624
@@ -168,7 +162,7 @@ AudioSource:
   m_GameObject: {fileID: 2447030393251289635}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 370495301599186931, guid: 4052d8261cba7c84d8c3f660847dfdac, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

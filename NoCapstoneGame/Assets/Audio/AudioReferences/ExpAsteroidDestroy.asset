@@ -10,9 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ebbb93afadfe6fb439b1a6655ed4cb59, type: 3}
-  m_Name: AsteroidDestroy
+  m_Name: ExpAsteroidDestroy
   m_EditorClassIdentifier: 
-  m_ClipArr:
-  - {fileID: 8300000, guid: 7f0ddabfe8e7ddc4d85d17267e890ac4, type: 3}
-  - {fileID: 8300000, guid: 71c303c3d54e71f4e98bf19cbf855102, type: 3}
-  - {fileID: 8300000, guid: b92458e5599211448abee6e6f41523fa, type: 3}
+  m_ClipArr: []
