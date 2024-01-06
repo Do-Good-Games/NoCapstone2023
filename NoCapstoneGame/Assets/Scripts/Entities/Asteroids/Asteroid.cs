@@ -9,6 +9,7 @@ public class Asteroid : Entity, IDamageable
 {
     [SerializeField] public SpriteRenderer m_spriteRenderer;
     [SerializeField] public EntityManager droppedEntityManager;
+    [SerializeField] public Sprite[] spriteArr;
     [SerializeField] protected int numDrops;
 
 
@@ -29,6 +30,7 @@ public class Asteroid : Entity, IDamageable
 
     public override void Start()
     {
+
         base.Start();
         this.transform.localScale = new Vector2(size, size);
     }
@@ -40,6 +42,8 @@ public class Asteroid : Entity, IDamageable
         this.size = size;
         this.droppedEntityManager = droppedEntityManager;
         this.numDrops = numDrops;
+        int spriteIndex = Random.Range(0, spriteArr.Length - 1);
+        m_spriteRenderer.sprite = spriteArr[spriteIndex];
         this.transform.localScale = new Vector2(size, size);
     }
 
