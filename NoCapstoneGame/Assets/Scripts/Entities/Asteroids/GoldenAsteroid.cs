@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class GoldenAsteroid : Asteroid
 {
@@ -12,6 +13,13 @@ public class GoldenAsteroid : Asteroid
     public override void Start()
     {
         base.Start();
-        numDrops += (int) Random.Range(extraDropsRange.x, extraDropsRange.y);
+    }
+
+    public override void SetVariables(ObjectPool<GameObject> pool, float upwardsSpeed, float swaySpeed, float swayWidth)
+    {
+        base.SetVariables(pool, upwardsSpeed, swaySpeed, swayWidth);
+        int addDrops = (int)Random.Range(extraDropsRange.x, extraDropsRange.y);
+        numDrops += addDrops;
+
     }
 }

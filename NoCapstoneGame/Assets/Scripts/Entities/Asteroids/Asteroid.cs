@@ -35,7 +35,7 @@ public class Asteroid : Entity, IDamageable
         this.transform.localScale = new Vector2(size, size);
     }
 
-    public void setVariables(float health, float size, EntityManager droppedEntityManager, int numDrops)
+    public void SetVariables(float health, float size, EntityManager droppedEntityManager, int numDrops)
     {
         this.maxHealth = health;
         this.health = health;

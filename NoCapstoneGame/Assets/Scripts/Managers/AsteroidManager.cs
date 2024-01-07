@@ -41,13 +41,13 @@ public class AsteroidManager : EntityManager
     override public void SetVariables(Entity entity, ObjectPool<GameObject> pool)
     {
         //Debug.Log("set variables called as INHERITED CLASS (asteroid");
-        base.SetVariables(entity, pool);
-        float iterHealth = Random.Range(healthRange.x, healthRange.y) * GameManager.Instance.GetLevelScale();
+        float iterHealth = Random.Range(healthRange.x, healthRange.y);
         // Maps iterHealth to the size range based on the health range
-        float iterSize = Mathf.Lerp(sizeRange.x, sizeRange.y, Mathf.InverseLerp(healthRange.x, healthRange.y, (iterHealth/ GameManager.Instance.GetLevelScale())));
+        float iterSize = Mathf.Lerp(sizeRange.x, sizeRange.y, Mathf.InverseLerp(healthRange.x, healthRange.y, iterHealth));
 
         int iterBaseNumDrops = (int) Mathf.Lerp(baseNumDropsRange.x, baseNumDropsRange.y, Mathf.InverseLerp(sizeRange.x, sizeRange.y, iterSize));
         int iterNumDrops = iterBaseNumDrops + (int) Random.Range(numDropsVarianceRange.x, numDropsVarianceRange.y);
-        ((Asteroid) entity).setVariables(iterHealth, iterSize, energyManager, iterNumDrops);
+        ((Asteroid) entity).SetVariables(iterHealth, iterSize, energyManager, iterNumDrops);
+        base.SetVariables(entity, pool);
     }
 }

@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour
     [Tooltip("The starting/current base speed of the player")]
     [SerializeField] private float baseSpeed;
     [Tooltip("This modifies asteroid values to make the game harder with each level")]
-    [SerializeField] private float levelScale = 1;
 
     [Header("References")]
     [SerializeField] public Camera gameplayCamera;
@@ -187,7 +186,6 @@ public class GameManager : MonoBehaviour
         OnFiredChange.Invoke();
     }
 
-    public float GetLevelScale() => levelScale;
 
     [Tooltip("adds (or subtracts) the given value to the amount of charge")]
     public void UpdateCharge(float adjustmentAmount)
