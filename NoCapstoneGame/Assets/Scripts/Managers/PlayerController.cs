@@ -116,6 +116,8 @@ public class PlayerController : MonoBehaviour
     public bool leftMouseHeld;
     private bool RightMouseHeld;
     private Vector2 cursorPos;
+    private Vector2 prevCursorPos;
+    private Vector2 movementPos;
     private Vector2 slingshotAnchor;
     private Vector2 cursorPosPrePause;
     private float energySphereSize;
@@ -159,7 +161,9 @@ public class PlayerController : MonoBehaviour
         // store all the Laser Spawners components in an array to avoid calling GetComponents() many times
         spawners = GetComponentsInChildren<LaserSpawner>();
 
-        cursorPos = shipTransform.position;
+        movementPos = shipTransform.position;
+        prevCursorPos = Vector2.zero;
+
 
         leftMouseHeld = false;
         RightMouseHeld = false;
@@ -213,7 +217,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    Vector2 prevScreenSpaceCursorPos;
 
     #region cursor movement
     public void UpdateCursorPosition(InputAction.CallbackContext context)
@@ -221,12 +224,21 @@ public class PlayerController : MonoBehaviour
         // converts cursor position (in screen space) to world space based on camera position/size
         Vector2 screenSpaceCursorPos = context.ReadValue<Vector2>();
         
+
         if (gameManager != null)
         {
-            cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
+            if (gameManager.gameState == GameState.gameplay)
+            {
+                cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
 
+                movementPos += cursorPos - prevCursorPos; 
+
+                prevCursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
+            }
         }
 
+        
+        /*
         if (!initPlayerHasMovedAfterPause) //if player hasn't moved after pause
         {
             if(Vector2.Distance(cursorPos, cursorPosPrePause) < .1) // if cursorPos is approx. posPrePause
@@ -235,9 +247,12 @@ public class PlayerController : MonoBehaviour
             } else {
                 cursorPos = cursorPosPrePause;
             }
-        }
+        }*/
 
-        SetPositions(cursorPos);
+
+
+        SetPositions(movementPos);
+
     }
 
 
@@ -559,7 +574,7 @@ public class PlayerController : MonoBehaviour
     {
         if (gameManager.gameState == GameState.paused || gameManager.gameState == GameState.dead)
         {
-            cursorPosPrePause = cursorPos;
+            cursorPosPrePause = movementPos;
             Debug.Log("pre pause: " + cursorPosPrePause);
             SetPositions(cursorPosPrePause);
             SetActionMapUI();
@@ -567,7 +582,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (gameManager.gameState == GameState.mainMenu)
         {
-            cursorPosPrePause = cursorPos; //check here if player position is wack upon loading the game
+            cursorPosPrePause = movementPos; //check here if player position is wack upon loading the game
             Debug.Log("pre pause: " + cursorPosPrePause);
             SetPositions(cursorPosPrePause);
             SetActionMapUI();
