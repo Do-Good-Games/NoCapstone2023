@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.UIElements;
 
 public class TutorialUIScript : MonoBehaviour
@@ -30,11 +31,11 @@ public class TutorialUIScript : MonoBehaviour
         rightButton = root.Q<Button>("RightButton");
 
         backgroundArray = new StyleBackground[3];
-        backgroundArray[0] = new StyleBackground(UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>("Assets/UI/Art/TutorialArt/Slide1.png"));
-        backgroundArray[1] = new StyleBackground(UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>("Assets/UI/Art/TutorialArt/Slide2.png"));
-        backgroundArray[2] = new StyleBackground(UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>("Assets/UI/Art/TutorialArt/Slide3.png"));
+        backgroundArray[0] = new StyleBackground(Resources.Load<Sprite>("Assets/UI/Art/TutorialArt/Slide1.png"));
+        backgroundArray[1] = new StyleBackground(Resources.Load<Sprite>("Assets/UI/Art/TutorialArt/Slide2.png"));
+        backgroundArray[2] = new StyleBackground(Resources.Load<Sprite>("Assets/UI/Art/TutorialArt/Slide3.png"));
 
-    https://docs.unity3d.com/Manual/UIE-set-background-images-with-an-image-asset.html
+    //https://docs.unity3d.com/Manual/UIE-set-background-images-with-an-image-asset.html
         root.style.backgroundImage = backgroundArray[0];
 
         leftButton.clicked += () => TutorialSlideLeft();
