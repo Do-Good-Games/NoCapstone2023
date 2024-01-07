@@ -233,6 +233,11 @@ public class PlayerController : MonoBehaviour
 
                 movementPos += cursorPos - prevCursorPos; 
 
+                //add a check to make sure the player has actually put in input 
+                //either initPlayerHasMoved, or maaaybe something to do with checking the deltas?
+                //either way only keep prevCursorPos set as such after we've verified the user's put in input
+                //otherwise wait for the player to move
+
                 prevCursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
             }
         }
@@ -590,7 +595,8 @@ public class PlayerController : MonoBehaviour
         {
             initPlayerHasMovedAfterPause = false;
 
-            Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
+
+            //Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
             Debug.Log("set mouse pos" + Mouse.current.position);
             SetPositions(cursorPosPrePause);
             SetActionMapPlayer();
