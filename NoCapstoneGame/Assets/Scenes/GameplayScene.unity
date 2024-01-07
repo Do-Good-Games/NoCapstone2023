@@ -328,7 +328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canSwitchScenes: 1
   sceneTransitionUIDoc: {fileID: 447464047}
-  gameplaySceneName: Ryan Scene
+  gameplaySceneName: GameplayScene
   opacity: 0
   fadeValue: 0.1
 --- !u!4 &447464045
