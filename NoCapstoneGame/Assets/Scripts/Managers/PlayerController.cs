@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
@@ -117,26 +118,22 @@ public class PlayerController : MonoBehaviour
     private bool RightMouseHeld;
     private Vector2 cursorPos;
     private Vector2 prevCursorPos;
-    private Vector2 movementPos;
+    private Vector2 mouseDelta;
     private Vector2 slingshotAnchor;
-    private Vector2 cursorPosPrePause;
+    //private Vector2 cursorPosPrePause;
     private float energySphereSize;
 
     private bool shooting;
     private bool damageable;
     private bool damageCooldownEnding;
 
-    private bool initPlayerHasMovedAfterPause = true;
+    private bool enteringGameplay = true;
 
     private IEnumerator ShootCoroutineObject;
     private IEnumerator DamageCooldownCoroutineObject;
     private IEnumerator DamageFlashCoroutineObject;
 
-
     private float PrevEnergyLevel = 0;
-
-
-
 
     public void Start()
     {
@@ -161,8 +158,7 @@ public class PlayerController : MonoBehaviour
         // store all the Laser Spawners components in an array to avoid calling GetComponents() many times
         spawners = GetComponentsInChildren<LaserSpawner>();
 
-        movementPos = shipTransform.position;
-        prevCursorPos = Vector2.zero;
+        mouseDelta = Vector2.zero;
 
 
         leftMouseHeld = false;
@@ -177,7 +173,7 @@ public class PlayerController : MonoBehaviour
         gameManager.ResumeGame(false);
         SwitchActionMap();
 
-        initPlayerHasMovedAfterPause = true;
+        enteringGameplay = true; // mousedelta - should this be false instead?
 
         //depreciated prototype code - no replacement necessary
         //SpeedPrototypeSO.ResetVariables();
@@ -227,36 +223,53 @@ public class PlayerController : MonoBehaviour
 
         if (gameManager != null)
         {
-            if (gameManager.gameState == GameState.gameplay)
-            {
                 cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
+            //if (gameManager.gameState == GameState.gameplay)
+            if (!enteringGameplay) //so long as we're not transitioning out of pause
+            {
+                if(gameManager.gameState == GameState.gameplay)
+                {
+                    mouseDelta = cursorPos - prevCursorPos;
 
-                movementPos += cursorPos - prevCursorPos; 
+                } else
+                {
+                    mouseDelta = Vector2.zero;
+                }
 
+                //if(Vector2.Distance(prevCursorPos, Vector2.zero) >.1)
+
+            } else
+            {
+                mouseDelta = Vector2.zero;
+                enteringGameplay = false;
+            }
+
+            prevCursorPos = cursorPos;
                 //add a check to make sure the player has actually put in input 
                 //either initPlayerHasMoved, or maaaybe something to do with checking the deltas?
                 //either way only keep prevCursorPos set as such after we've verified the user's put in input
                 //otherwise wait for the player to move
+            /*
+            if (!initPlayerHasMovedAfterPause) //if player hasn't moved after pause
+                {
+                    if(Vector2.Distance(cursorPos, cursorPosPrePause) < .1) // if cursorPos is approx. posPrePause
+                    { // this happens after the player moves the mouse, causing the game to update the previous position
+                        initPlayerHasMovedAfterPause = true;
+                    } else {
+                    {
+                        cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
 
-                prevCursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
+                        mouseDelta += ; 
+
+                        cursorPos = cursorPosPrePause;
+                        prevCursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
+                    }
+                }
             }
+            */
         }
-
         
-        /*
-        if (!initPlayerHasMovedAfterPause) //if player hasn't moved after pause
-        {
-            if(Vector2.Distance(cursorPos, cursorPosPrePause) < .1) // if cursorPos is approx. posPrePause
-            { // this happens after the player moves the mouse, causing the game to update the previous position
-                initPlayerHasMovedAfterPause = true;
-            } else {
-                cursorPos = cursorPosPrePause;
-            }
-        }*/
-
-
-
-        SetPositions(movementPos);
+        SetPositions(mouseDelta);
 
     }
 
@@ -264,7 +277,7 @@ public class PlayerController : MonoBehaviour
     private void SetPositions(Vector2 position)
     {
         //Debug.Log("set position called with " + position);
-        Vector2 inBoundsPosition = KeepInBounds(position);
+        Vector2 inBoundsPosition = KeepInBounds(shipTransform.position + (Vector3) position);
         shipTransform.position = inBoundsPosition;
         energyTransform.position = inBoundsPosition;
         magnetTransform.position = inBoundsPosition;
@@ -541,9 +554,7 @@ public class PlayerController : MonoBehaviour
             }
             //gameManager.OnGameTogglePause.Invoke();
         }
-    }
-
-    
+    }  
     
     private void MoveChildren()
     {
@@ -579,26 +590,25 @@ public class PlayerController : MonoBehaviour
     {
         if (gameManager.gameState == GameState.paused || gameManager.gameState == GameState.dead)
         {
-            cursorPosPrePause = movementPos;
-            Debug.Log("pre pause: " + cursorPosPrePause);
-            SetPositions(cursorPosPrePause);
+            //cursorPosPrePause = mouseDelta;
+            //Debug.Log("pre pause: " + cursorPosPrePause);
+            //SetPositions(cursorPosPrePause);
             SetActionMapUI();
             //here we'll want to swap the action mapping
         }
         else if (gameManager.gameState == GameState.mainMenu)
         {
-            cursorPosPrePause = movementPos; //check here if player position is wack upon loading the game
-            Debug.Log("pre pause: " + cursorPosPrePause);
-            SetPositions(cursorPosPrePause);
+            //cursorPosPrePause = mouseDelta; //check here if player position is wack upon loading the game
+            //Debug.Log("pre pause: " + cursorPosPrePause);
+            //SetPositions(cursorPosPrePause);
             SetActionMapUI();
-        } else
+        } else //we're entering gameplay
         {
-            initPlayerHasMovedAfterPause = false;
-
+            enteringGameplay = true;
 
             //Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
             Debug.Log("set mouse pos" + Mouse.current.position);
-            SetPositions(cursorPosPrePause);
+            //SetPositions(cursorPosPrePause);
             SetActionMapPlayer();
             //Debug.Log("cursorPos:" + cursorPos + " pre pause: " + cursorPosPrePause + " w2sp: " + gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
         }
@@ -611,7 +621,7 @@ public class PlayerController : MonoBehaviour
         playerInput.currentActionMap.Disable();
         if (gameManager.gameState == GameState.paused)
         {
-            SetPositions(cursorPosPrePause);
+            //SetPositions(cursorPosPrePause);
         }
         playerInput.SwitchCurrentActionMap(newActionMapName);
 
