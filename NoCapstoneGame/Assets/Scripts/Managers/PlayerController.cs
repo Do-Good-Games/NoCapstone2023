@@ -369,6 +369,7 @@ public class PlayerController : MonoBehaviour
         foreach (LaserSpawner spawner in spawners)
         {
             shootSound.Play();
+            //SFXManager.Instance.Play(shootSound.clip);
             gameManager.UpdateEnergy(-EnergySpentPerShot);
             spawner.SpawnLaser();
         }
@@ -430,6 +431,7 @@ public class PlayerController : MonoBehaviour
             //SpeedPrototypeSO.SPHit(); //prototype
 
             hitSound.Play();
+            //SFXManager.Instance.Play(hitSound.clip);
 
             DamageCooldownCoroutineObject = DamageCooldownCoroutine();
             StartCoroutine(DamageCooldownCoroutineObject);
@@ -493,6 +495,7 @@ public class PlayerController : MonoBehaviour
         //m_collider.enabled = false;
 
         deathSound.Play();
+        //SFXManager.Instance.Play(deathSound.clip);
 
 
         while (deathSound.isPlaying)

@@ -29,6 +29,7 @@
                 <ui:VisualElement name="StatusPanel4" style="position: absolute; height: 146px; width: 240px; bottom: 0; background-image: url(&apos;project://database/Assets/UI/Art/DAMAGE%20REPORT%20SS.png?fileID=883945368&amp;guid=8aa405129d1786c41a1d947e1f3ac815&amp;type=3#DAMAGE REPORT SS_3&apos;); visibility: hidden; background-color: rgb(34, 32, 52);" />
                 <ui:Label text="Score" display-tooltip-when-elided="true" name="ScoreDisplay" style="left: 1719px; top: 173px; height: 43px; width: 156px; background-color: rgb(34, 32, 52); font-size: 24px; color: rgb(255, 255, 255);" />
                 <ui:Label text="Speed" display-tooltip-when-elided="true" name="SpeedDisplay" style="left: 1718px; top: 241px; height: 47px; width: 156px; background-color: rgb(34, 32, 52); font-size: 24px; color: rgb(255, 255, 255);" />
+                <ui:Button text="Mute" display-tooltip-when-elided="true" name="MuteButton" style="left: 93%; top: 74%; width: 99px; height: 70px;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

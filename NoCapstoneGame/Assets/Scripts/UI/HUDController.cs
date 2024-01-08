@@ -31,6 +31,7 @@ public class HUDController: MonoBehaviour
     private VisualElement statusPanel2;
     private VisualElement statusPanel3;
     private VisualElement statusPanel4;
+    private Button muteButton;
     private float maxHealth;
     private float maxEnergy;
 
@@ -64,6 +65,8 @@ public class HUDController: MonoBehaviour
         statusPanel3 = root.Q<VisualElement>("StatusPanel3");
         statusPanel4 = root.Q<VisualElement>("StatusPanel4");
 
+        muteButton = UIDoc.rootVisualElement.Q<Button>("MuteButton");
+
         maxHealth = player.maxHealth;
         maxEnergy = gameManager.GetMaxEnergy();
         healthBar.value = healthBar.highValue;
@@ -77,6 +80,8 @@ public class HUDController: MonoBehaviour
 
         gameManager.OnBoostStart.AddListener(EmptyFiredBar);
         gameManager.OnBoostEnd.AddListener(EmptyFiredBar);
+
+        muteButton.clicked += MuteClicked;
     }
 
     private void UpdateChargeBar()
@@ -174,5 +179,19 @@ public class HUDController: MonoBehaviour
         Debug.Log("EMPTY FIRED BAR");
         firedBar1.value = 0;
         firedBar2.value = 0;
+    }
+
+    private void MuteClicked()
+    {
+        SFXManager.Instance.isMuted = !SFXManager.Instance.isMuted;
+        if(SFXManager.Instance.isMuted)
+        {
+            muteButton.text = "Unmute";
+        }
+        else
+        {
+            muteButton.text = "mute";
+        }
+        OptionsManager.Instance.CheckMute();
     }
 }

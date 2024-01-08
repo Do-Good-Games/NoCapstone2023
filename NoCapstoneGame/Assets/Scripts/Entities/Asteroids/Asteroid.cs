@@ -83,6 +83,7 @@ public class Asteroid : Entity, IDamageable
         audioSource.clip = destroySoundArray.GetRandomClip();
 
         audioSource.Play();
+        //SFXManager.Instance.Play(audioSource.clip);
 
         while (audioSource.isPlaying)
         {

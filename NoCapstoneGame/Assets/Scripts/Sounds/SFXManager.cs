@@ -14,6 +14,7 @@ public class SFXManager : MonoBehaviour
     [SerializeField] public AudioClip PauseClip;
 
     private bool canPlayAudio;
+    public bool isMuted;
 
     private void Awake()
     {
@@ -47,7 +48,7 @@ public class SFXManager : MonoBehaviour
     public void Play(AudioReference audio)
     {
         //check whether a clip can be played, main thing to check is whether something is already playing I believe. but consider other edge cases
-        if (canPlayAudio)
+        if (canPlayAudio && !isMuted)
         {
             m_AudioSource.clip = audio.GetClip();
             m_AudioSource.Play();
@@ -57,7 +58,7 @@ public class SFXManager : MonoBehaviour
 
     public void Play(AudioClip clip)
     {
-        if(canPlayAudio)
+        if(canPlayAudio && !isMuted)
         {
             m_AudioSource.clip = clip;
             m_AudioSource.Play();

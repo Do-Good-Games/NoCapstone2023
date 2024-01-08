@@ -8,10 +8,6 @@ public class TutorialUIScript : MonoBehaviour
 {
 
     [SerializeField] UIDocument UIDoc;
-    [SerializeField] VisualElement background0;
-    [SerializeField] VisualElement background1;
-    [SerializeField] VisualElement background2;
-    [SerializeField] VisualElement background3;
 
     private VisualElement root;
 
@@ -30,16 +26,28 @@ public class TutorialUIScript : MonoBehaviour
         leftButton = root.Q<Button>("LeftButton");
         rightButton = root.Q<Button>("RightButton");
 
+        //https://docs.unity3d.com/Manual/UIE-set-background-images-with-an-image-asset.html
         backgroundArray = new StyleBackground[3];
-        backgroundArray[0] = new StyleBackground(Resources.Load<Sprite>("Assets/UI/Art/TutorialArt/Slide1.png"));
-        backgroundArray[1] = new StyleBackground(Resources.Load<Sprite>("Assets/UI/Art/TutorialArt/Slide2.png"));
-        backgroundArray[2] = new StyleBackground(Resources.Load<Sprite>("Assets/UI/Art/TutorialArt/Slide3.png"));
+        backgroundArray[0] = new StyleBackground(AssetDatabase.LoadAssetAtPath<Sprite>("Assets/UI/Art/TutorialArt/Slide1.png"));
+        backgroundArray[1] = new StyleBackground(AssetDatabase.LoadAssetAtPath<Sprite>("Assets/UI/Art/TutorialArt/Slide2.png"));
+        backgroundArray[2] = new StyleBackground(AssetDatabase.LoadAssetAtPath<Sprite>("Assets/UI/Art/TutorialArt/Slide3.png"));
 
-    //https://docs.unity3d.com/Manual/UIE-set-background-images-with-an-image-asset.html
         root.style.backgroundImage = backgroundArray[0];
 
         leftButton.clicked += () => TutorialSlideLeft();
         rightButton.clicked += () => TutorialSlideRight();
+
+        //this is here for testing, since setting playerPrefs values does not revert when you stop playing
+        PlayerPrefs.SetInt("tutorialDone", 0);
+
+        //disable the tutorial if 'tutorialDone' is true
+        Debug.Log("tutorial done is " + PlayerPrefs.GetInt("tutorialDone"));
+        if (PlayerPrefs.GetInt("tutorialDone") == 1)
+        {
+            Debug.Log("disabling " + PlayerPrefs.GetInt("tutorialDone"));
+            //disable this
+            root.style.display = DisplayStyle.None;
+        }
 
     }
 
@@ -74,6 +82,9 @@ public class TutorialUIScript : MonoBehaviour
         else
         {
             Debug.Log("finish tutorial");
+            root.style.display = DisplayStyle.None;
+            //set tutorial done to true, creating it if it doesn't exist
+            PlayerPrefs.SetInt("tutorialDone", 1);
             return;
         }
     }
