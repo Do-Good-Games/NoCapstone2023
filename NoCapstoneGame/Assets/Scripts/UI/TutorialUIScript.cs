@@ -18,6 +18,9 @@ public class TutorialUIScript : MonoBehaviour
     private StyleBackground[] backgroundArray;
     private int backGroundArrayValue = 0;
 
+    private GameManager gameManager;
+    private SceneManager sceneManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,17 +41,18 @@ public class TutorialUIScript : MonoBehaviour
         rightButton.clicked += () => TutorialSlideRight();
 
         //this is here for testing, since setting playerPrefs values does not revert when you stop playing
-        PlayerPrefs.SetInt("tutorialDone", 0);
 
         //disable the tutorial if 'tutorialDone' is true
-        Debug.Log("tutorial done is " + PlayerPrefs.GetInt("tutorialDone"));
-        if (PlayerPrefs.GetInt("tutorialDone") == 1)
+        Debug.Log("tutorial done is " + PlayerPrefs.GetInt("ShowTutorial"));
+        if (PlayerPrefs.GetInt("ShowTutorial") == 0)
         {
-            Debug.Log("disabling " + PlayerPrefs.GetInt("tutorialDone"));
-            //disable this
+            Debug.Log("disabling " + PlayerPrefs.GetInt("ShowTutorial"));
+            //disable this  
             root.style.display = DisplayStyle.None;
         }
 
+        gameManager = GameManager.Instance;
+        sceneManager = SceneManager.Instance;
     }
 
     // Update is called once per frame
@@ -84,7 +88,8 @@ public class TutorialUIScript : MonoBehaviour
             Debug.Log("finish tutorial");
             root.style.display = DisplayStyle.None;
             //set tutorial done to true, creating it if it doesn't exist
-            PlayerPrefs.SetInt("tutorialDone", 1);
+            PlayerPrefs.SetInt("ShowTutorial", 0);
+            sceneManager.SwitchToScene(sceneManager.gameplaySceneName);
             return;
         }
     }

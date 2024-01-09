@@ -21,13 +21,24 @@ public class OptionsManager : MonoBehaviour
     private Slider musicVolSlider;
     private Slider sfxVolSlider;
     private Button backButton;
+    private Toggle showTutorialToggle;
 
     public float masterVolume;
     public float musicVolume;
     public float sfxVolume;
 
+    public bool showTutorial;
+
     [Tooltip("scale of 0 to 100")]
     [SerializeField] private float defaultVolume;
+
+    private void OnEnable()
+    {
+        if (!PlayerPrefs.HasKey("ShowTutorial"))
+        {
+            PlayerPrefs.SetInt("ShowTutorial", 1);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +49,8 @@ public class OptionsManager : MonoBehaviour
         sfxVolSlider = root.Q<Slider>("SFXVolSlider");
 
         backButton = root.Q<Button>("BackButton");
+
+        showTutorialToggle = root.Q<Toggle>("ShowTutorialToggle");
 
         //SINGLETON PATTERN - ensures that there only ever exists a single optionsManager
         //is this the first time we've created this singleton
@@ -68,14 +81,12 @@ public class OptionsManager : MonoBehaviour
         {
             PlayerPrefs.SetFloat("sfxVolume", defaultVolume);
         }
-        if (!PlayerPrefs.HasKey("tutorialDone"))
-        {
-            PlayerPrefs.SetInt("tutorialDone", 0); //I am setting tutorial done to an int 0=false 1=true because player prefs can't use bools
-        }
 
         masterVolSlider.RegisterValueChangedCallback(OnMasterSliderValueChange);
         musicVolSlider.RegisterValueChangedCallback(OnMusicSliderValueChange);
         sfxVolSlider.RegisterValueChangedCallback(OnSfxSliderValueChange);
+
+        showTutorialToggle.RegisterValueChangedCallback(OnTutorialToggleValueChange);
 
         backButton.clicked += HideOptionsMenu;
 
@@ -124,6 +135,12 @@ public class OptionsManager : MonoBehaviour
         CheckMute();
     }
 
+    public void OnTutorialToggleValueChange(ChangeEvent<bool> evt)
+    {
+        showTutorial = evt.newValue;
+        PlayerPrefs.SetInt("ShowTutorial", evt.newValue ? 1:0);
+    }
+
     public void CheckMute() //sees if the volume is currently muted, this should be called whenever a volume slider is changed, or the mute button is pushed
     {
         Debug.Log("check mute called");
@@ -154,15 +171,16 @@ public class OptionsManager : MonoBehaviour
         masterVolSlider.value = PlayerPrefs.GetFloat("masterVolume");
         musicVolSlider.value = PlayerPrefs.GetFloat("musicVolume");
         sfxVolSlider.value = PlayerPrefs.GetFloat("sfxVolume");
+        showTutorialToggle.value = PlayerPrefs.GetInt("ShowTutorial") == 1? true: false;
 
         masterVolume = PlayerPrefs.GetFloat("masterVolume");
         musicVolume = PlayerPrefs.GetFloat("musicVolume");
         sfxVolume = PlayerPrefs.GetFloat("sfxVolume");
+        showTutorial = PlayerPrefs.GetInt("ShowTutorial") == 1 ? true : false;
 
         masterMixerGroup.audioMixer.SetFloat("MasterVolParam", Mathf.Log10(masterVolSlider.value) * 20);
         musicMixerGroup.audioMixer.SetFloat("MusicVolParam", Mathf.Log10(musicVolSlider.value) * 20);
         sfxMixerGroup.audioMixer.SetFloat("SFXVolParam", Mathf.Log10(sfxVolSlider.value) * 20);
-        //if we were storing tooltips elsewhere, then we'd set that here as well
     }
 
     private void Save()
@@ -170,5 +188,7 @@ public class OptionsManager : MonoBehaviour
         PlayerPrefs.SetFloat("masterVolume", masterVolume);
         PlayerPrefs.SetFloat("musicVolume", musicVolume);
         PlayerPrefs.SetFloat("sfxVolume", sfxVolume);
+        PlayerPrefs.SetInt("ShowTutorial", showTutorial ? 1 : 0);
+
     }
 }

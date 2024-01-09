@@ -8,7 +8,8 @@
                 <ui:Slider picking-mode="Ignore" label="Music Volume" value="42" high-value="1" name="MusicVolSlider" low-value="0.0001" class="volumeSlider" />
                 <ui:Slider picking-mode="Ignore" label="Sound Effects" value="42" high-value="1" name="SFXVolSlider" low-value="0.0001" class="volumeSlider" />
             </ui:VisualElement>
-            <ui:Button text="Back" display-tooltip-when-elided="true" name="BackButton" />
+            <ui:Toggle label="show tutorial" name="ShowTutorialToggle" value="false" class="TutorialToggle" style="font-size: 48px; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(1, 52, 79, 255);" />
+            <ui:Button text="Back" display-tooltip-when-elided="true" name="BackButton" style="font-size: 48px;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
