@@ -37,6 +37,7 @@ public class TutorialUIScript : MonoBehaviour
         backgroundArray[1] = new StyleBackground(spriteArr[1]);
         backgroundArray[2] = new StyleBackground(spriteArr[2]);
 
+    //https://docs.unity3d.com/Manual/UIE-set-background-images-with-an-image-asset.html
         root.style.backgroundImage = backgroundArray[0];
 
         leftButton.clicked += () => TutorialSlideLeft();
