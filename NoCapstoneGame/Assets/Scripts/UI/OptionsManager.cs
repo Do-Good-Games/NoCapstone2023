@@ -21,13 +21,24 @@ public class OptionsManager : MonoBehaviour
     private Slider musicVolSlider;
     private Slider sfxVolSlider;
     private Button backButton;
+    private Toggle showTutorialToggle;
 
     public float masterVolume;
     public float musicVolume;
     public float sfxVolume;
 
+    public bool showTutorial;
+
     [Tooltip("scale of 0 to 100")]
     [SerializeField] private float defaultVolume;
+
+    private void OnEnable()
+    {
+        if (!PlayerPrefs.HasKey("ShowTutorial"))
+        {
+            PlayerPrefs.SetInt("ShowTutorial", 1);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +49,8 @@ public class OptionsManager : MonoBehaviour
         sfxVolSlider = root.Q<Slider>("SFXVolSlider");
 
         backButton = root.Q<Button>("BackButton");
+
+        showTutorialToggle = root.Q<Toggle>("ShowTutorialToggle");
 
         //SINGLETON PATTERN - ensures that there only ever exists a single optionsManager
         //is this the first time we've created this singleton
@@ -73,6 +86,8 @@ public class OptionsManager : MonoBehaviour
         musicVolSlider.RegisterValueChangedCallback(OnMusicSliderValueChange);
         sfxVolSlider.RegisterValueChangedCallback(OnSfxSliderValueChange);
 
+        showTutorialToggle.RegisterValueChangedCallback(OnTutorialToggleValueChange);
+
         backButton.clicked += HideOptionsMenu;
 
         Load();
@@ -96,11 +111,13 @@ public class OptionsManager : MonoBehaviour
         root.style.visibility = Visibility.Hidden;
     }
 
+
     public void OnMasterSliderValueChange(ChangeEvent<float> evt)
     {
         masterVolume = evt.newValue;
         masterMixerGroup.audioMixer.SetFloat("MasterVolParam", Mathf.Log10(evt.newValue) * 20);
         PlayerPrefs.SetFloat("masterVolume", masterVolume);
+        CheckMute();
     }
 
     public void OnMusicSliderValueChange(ChangeEvent<float> evt)
@@ -108,12 +125,39 @@ public class OptionsManager : MonoBehaviour
         musicVolume = evt.newValue;
         musicMixerGroup.audioMixer.SetFloat("MusicVolParam", Mathf.Log10(evt.newValue) * 20);
         PlayerPrefs.SetFloat("MusicVolume", musicVolume);
+        CheckMute();
     }
     public void OnSfxSliderValueChange(ChangeEvent<float> evt)
     {
         sfxVolume = evt.newValue;
         sfxMixerGroup.audioMixer.SetFloat("SFXVolParam", Mathf.Log10(evt.newValue) * 20);
         PlayerPrefs.SetFloat("SfxVolume", sfxVolume);
+        CheckMute();
+    }
+
+    public void OnTutorialToggleValueChange(ChangeEvent<bool> evt)
+    {
+        showTutorial = evt.newValue;
+        PlayerPrefs.SetInt("ShowTutorial", evt.newValue ? 1:0);
+    }
+
+    public void CheckMute() //sees if the volume is currently muted, this should be called whenever a volume slider is changed, or the mute button is pushed
+    {
+        Debug.Log("check mute called");
+        if(SFXManager.Instance.isMuted)
+        {
+            //set all volumes to mute (-80 decibels)
+            masterMixerGroup.audioMixer.SetFloat("MasterVolParam", -80);
+            musicMixerGroup.audioMixer.SetFloat("MusicVolParam", -80);
+            sfxMixerGroup.audioMixer.SetFloat("SFXVolParam", -80);
+        }
+        else
+        {
+            //set all volumes to their appropriate values
+            masterMixerGroup.audioMixer.SetFloat("MasterVolParam", Mathf.Log10(masterVolume) * 20);
+            musicMixerGroup.audioMixer.SetFloat("MusicVolParam", Mathf.Log10(musicVolume) * 20);
+            sfxMixerGroup.audioMixer.SetFloat("SFXVolParam", Mathf.Log10(sfxVolume) * 20);
+        }
     }
 
     public void OnDestroy()
@@ -127,16 +171,16 @@ public class OptionsManager : MonoBehaviour
         masterVolSlider.value = PlayerPrefs.GetFloat("masterVolume");
         musicVolSlider.value = PlayerPrefs.GetFloat("musicVolume");
         sfxVolSlider.value = PlayerPrefs.GetFloat("sfxVolume");
+        showTutorialToggle.value = PlayerPrefs.GetInt("ShowTutorial") == 1? true: false;
 
         masterVolume = PlayerPrefs.GetFloat("masterVolume");
         musicVolume = PlayerPrefs.GetFloat("musicVolume");
         sfxVolume = PlayerPrefs.GetFloat("sfxVolume");
+        showTutorial = PlayerPrefs.GetInt("ShowTutorial") == 1 ? true : false;
 
         masterMixerGroup.audioMixer.SetFloat("MasterVolParam", Mathf.Log10(masterVolSlider.value) * 20);
         musicMixerGroup.audioMixer.SetFloat("MusicVolParam", Mathf.Log10(musicVolSlider.value) * 20);
         sfxMixerGroup.audioMixer.SetFloat("SFXVolParam", Mathf.Log10(sfxVolSlider.value) * 20);
-        //if we were storing tooltips elsewhere, then we'd set that here as well
-
     }
 
     private void Save()
@@ -144,5 +188,7 @@ public class OptionsManager : MonoBehaviour
         PlayerPrefs.SetFloat("masterVolume", masterVolume);
         PlayerPrefs.SetFloat("musicVolume", musicVolume);
         PlayerPrefs.SetFloat("sfxVolume", sfxVolume);
+        PlayerPrefs.SetInt("ShowTutorial", showTutorial ? 1 : 0);
+
     }
 }

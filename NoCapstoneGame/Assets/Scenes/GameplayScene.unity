@@ -608,6 +608,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AudioSource: {fileID: 604955536}
   PauseClip: {fileID: 0}
+  isMuted: 0
 --- !u!4 &604955538
 Transform:
   m_ObjectHideFlags: 0

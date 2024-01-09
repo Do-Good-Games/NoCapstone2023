@@ -8,10 +8,6 @@ public class TutorialUIScript : MonoBehaviour
 {
 
     [SerializeField] UIDocument UIDoc;
-    [SerializeField] VisualElement background0;
-    [SerializeField] VisualElement background1;
-    [SerializeField] VisualElement background2;
-    [SerializeField] VisualElement background3;
 
     private VisualElement root;
 
@@ -19,8 +15,13 @@ public class TutorialUIScript : MonoBehaviour
     private Button rightButton;
     private VisualElement background;
 
+    [SerializeField] private Sprite[] spriteArr;
+
     private StyleBackground[] backgroundArray;
-    private int backGroundArrayValue = 0;
+    private int backGroundArrayIndex = 0;
+
+    private GameManager gameManager;
+    private SceneManager sceneManager;
 
     // Start is called before the first frame update
     void Start()
@@ -30,17 +31,30 @@ public class TutorialUIScript : MonoBehaviour
         leftButton = root.Q<Button>("LeftButton");
         rightButton = root.Q<Button>("RightButton");
 
+        //https://docs.unity3d.com/Manual/UIE-set-background-images-with-an-image-asset.html
         backgroundArray = new StyleBackground[3];
-        backgroundArray[0] = new StyleBackground(Resources.Load<Sprite>("Assets/UI/Art/TutorialArt/Slide1.png"));
-        backgroundArray[1] = new StyleBackground(Resources.Load<Sprite>("Assets/UI/Art/TutorialArt/Slide2.png"));
-        backgroundArray[2] = new StyleBackground(Resources.Load<Sprite>("Assets/UI/Art/TutorialArt/Slide3.png"));
+        backgroundArray[0] = new StyleBackground(spriteArr[0]);
+        backgroundArray[1] = new StyleBackground(spriteArr[1]);
+        backgroundArray[2] = new StyleBackground(spriteArr[2]);
 
-    //https://docs.unity3d.com/Manual/UIE-set-background-images-with-an-image-asset.html
         root.style.backgroundImage = backgroundArray[0];
 
         leftButton.clicked += () => TutorialSlideLeft();
         rightButton.clicked += () => TutorialSlideRight();
 
+        //this is here for testing, since setting playerPrefs values does not revert when you stop playing
+
+        //disable the tutorial if 'tutorialDone' is true
+        Debug.Log("tutorial done is " + PlayerPrefs.GetInt("ShowTutorial"));
+        if (PlayerPrefs.GetInt("ShowTutorial") == 0)
+        {
+            Debug.Log("disabling " + PlayerPrefs.GetInt("ShowTutorial"));
+            //disable this  
+            root.style.display = DisplayStyle.None;
+        }
+
+        gameManager = GameManager.Instance;
+        sceneManager = SceneManager.Instance;
     }
 
     // Update is called once per frame
@@ -51,11 +65,11 @@ public class TutorialUIScript : MonoBehaviour
 
     private void TutorialSlideLeft()
     {
-        if(backGroundArrayValue > 0)
+        if(backGroundArrayIndex > 0)
         {
-            backGroundArrayValue--;
-            root.style.backgroundImage = backgroundArray[backGroundArrayValue];
-            Debug.Log(backGroundArrayValue);
+            backGroundArrayIndex--;
+            root.style.backgroundImage = backgroundArray[backGroundArrayIndex];
+            Debug.Log(backGroundArrayIndex);
         }
         else
         {
@@ -65,15 +79,19 @@ public class TutorialUIScript : MonoBehaviour
 
     private void TutorialSlideRight()
     {
-        if (backGroundArrayValue < (backgroundArray.Length - 1))
+        if (backGroundArrayIndex < (backgroundArray.Length - 1))
         {
-            backGroundArrayValue++;
-            root.style.backgroundImage = backgroundArray[backGroundArrayValue];
-            Debug.Log(backGroundArrayValue);
+            backGroundArrayIndex++;
+            root.style.backgroundImage = backgroundArray[backGroundArrayIndex];
+            Debug.Log(backGroundArrayIndex);
         }
         else
         {
             Debug.Log("finish tutorial");
+            root.style.display = DisplayStyle.None;
+            //set tutorial done to true, creating it if it doesn't exist
+            PlayerPrefs.SetInt("ShowTutorial", 0);
+            sceneManager.SwitchToScene(sceneManager.gameplaySceneName);
             return;
         }
     }

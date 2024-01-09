@@ -44,7 +44,15 @@ public class MainMenuSceneScript : MonoBehaviour
         creditsCloseButton = creditsRoot.Q<Button>("closeButton");
         
 
-        startButton.clicked += () => { Debug.Log("pingu"); sceneManager.SwitchToScene(sceneManager.gameplaySceneName); };
+        startButton.clicked += () => { 
+            if(PlayerPrefs.GetInt("ShowTutorial") == 0)
+            {
+                sceneManager.SwitchToScene(sceneManager.gameplaySceneName); 
+            } else
+            {
+                sceneManager.SwitchToScene("TutorialScene");
+            }
+        };
         creditsButton.clicked += () => { creditsRoot.visible = true;  root.visible = false; } ;
         //quitButton.clicked += () => { Application.Quit(); };//make this quit the game 
         optionsButton.clicked += () => optionsManager.ShowOptionsMenu();

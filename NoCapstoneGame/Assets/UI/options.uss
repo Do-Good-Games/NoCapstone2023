@@ -34,9 +34,19 @@ Slider Label {
 
 .volumeSlider Label {
     font-size: 32px;
-    color: rgba(212, 179, 207, 255);
+    color: rgb(212, 179, 207);
     width: 300px;
 }
 
 .unity-base-slider--horizontal .unity-base-slider__tracker {
+}
+
+.TutorialToggle #unity-checkmark {
+    width: 48px;
+    height: 48px;
+}
+
+.TutorialToggle Label {
+    width: 210px;
+    min-width: 80px;
 }

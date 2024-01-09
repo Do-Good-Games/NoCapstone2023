@@ -1,9 +1,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/StyleSheets/TutorialStyleSheet.uss?fileID=7433441132597879392&amp;guid=44a66251f9dc4ae4e8bfe65f4ab42f67&amp;type=3#TutorialStyleSheet" />
     <ui:VisualElement name="Root" style="height: 100%; width: 100%;">
-        <ui:VisualElement name="ButtonHolder" style="height: 100%; align-items: flex-start; flex-direction: row; justify-content: center;">
-            <ui:Button text="Button" display-tooltip-when-elided="true" name="LeftButton" style="align-items: center; width: 5%; height: 15%; justify-content: flex-end; margin-right: 90%; margin-top: 25%;" />
-            <ui:Button text="Button" display-tooltip-when-elided="true" name="RightButton" style="align-items: center; width: 5%; height: 15%; justify-content: flex-end; margin-top: 25%;" />
+        <ui:VisualElement name="ButtonHolder" style="height: 100%; align-items: center; flex-direction: row; justify-content: space-between;">
+            <ui:Button text="Back" display-tooltip-when-elided="true" name="LeftButton" style="align-items: center; width: 5%; height: 16%; justify-content: flex-end; margin-right: 0; margin-top: 0; margin-left: 0; margin-bottom: 0;" />
+            <ui:Button display-tooltip-when-elided="true" name="RightButton" style="align-items: center; width: 95%; height: 100%; justify-content: flex-end; margin-top: 0; margin-left: 0; margin-right: 0; margin-bottom: 0; background-color: rgba(88, 88, 88, 0);" />
+            <ui:Button text="Next" display-tooltip-when-elided="true" name="RightButton-Visual" style="align-items: center; width: 5%; height: 16%; justify-content: flex-end; margin-top: 0; margin-left: 0; margin-right: 0; margin-bottom: 0; position: absolute; top: 42%; left: 95%;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
