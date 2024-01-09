@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebbb93afadfe6fb439b1a6655ed4cb59, type: 3}
   m_Name: ExpAsteroidDestroy
   m_EditorClassIdentifier: 
-  m_ClipArr: []
+  m_ClipArr:
+  - {fileID: 8300000, guid: 7d08a033b270778409e1ef479d8481f1, type: 3}
