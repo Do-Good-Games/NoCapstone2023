@@ -294,6 +294,22 @@ PrefabInstance:
       propertyPath: OutputAudioMixerGroup
       value: 
       objectReference: {fileID: 370495301599186931, guid: 4052d8261cba7c84d8c3f660847dfdac, type: 2}
+    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: dimRetCurve.m_Curve.Array.data[2].time
+      value: 0.7014376
+      objectReference: {fileID: 0}
+    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: dimRetCurve.m_Curve.Array.data[2].value
+      value: 0.27487987
+      objectReference: {fileID: 0}
+    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: dimRetCurve.m_Curve.Array.data[2].inSlope
+      value: 0.70561874
+      objectReference: {fileID: 0}
+    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: dimRetCurve.m_Curve.Array.data[2].inWeight
+      value: 0.093794905
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
 --- !u!1 &447464043
@@ -908,7 +924,6 @@ MonoBehaviour:
   maxEnergyLevel: 50
   maxRelativeSpeed: 5
   baseSpeed: 10
-  levelScale: 1
   gameplayCamera: {fileID: 523322434}
   hazardTag: Hazard
   playerTag: Player

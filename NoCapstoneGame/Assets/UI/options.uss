@@ -49,4 +49,6 @@ Slider Label {
 .TutorialToggle Label {
     width: 210px;
     min-width: 80px;
+    color: rgba(212, 179, 207, 255);
+    font-size: 32px;
 }
