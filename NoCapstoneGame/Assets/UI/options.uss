@@ -33,7 +33,7 @@ Slider Label {
 }
 
 .volumeSlider Label {
-    font-size: 40px;
+    font-size: 32px;
     color: rgb(212, 179, 207);
     width: 300px;
 }
@@ -42,7 +42,11 @@ Slider Label {
 }
 
 .TutorialToggle #unity-checkmark {
-    font-size: 12px;
-    height: 48px;
     width: 48px;
+    height: 48px;
+}
+
+.TutorialToggle Label {
+    width: 210px;
+    min-width: 80px;
 }

@@ -15,8 +15,10 @@ public class TutorialUIScript : MonoBehaviour
     private Button rightButton;
     private VisualElement background;
 
+    [SerializeField] private Sprite[] spriteArr;
+
     private StyleBackground[] backgroundArray;
-    private int backGroundArrayValue = 0;
+    private int backGroundArrayIndex = 0;
 
     private GameManager gameManager;
     private SceneManager sceneManager;
@@ -31,9 +33,9 @@ public class TutorialUIScript : MonoBehaviour
 
         //https://docs.unity3d.com/Manual/UIE-set-background-images-with-an-image-asset.html
         backgroundArray = new StyleBackground[3];
-        backgroundArray[0] = new StyleBackground(AssetDatabase.LoadAssetAtPath<Sprite>("Assets/UI/Art/TutorialArt/Slide1.png"));
-        backgroundArray[1] = new StyleBackground(AssetDatabase.LoadAssetAtPath<Sprite>("Assets/UI/Art/TutorialArt/Slide2.png"));
-        backgroundArray[2] = new StyleBackground(AssetDatabase.LoadAssetAtPath<Sprite>("Assets/UI/Art/TutorialArt/Slide3.png"));
+        backgroundArray[0] = new StyleBackground(spriteArr[0]);
+        backgroundArray[1] = new StyleBackground(spriteArr[1]);
+        backgroundArray[2] = new StyleBackground(spriteArr[2]);
 
         root.style.backgroundImage = backgroundArray[0];
 
@@ -63,11 +65,11 @@ public class TutorialUIScript : MonoBehaviour
 
     private void TutorialSlideLeft()
     {
-        if(backGroundArrayValue > 0)
+        if(backGroundArrayIndex > 0)
         {
-            backGroundArrayValue--;
-            root.style.backgroundImage = backgroundArray[backGroundArrayValue];
-            Debug.Log(backGroundArrayValue);
+            backGroundArrayIndex--;
+            root.style.backgroundImage = backgroundArray[backGroundArrayIndex];
+            Debug.Log(backGroundArrayIndex);
         }
         else
         {
@@ -77,11 +79,11 @@ public class TutorialUIScript : MonoBehaviour
 
     private void TutorialSlideRight()
     {
-        if (backGroundArrayValue < (backgroundArray.Length - 1))
+        if (backGroundArrayIndex < (backgroundArray.Length - 1))
         {
-            backGroundArrayValue++;
-            root.style.backgroundImage = backgroundArray[backGroundArrayValue];
-            Debug.Log(backGroundArrayValue);
+            backGroundArrayIndex++;
+            root.style.backgroundImage = backgroundArray[backGroundArrayIndex];
+            Debug.Log(backGroundArrayIndex);
         }
         else
         {

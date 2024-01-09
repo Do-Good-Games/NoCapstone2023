@@ -272,6 +272,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIDoc: {fileID: 1146155769}
+  spriteArr:
+  - {fileID: 21300000, guid: f8492e6786a1ec64cb61050ab4cf388f, type: 3}
+  - {fileID: 21300000, guid: 481da5bd1d6fce045af9bb5e3c3733d1, type: 3}
+  - {fileID: 21300000, guid: f7e2772e36c4c4c40b79e94437bf4106, type: 3}
 --- !u!4 &1146155768
 Transform:
   m_ObjectHideFlags: 0
