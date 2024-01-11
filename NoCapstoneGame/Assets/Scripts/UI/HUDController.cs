@@ -81,7 +81,7 @@ public class HUDController: MonoBehaviour
         gameManager.OnBoostStart.AddListener(EmptyFiredBar);
         gameManager.OnBoostEnd.AddListener(EmptyFiredBar);
 
-        muteButton.clicked += MuteClicked;
+        //muteButton.clicked += MuteClicked;
     }
 
     private void UpdateChargeBar()
