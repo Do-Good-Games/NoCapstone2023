@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -100,6 +101,12 @@ public class HUDController: MonoBehaviour
         scoreDisplay.text = scaledScore.ToString().PadLeft(5, '0') + scoreUnits;
 
         speedNeedle.style.rotate = new StyleRotate(new Rotate(new Angle(gameManager.relativeSpeed / gameManager.maxRelativeSpeed * 180 - 90, AngleUnit.Degree)));    //https://docs.unity3d.com/Manual/UIE-Transform.html
+
+
+        if (gameManager.speedManager.inBoostGracePeriod)
+        {
+            UpdateFiredBar();
+        }
     }
 
     private void FixedUpdate()
@@ -130,11 +137,8 @@ public class HUDController: MonoBehaviour
 
         }
 
-        if (gameManager.speedManager.inBoost)
-        {
-            UpdateFiredBar();
-        }
     }
+
 
     void UpdateHealthBar()
     {
@@ -176,11 +180,11 @@ public class HUDController: MonoBehaviour
 
 
         firedBar1.value = gameManager.speedManager.inBoostGracePeriod ?
-            gameManager.speedManager.speedAdditionFromBoost * firedBar1.highValue:
+            (gameManager.speedManager.speedAdditionFromBoost / gameManager.speedManager.boostSpeed) * firedBar1.highValue:
             gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar1.highValue;
 
         firedBar2.value = gameManager.speedManager.inBoostGracePeriod ?
-            gameManager.speedManager.speedAdditionFromBoost * firedBar1.highValue:
+            (gameManager.speedManager.speedAdditionFromBoost / gameManager.speedManager.boostSpeed) * firedBar1.highValue:
             gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar2.highValue;
 
 
