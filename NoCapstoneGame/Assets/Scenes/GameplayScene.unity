@@ -199,6 +199,14 @@ PrefabInstance:
       propertyPath: SpeedPrototypeSO
       value: 
       objectReference: {fileID: 11400000, guid: b97d875deacca3d4387a6a6ded43b6f8, type: 2}
+    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: MaxEnergySphereSize
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: EnergySizePerUnitCharged
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 4691480037228500571, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: OutputAudioMixerGroup
       value: 
@@ -294,6 +302,10 @@ PrefabInstance:
     - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: speedIncreaseScale
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: boostEnergyLostPerSecond
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: boostGracePeriodDuration
