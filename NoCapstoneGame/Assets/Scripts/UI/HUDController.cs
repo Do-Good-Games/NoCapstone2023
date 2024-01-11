@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -86,7 +87,9 @@ public class HUDController: MonoBehaviour
 
     private void UpdateChargeBar()
     {
-        chargeBar.value =gameManager.GetCharge()/ gameManager.GetMaxEnergy() ;
+
+        chargeBar.value = 
+            gameManager.GetCharge()/ gameManager.GetMaxEnergy() ;
     }
 
     void Update()
@@ -98,6 +101,12 @@ public class HUDController: MonoBehaviour
         scoreDisplay.text = scaledScore.ToString().PadLeft(5, '0') + scoreUnits;
 
         speedNeedle.style.rotate = new StyleRotate(new Rotate(new Angle(gameManager.relativeSpeed / gameManager.maxRelativeSpeed * 180 - 90, AngleUnit.Degree)));    //https://docs.unity3d.com/Manual/UIE-Transform.html
+
+
+        if (gameManager.speedManager.inBoostGracePeriod)
+        {
+            UpdateFiredBar();
+        }
     }
 
     private void FixedUpdate()
@@ -123,7 +132,13 @@ public class HUDController: MonoBehaviour
                 statusPanel3.visible = false;
             }
         }
+        if (gameManager.speedManager.inBoost)
+        {
+
+        }
+
     }
+
 
     void UpdateHealthBar()
     {
@@ -162,8 +177,26 @@ public class HUDController: MonoBehaviour
 
     void UpdateFiredBar()
     {
-        firedBar1.value = gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar1.highValue;
-        firedBar2.value = gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar2.highValue;
+
+
+        firedBar1.value = gameManager.speedManager.inBoostGracePeriod ?
+            (gameManager.speedManager.speedAdditionFromBoost / gameManager.speedManager.boostSpeed) * firedBar1.highValue:
+            gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar1.highValue;
+
+        firedBar2.value = gameManager.speedManager.inBoostGracePeriod ?
+            (gameManager.speedManager.speedAdditionFromBoost / gameManager.speedManager.boostSpeed) * firedBar1.highValue:
+            gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar2.highValue;
+
+
+
+        //firedBar1.value = gameManager.speedManager.inBoost ?
+        //    gameManager.speedManager.remainingRatio * firedBar1.highValue / 2:
+        //    gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar1.highValue;
+
+        ////gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar1.highValue;
+        //firedBar2.value = gameManager.speedManager.inBoost ?
+        //    gameManager.speedManager.remainingRatio * firedBar1.highValue :
+        //    gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar2.highValue;
 
         //Debug.Log("baseSpeed, MaxRelativeSpeed, HighValue " + gameManager.baseSpeed + " " + gameManager.maxRelativeSpeed + " " + firedBar1.highValue);
 
