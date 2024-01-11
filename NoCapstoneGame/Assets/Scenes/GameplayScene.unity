@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &378118042
+--- !u!1 &97794061
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,58 +131,51 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 378118043}
-  - component: {fileID: 378118044}
+  - component: {fileID: 97794062}
+  - component: {fileID: 97794063}
   m_Layer: 0
-  m_Name: Speed Manager
+  m_Name: Star Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &378118043
+--- !u!4 &97794062
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 378118042}
+  m_GameObject: {fileID: 97794061}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.6540785, y: -8.7727375, z: 0.07539654}
+  m_LocalPosition: {x: -6.719586, y: -15.688468, z: 0.30584335}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1766325945}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &378118044
+--- !u!114 &97794063
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 378118042}
+  m_GameObject: {fileID: 97794061}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1124c83cc1602644ad09c4ef3d14c08, type: 3}
+  m_Script: {fileID: 11500000, guid: 90ea434c37a952bb2831c13b07c71c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 1308583664}
-  speedIncreaseScale: 0
-  lowerThresholdForDimRet: 0
-  upperThresholdForDimRet: 0
-  dimRetCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  boostSpeed: 100
-  minBoostEnergy: 0
-  boostEnergyLostPerSecond: 20
-  numOfBoosts: 0
-  speedOnExit: 10
-  boostGracePeriodDuration: 0.5
+  entityOptions:
+  - entity: {fileID: 2737847359131551697, guid: 012cd368b76df4dc9b70d53283c570f0, type: 3}
+    weight: 1
+  density: 50
+  generationTimeRange: {x: 0, y: 0.5}
+  generatingEntities: 1
+  upwardsSpeedRange: {x: 0, y: 0}
+  swaySpeedRange: {x: 0, y: 0}
+  swayWidthRange: {x: 0, y: 0}
 --- !u!1001 &429762499
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -206,6 +199,14 @@ PrefabInstance:
       propertyPath: SpeedPrototypeSO
       value: 
       objectReference: {fileID: 11400000, guid: b97d875deacca3d4387a6a6ded43b6f8, type: 2}
+    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: MaxEnergySphereSize
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: EnergySizePerUnitCharged
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 4691480037228500571, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: OutputAudioMixerGroup
       value: 
@@ -294,6 +295,22 @@ PrefabInstance:
       propertyPath: OutputAudioMixerGroup
       value: 
       objectReference: {fileID: 370495301599186931, guid: 4052d8261cba7c84d8c3f660847dfdac, type: 2}
+    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: speedOnExit
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: speedIncreaseScale
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: boostEnergyLostPerSecond
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: boostGracePeriodDuration
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: dimRetCurve.m_Curve.Array.data[2].time
       value: 0.7014376
@@ -415,7 +432,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.13333334, g: 0.1254902, b: 0.20392157, a: 1}
+  m_BackGroundColor: {r: 0.074279085, g: 0.0699537, b: 0.11320752, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -745,7 +762,7 @@ MonoBehaviour:
   entityOptions:
   - entity: {fileID: 3380691668930087719, guid: 5641c79b82253468c89976f5813fa6f4, type: 3}
     weight: 1
-  density: 0.05
+  density: 0.2
   generationTimeRange: {x: 0.5, y: 1.5}
   generatingEntities: 1
   upwardsSpeedRange: {x: 4, y: 7}
@@ -839,6 +856,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27a4806fa10234ffca69fde4ee9475e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1308583671 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+  m_PrefabInstance: {fileID: 429762499}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1124c83cc1602644ad09c4ef3d14c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1538539958 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2941848194285598579, guid: 6c2de6333e659f948bd3e7abdda028cb, type: 3}
@@ -883,7 +911,7 @@ Transform:
   - {fileID: 755147822}
   - {fileID: 604955538}
   - {fileID: 447464045}
-  - {fileID: 378118043}
+  - {fileID: 97794062}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -917,11 +945,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 1308583664}
-  speedManager: {fileID: 0}
+  speedManager: {fileID: 1308583671}
   loseMenuController: {fileID: 1538539958}
   cameraBounds: {x: 10, y: 10}
   playerHealth: 3
-  maxEnergyLevel: 50
+  maxEnergyLevel: 75
   maxRelativeSpeed: 5
   baseSpeed: 10
   gameplayCamera: {fileID: 523322434}
