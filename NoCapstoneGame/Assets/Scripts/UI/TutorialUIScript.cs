@@ -91,7 +91,7 @@ public class TutorialUIScript : MonoBehaviour
         else
         {
             Debug.Log("finish tutorial");
-            root.style.display = DisplayStyle.None;
+            //root.style.display = DisplayStyle.None;
             //set tutorial done to true, creating it if it doesn't exist
             PlayerPrefs.SetInt("ShowTutorial", 0);
             sceneManager.SwitchToScene(sceneManager.gameplaySceneName);

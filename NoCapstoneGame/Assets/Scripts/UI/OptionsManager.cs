@@ -21,6 +21,7 @@ public class OptionsManager : MonoBehaviour
     private Slider musicVolSlider;
     private Slider sfxVolSlider;
     private Button backButton;
+    private Toggle muteGameToggle;
     private Toggle showTutorialToggle;
 
     public float masterVolume;
@@ -50,6 +51,7 @@ public class OptionsManager : MonoBehaviour
 
         backButton = root.Q<Button>("BackButton");
 
+        muteGameToggle = root.Q<Toggle>("MuteGameToggle");
         showTutorialToggle = root.Q<Toggle>("ShowTutorialToggle");
 
         //SINGLETON PATTERN - ensures that there only ever exists a single optionsManager
@@ -86,6 +88,7 @@ public class OptionsManager : MonoBehaviour
         musicVolSlider.RegisterValueChangedCallback(OnMusicSliderValueChange);
         sfxVolSlider.RegisterValueChangedCallback(OnSfxSliderValueChange);
 
+        muteGameToggle.RegisterValueChangedCallback(OnMuteToggleValueChange);
         showTutorialToggle.RegisterValueChangedCallback(OnTutorialToggleValueChange);
 
         backButton.clicked += HideOptionsMenu;
@@ -135,6 +138,12 @@ public class OptionsManager : MonoBehaviour
         CheckMute();
     }
 
+    public void OnMuteToggleValueChange(ChangeEvent<bool> evt)
+    {
+        SFXManager.Instance.isMuted = evt.newValue;
+        CheckMute();
+    }
+
     public void OnTutorialToggleValueChange(ChangeEvent<bool> evt)
     {
         showTutorial = evt.newValue;
@@ -143,7 +152,6 @@ public class OptionsManager : MonoBehaviour
 
     public void CheckMute() //sees if the volume is currently muted, this should be called whenever a volume slider is changed, or the mute button is pushed
     {
-        Debug.Log("check mute called");
         if(SFXManager.Instance.isMuted)
         {
             //set all volumes to mute (-80 decibels)
