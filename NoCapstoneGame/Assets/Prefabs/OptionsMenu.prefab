@@ -68,4 +68,5 @@ MonoBehaviour:
   masterVolume: 0
   musicVolume: 0
   sfxVolume: 0
-  defaultVolume: 50
+  showTutorial: 0
+  defaultVolume: 0.45
