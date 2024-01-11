@@ -86,7 +86,9 @@ public class HUDController: MonoBehaviour
 
     private void UpdateChargeBar()
     {
-        chargeBar.value =gameManager.GetCharge()/ gameManager.GetMaxEnergy() ;
+
+        chargeBar.value = 
+            gameManager.GetCharge()/ gameManager.GetMaxEnergy() ;
     }
 
     void Update()
@@ -122,6 +124,15 @@ public class HUDController: MonoBehaviour
                 statusPanel4.visible = true;
                 statusPanel3.visible = false;
             }
+        }
+        if (gameManager.speedManager.inBoost)
+        {
+
+        }
+
+        if (gameManager.speedManager.inBoost)
+        {
+            UpdateFiredBar();
         }
     }
 
@@ -162,8 +173,26 @@ public class HUDController: MonoBehaviour
 
     void UpdateFiredBar()
     {
-        firedBar1.value = gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar1.highValue;
-        firedBar2.value = gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar2.highValue;
+
+
+        firedBar1.value = gameManager.speedManager.inBoostGracePeriod ?
+            gameManager.speedManager.speedAdditionFromBoost * firedBar1.highValue:
+            gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar1.highValue;
+
+        firedBar2.value = gameManager.speedManager.inBoostGracePeriod ?
+            gameManager.speedManager.speedAdditionFromBoost * firedBar1.highValue:
+            gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar2.highValue;
+
+
+
+        //firedBar1.value = gameManager.speedManager.inBoost ?
+        //    gameManager.speedManager.remainingRatio * firedBar1.highValue / 2:
+        //    gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar1.highValue;
+
+        ////gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar1.highValue;
+        //firedBar2.value = gameManager.speedManager.inBoost ?
+        //    gameManager.speedManager.remainingRatio * firedBar1.highValue :
+        //    gameManager.relativeSpeed / gameManager.maxRelativeSpeed * firedBar2.highValue;
 
         //Debug.Log("baseSpeed, MaxRelativeSpeed, HighValue " + gameManager.baseSpeed + " " + gameManager.maxRelativeSpeed + " " + firedBar1.highValue);
 

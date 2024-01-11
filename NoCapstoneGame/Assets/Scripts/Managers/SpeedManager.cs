@@ -66,6 +66,7 @@ public class SpeedManager : MonoBehaviour
 
     private IEnumerator BoostCoroutineObject;
     private IEnumerator boostGracePeriodCoroutineObject;
+    public float remainingRatio;
 
     #endregion Variables
 
@@ -167,7 +168,8 @@ public class SpeedManager : MonoBehaviour
     {
 
         //float remainingRatio = (gameManager.GetEnergy() / gameManager.GetMaxEnergy()); //use this line to ONLY calculate by energy
-        float remainingRatio = (gameManager.GetEnergy() + gameManager.GetCharge()) / (2 * gameManager.GetMaxEnergy()); //use this line to calculate by energy and charge
+        remainingRatio = (gameManager.GetEnergy() / gameManager.GetMaxEnergy() + gameManager.GetCharge() / gameManager.GetMaxEnergy());
+            //(gameManager.GetEnergy()  + gameManager.GetCharge()) / (2 * gameManager.GetMaxEnergy()); //use this line to calculate by energy and charge
         //old range = 1
         float dimRetRange = upperThresholdForDimRet - lowerThresholdForDimRet;
         //float dimRetRatio = Mathf.Lerp(lowerThresholdForDimRet, upperThresholdForDimRet, remainingRatio);
