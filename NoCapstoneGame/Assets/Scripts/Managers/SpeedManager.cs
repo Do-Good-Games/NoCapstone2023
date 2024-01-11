@@ -168,8 +168,10 @@ public class SpeedManager : MonoBehaviour
     {
 
         //float remainingRatio = (gameManager.GetEnergy() / gameManager.GetMaxEnergy()); //use this line to ONLY calculate by energy
-        remainingRatio = (gameManager.GetEnergy() / gameManager.GetMaxEnergy() + gameManager.GetCharge() / gameManager.GetMaxEnergy());
-            //(gameManager.GetEnergy()  + gameManager.GetCharge()) / (2 * gameManager.GetMaxEnergy()); //use this line to calculate by energy and charge
+        //remainingRatio = (gameManager.GetEnergy() / 2*gameManager.GetMaxEnergy() + gameManager.GetCharge() / 2*gameManager.GetMaxEnergy());
+        float remainingRatio = (gameManager.GetEnergy() + gameManager.GetCharge()) / (2 * gameManager.GetMaxEnergy()); //use this line to calculate by energy and charge  
+
+        //(gameManager.GetEnergy()  + gameManager.GetCharge()) / (2 * gameManager.GetMaxEnergy()); //use this line to calculate by energy and charge
         //old range = 1
         float dimRetRange = upperThresholdForDimRet - lowerThresholdForDimRet;
         //float dimRetRatio = Mathf.Lerp(lowerThresholdForDimRet, upperThresholdForDimRet, remainingRatio);
