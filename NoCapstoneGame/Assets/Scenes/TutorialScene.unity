@@ -306,7 +306,7 @@ MonoBehaviour:
   m_PanelSettings: {fileID: 11400000, guid: 1b99216e8a6207b4fb01e2e4b98a6d28, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 8de4279db045e2642a65672e9ac74ab9, type: 3}
-  m_SortingOrder: 0
+  m_SortingOrder: -1.02
 --- !u!1 &1908514798
 GameObject:
   m_ObjectHideFlags: 0

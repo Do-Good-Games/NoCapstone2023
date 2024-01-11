@@ -46,7 +46,7 @@ public class TutorialUIScript : MonoBehaviour
         //this is here for testing, since setting playerPrefs values does not revert when you stop playing
 
         //disable the tutorial if 'tutorialDone' is true
-        Debug.Log("tutorial done is " + PlayerPrefs.GetInt("ShowTutorial"));
+        Debug.Log("show tutorial is " + PlayerPrefs.GetInt("ShowTutorial"));
         if (PlayerPrefs.GetInt("ShowTutorial") == 0)
         {
             Debug.Log("disabling " + PlayerPrefs.GetInt("ShowTutorial"));
@@ -66,6 +66,7 @@ public class TutorialUIScript : MonoBehaviour
 
     private void TutorialSlideLeft()
     {
+        Debug.Log("going left");
         if(backGroundArrayIndex > 0)
         {
             backGroundArrayIndex--;
@@ -80,6 +81,7 @@ public class TutorialUIScript : MonoBehaviour
 
     private void TutorialSlideRight()
     {
+        Debug.Log("going right");
         if (backGroundArrayIndex < (backgroundArray.Length - 1))
         {
             backGroundArrayIndex++;
