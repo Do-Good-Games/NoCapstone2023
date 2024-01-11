@@ -1083,6 +1083,7 @@ MonoBehaviour:
   playerHealth: 3
   maxEnergyLevel: 75
   maxRelativeSpeed: 5
+  maxPreBoostRelativeSpeed: 7
   baseSpeed: 10
   gameplayCamera: {fileID: 523322434}
   hazardTag: Hazard
@@ -1090,6 +1091,7 @@ MonoBehaviour:
   energyLevel: 0
   chargeLevel: 0
   relativeSpeed: 0
+  preBoostRelativeSpeed: 0
   OnPlayerHeal:
     m_PersistentCalls:
       m_Calls: []

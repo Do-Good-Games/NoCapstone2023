@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float playerHealth;
     [SerializeField] private float maxEnergyLevel;
     [SerializeField] public float maxRelativeSpeed;
+    [SerializeField] public float maxPreBoostRelativeSpeed;
     [Tooltip("The starting/current base speed of the player")]
     [SerializeField] private float baseSpeed;
     [Tooltip("This modifies asteroid values to make the game harder with each level")]
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float chargeLevel;
     [Tooltip("The current value of the third bar, added to base speed")]
     [SerializeField] public float relativeSpeed;
+    [SerializeField] public float preBoostRelativeSpeed;
 
     // The current score (probably measured in distance)
     private float score;
@@ -193,8 +195,12 @@ public class GameManager : MonoBehaviour
         chargeLevel = Mathf.Min(energyLevel, chargeLevel + adjustmentAmount);
         chargeLevel = Mathf.Max(0, chargeLevel);
 
-        OnChargeChange.Invoke();
+        if (energyLevel == maxEnergyLevel)
+        {
+            preBoostRelativeSpeed = maxPreBoostRelativeSpeed * (chargeLevel / maxEnergyLevel);
+        }
 
+        OnChargeChange.Invoke();
     }
 
     public void ResetCharge()
@@ -235,7 +241,7 @@ public class GameManager : MonoBehaviour
 
 
     [Tooltip("if not in boost, returns the total of the current relative speed, plus the base speed")]
-    public float GetCameraSpeed() => speedManager.inBoost ? speedManager.speedAdditionFromBoost + baseSpeed : relativeSpeed + baseSpeed;
+    public float GetCameraSpeed() => speedManager.inBoost ? speedManager.speedAdditionFromBoost + baseSpeed : baseSpeed + relativeSpeed + preBoostRelativeSpeed;
 
     public float GetPlayerHealth() => playerHealth;
     public float GetEnergy() => energyLevel;
