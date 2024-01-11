@@ -157,7 +157,10 @@ public class GameManager : MonoBehaviour
         {
             //playerController.energyDecayTime = 0; 
         }
-        
+        if (energyLevel != maxEnergyLevel)
+        {
+            preBoostRelativeSpeed = 0;
+        }
 
         OnEnergyChange.Invoke();
     }
