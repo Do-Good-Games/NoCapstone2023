@@ -269,9 +269,10 @@ MonoBehaviour:
   DamageFlashFastSpeed: 0.02
   playerRenderer: {fileID: 3144249782188388316}
   energySphereRender: {fileID: 6215106880183347217}
-  shootSound: {fileID: 8205310359094248843}
   hitSound: {fileID: 4691480037228500571}
   deathSound: {fileID: 2946702775565927062}
+  shootSound: {fileID: 8205310359094248843}
+  shotPitchModCount: 3
   playerBody: {fileID: 3079467235973761315}
   shipCollider: {fileID: 3144249782188388314}
   energySphereCollider: {fileID: 9117588760974361675}
@@ -344,6 +345,7 @@ MonoBehaviour:
   numOfBoosts: 0
   speedOnExit: 1
   boostGracePeriodDuration: 2
+  remainingRatio: 0
 --- !u!114 &5991089515577886123
 MonoBehaviour:
   m_ObjectHideFlags: 0
