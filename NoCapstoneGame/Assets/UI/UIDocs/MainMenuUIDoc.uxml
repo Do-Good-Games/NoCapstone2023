@@ -1,13 +1,13 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI/WinScreenStyleSheet.uss?fileID=7433441132597879392&amp;guid=b2f537037b5db3a4992791c9d8e056e3&amp;type=3#WinScreenStyleSheet" />
-    <ui:VisualElement name="root" style="height: 100%; background-image: url(&apos;project://database/Assets/UI/Art/MainMenuArt/Title%20BG.png?fileID=2800000&amp;guid=7d7636b346064f4489fed7a39f314d01&amp;type=3#Title BG&apos;);">
+    <Style src="project://database/Assets/UI/StyleSheets/WinScreenStyleSheet%20-%20Copy.uss?fileID=7433441132597879392&amp;guid=b2f537037b5db3a4992791c9d8e056e3&amp;type=3#WinScreenStyleSheet - Copy" />
+    <ui:VisualElement name="root" style="height: 100%; background-image: url(&apos;project://database/Assets/Art/UI/MainMenuArt/Title%20BG.png?fileID=2800000&amp;guid=7d7636b346064f4489fed7a39f314d01&amp;type=3#Title BG&apos;);">
         <ui:VisualElement style="justify-content: space-around; align-items: center;">
-            <ui:Label text="Galactic Grand Prix" display-tooltip-when-elided="true" class="label" style="justify-content: center; align-items: center; height: 260px; font-size: 0; background-image: url(&apos;project://database/Assets/UI/Art/MainMenuArt/NewAssets/Title.png?fileID=2800000&amp;guid=95aa075a4810a784ca0c031504e81040&amp;type=3#Title&apos;); width: 1540px;" />
+            <ui:Label text="Galactic Grand Prix" display-tooltip-when-elided="true" class="label" style="justify-content: center; align-items: center; height: 260px; font-size: 0; background-image: url(&apos;project://database/Assets/Art/UI/MainMenuArt/NewAssets/Title.png?fileID=2800000&amp;guid=95aa075a4810a784ca0c031504e81040&amp;type=3#Title&apos;); width: 1540px; top: 23px;" />
         </ui:VisualElement>
         <ui:VisualElement name="ButtonContainer" style="justify-content: space-around; align-items: center; flex-direction: row; margin-left: 250px; margin-right: 250px;">
-            <ui:Button text="Start" display-tooltip-when-elided="true" name="StartButton" class="startButton" />
-            <ui:Button text="Credits" display-tooltip-when-elided="true" name="CreditsButton" class="creditsButton" style="top: 336px;" />
-            <ui:Button text="Credits" display-tooltip-when-elided="true" name="OptionsButton" class="optionsButton" style="-unity-font-style: italic;" />
+            <ui:Button text="Start" display-tooltip-when-elided="true" name="StartButton" class="startButton" style="-unity-background-scale-mode: scale-and-crop;" />
+            <ui:Button text="Credits" display-tooltip-when-elided="true" name="CreditsButton" class="creditsButton" style="top: 336px; -unity-background-scale-mode: scale-and-crop;" />
+            <ui:Button text="Credits" display-tooltip-when-elided="true" name="OptionsButton" class="optionsButton" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -114,6 +114,7 @@ public class PauseUIScript : MonoBehaviour
         else if(gameManager.gameState == GameState.gameplay)
         {
             root.style.visibility = Visibility.Hidden;
+            optionsManager.HideOptionsMenu();
 
             //root.SetEnabled(false);
             //root.visible = false;

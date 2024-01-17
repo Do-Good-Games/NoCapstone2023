@@ -108,7 +108,7 @@ public class OptionsManager : MonoBehaviour
         root.style.visibility = Visibility.Visible;
     }
 
-    private void HideOptionsMenu()
+    public void HideOptionsMenu()
     {
         UIDoc.rootVisualElement.style.display = DisplayStyle.None;
         root.style.visibility = Visibility.Hidden;
