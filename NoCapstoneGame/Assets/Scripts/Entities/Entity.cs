@@ -47,6 +47,19 @@ public class Entity : MonoBehaviour
 
     virtual public void Move()
     {
+        // Broken up like this to reduce copy-pasted math when applying vector to a transform rather than a rigidbody
+        Vector3 movementVector = CalculateMovementVector();
+        ApplyMovementVector(movementVector);
+
+        //OOB check
+        if (IsOutOfBounds())
+        {
+            DestroyEntity();
+        }
+    }
+
+    virtual public Vector3 CalculateMovementVector()
+    {
         float cameraSpeed = gameManager.GetCameraSpeed();
         float cameraDistance = cameraSpeed * Time.deltaTime;
 
@@ -55,18 +68,19 @@ public class Entity : MonoBehaviour
         float swayAmount = swaySpeed * Time.deltaTime;
         float swayOffset = swayAmount * Mathf.Cos(swaySpeed * Time.fixedTime) * swayAmount; //I dont think the second swaySpeed bit makes a ton of sense, but I'm leaving it so everything performs the same
 
-        Vector2 movementVector = new Vector3(swayOffset,entityDistance - cameraDistance);
-        entityBody.position += movementVector;
+        Vector3 movementVector = new Vector3(swayOffset, entityDistance - cameraDistance);
+        return movementVector;
+    }
 
-        //OOB check
+    virtual public void ApplyMovementVector(Vector3 movementVector)
+    {
+        entityBody.position += (Vector2) movementVector;
+    }
 
-
-
-        if ((transform.position.y + entityCollider.bounds.size.y < -gameManager.cameraBounds.y) ||
-            (Mathf.Abs(transform.position.x) - entityCollider.bounds.size.x > gameManager.cameraBounds.x))
-        {
-            DestroyEntity();
-        }
+    virtual public bool IsOutOfBounds()
+    {
+        return (transform.position.y + entityCollider.bounds.size.y < -gameManager.cameraBounds.y) ||
+            (Mathf.Abs(transform.position.x) - entityCollider.bounds.size.x > gameManager.cameraBounds.x);
     }
 
     /*
