@@ -765,7 +765,7 @@ MonoBehaviour:
   density: 0.2
   generationTimeRange: {x: 0.5, y: 1.5}
   generatingEntities: 1
-  upwardsSpeedRange: {x: 4, y: 7}
+  upwardsSpeedRange: {x: 2, y: 5}
   swaySpeedRange: {x: 1, y: 5}
   swayWidthRange: {x: 0, y: 0.01}
 --- !u!4 &755147822
@@ -822,7 +822,7 @@ MonoBehaviour:
   density: 0.2
   generationTimeRange: {x: 0.1, y: 0.7}
   generatingEntities: 1
-  upwardsSpeedRange: {x: 4, y: 7}
+  upwardsSpeedRange: {x: 2, y: 5}
   swaySpeedRange: {x: 1, y: 1.5}
   swayWidthRange: {x: 0, y: 0.3}
   energyManager: {fileID: 755147821}
@@ -952,7 +952,7 @@ MonoBehaviour:
   maxEnergyLevel: 75
   maxRelativeSpeed: 5
   maxPreBoostRelativeSpeed: 7
-  baseSpeed: 10
+  baseSpeed: 8
   gameplayCamera: {fileID: 523322434}
   hazardTag: Hazard
   playerTag: Player
