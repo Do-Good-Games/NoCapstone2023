@@ -48,7 +48,7 @@
                     "id": "a770dbaf-1869-4457-9ed2-3bd1f43954cf",
                     "path": "<Mouse>/delta",
                     "interactions": "",
-                    "processors": "ScaleVector2(x=0.02,y=0.02)",
+                    "processors": "ScaleVector2",
                     "groups": "",
                     "action": "Move",
                     "isComposite": false,

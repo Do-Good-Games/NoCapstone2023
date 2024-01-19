@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] ChargeShotProjectile chargeShotPrefab;
 
     string currentActionMapName;
-    PlayerInput playerInput;
+    public PlayerInput playerInput;
 
 
 
@@ -218,71 +218,15 @@ public class PlayerController : MonoBehaviour
     public void UpdateCursorPosition(InputAction.CallbackContext context)
     {
 
-        mouseDelta = context.ReadValue<Vector2>();
+        mouseDelta = context.ReadValue<Vector2>() * OptionsManager.Instance.mouseSensitivity;
 
+        
 
         if(gameManager.gameState == GameState.gameplay)
         {
             AdjustPosition(mouseDelta);
         }
 
-        
-        /*    // -- OLD CURSOR POS BASED SYSTEM --
-        // converts cursor position (in screen space) to world space based on camera position/size
-        Vector2 screenSpaceCursorPos = context.ReadValue<Vector2>();
-        
-        if (gameManager != null)
-        {
-            //if (gameManager.gameState == GameState.gameplay)
-            if (!enteringGameplay) //so long as we're not transitioning out of pause
-            {
-                if(gameManager.gameState == GameState.gameplay)
-                {
-                    mouseDelta = cursorPos - prevCursorPos;
-
-                } else
-                {
-                    mouseDelta = Vector2.zero;
-                }
-
-                //if(Vector2.Distance(prevCursorPos, Vector2.zero) >.1)
-
-            } else
-            {
-                mouseDelta = Vector2.zero;
-                enteringGameplay = false;
-            }
-
-            prevCursorPos = cursorPos;
-                //add a check to make sure the player has actually put in input 
-                //either initPlayerHasMoved, or maaaybe something to do with checking the deltas?
-                //either way only keep prevCursorPos set as such after we've verified the user's put in input
-                //otherwise wait for the player to move
-            
-
-
-
-            //if (!initPlayerHasMovedAfterPause) //if player hasn't moved after pause
-            //    {
-            //        if(Vector2.Distance(cursorPos, cursorPosPrePause) < .1) // if cursorPos is approx. posPrePause
-            //        { // this happens after the player moves the mouse, causing the game to update the previous position
-            //            initPlayerHasMovedAfterPause = true;
-            //        } else {
-            //        {
-            //            cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
-
-            //            mouseDelta += ; 
-
-            //            cursorPos = cursorPosPrePause;
-            //            prevCursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
-            //        }
-            //    }
-            //}
-            
-        }
-        
-        AdjustPosition(mouseDelta);
-        */
 
     }
 

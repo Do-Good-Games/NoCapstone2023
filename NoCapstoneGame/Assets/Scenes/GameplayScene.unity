@@ -196,6 +196,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5a7ba9cdb60cb0b48b855ee377cf2473, type: 2}
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: playerInput
+      value: 
+      objectReference: {fileID: 1308583677}
+    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: SpeedPrototypeSO
       value: 
       objectReference: {fileID: 11400000, guid: b97d875deacca3d4387a6a6ded43b6f8, type: 2}
@@ -921,6 +925,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f1124c83cc1602644ad09c4ef3d14c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1308583677 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+  m_PrefabInstance: {fileID: 429762499}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1538539958 stripped
