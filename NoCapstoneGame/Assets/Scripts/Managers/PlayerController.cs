@@ -217,13 +217,22 @@ public class PlayerController : MonoBehaviour
     #region cursor movement
     public void UpdateCursorPosition(InputAction.CallbackContext context)
     {
+
+        mouseDelta = context.ReadValue<Vector2>();
+
+
+        if(gameManager.gameState == GameState.gameplay)
+        {
+            AdjustPosition(mouseDelta);
+        }
+
+        
+        /*    // -- OLD CURSOR POS BASED SYSTEM --
         // converts cursor position (in screen space) to world space based on camera position/size
         Vector2 screenSpaceCursorPos = context.ReadValue<Vector2>();
         
-
         if (gameManager != null)
         {
-                cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
             //if (gameManager.gameState == GameState.gameplay)
             if (!enteringGameplay) //so long as we're not transitioning out of pause
             {
@@ -249,35 +258,39 @@ public class PlayerController : MonoBehaviour
                 //either initPlayerHasMoved, or maaaybe something to do with checking the deltas?
                 //either way only keep prevCursorPos set as such after we've verified the user's put in input
                 //otherwise wait for the player to move
-            /*
-            if (!initPlayerHasMovedAfterPause) //if player hasn't moved after pause
-                {
-                    if(Vector2.Distance(cursorPos, cursorPosPrePause) < .1) // if cursorPos is approx. posPrePause
-                    { // this happens after the player moves the mouse, causing the game to update the previous position
-                        initPlayerHasMovedAfterPause = true;
-                    } else {
-                    {
-                        cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
+            
 
-                        mouseDelta += ; 
 
-                        cursorPos = cursorPosPrePause;
-                        prevCursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
-                    }
-                }
-            }
-            */
+
+            //if (!initPlayerHasMovedAfterPause) //if player hasn't moved after pause
+            //    {
+            //        if(Vector2.Distance(cursorPos, cursorPosPrePause) < .1) // if cursorPos is approx. posPrePause
+            //        { // this happens after the player moves the mouse, causing the game to update the previous position
+            //            initPlayerHasMovedAfterPause = true;
+            //        } else {
+            //        {
+            //            cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
+
+            //            mouseDelta += ; 
+
+            //            cursorPos = cursorPosPrePause;
+            //            prevCursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
+            //        }
+            //    }
+            //}
+            
         }
         
-        SetPositions(mouseDelta);
+        AdjustPosition(mouseDelta);
+        */
 
     }
 
 
-    private void SetPositions(Vector2 position)
+    private void AdjustPosition(Vector2 direction)
     {
         //Debug.Log("set position called with " + position);
-        Vector2 inBoundsPosition = KeepInBounds(shipTransform.position + (Vector3) position);
+        Vector2 inBoundsPosition = KeepInBounds((Vector2) shipTransform.position +  direction);
         shipTransform.position = inBoundsPosition;
         energyTransform.position = inBoundsPosition;
         magnetTransform.position = inBoundsPosition;
@@ -633,12 +646,12 @@ public class PlayerController : MonoBehaviour
             case "Menus":
                 //Debug.Log("ping");
                 UnityEngine.Cursor.visible = true;
-                //UnityEngine.Cursor.lockState = CursorLockMode.None;
+                UnityEngine.Cursor.lockState = CursorLockMode.None;
                 break;
             default: //case playing
                 //Debug.Log("pong");
                 UnityEngine.Cursor.visible = false;
-                //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
                 break;
         }
     }
