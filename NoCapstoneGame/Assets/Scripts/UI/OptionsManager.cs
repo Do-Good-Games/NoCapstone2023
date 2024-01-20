@@ -60,21 +60,6 @@ public class OptionsManager : MonoBehaviour
     void Start()
     {
 
-#if UNITY_STANDALONE_WIN
-    Debug.Log("rdu log - sa windows");
-#endif
-
-#if UNITY_EDITOR_WIN
-    Debug.Log("rdu log - e windows");
-#endif
-
-#if UNITY_STANDALONE_OSX
-    Debug.Log("rdu log - sa MAC");
-#endif
-
-#if UNITY_EDITOR_OSX
-        Debug.Log("rdu log - e mac");
-#endif
 
         //PlayerController playerController = GameManager.Instance.playerController;
         if (GameManager.Instance != null) {
@@ -109,8 +94,6 @@ public class OptionsManager : MonoBehaviour
             //if there's another one, then destroy this one
             Destroy(this.gameObject);
         }
-
-        PlayerPrefs.DeleteAll();
 
         //if any key hasn't been set, set it to the default
         if (!PlayerPrefs.HasKey("masterVolume"))
