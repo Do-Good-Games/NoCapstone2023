@@ -37,6 +37,16 @@ public class SFXManager : MonoBehaviour
         //m_AudioSource = gameManager.audioManager.m_AudioSource; m_AudioSource.enabled = false;
 
         canPlayAudio = true;
+
+        Debug.Log("setting muted " + isMuted + " " + PlayerPrefs.GetInt("isMuted"));
+        if (PlayerPrefs.GetInt("isMuted") == 1)
+        {
+            isMuted = true;
+        }
+        else
+        {
+            isMuted = false;
+        }
     }
 
     // Update is called once per frame

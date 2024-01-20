@@ -83,6 +83,11 @@ public class OptionsManager : MonoBehaviour
         {
             PlayerPrefs.SetFloat("sfxVolume", defaultVolume);
         }
+        if (!PlayerPrefs.HasKey("isMuted"))
+        {
+            PlayerPrefs.SetInt("isMuted", 0);
+        }
+        Debug.Log("mute check " + SFXManager.Instance.isMuted);
 
         masterVolSlider.RegisterValueChangedCallback(OnMasterSliderValueChange);
         musicVolSlider.RegisterValueChangedCallback(OnMusicSliderValueChange);
@@ -141,6 +146,15 @@ public class OptionsManager : MonoBehaviour
     public void OnMuteToggleValueChange(ChangeEvent<bool> evt)
     {
         SFXManager.Instance.isMuted = evt.newValue;
+        if(evt.newValue == true)
+        {
+            PlayerPrefs.SetInt("isMuted", 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("isMuted", 0);
+        }
+
         CheckMute();
     }
 
@@ -186,9 +200,23 @@ public class OptionsManager : MonoBehaviour
         sfxVolume = PlayerPrefs.GetFloat("sfxVolume");
         showTutorial = PlayerPrefs.GetInt("ShowTutorial") == 1 ? true : false;
 
+        if (PlayerPrefs.GetInt("isMuted") == 0)
+        {
+            SFXManager.Instance.isMuted = false;         
+        }
+        else
+        {
+            SFXManager.Instance.isMuted = true;
+        }
+        muteGameToggle.value = PlayerPrefs.GetInt("isMuted") == 1 ? true : false;
+
+        /*
         masterMixerGroup.audioMixer.SetFloat("MasterVolParam", Mathf.Log10(masterVolSlider.value) * 20);
         musicMixerGroup.audioMixer.SetFloat("MusicVolParam", Mathf.Log10(musicVolSlider.value) * 20);
         sfxMixerGroup.audioMixer.SetFloat("SFXVolParam", Mathf.Log10(sfxVolSlider.value) * 20);
+        */
+        CheckMute();
+
     }
 
     private void Save()
@@ -197,6 +225,16 @@ public class OptionsManager : MonoBehaviour
         PlayerPrefs.SetFloat("musicVolume", musicVolume);
         PlayerPrefs.SetFloat("sfxVolume", sfxVolume);
         PlayerPrefs.SetInt("ShowTutorial", showTutorial ? 1 : 0);
+
+        if(SFXManager.Instance.isMuted)
+        {
+            PlayerPrefs.SetInt("isMuted", 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("isMuted", 0);
+        }
+
 
     }
 }
