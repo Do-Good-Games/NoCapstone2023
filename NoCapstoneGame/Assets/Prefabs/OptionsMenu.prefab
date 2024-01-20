@@ -92,9 +92,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  minMouseSensitivity: 0.1
-  maxMouseSensitivity: 10
   mouseSensitivity: 0
   showTutorial: 0
   defaultVolume: 0.45
-  defaultMouseSensitivity: 0.5
+  defaultMouseSensitivity: 0.45

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
@@ -33,10 +34,11 @@ public class OptionsManager : MonoBehaviour
     public float musicVolume;
     public float sfxVolume;
 
+    [Tooltip("passed a value 0 to 1, return range subject to change ")]
     [SerializeField] private AnimationCurve mouseSensitivityCurve;
-    [SerializeField] private float minMouseSensitivity;
-    [SerializeField] private float maxMouseSensitivity;
+    [Tooltip("zero to one")]
     public float mouseSensitivity;
+    private InputAction mouseMoveAction;
 
     public bool showTutorial;
 
@@ -57,6 +59,9 @@ public class OptionsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        mouseMoveAction = GameManager.Instance.playerController.playerInput.actions.FindAction("Move");
+
+
         root = UIDoc.rootVisualElement;
         masterVolSlider = root.Q<Slider>("MasterVolSlider");
         musicVolSlider = root.Q<Slider>("MusicVolSlider");
@@ -84,6 +89,8 @@ public class OptionsManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+        PlayerPrefs.DeleteAll();
+
         //if any key hasn't been set, set it to the default
         if (!PlayerPrefs.HasKey("masterVolume"))
         {
@@ -100,7 +107,7 @@ public class OptionsManager : MonoBehaviour
         }
         if (!PlayerPrefs.HasKey("mouseSensitivity"))
         {
-            PlayerPrefs.SetFloat("mouseSensitivity", mouseSensitivity);
+            PlayerPrefs.SetFloat("mouseSensitivity", defaultMouseSensitivity);
         }
 
         masterVolSlider.RegisterValueChangedCallback(OnMasterSliderValueChange);
@@ -178,10 +185,9 @@ public class OptionsManager : MonoBehaviour
             
         PlayerPrefs.SetFloat("mouseSensitivity", mouseSensitivity);
 
-        InputAction action = GameManager.Instance.playerController.playerInput.actions.FindAction("Move");
         Debug.Log("value: " + mouseSensitivity);
-        action.ApplyParameterOverride("scaleVector2:x", mouseSensitivity);
-        action.ApplyParameterOverride("scaleVector2:y", mouseSensitivity);
+        mouseMoveAction.ApplyParameterOverride("scaleVector2:x", mouseSensitivityCurve.Evaluate(mouseSensitivity));
+        mouseMoveAction.ApplyParameterOverride("scaleVector2:y", mouseSensitivityCurve.Evaluate(mouseSensitivity));
     }
 
     public void CheckMute() //sees if the volume is currently muted, this should be called whenever a volume slider is changed, or the mute button is pushed
@@ -219,12 +225,15 @@ public class OptionsManager : MonoBehaviour
         masterVolume = PlayerPrefs.GetFloat("masterVolume");
         musicVolume = PlayerPrefs.GetFloat("musicVolume");
         sfxVolume = PlayerPrefs.GetFloat("sfxVolume");
-        mouseSensitivity = PlayerPrefs.GetFloat("mouseSensitivity");
+        mouseSensitivity = mouseSensitivityCurve.Evaluate(PlayerPrefs.GetFloat("mouseSensitivity")) ;
         showTutorial = PlayerPrefs.GetInt("ShowTutorial") == 1 ? true : false;
 
         masterMixerGroup.audioMixer.SetFloat("MasterVolParam", Mathf.Log10(masterVolSlider.value) * 20);
         musicMixerGroup.audioMixer.SetFloat("MusicVolParam", Mathf.Log10(musicVolSlider.value) * 20);
         sfxMixerGroup.audioMixer.SetFloat("SFXVolParam", Mathf.Log10(sfxVolSlider.value) * 20);
+
+        mouseMoveAction.ApplyParameterOverride("scaleVector2:x", mouseSensitivityCurve.Evaluate(mouseSensitivity));
+        mouseMoveAction.ApplyParameterOverride("scaleVector2:y", mouseSensitivityCurve.Evaluate(mouseSensitivity));
     }
 
     private void Save()
