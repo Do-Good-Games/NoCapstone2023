@@ -217,7 +217,7 @@ public class PlayerController : MonoBehaviour
     public void UpdateCursorPosition(InputAction.CallbackContext context)
     {
 
-        mouseDelta = context.ReadValue<Vector2>() * OptionsManager.Instance.mouseSensitivity;
+        mouseDelta = context.ReadValue<Vector2>();
 
         
 
