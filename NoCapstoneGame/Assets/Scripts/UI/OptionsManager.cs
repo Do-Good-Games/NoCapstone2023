@@ -59,14 +59,10 @@ public class OptionsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-
         //PlayerController playerController = GameManager.Instance.playerController;
         if (GameManager.Instance != null) {
             mouseMoveAction = GameManager.Instance.playerController.playerInput.actions.FindAction("Move");
         }
-
-
 
         root = UIDoc.rootVisualElement;
         masterVolSlider = root.Q<Slider>("MasterVolSlider");
@@ -185,7 +181,7 @@ public class OptionsManager : MonoBehaviour
     public void OnMouseSensitivitySliderValueChange(ChangeEvent<float> evt)
     {
 
-        mouseSensitivity = mouseSensitivityCurve.Evaluate(evt.newValue);
+        mouseSensitivity = evt.newValue;
             
         PlayerPrefs.SetFloat("mouseSensitivity", mouseSensitivity);
 
@@ -233,7 +229,7 @@ public class OptionsManager : MonoBehaviour
         masterVolume = PlayerPrefs.GetFloat("masterVolume");
         musicVolume = PlayerPrefs.GetFloat("musicVolume");
         sfxVolume = PlayerPrefs.GetFloat("sfxVolume");
-        mouseSensitivity = mouseSensitivityCurve.Evaluate(PlayerPrefs.GetFloat("mouseSensitivity")) ;
+        mouseSensitivity = PlayerPrefs.GetFloat("mouseSensitivity");
         showTutorial = PlayerPrefs.GetInt("ShowTutorial") == 1 ? true : false;
 
         masterMixerGroup.audioMixer.SetFloat("MasterVolParam", Mathf.Log10(masterVolSlider.value) * 20);
