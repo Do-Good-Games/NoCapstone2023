@@ -652,10 +652,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
-    - target: {fileID: 6179676403516755038, guid: 6c2de6333e659f948bd3e7abdda028cb, type: 3}
-      propertyPath: defaultMouseSensitivity
-      value: 0.45
-      objectReference: {fileID: 0}
     - target: {fileID: 9062373081166270480, guid: 6c2de6333e659f948bd3e7abdda028cb, type: 3}
       propertyPath: m_SortingOrder
       value: 5

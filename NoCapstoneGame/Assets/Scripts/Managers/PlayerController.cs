@@ -168,7 +168,6 @@ public class PlayerController : MonoBehaviour
         damageCooldownEnding = false;
 
         currentActionMapName = "Player";
-        playerInput = GetComponent<PlayerInput>();
         //could we instead 
         gameManager.ResumeGame(false);
         SwitchActionMap();

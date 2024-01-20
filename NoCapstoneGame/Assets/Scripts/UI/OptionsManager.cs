@@ -59,7 +59,28 @@ public class OptionsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mouseMoveAction = GameManager.Instance.playerController.playerInput.actions.FindAction("Move");
+
+#if UNITY_STANDALONE_WIN
+    Debug.Log("rdu log - sa windows");
+#endif
+
+#if UNITY_EDITOR_WIN
+    Debug.Log("rdu log - e windows");
+#endif
+
+#if UNITY_STANDALONE_OSX
+    Debug.Log("rdu log - sa MAC");
+#endif
+
+#if UNITY_EDITOR_OSX
+        Debug.Log("rdu log - e mac");
+#endif
+
+        //PlayerController playerController = GameManager.Instance.playerController;
+        if (GameManager.Instance != null) {
+            mouseMoveAction = GameManager.Instance.playerController.playerInput.actions.FindAction("Move");
+        }
+
 
 
         root = UIDoc.rootVisualElement;
@@ -186,8 +207,12 @@ public class OptionsManager : MonoBehaviour
         PlayerPrefs.SetFloat("mouseSensitivity", mouseSensitivity);
 
         Debug.Log("value: " + mouseSensitivity);
-        mouseMoveAction.ApplyParameterOverride("scaleVector2:x", mouseSensitivityCurve.Evaluate(mouseSensitivity));
-        mouseMoveAction.ApplyParameterOverride("scaleVector2:y", mouseSensitivityCurve.Evaluate(mouseSensitivity));
+
+        if (mouseMoveAction != null)
+        {
+            mouseMoveAction.ApplyParameterOverride("scaleVector2:x", mouseSensitivityCurve.Evaluate(mouseSensitivity));
+            mouseMoveAction.ApplyParameterOverride("scaleVector2:y", mouseSensitivityCurve.Evaluate(mouseSensitivity));
+        }
     }
 
     public void CheckMute() //sees if the volume is currently muted, this should be called whenever a volume slider is changed, or the mute button is pushed
@@ -232,8 +257,10 @@ public class OptionsManager : MonoBehaviour
         musicMixerGroup.audioMixer.SetFloat("MusicVolParam", Mathf.Log10(musicVolSlider.value) * 20);
         sfxMixerGroup.audioMixer.SetFloat("SFXVolParam", Mathf.Log10(sfxVolSlider.value) * 20);
 
-        mouseMoveAction.ApplyParameterOverride("scaleVector2:x", mouseSensitivityCurve.Evaluate(mouseSensitivity));
-        mouseMoveAction.ApplyParameterOverride("scaleVector2:y", mouseSensitivityCurve.Evaluate(mouseSensitivity));
+        if(mouseMoveAction != null) {
+            mouseMoveAction.ApplyParameterOverride("scaleVector2:x", mouseSensitivityCurve.Evaluate(mouseSensitivity));
+            mouseMoveAction.ApplyParameterOverride("scaleVector2:y", mouseSensitivityCurve.Evaluate(mouseSensitivity));
+        }
     }
 
     private void Save()
