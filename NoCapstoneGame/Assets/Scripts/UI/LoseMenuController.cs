@@ -11,7 +11,8 @@ public class LoseMenuController : MonoBehaviour
     VisualElement root;
 
     Button restartButton ;
-    Button quitButton;
+    //Button quitButton;
+    Button mainMenuButton;
 
     SoundPlayer soundPlayer ;
     [SerializeField] AudioReference deathSoundReference;
@@ -35,10 +36,12 @@ public class LoseMenuController : MonoBehaviour
         root = UIDoc.rootVisualElement;
 
         restartButton = UIDoc.rootVisualElement.Q<Button>("RestartButton");
-        quitButton = UIDoc.rootVisualElement.Q<Button>("QuitButton");
+        //quitButton = UIDoc.rootVisualElement.Q<Button>("QuitButton");
+        mainMenuButton = UIDoc.rootVisualElement.Q<Button>("MainMenuButton");
 
         restartButton.clicked += () => { sceneManager.SwitchToScene(sceneManager.gameplaySceneName); };
-        quitButton.clicked += () => Application.Quit(); //make this quit the game
+        //quitButton.clicked += () => Application.Quit(); //make this quit the game
+        mainMenuButton.clicked += () => { sceneManager.SwitchToScene("MainMenuScene"); };
 
         root.style.visibility = Visibility.Hidden;
 
