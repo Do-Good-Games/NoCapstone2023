@@ -79,9 +79,6 @@ public class HUDController: MonoBehaviour
         gameManager.OnChargeChange.AddListener(UpdateChargeBar);
         gameManager.OnFiredChange.AddListener(UpdateFiredBar);
 
-        gameManager.OnBoostStart.AddListener(EmptyFiredBar);
-        gameManager.OnBoostEnd.AddListener(EmptyFiredBar);
-
         //muteButton.clicked += MuteClicked;
     }
 
@@ -207,12 +204,6 @@ public class HUDController: MonoBehaviour
         }
     }
 
-    void EmptyFiredBar()
-    {
-        Debug.Log("EMPTY FIRED BAR");
-        firedBar1.value = 0;
-        firedBar2.value = 0;
-    }
 
     private void MuteClicked()
     {

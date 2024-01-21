@@ -60,6 +60,10 @@ public class SpeedManager : MonoBehaviour
     [Tooltip("how long (in seconds) after the player exits boost that they're immune (but don't destroy asteroids)")]
     [SerializeField] private float boostGracePeriodDuration;
 
+    [SerializeField] private AudioSource boostStartSound;
+    [SerializeField] private AudioSource boostSoundLoop;
+    [SerializeField] private AudioSource boostExitSound;
+
     #endregion boost vars
 
     private GameManager gameManager;
@@ -129,6 +133,7 @@ public class SpeedManager : MonoBehaviour
         {
             StopCoroutine(BoostCoroutineObject);
         }
+        gameManager.StartBoost();
         BoostCoroutineObject = BoostCoroutine();
         StartCoroutine(BoostCoroutineObject);
     }
@@ -136,6 +141,8 @@ public class SpeedManager : MonoBehaviour
     public IEnumerator BoostCoroutine()
     {
         inBoost = true;
+        boostStartSound.Play();
+        boostSoundLoop.Play();
         speedAdditionFromBoost = boostSpeed;
         numOfBoosts++;
         while (gameManager.GetEnergy() > minBoostEnergy) //if relative speed >= max relative speed you can charge.
@@ -160,6 +167,8 @@ public class SpeedManager : MonoBehaviour
 
         inBoost = false;
 
+        boostSoundLoop.Stop();
+        boostExitSound.Play();
         gameManager.EndBoost(numOfBoosts, speedOnExit);
         ResetVariables();
     }

@@ -79,10 +79,11 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnBoostStart;
     public UnityEvent OnBoostEnd;
 
+    public MusicController musicController;
 
     void Awake()
     {
-        if (_instance == null)
+        if(_instance == null)
         {
             _instance = this;
         }
@@ -212,10 +213,16 @@ public class GameManager : MonoBehaviour
         OnChargeChange.Invoke();
     }
 
+    public void StartBoost()
+    {
+        OnBoostStart.Invoke();
+    }
+
     public void EndBoost(float numOfBoosts, float speedOnExit)
     {
         relativeSpeed = 0;
         baseSpeed += speedOnExit;
+        OnBoostEnd.Invoke();
         //Debug.Log("number of resets, speed on exit " + numOfBoosts + " " + speedOnExit);
     }
 

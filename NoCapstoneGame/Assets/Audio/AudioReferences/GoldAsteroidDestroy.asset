@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: GoldAsteroidDestroy
   m_EditorClassIdentifier: 
   m_ClipArr:
-  - {fileID: 8300000, guid: 1768419830a58f149b05872373978ce0, type: 3}
+  - {fileID: 8300000, guid: b0b40a117a17a6049a477d99fc6d929d, type: 3}

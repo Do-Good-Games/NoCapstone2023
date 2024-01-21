@@ -17,10 +17,9 @@ public class PauseUIScript : MonoBehaviour
 
     [SerializeField] private UIDocument UIDoc;
 
-    [SerializeField] private StyleSheet normalStyleSheet;
-    [SerializeField] private StyleSheet hoverStyleSheet;
-    [SerializeField] private StyleSheet clickedStyleSheet;
-
+    [SerializeField] private AudioSource buttonClick;
+    [SerializeField] private AudioSource ambientBuzz;
+    [SerializeField] private AudioSource pauseAppear;
 
 
     private VisualElement root;
@@ -48,7 +47,9 @@ public class PauseUIScript : MonoBehaviour
         quitButton = UIDoc.rootVisualElement.Q<Button>("QuitButton");
 
         //resumeButton.clicked += () => sceneManager.SwitchToSceneName(sceneManager.gameplaySceneName); //unpause the game
-        resumeButton.clicked += () => { gameManager.ResumeGame(); };
+        resumeButton.clicked += () => {
+            buttonClick.Play(); gameManager.ResumeGame(); 
+        };
         mainMenuButton.clicked += MainMenuClicked;
         restartButton.clicked += RestartClicked;
         optionsButton.clicked += OptionsClicked;
@@ -69,15 +70,18 @@ public class PauseUIScript : MonoBehaviour
 
     private void OptionsClicked()
     {
+        buttonClick.Play();
         optionsManager.ShowOptionsMenu();
     }
     private void RestartClicked()
     {
+        buttonClick.Play();
         sceneManager.SwitchToScene(sceneManager.gameplaySceneName);
     }
 
     private void MainMenuClicked()
     {
+        buttonClick.Play();
         sceneManager.GoToMainMenu();    
     }
 
@@ -86,7 +90,8 @@ public class PauseUIScript : MonoBehaviour
     //to see whether this method is getting called in menus (which it shouldn't). 
     private void ShowHidePauseMenu()
     {
-    
+        pauseAppear.Play();
+        /*
         if(pauseReference != null)
         {
 
@@ -103,11 +108,12 @@ public class PauseUIScript : MonoBehaviour
         {
             Debug.LogWarning("PAUSEREFERENCE INVALID");
 
-        }
+        }*/
         
         if (gameManager.gameState == GameState.paused)
         {
             root.style.visibility = Visibility.Visible;
+            ambientBuzz.Play();
             //root.SetEnabled(true);
             //root.visible = true;
         } 
@@ -115,12 +121,12 @@ public class PauseUIScript : MonoBehaviour
         {
             root.style.visibility = Visibility.Hidden;
             optionsManager.HideOptionsMenu();
-
+            ambientBuzz.Stop();
             //root.SetEnabled(false);
             //root.visible = false;
         } else
         {
-            throw new Exception("Pausemenu.TogglePause is somehow being called in an unpredicted gamestate");
+            throw new Exception("Pausemenu.TogglePause() is somehow being called in an unpredicted gamestate");
         }
 
     }
