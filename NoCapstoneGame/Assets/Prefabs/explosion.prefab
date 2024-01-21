@@ -123,13 +123,10 @@ MonoBehaviour:
   swayWidth: 0
   entityManager: {fileID: 0}
   collisionDamage: 10
-  framesToLive: 200
+  framesToLive: 30
   downwardMovement: 0
   animator: {fileID: -7998903580762249095}
-  animationArray:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  index: 0
 --- !u!50 &-7185862020004767030
 Rigidbody2D:
   serializedVersion: 4
