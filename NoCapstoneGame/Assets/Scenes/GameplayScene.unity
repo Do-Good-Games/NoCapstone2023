@@ -196,17 +196,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5a7ba9cdb60cb0b48b855ee377cf2473, type: 2}
     - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+      propertyPath: playerInput
+      value: 
+      objectReference: {fileID: 1308583677}
+    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: SpeedPrototypeSO
       value: 
       objectReference: {fileID: 11400000, guid: b97d875deacca3d4387a6a6ded43b6f8, type: 2}
-    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: MaxEnergySphereSize
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3079467235973761314, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: EnergySizePerUnitCharged
-      value: 0.25
-      objectReference: {fileID: 0}
     - target: {fileID: 4691480037228500571, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: m_audioClip
       value: 
@@ -215,38 +211,6 @@ PrefabInstance:
       propertyPath: OutputAudioMixerGroup
       value: 
       objectReference: {fileID: 370495301599186931, guid: 4052d8261cba7c84d8c3f660847dfdac, type: 2}
-    - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1308583664}
-    - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: UpdateCursorPosition
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnRightClick
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: PlayerController, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 6383936347403402448, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -299,38 +263,6 @@ PrefabInstance:
       propertyPath: OutputAudioMixerGroup
       value: 
       objectReference: {fileID: 370495301599186931, guid: 4052d8261cba7c84d8c3f660847dfdac, type: 2}
-    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: speedOnExit
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: speedIncreaseScale
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: boostEnergyLostPerSecond
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: boostGracePeriodDuration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: dimRetCurve.m_Curve.Array.data[2].time
-      value: 0.7014376
-      objectReference: {fileID: 0}
-    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: dimRetCurve.m_Curve.Array.data[2].value
-      value: 0.27487987
-      objectReference: {fileID: 0}
-    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: dimRetCurve.m_Curve.Array.data[2].inSlope
-      value: 0.70561874
-      objectReference: {fileID: 0}
-    - target: {fileID: 8467958077101305148, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
-      propertyPath: dimRetCurve.m_Curve.Array.data[2].inWeight
-      value: 0.093794905
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
 --- !u!1 &447464043
@@ -993,6 +925,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f1124c83cc1602644ad09c4ef3d14c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1308583677 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5991089515577886123, guid: e346e41a6062243dbbdfc1febcf0d79e, type: 3}
+  m_PrefabInstance: {fileID: 429762499}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1538539958 stripped
