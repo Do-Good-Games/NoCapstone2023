@@ -9,6 +9,7 @@ public class ExplosiveAsteroid : Asteroid
 
     public override void DestroyAsteroid()
     {
+        this.numDrops = 0;
         //take current position and place an explosion object here
         GameObject explosion = GameObject.Instantiate(explosionPrefab, this.transform.position, this.transform.rotation);
         //Explosion explosion = (Explosion)GameObject.Instantiate(explosionPrefab, this.transform.position, this.transform.rotation);
