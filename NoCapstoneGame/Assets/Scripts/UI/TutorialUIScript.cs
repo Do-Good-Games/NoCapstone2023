@@ -35,12 +35,13 @@ public class TutorialUIScript : MonoBehaviour
         endTutorialButton.style.display = DisplayStyle.None;
 
         //https://docs.unity3d.com/Manual/UIE-set-background-images-with-an-image-asset.html
-        backgroundArray = new StyleBackground[3];
+        backgroundArray = new StyleBackground[4];
         backgroundArray[0] = new StyleBackground(spriteArr[0]);
         backgroundArray[1] = new StyleBackground(spriteArr[1]);
         backgroundArray[2] = new StyleBackground(spriteArr[2]);
+        backgroundArray[3] = new StyleBackground(spriteArr[3]);
 
-    //https://docs.unity3d.com/Manual/UIE-set-background-images-with-an-image-asset.html
+        //https://docs.unity3d.com/Manual/UIE-set-background-images-with-an-image-asset.html
         root.style.backgroundImage = backgroundArray[0];
 
         leftButton.clicked += () => TutorialSlideLeft();
@@ -87,7 +88,7 @@ public class TutorialUIScript : MonoBehaviour
     private void TutorialSlideRight()
     {
         Debug.Log("going right");
-        if (backGroundArrayIndex < (backgroundArray.Length - 1))
+        if (backGroundArrayIndex < (backgroundArray.Length - 2))
         {
             backGroundArrayIndex++;
             root.style.backgroundImage = backgroundArray[backGroundArrayIndex];
@@ -95,6 +96,8 @@ public class TutorialUIScript : MonoBehaviour
         }
         else
         {
+            backGroundArrayIndex++;
+            root.style.backgroundImage = backgroundArray[backgroundArray.Length-1];
             endTutorialButton.style.display = DisplayStyle.Flex;
         }
     }
