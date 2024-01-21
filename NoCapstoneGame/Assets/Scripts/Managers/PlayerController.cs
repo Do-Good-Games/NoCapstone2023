@@ -85,9 +85,12 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Sounds")]
-    [SerializeField] AudioSource shootSound;
     [SerializeField] AudioSource hitSound;
     [SerializeField] AudioSource deathSound;
+    [SerializeField] AudioSource shootSound;
+    private float startingPitch;
+    [Tooltip("how often we increase the pitch - every n shots we increase by 1 semitone")]
+    [SerializeField] int shotPitchModCount;
 
 
     [Header("Physics")]
@@ -173,6 +176,8 @@ public class PlayerController : MonoBehaviour
         SwitchActionMap();
 
         enteringGameplay = true; // mousedelta - should this be false instead?
+
+        startingPitch = shootSound.pitch;
 
         //depreciated prototype code - no replacement necessary
         //SpeedPrototypeSO.ResetVariables();
@@ -324,22 +329,37 @@ public class PlayerController : MonoBehaviour
 
             if (chargeLevel >= ChargeSpentPerShot) //provided this won't cause us to run out of charge
             {
-                //SpeedPrototypeSO.SPEnergyFired(ChargeSpentPerShot); //from prototyping - removed as we wanted the firing changes to happen from the way we did it on boost
-                //speedManager.Fired(ChargeSpentPerShot);
-                gameManager.UpdateCharge(-ChargeSpentPerShot);
+                shootSound.Play();
+                if (i % shotPitchModCount == 0)
+                {
+                    shootSound.pitch *= 1.059463f;
+
+                }
+                gameManager.UpdateCharge(-ChargeSpentPerShot);//only line of difference between next if condition
                 gameManager.UpdateEnergy(-EnergySpentPerShot);
+                
+
                 FireLasers();
-                UpdateEnergySphere();
+                UpdateEnergySphere();                
             }
             else if (energyLevel >= EnergySpentPerShot) //if we will run out of charge, (but we won't run out of energy)
             {
-                //SpeedPrototypeSO.SPEnergyFired(ChargeSpentPerShot);//from prototyping - removed as we wanted the firing changes to happen from the way we did it on boost
+                shootSound.Play();
+                if(i % shotPitchModCount == 0)
+                {
+                    shootSound.pitch *= 1.059463f;
+
+                }
                 gameManager.UpdateEnergy(-EnergySpentPerShot);
+                
+
                 FireLasers();
-                gameManager.ResetCharge();
+                gameManager.ResetCharge(); //only line of difference between previous if condition
                 UpdateEnergySphere();
-                yield break;
+
+                //yield break;
             }
+            i++;
 
             yield return new WaitForSeconds(TimeBetweenShots);
 
@@ -353,6 +373,8 @@ public class PlayerController : MonoBehaviour
                 shooting = false;
             }
         }
+        shootSound.pitch = startingPitch;
+
     }
 
     private void FireLasers()
