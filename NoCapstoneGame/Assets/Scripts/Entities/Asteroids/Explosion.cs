@@ -15,7 +15,7 @@ public class Explosion : Entity
     // Start is called before the first frame update
     void Start()
     {
-        
+        this.upwardsSpeed = -10000;
     }
 
     // Update is called once per frame

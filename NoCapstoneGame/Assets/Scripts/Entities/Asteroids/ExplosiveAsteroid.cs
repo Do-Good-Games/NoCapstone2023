@@ -11,6 +11,7 @@ public class ExplosiveAsteroid : Asteroid
     {
         //take current position and place an explosion object here
         GameObject explosion = GameObject.Instantiate(explosionPrefab, this.transform.position, this.transform.rotation);
+        //Explosion explosion = (Explosion)GameObject.Instantiate(explosionPrefab, this.transform.position, this.transform.rotation);
 
         base.DestroyAsteroid();
     }
