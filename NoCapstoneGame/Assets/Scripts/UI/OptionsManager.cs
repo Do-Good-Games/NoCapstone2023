@@ -125,6 +125,8 @@ public class OptionsManager : MonoBehaviour
         masterVolume = evt.newValue;
         masterMixerGroup.audioMixer.SetFloat("MasterVolParam", Mathf.Log10(evt.newValue) * 20);
         PlayerPrefs.SetFloat("masterVolume", masterVolume);
+        PlayerPrefs.SetInt("isMuted", 0);
+        SFXManager.Instance.isMuted = false;
         CheckMute();
     }
 
@@ -133,6 +135,8 @@ public class OptionsManager : MonoBehaviour
         musicVolume = evt.newValue;
         musicMixerGroup.audioMixer.SetFloat("MusicVolParam", Mathf.Log10(evt.newValue) * 20);
         PlayerPrefs.SetFloat("MusicVolume", musicVolume);
+        PlayerPrefs.SetInt("isMuted", 0);
+        SFXManager.Instance.isMuted = false;
         CheckMute();
     }
     public void OnSfxSliderValueChange(ChangeEvent<float> evt)
@@ -140,6 +144,8 @@ public class OptionsManager : MonoBehaviour
         sfxVolume = evt.newValue;
         sfxMixerGroup.audioMixer.SetFloat("SFXVolParam", Mathf.Log10(evt.newValue) * 20);
         PlayerPrefs.SetFloat("SfxVolume", sfxVolume);
+        PlayerPrefs.SetInt("isMuted", 0);
+        SFXManager.Instance.isMuted = false;
         CheckMute();
     }
 
@@ -166,7 +172,8 @@ public class OptionsManager : MonoBehaviour
 
     public void CheckMute() //sees if the volume is currently muted, this should be called whenever a volume slider is changed, or the mute button is pushed
     {
-        if(SFXManager.Instance.isMuted)
+        muteGameToggle.value = PlayerPrefs.GetInt("isMuted") == 1 ? true : false;
+        if (SFXManager.Instance.isMuted)
         {
             //set all volumes to mute (-80 decibels)
             masterMixerGroup.audioMixer.SetFloat("MasterVolParam", -80);
