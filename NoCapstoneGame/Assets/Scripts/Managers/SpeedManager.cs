@@ -129,6 +129,7 @@ public class SpeedManager : MonoBehaviour
         {
             StopCoroutine(BoostCoroutineObject);
         }
+        gameManager.StartBoost();
         BoostCoroutineObject = BoostCoroutine();
         StartCoroutine(BoostCoroutineObject);
     }
