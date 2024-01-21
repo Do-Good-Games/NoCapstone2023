@@ -5,7 +5,6 @@
             <ui:VisualElement style="visibility: visible; align-items: center; justify-content: space-around; -unity-background-image-tint-color: rgb(255, 255, 255); background-color: rgba(1, 52, 79, 0); width: 1000px;">
                 <ui:Slider picking-mode="Ignore" label="Master Volume" value="0.95" name="MasterVolSlider" high-value="1" low-value="0.0001" class="volumeSlider" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;" />
                 <ui:Slider picking-mode="Ignore" label="Music Volume" value="0.9999" high-value="1" name="MusicVolSlider" low-value="0.0001" class="volumeSlider" />
-                <ui:Slider picking-mode="Ignore" label="Music Volume" value="0.5" high-value="1" name="MusicVolSlider" low-value="0.0001" class="volumeSlider" />
                 <ui:Slider picking-mode="Ignore" label="Sound Effects" value="0.5" high-value="1" name="SFXVolSlider" low-value="0.0001" class="volumeSlider" />
                 <ui:Slider picking-mode="Ignore" label="Mouse Sensitivity" value="0.5" high-value="1" name="MouseSensitivitySlider" low-value="0.0001" class="volumeSlider" />
             </ui:VisualElement>
