@@ -138,7 +138,16 @@ public class SceneManager : MonoBehaviour
 
 
             //transition to new scene
-            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+            if(sceneName == gameplaySceneName && (PlayerPrefs.GetInt("ShowTutorial") == 1))
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("TutorialScene");
+            }
+            else
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+            }
+
+            //UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
 
             //hold control
             //Time.timeScale = 0;

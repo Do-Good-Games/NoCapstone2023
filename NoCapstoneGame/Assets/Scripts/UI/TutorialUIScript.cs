@@ -13,6 +13,7 @@ public class TutorialUIScript : MonoBehaviour
 
     private Button leftButton;
     private Button rightButton;
+    private Button endTutorialButton;
     private VisualElement background;
 
     [SerializeField] private Sprite[] spriteArr;
@@ -30,6 +31,8 @@ public class TutorialUIScript : MonoBehaviour
 
         leftButton = root.Q<Button>("LeftButton");
         rightButton = root.Q<Button>("RightButton");
+        endTutorialButton = root.Q<Button>("EndTutorialButton");
+        endTutorialButton.style.display = DisplayStyle.None;
 
         //https://docs.unity3d.com/Manual/UIE-set-background-images-with-an-image-asset.html
         backgroundArray = new StyleBackground[3];
@@ -42,6 +45,7 @@ public class TutorialUIScript : MonoBehaviour
 
         leftButton.clicked += () => TutorialSlideLeft();
         rightButton.clicked += () => TutorialSlideRight();
+        endTutorialButton.clicked += () => EndTutorial();
 
         //this is here for testing, since setting playerPrefs values does not revert when you stop playing
 
@@ -72,10 +76,11 @@ public class TutorialUIScript : MonoBehaviour
             backGroundArrayIndex--;
             root.style.backgroundImage = backgroundArray[backGroundArrayIndex];
             Debug.Log(backGroundArrayIndex);
+            endTutorialButton.style.display = DisplayStyle.None;
         }
         else
         {
-            return;
+            SceneManager.Instance.SwitchToScene("MainMenuScene");
         }
     }
 
@@ -90,12 +95,17 @@ public class TutorialUIScript : MonoBehaviour
         }
         else
         {
-            Debug.Log("finish tutorial");
-            //root.style.display = DisplayStyle.None;
-            //set tutorial done to true, creating it if it doesn't exist
-            PlayerPrefs.SetInt("ShowTutorial", 0);
-            sceneManager.SwitchToScene(sceneManager.gameplaySceneName);
-            return;
+            endTutorialButton.style.display = DisplayStyle.Flex;
         }
+    }
+
+    private void EndTutorial()
+    {
+        Debug.Log("finish tutorial");
+        //root.style.display = DisplayStyle.None;
+        //set tutorial done to true, creating it if it doesn't exist
+        PlayerPrefs.SetInt("ShowTutorial", 0);
+        sceneManager.SwitchToScene(sceneManager.gameplaySceneName);
+        return;
     }
 }
