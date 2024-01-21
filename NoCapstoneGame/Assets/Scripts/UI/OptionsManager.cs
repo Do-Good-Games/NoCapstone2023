@@ -48,6 +48,8 @@ public class OptionsManager : MonoBehaviour
     [Tooltip("enter a value 0 to 1, this will be lerped between the min and max sensitivity values")]
     [SerializeField] private float defaultMouseSensitivity;
 
+    [SerializeField] private AudioSource ambience;
+
     private void OnEnable()
     {
         if (!PlayerPrefs.HasKey("ShowTutorial"))
@@ -136,7 +138,7 @@ public class OptionsManager : MonoBehaviour
     public void ShowOptionsMenu()
     {
         UIDoc.rootVisualElement.style.display = DisplayStyle.Flex;
-
+        ambience.Play();
 
         root.style.visibility = Visibility.Visible;
     }
@@ -144,6 +146,8 @@ public class OptionsManager : MonoBehaviour
     public void HideOptionsMenu()
     {
         UIDoc.rootVisualElement.style.display = DisplayStyle.None;
+        ambience.Stop();
+
         root.style.visibility = Visibility.Hidden;
     }
 
