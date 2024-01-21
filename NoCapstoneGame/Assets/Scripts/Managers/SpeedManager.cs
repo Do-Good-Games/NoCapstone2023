@@ -155,6 +155,7 @@ public class SpeedManager : MonoBehaviour
             yield return null;
         }
 
+        boostExitSound.Play();
         inBoostGracePeriod = true;
         float timeSinceGracePeriodStart = Time.time;
         while (Time.time - timeSinceGracePeriodStart <= boostGracePeriodDuration)
@@ -168,7 +169,6 @@ public class SpeedManager : MonoBehaviour
         inBoost = false;
 
         boostSoundLoop.Stop();
-        boostExitSound.Play();
         gameManager.EndBoost(numOfBoosts, speedOnExit);
         ResetVariables();
     }
