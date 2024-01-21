@@ -6,7 +6,7 @@
         </ui:VisualElement>
         <ui:VisualElement name="ButtonContainer" style="justify-content: space-around; align-items: center; flex-direction: row; margin-left: 250px; margin-right: 250px;">
             <ui:Button text="Start" display-tooltip-when-elided="true" name="StartButton" class="startButton" style="-unity-background-scale-mode: scale-and-crop;" />
-            <ui:Button text="Credits" display-tooltip-when-elided="true" name="CreditsButton" class="creditsButton" style="top: 336px; -unity-background-scale-mode: scale-and-crop;" />
+            <ui:Button text="Credits" display-tooltip-when-elided="true" name="CreditsButton" class="creditsButton" style="top: 336px; -unity-background-scale-mode: scale-and-crop; width: 441px;" />
             <ui:Button text="Credits" display-tooltip-when-elided="true" name="OptionsButton" class="optionsButton" />
         </ui:VisualElement>
     </ui:VisualElement>

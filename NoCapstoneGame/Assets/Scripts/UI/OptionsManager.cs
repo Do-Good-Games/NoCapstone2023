@@ -153,8 +153,8 @@ public class OptionsManager : MonoBehaviour
         masterVolume = evt.newValue;
         masterMixerGroup.audioMixer.SetFloat("MasterVolParam", Mathf.Log10(evt.newValue) * 20);
         PlayerPrefs.SetFloat("masterVolume", masterVolume);
-        PlayerPrefs.SetInt("isMuted", 0);
-        SFXManager.Instance.isMuted = false;
+        //PlayerPrefs.SetInt("isMuted", 0);
+        //SFXManager.Instance.isMuted = false;
         CheckMute();
     }
 
@@ -163,8 +163,8 @@ public class OptionsManager : MonoBehaviour
         musicVolume = evt.newValue;
         musicMixerGroup.audioMixer.SetFloat("MusicVolParam", Mathf.Log10(evt.newValue) * 20);
         PlayerPrefs.SetFloat("MusicVolume", musicVolume);
-        PlayerPrefs.SetInt("isMuted", 0);
-        SFXManager.Instance.isMuted = false;
+        //PlayerPrefs.SetInt("isMuted", 0);
+        //SFXManager.Instance.isMuted = false;
         CheckMute();
     }
     public void OnSfxSliderValueChange(ChangeEvent<float> evt)
@@ -172,8 +172,8 @@ public class OptionsManager : MonoBehaviour
         sfxVolume = evt.newValue;
         sfxMixerGroup.audioMixer.SetFloat("SFXVolParam", Mathf.Log10(evt.newValue) * 20);
         PlayerPrefs.SetFloat("SfxVolume", sfxVolume);
-        PlayerPrefs.SetInt("isMuted", 0);
-        SFXManager.Instance.isMuted = false;
+        //PlayerPrefs.SetInt("isMuted", 0);
+        //SFXManager.Instance.isMuted = false;
         CheckMute();
     }
 
