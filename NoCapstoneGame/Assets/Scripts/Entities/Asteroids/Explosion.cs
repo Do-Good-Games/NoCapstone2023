@@ -10,12 +10,17 @@ public class Explosion : Entity
 
     [SerializeField] int framesToLive;
     [SerializeField] float downwardMovement;
-
+    [SerializeField] Animator animator;
+    public int index;
 
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("check1 spawning explosion");
+
         this.upwardsSpeed = -10000;
+
+        animator.SetInteger("Index", index);
     }
 
     // Update is called once per frame
@@ -26,13 +31,11 @@ public class Explosion : Entity
 
     private void FixedUpdate()
     {
-        Debug.Log("moving explosion " + this.transform.position.x + " " + this.transform.position.y + " " + this.transform.position.z);
         //transform.position = transform.position + new Vector3(0, this.transform.position.y - (downwardMovement + GameManager.Instance.relativeSpeed), 0);
 
         framesToLive -= 1;
         if(framesToLive <= 0)
-        {
-            
+        {            
             Destroy();
         }
     }

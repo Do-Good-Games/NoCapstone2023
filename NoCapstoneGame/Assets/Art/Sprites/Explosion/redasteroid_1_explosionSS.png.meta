@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -131,8 +131,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a6757ba6d69066f4092cf91d7a8bbc1a
-      internalID: -1594721648
+      spriteID: 73bc2f26a99d9dc45956acc77fd3e486
+      internalID: -1497737441
       vertices: []
       indices: 
       edges: []
@@ -152,8 +152,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1176163cd66f3d4b8d16829555f7d8b
-      internalID: -1000485187
+      spriteID: 0a4a5abdd41639045beb38856730487a
+      internalID: 1330085114
       vertices: []
       indices: 
       edges: []
@@ -173,8 +173,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 669e8581ea0fd2e418aa1f37b5f0c069
-      internalID: 1787335638
+      spriteID: 7abf67371e62e4b42b483a11a8f187e1
+      internalID: -326956566
       vertices: []
       indices: 
       edges: []
@@ -194,8 +194,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9bd0072b6ce39f940be2a7d354cfb889
-      internalID: 337480782
+      spriteID: b2d6a970a2b0a9c439f20882ec440b35
+      internalID: -1193200028
       vertices: []
       indices: 
       edges: []
@@ -215,8 +215,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9104cd67ed10f2f429a044517d0e9a73
-      internalID: -199660098
+      spriteID: 3156a0efca7d2e64d8c3a0986b8fd96e
+      internalID: 1171056476
       vertices: []
       indices: 
       edges: []
@@ -236,8 +236,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2eccff950ab8aca45921192122aca1aa
-      internalID: -843202439
+      spriteID: 8a209bf6745ac2242b1510d882123c88
+      internalID: -885043627
       vertices: []
       indices: 
       edges: []
@@ -257,8 +257,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b14193ace611f6f47888ce025f960795
-      internalID: -194557881
+      spriteID: 365f0e1234709114492695c642a04ed2
+      internalID: -351925052
       vertices: []
       indices: 
       edges: []
@@ -278,8 +278,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 523d7ef269ce19b448ca95d808606ec9
-      internalID: -1565884861
+      spriteID: cab46398d91d5594897cf1dad80f7c6d
+      internalID: -283397060
       vertices: []
       indices: 
       edges: []
@@ -299,8 +299,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dd04bc0c155b85245a377c4b64077a9b
-      internalID: -1461513649
+      spriteID: fb7843cc0e87f29479c0800a0d2e8105
+      internalID: -1360717584
       vertices: []
       indices: 
       edges: []
@@ -320,8 +320,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 436f1b0c6cec5c24d95dc64d41b12415
-      internalID: 1836835503
+      spriteID: 6f78b60627ef00c478e5cf8d1a7389b0
+      internalID: 1861081214
       vertices: []
       indices: 
       edges: []
@@ -341,8 +341,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9275a046e7bd25348a932b52a9061478
-      internalID: 883909633
+      spriteID: fba2c3ccd5bd56a40918d3064d91da4c
+      internalID: -83931494
       vertices: []
       indices: 
       edges: []
@@ -358,17 +358,17 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      redasteroid_1_explosionSS_0: -1594721648
-      redasteroid_1_explosionSS_1: -1000485187
-      redasteroid_1_explosionSS_10: 883909633
-      redasteroid_1_explosionSS_2: 1787335638
-      redasteroid_1_explosionSS_3: 337480782
-      redasteroid_1_explosionSS_4: -199660098
-      redasteroid_1_explosionSS_5: -843202439
-      redasteroid_1_explosionSS_6: -194557881
-      redasteroid_1_explosionSS_7: -1565884861
-      redasteroid_1_explosionSS_8: -1461513649
-      redasteroid_1_explosionSS_9: 1836835503
+      redasteroid_1_explosionSS_0: -1497737441
+      redasteroid_1_explosionSS_1: 1330085114
+      redasteroid_1_explosionSS_10: -83931494
+      redasteroid_1_explosionSS_2: -326956566
+      redasteroid_1_explosionSS_3: -1193200028
+      redasteroid_1_explosionSS_4: 1171056476
+      redasteroid_1_explosionSS_5: -885043627
+      redasteroid_1_explosionSS_6: -351925052
+      redasteroid_1_explosionSS_7: -283397060
+      redasteroid_1_explosionSS_8: -1360717584
+      redasteroid_1_explosionSS_9: 1861081214
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
