@@ -16,7 +16,7 @@ public class Asteroid : Entity, IDamageable
     [Header("Interaction")]
     [SerializeField] private float maxHealth;
     [SerializeField] private float health;
-    [SerializeField] private float size;
+    [SerializeField] public float size;
     [SerializeField] private string laserTag;
     [SerializeField] private int score;
 

@@ -254,3 +254,4 @@ MonoBehaviour:
   audioSource: {fileID: 4692610660959000773}
   destroySoundArray: {fileID: 11400000, guid: e399aa0fdf97da641a27197b5d46b9f9, type: 2}
   explosionPrefab: {fileID: 6879541595993959296, guid: 571feb7a7dd70094993bf4a35444d289, type: 3}
+  sizeScale: 1.5
