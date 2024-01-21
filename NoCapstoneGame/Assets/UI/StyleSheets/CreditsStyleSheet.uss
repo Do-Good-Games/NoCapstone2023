@@ -1,5 +1,23 @@
 .CreditLine {
     font-size: 32px;
-    color: rgb(88, 62, 87);
+    color: rgb(37, 190, 213);
     -unity-text-align: upper-center;
+}
+
+.CreditLine2 {
+    font-size: 30px;
+    color: rgb(37, 190, 213);
+    -unity-text-align: upper-center;
+}
+
+.Button {
+    background-image: url('project://database/Assets/Art/UI/PauseArt/BUTTON-normal.png?fileID=2800000&guid=37fcdae3bec83ae40b7560dd79e1554c&type=3#BUTTON-normal');
+}
+
+.Button:hover {
+    background-image: url('project://database/Assets/Art/UI/PauseArt/BUTTON-hoverl.png?fileID=2800000&guid=c3a0468d11da18f4c8651184b7a268d5&type=3#BUTTON-hoverl');
+}
+
+.Button:hover:active {
+    background-image: url('project://database/Assets/Art/UI/PauseArt/BUTTON-pressed.png?fileID=2800000&guid=b196f6994095aa740b0680ad63a262c1&type=3#BUTTON-pressed');
 }
