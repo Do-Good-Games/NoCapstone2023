@@ -63,6 +63,13 @@
 .TutorialToggle Label {
     width: 210px;
     min-width: 80px;
-    color: rgb(212, 179, 207);
-    font-size: 32px;
+    color: rgb(37, 190, 213);
+    font-size: 18px;
+    -unity-font-definition: url('project://database/Assets/Art/UI/PauseArt/8-bit-hud%20SDF.asset?fileID=11400000&guid=ebe3bad336d2f044faa41d02b7df2694&type=2#8-bit-hud SDF');
+    -unity-text-align: upper-center;
+}
+
+.TutorialToggle {
+    width: 300px;
+    -unity-text-align: upper-center;
 }

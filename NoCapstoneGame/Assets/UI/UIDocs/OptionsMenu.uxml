@@ -7,8 +7,10 @@
                 <ui:Slider picking-mode="Ignore" label="Music Volume" value="0.9999" high-value="1" name="MusicVolSlider" low-value="0.0001" class="volumeSlider" />
                 <ui:Slider picking-mode="Ignore" label="Sound Effects" value="42" high-value="1" name="SFXVolSlider" low-value="0.0001" class="volumeSlider" />
             </ui:VisualElement>
-            <ui:Toggle label="Show Tutorial" name="ShowTutorialToggle" class="TutorialToggle" style="flex-direction: column; align-items: center; justify-content: flex-end; font-size: 32px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; background-color: rgb(1, 52, 79); color: rgb(212, 179, 207);" />
-            <ui:Toggle label="  Mute Game" name="MuteGameToggle" class="TutorialToggle" style="flex-direction: column; align-items: center; justify-content: flex-end; font-size: 32px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; background-color: rgb(1, 52, 79); color: rgb(212, 179, 207);" />
+            <ui:VisualElement style="flex-direction: row; justify-content: space-around;">
+                <ui:Toggle label="Show Tutorial" name="ShowTutorialToggle" class="TutorialToggle" style="flex-direction: column; align-items: center; justify-content: flex-end; font-size: 32px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; color: rgb(212, 179, 207);" />
+                <ui:Toggle label="  Mute Game" name="MuteGameToggle" class="TutorialToggle" style="flex-direction: column; align-items: center; justify-content: flex-end; font-size: 32px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; background-color: rgba(1, 52, 79, 0); color: rgb(212, 179, 207);" />
+            </ui:VisualElement>
             <ui:Button text="Back" display-tooltip-when-elided="true" name="BackButton" style="font-size: 32px;" />
         </ui:VisualElement>
     </ui:VisualElement>
