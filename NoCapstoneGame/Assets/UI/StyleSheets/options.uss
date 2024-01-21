@@ -1,14 +1,12 @@
-Slider Label {
-}
-
 .volumeSlider {
     width: 70%;
-    height: 40px;
+    height: 50px;
     margin-left: 0;
     margin-right: 0;
     margin-top: 0;
     margin-bottom: 0;
     background-color: rgba(0, 0, 0, 0);
+    font-size: 6px;
 }
 
 .volumeSlider #unity-drag-container {
@@ -20,6 +18,7 @@ Slider Label {
     border-top-color: rgba(0, 0, 0, 0);
     border-bottom-color: rgba(0, 0, 0, 0);
     color: rgba(210, 210, 210, 0);
+    margin-top: 15px;
 }
 
 .volumeSlider #unity-tracker {
@@ -46,9 +45,11 @@ Slider Label {
 }
 
 .volumeSlider Label {
-    font-size: 32px;
-    color: rgb(212, 179, 207);
+    font-size: 18px;
+    color: rgb(37, 190, 213);
     width: 300px;
+    -unity-font-definition: url('project://database/Assets/Art/UI/PauseArt/8-bit-hud%20SDF.asset?fileID=11400000&guid=ebe3bad336d2f044faa41d02b7df2694&type=2#8-bit-hud SDF');
+    -unity-font: url('project://database/Assets/Art/UI/PauseArt/8-bit-hud.ttf?fileID=12800000&guid=3737689ed1c776c45b5026f6f556808c&type=3#8-bit-hud');
 }
 
 .unity-base-slider--horizontal .unity-base-slider__tracker {
