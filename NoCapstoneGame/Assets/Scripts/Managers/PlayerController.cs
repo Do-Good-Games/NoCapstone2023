@@ -249,32 +249,35 @@ public class PlayerController : MonoBehaviour
 
     public void Charge(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if(!speedManager.inBoost && !RightMouseHeld)
         {
-            leftMouseHeld = true;
-            shooting = false;
-
-            if (ShootCoroutineObject != null)
+            if (context.started)
             {
-                StopCoroutine(ShootCoroutineObject);
+                leftMouseHeld = true;
+                shooting = false;
+
+                if (ShootCoroutineObject != null)
+                {
+                    StopCoroutine(ShootCoroutineObject);
+                }
             }
-        }
-        if (context.canceled)
-        {
-            leftMouseHeld = false;
-            //if (gameManager.getCharge() >= ChargeSpentPerShot) //switch to this line if you want to disable single fire shooting
-            if (gameManager.GetCharge() >= ChargeSpentPerShot || gameManager.GetEnergy() >= EnergySpentPerShot)
+            if (context.canceled)
             {
-                shooting = true;
+                leftMouseHeld = false;
+                //if (gameManager.getCharge() >= ChargeSpentPerShot) //switch to this line if you want to disable single fire shooting
+                if (gameManager.GetCharge() >= ChargeSpentPerShot || gameManager.GetEnergy() >= EnergySpentPerShot)
+                {
+                    shooting = true;
 
-                ShootCoroutineObject = ShootCoroutine();
-                StartCoroutine(ShootCoroutineObject);
-            }
-            else
-            {
+                    ShootCoroutineObject = ShootCoroutine();
+                    StartCoroutine(ShootCoroutineObject);
+                }
+                else
+                {
 
-                gameManager.ResetCharge();
-                UpdateEnergySphere();
+                    gameManager.ResetCharge();
+                    UpdateEnergySphere();
+                }
             }
         }
     }

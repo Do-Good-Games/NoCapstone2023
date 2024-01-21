@@ -105,15 +105,18 @@ public class OptionsManager : MonoBehaviour
         {
             PlayerPrefs.SetFloat("sfxVolume", defaultVolume);
         }
+<<<<<<< HEAD
         if (!PlayerPrefs.HasKey("mouseSensitivity"))
         {
             PlayerPrefs.SetFloat("mouseSensitivity", defaultMouseSensitivity);
-        }        
+        }
+=======
         if (!PlayerPrefs.HasKey("isMuted"))
         {
             PlayerPrefs.SetInt("isMuted", 0);
         }
         Debug.Log("mute check " + SFXManager.Instance.isMuted);
+>>>>>>> UI
 
         masterVolSlider.RegisterValueChangedCallback(OnMasterSliderValueChange);
         musicVolSlider.RegisterValueChangedCallback(OnMusicSliderValueChange);
@@ -267,14 +270,17 @@ public class OptionsManager : MonoBehaviour
         masterMixerGroup.audioMixer.SetFloat("MasterVolParam", Mathf.Log10(masterVolSlider.value) * 20);
         musicMixerGroup.audioMixer.SetFloat("MusicVolParam", Mathf.Log10(musicVolSlider.value) * 20);
         sfxMixerGroup.audioMixer.SetFloat("SFXVolParam", Mathf.Log10(sfxVolSlider.value) * 20);
-        */
-        CheckMute();
-
+<<<<<<< HEAD
 
         if(mouseMoveAction != null) {
             mouseMoveAction.ApplyParameterOverride("scaleVector2:x", mouseSensitivityCurve.Evaluate(mouseSensitivity));
             mouseMoveAction.ApplyParameterOverride("scaleVector2:y", mouseSensitivityCurve.Evaluate(mouseSensitivity));
         }
+=======
+        */
+        CheckMute();
+
+>>>>>>> UI
     }
 
     private void Save()
