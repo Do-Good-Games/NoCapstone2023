@@ -20,10 +20,14 @@ public class MainMenuSceneScript : MonoBehaviour
     private VisualElement creditsRoot;
     private Button creditsCloseButton;
 
+    [SerializeField] private OptionsManager optionsManager;
+    private Button optionsButton;
 
-    private void OnEnable()
-    {
-    }
+    [SerializeField] private AudioSource startSound;
+    [SerializeField] private AudioSource clickSound;
+    [SerializeField] private AudioSource ambience;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -36,21 +40,28 @@ public class MainMenuSceneScript : MonoBehaviour
         creditsButton = root.Q<Button>("CreditsButton");
         quitButton = root.Q<Button>("QuitButton");
 
+        optionsButton = root.Q<Button>("OptionsButton");
 
         creditsRoot = CreditsUIDoc.rootVisualElement;
         creditsRoot.visible = false;
         creditsCloseButton = creditsRoot.Q<Button>("closeButton");
         
 
-        startButton.clicked += () => { Debug.Log("pingu"); sceneManager.SwitchToScene(sceneManager.gameplaySceneName); };
-        creditsButton.clicked += () => { creditsRoot.visible = true;  root.visible = false; } ;
-        quitButton.clicked += () => { Application.Quit(); };//make this quit the game 
+        startButton.clicked += () => { 
+            if(PlayerPrefs.GetInt("ShowTutorial") == 0)
+            {
+                sceneManager.SwitchToScene(sceneManager.gameplaySceneName); 
+            } else
+            {
+                sceneManager.SwitchToScene("TutorialScene");
+            }
+            startSound.Play();
+        };
+        creditsButton.clicked += () => { clickSound.Play(); ambience.Play(); creditsRoot.visible = true;  root.visible = false; } ;
+        //quitButton.clicked += () => { Application.Quit(); };//make this quit the game 
+        optionsButton.clicked += () => { clickSound.Play(); optionsManager.ShowOptionsMenu();};
 
-        creditsCloseButton.clicked += () => { creditsRoot.visible = false; root.visible = true; };
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
+            creditsCloseButton.clicked += () => { clickSound.Play(); ambience.Stop(); creditsRoot.visible = false; root.visible = true;  };
     }
 }

@@ -7,7 +7,7 @@ public class OldHealthBar : MonoBehaviour
     [SerializeField] PlayerController player;
 
     private float initialHeight;
-    private int maxHealth;
+    private float maxHealth;
     GameManager gameManager;
 
     // Start is called before the first frame update
