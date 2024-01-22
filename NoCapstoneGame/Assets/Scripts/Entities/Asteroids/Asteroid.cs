@@ -11,12 +11,13 @@ public class Asteroid : Entity, IDamageable
     [SerializeField] public EntityManager droppedEntityManager;
     [SerializeField] public Sprite[] spriteArr;
     [SerializeField] protected int numDrops;
+    public int spriteIndex;
 
 
     [Header("Interaction")]
     [SerializeField] private float maxHealth;
     [SerializeField] private float health;
-    [SerializeField] private float size;
+    [SerializeField] public float size;
     [SerializeField] private string laserTag;
     [SerializeField] private int score;
 
@@ -42,7 +43,7 @@ public class Asteroid : Entity, IDamageable
         this.size = size;
         this.droppedEntityManager = droppedEntityManager;
         this.numDrops = numDrops;
-        int spriteIndex = Random.Range(0, spriteArr.Length - 1);
+        spriteIndex = Random.Range(0, spriteArr.Length);
         m_spriteRenderer.sprite = spriteArr[spriteIndex];
         this.transform.localScale = new Vector2(size, size);
     }

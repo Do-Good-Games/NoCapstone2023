@@ -246,6 +246,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9f2187c7e0278a045a01d61eab3aa467, type: 3}
   - {fileID: 21300000, guid: 4516b13bd7392894f904fb838dddb861, type: 3}
   numDrops: 0
+  spriteIndex: 0
   maxHealth: 0
   health: 0
   size: 0
@@ -253,4 +254,5 @@ MonoBehaviour:
   score: 0
   audioSource: {fileID: 4692610660959000773}
   destroySoundArray: {fileID: 11400000, guid: e399aa0fdf97da641a27197b5d46b9f9, type: 2}
-  explosionPrefab: {fileID: 6879541595993959296, guid: 571feb7a7dd70094993bf4a35444d289, type: 3}
+  explosionPrefab: {fileID: 7802741600971436445, guid: 571feb7a7dd70094993bf4a35444d289, type: 3}
+  sizeScale: 1.5
