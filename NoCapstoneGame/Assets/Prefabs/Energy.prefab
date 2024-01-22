@@ -55,7 +55,7 @@ MonoBehaviour:
   entityManager: {fileID: 0}
   energyCollider: {fileID: 3493999520594003082}
   energyRenderer: {fileID: 3380691668930087720}
-  energyGain: 2
+  energyGain: 3
 --- !u!212 &3380691668930087720
 SpriteRenderer:
   m_ObjectHideFlags: 0
