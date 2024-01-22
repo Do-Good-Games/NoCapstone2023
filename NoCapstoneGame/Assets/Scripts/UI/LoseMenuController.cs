@@ -32,8 +32,6 @@ public class LoseMenuController : MonoBehaviour
     void Start()
     {
 
-
-
         sceneManager = SceneManager.Instance;
         sfxManager = SFXManager.Instance;
         //Application.Quit();
@@ -73,8 +71,8 @@ public class LoseMenuController : MonoBehaviour
         }
 
         //set the text
-        finalScore.text = ("Current Score: " + GameManager.Instance.GetScore());
-        highScore.text = ("High Score: " + PlayerPrefs.GetFloat("highScore"));
+        finalScore.text = ("Current Score: \n" + GameManager.Instance.GetScore());
+        highScore.text = ("High Score: \n" + PlayerPrefs.GetFloat("highScore"));
         //set dimensions and position of the menu so it fits in the hud
         root.style.visibility = Visibility.Visible;
     }
