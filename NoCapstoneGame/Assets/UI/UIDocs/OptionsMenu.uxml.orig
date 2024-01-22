@@ -1,0 +1,28 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/StyleSheets/options.uss?fileID=7433441132597879392&amp;guid=e15d536f58722c74d8f0e4b7e47b5d3e&amp;type=3#options" />
+<<<<<<< HEAD
+    <ui:VisualElement name="root" style="flex-grow: 1; justify-content: space-around; align-items: center;">
+        <ui:VisualElement style="width: 1475px; height: 670px; background-color: rgb(1, 52, 79);">
+            <ui:Label text="Options Menu " display-tooltip-when-elided="true" name="Label" style="font-size: 79px; color: rgb(255, 255, 255);" />
+            <ui:VisualElement style="visibility: visible; align-items: center; justify-content: space-around; -unity-background-image-tint-color: rgb(255, 255, 255); background-color: rgb(1, 52, 79);">
+                <ui:Slider picking-mode="Ignore" label="Master Volume" value="74" name="MasterVolSlider" high-value="1" low-value="0.0001" class="volumeSlider" style="justify-content: flex-start; flex-wrap: nowrap;" />
+                <ui:Slider picking-mode="Ignore" label="Music Volume" value="0.5" high-value="1" name="MusicVolSlider" low-value="0.0001" class="volumeSlider" />
+                <ui:Slider picking-mode="Ignore" label="Sound Effects" value="0.5" high-value="1" name="SFXVolSlider" low-value="0.0001" class="volumeSlider" />
+                <ui:Slider picking-mode="Ignore" label="Mouse Sensitivity" value="0.5" high-value="1" name="MouseSensitivitySlider" low-value="0.0001" class="volumeSlider" />
+=======
+    <ui:VisualElement name="root" style="flex-grow: 1; justify-content: space-around; align-items: center; background-color: rgba(0, 0, 0, 0); border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0);">
+        <ui:VisualElement style="width: 1475px; height: 670px; background-color: rgba(1, 52, 79, 0); background-image: url(&apos;project://database/Assets/Art/UI/Options/Options_Menu_Opacity_180ish.png?fileID=2800000&amp;guid=7eec8af85b1d29247be39954609f9e8a&amp;type=3#Options_Menu_Opacity_180ish&apos;); justify-content: center; align-items: center;">
+            <ui:VisualElement style="visibility: visible; align-items: center; justify-content: space-around; -unity-background-image-tint-color: rgb(255, 255, 255); background-color: rgba(1, 52, 79, 0); width: 1000px;">
+                <ui:Slider picking-mode="Ignore" label="Master Volume" value="0.95" name="MasterVolSlider" high-value="1" low-value="0.0001" class="volumeSlider" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;" />
+                <ui:Slider picking-mode="Ignore" label="Music Volume" value="0.9999" high-value="1" name="MusicVolSlider" low-value="0.0001" class="volumeSlider" />
+                <ui:Slider picking-mode="Ignore" label="Sound Effects" value="42" high-value="1" name="SFXVolSlider" low-value="0.0001" class="volumeSlider" />
+>>>>>>> origin/optionsRefactor
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-direction: row; justify-content: space-around;">
+                <ui:Toggle label="Show Tutorial" name="ShowTutorialToggle" class="TutorialToggle" style="flex-direction: column; align-items: center; justify-content: flex-end; font-size: 32px; color: rgb(212, 179, 207);" />
+                <ui:Toggle label="Mute Game" name="MuteGameToggle" class="TutorialToggle" style="flex-direction: column; align-items: center; justify-content: flex-end; font-size: 32px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; background-color: rgba(1, 52, 79, 0); color: rgb(212, 179, 207);" />
+            </ui:VisualElement>
+            <ui:Button display-tooltip-when-elided="true" name="BackButton" style="font-size: 32px; width: 143px; align-items: center; background-image: url(&apos;project://database/Assets/Art/UI/Options/BACK_button.png?fileID=21300000&amp;guid=a20f3b9a169990d459086e605590e0c4&amp;type=3#BACK_button&apos;); height: 72px; background-color: rgba(88, 88, 88, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

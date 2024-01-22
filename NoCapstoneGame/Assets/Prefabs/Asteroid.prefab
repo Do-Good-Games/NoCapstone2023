@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2837a2ebadaaad948a564e7ad24a98c8, type: 3}
-  m_Color: {r: 0.6886792, g: 0.6353537, b: 0.48402455, a: 1}
+  m_Color: {r: 0.6037736, g: 0.5548742, b: 0.41865435, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
@@ -101,21 +101,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityBody: {fileID: 2447030393251289624}
-  downSpeed: 0.02
-  stepSpeed: 0
-  directionAngle: 0
+  entityCollider: {fileID: 9102387809521579522}
+  upwardsSpeed: 0
   swaySpeed: 1
   swayWidth: 0
   entityManager: {fileID: 0}
-  asteroidCollider: {fileID: 9102387809521579522}
-  asteroidRenderer: {fileID: 2447030393251289638}
+  m_spriteRenderer: {fileID: 2447030393251289638}
   droppedEntityManager: {fileID: 0}
+  spriteArr:
+  - {fileID: 21300000, guid: 2837a2ebadaaad948a564e7ad24a98c8, type: 3}
+  - {fileID: 21300000, guid: 9f2187c7e0278a045a01d61eab3aa467, type: 3}
+  - {fileID: 21300000, guid: 4516b13bd7392894f904fb838dddb861, type: 3}
   numDrops: 0
+  maxHealth: 0
   health: 2
   size: 0
   laserTag: Laser
   score: 10
-  destroySound: {fileID: 4692610660959000773}
+  audioSource: {fileID: 4692610660959000773}
+  destroySoundArray: {fileID: 11400000, guid: 97edd5c4d9ab141409ca59c7f7215173, type: 2}
 --- !u!50 &2447030393251289624
 Rigidbody2D:
   serializedVersion: 4
@@ -162,8 +166,8 @@ AudioSource:
   m_GameObject: {fileID: 2447030393251289635}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8e57f4c9763a048b0a17ab7f64eca1f3, type: 3}
+  OutputAudioMixerGroup: {fileID: 370495301599186931, guid: 4052d8261cba7c84d8c3f660847dfdac, type: 2}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

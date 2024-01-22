@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:NoCapstoneGame/Assets/Scripts/Entities/Explosion.cs.meta
+guid: d29ab753aa315cb468ee117610d38394
+========
+guid: d5c3edbd0f8e5400eaf445c3806832f3
+>>>>>>>> soundManager:NoCapstoneGame/Assets/Scripts/Entities/FadingProjectile.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

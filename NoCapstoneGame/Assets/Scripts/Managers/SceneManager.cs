@@ -14,18 +14,19 @@ public class SceneManager : MonoBehaviour
     public VisualElement sceneTransitionElement;
     public UIDocument sceneTransitionUIDoc;
     
-    [SerializeField] public string gameplaySceneName = "Ryan Scene";
+    public string gameplaySceneName = "GameplayScene";
     
 
 
     public float opacity = 0f;
     public float fadeValue = 0.5f;
+    private int opacitySafety = 0;
 
 
 
     void OnEnable()
     {
-        Debug.Log("OnEnable called");
+        //Debug.Log("OnEnable called");
 
         //SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -59,9 +60,9 @@ public class SceneManager : MonoBehaviour
             Debug.Log("ping");
         }
 
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
         //DontDestroyOnLoad(sceneTransitionUIDoc.rootVisualElement);
-        DontDestroyOnLoad(sceneTransitionUIDoc);
+        //DontDestroyOnLoad(sceneTransitionUIDoc);
         //SwitchToScene("SampleScene");
         sceneTransitionElement.style.opacity = 0;
         //sceneTransitionUIDoc.enabled = false;
@@ -115,6 +116,8 @@ public class SceneManager : MonoBehaviour
     {
         if (canSwitchScenes)
         {
+            canSwitchScenes = false;
+
             //place the sprite
             sceneTransitionUIDoc.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
             sceneTransitionUIDoc.sortingOrder = 5;
@@ -123,8 +126,10 @@ public class SceneManager : MonoBehaviour
 
 
             //fade in the sprite
-            while (opacity <= 1)
+            opacitySafety = 0;
+            while (opacity <= 1 && opacitySafety < 10)
             {
+                opacitySafety += 1;
                 opacity += fadeValue;
                 sceneTransitionElement.style.opacity = opacity;
                 //sceneTransitionRenderer.color = new Color(0, 0, 0, opacity);
@@ -133,10 +138,19 @@ public class SceneManager : MonoBehaviour
 
 
             //transition to new scene
-            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+            if(sceneName == gameplaySceneName && (PlayerPrefs.GetInt("ShowTutorial") == 1))
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("TutorialScene");
+            }
+            else
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+            }
+
+            //UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
 
             //hold control
-            Time.timeScale = 0;
+            //Time.timeScale = 0;
 
             //fade out the sprite
             while (opacity >= 0)
@@ -152,8 +166,9 @@ public class SceneManager : MonoBehaviour
             //sceneTransitionUIDoc.enabled = false;
 
             //release control
-            Time.timeScale = 1;
+            //Time.timeScale = 1;
             sceneTransitionUIDoc.sortingOrder = 0;
+            canSwitchScenes = true;
 
         }
     }

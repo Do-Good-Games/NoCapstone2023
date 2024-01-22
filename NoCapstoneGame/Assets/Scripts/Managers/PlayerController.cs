@@ -2,10 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,6 +19,13 @@ public class PlayerController : MonoBehaviour
     //[Tooltip("The units of charged gained each second the mouse is clicked")]
     [Tooltip("how much damage the player takes on a hit")]
     [SerializeField] private float healthLostOnHit;
+    [Tooltip("used to control behavior surrounding speed")]
+    [SerializeField] public SpeedManager speedManager;
+
+    //[SerializeField] public SPSOBase SpeedPrototypeSO;
+    //[SerializeField] public SOBoostBase SOBoost;
+
+    //TODO when releasing rightmb reset energy
 
 
     [Header("energy and charge values")]
@@ -27,20 +36,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float EnergySpentPerShot;
     [Tooltip("The time between individual shots in a volley, in seconds")]
     [SerializeField] public float TimeBetweenShots;
-    [Tooltip("whether or not we want energy to act as a \"buffer\" to the player taking damage - when this is true, the player will not take damage when hit provided they have energy")]
-    [SerializeField] private bool EnergyProtects;
-    [Tooltip("the amount of energy the player loses when they get hit - represented as a ratio of how much energy they have currently")]
-    [SerializeField] private float energyLostOnHit;
+    
+    //energy decay
     private enum EnergyDecayType { none, currentRatio, totalRatio, fixedAmount}
     [Tooltip("which type of energy decay we want to use")]
     [SerializeField] private EnergyDecayType energyDecayType;
-    [Tooltip("rate at which the player loses energy over time - as a ratio (or percentage) of the player's CURRENT energy amount")]
-    [SerializeField] private float energyDecayRatioCurrent;
-    [Tooltip("rate at which the player loses energy over time - as a ratio (or percentage) of the player's CURRENT energy amount")]
-    [SerializeField] private float energyDecayRatioTotal;
-    [Tooltip("rate at which the player loses energy over time - as a fixed amount")]
-    [SerializeField] private float energyDecayFixed;
-
+    [Tooltip("rate at which the player loses energy over time")]
+    [SerializeField] private float energyDecayAmount;
+    [Tooltip("the amount of time (in seconds) until the energy decay occurs")]
+    [SerializeField] private float energyDecayDelay;
+    private float energyDecayTime;
+    
+    //on hit
+    [SerializeField] private AnimationCurve protectionThreshold;
+    [Tooltip("whether or not we want energy to act as a \"buffer\" to the player taking damage - when this is true, the player will not take damage when hit provided they have energy")]
+    [SerializeField] private bool EnergyProtects;
+    [Tooltip("the amount of energy the player loses when they get hit - represented as a ratio of the total energy the player can hold")]
+    [SerializeField] private float energyLostOnHit;
 
     //[Tooltip("the minimum amount of energy needed for the player to protect against damage, represented as a ratio from 0-1 \n to disable this mechanic, set to 0")]
     //[SerializeField] float protectionThreshold;
@@ -48,7 +60,7 @@ public class PlayerController : MonoBehaviour
     //[Tooltip("point at which the player will start receiving \"partial\" protection below the full threshold. value from 0-1 representing a proportion of "]
     //[SerializeField] float protectionRatio;
 
-    [SerializeField] private AnimationCurve protectionThreshold;
+
 
 
     [Header("energy sphere")]
@@ -58,14 +70,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float MaxEnergySphereSize;
     [Tooltip("The difference in the visual size of the energy sphere and its hitbox")]
     [SerializeField] public float EnergySphereHitboxGraceArea;
-
-    [Header("Slingshot")]
-
-    [SerializeField] private float MinChargeForSlingshot;
-    [SerializeField] private float SlingshotLaunchFactor;
-    [SerializeField] private float SpaceshipStretchFactor;
-    [SerializeField] private float EnergySphereStretchFactor;
-
 
 
     [Header("Visuals")]
@@ -81,9 +85,14 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Sounds")]
-    [SerializeField] AudioSource shootSound;
     [SerializeField] AudioSource hitSound;
     [SerializeField] AudioSource deathSound;
+    [SerializeField] AudioSource shootSound;
+    [SerializeField] AudioSource chargeSound;
+    [SerializeField] AudioSource boostChargeSound;
+    private float startingPitch;
+    [Tooltip("how often we increase the pitch - every n shots we increase by 1 semitone")]
+    [SerializeField] int shotPitchModCount;
 
 
     [Header("Physics")]
@@ -100,46 +109,53 @@ public class PlayerController : MonoBehaviour
     [SerializeField] ChargeShotProjectile chargeShotPrefab;
 
     string currentActionMapName;
-    PlayerInput playerInput;
+    public PlayerInput playerInput;
 
 
 
-    public GameManager gameManager;
-    public SceneManager sceneManager;
-    private Camera gameplayCamera;
+    private GameManager gameManager;
+    private SceneManager sceneManager;
     private Vector2 cameraBounds;
     private LaserSpawner[] spawners;
 
-    private bool mouseHeld;
-    private bool slingshotHeld;
+
+    public bool leftMouseHeld;
+    private bool RightMouseHeld;
     private Vector2 cursorPos;
+    private Vector2 prevCursorPos;
+    private Vector2 mouseDelta;
     private Vector2 slingshotAnchor;
-    private Vector2 cursorPosPrePause;
-    float energySphereSize;
+    //private Vector2 cursorPosPrePause;
+    private float energySphereSize;
 
     private bool shooting;
     private bool damageable;
     private bool damageCooldownEnding;
 
+    private bool enteringGameplay = true;
+
     private IEnumerator ShootCoroutineObject;
     private IEnumerator DamageCooldownCoroutineObject;
     private IEnumerator DamageFlashCoroutineObject;
 
+    private float PrevEnergyLevel = 0;
+
     public void Start()
     {
         gameManager = GameManager.Instance;
-        sceneManager = SceneManager.Instance;
-        gameplayCamera = gameManager.gameplayCamera;
         cameraBounds = gameManager.cameraBounds - (Vector2) shipCollider.bounds.extents;
 
         gameManager.AddPlayerHealth(maxHealth);
 
-        gameManager.OnPlayerDeath.AddListener(Die);
+        //gameManager.OnPlayerDeath.AddListener(Die);
 
         //all three of these reference the same method as that one contains code and logic that would be difficult to translate on a different set of case-by-case bases
         gameManager.OnGameResume.AddListener(SwitchActionMap); 
         gameManager.OnGamePause.AddListener(SwitchActionMap);
-        gameManager.OnGameEnterMenus.AddListener(SwitchActionMap);
+        
+
+        //gameManager.OnBoostStart.AddListener(BoostStarted); //cleanup: remove?
+        //gameManager.OnBoostEnd.AddListener(BoostEnded);//cleanup: remove?
 
 
         //gameManager.OnGameTogglePause.AddListener(SwitchActionMap);
@@ -147,70 +163,96 @@ public class PlayerController : MonoBehaviour
         // store all the Laser Spawners components in an array to avoid calling GetComponents() many times
         spawners = GetComponentsInChildren<LaserSpawner>();
 
-        cursorPos = shipTransform.position;
+        mouseDelta = Vector2.zero;
 
-        mouseHeld = false;
-        slingshotHeld = false;
+
+        leftMouseHeld = false;
+        RightMouseHeld = false;
         shooting = false;
         damageable = true;
         damageCooldownEnding = false;
 
         currentActionMapName = "Player";
-        playerInput = GetComponent<PlayerInput>();
-        gameManager.ResumeGame();
+        //could we instead 
+        gameManager.ResumeGame(false);
+        SwitchActionMap();
+
+        enteringGameplay = true; // mousedelta - should this be false instead?
+
+        startingPitch = shootSound.pitch;
+
+        //depreciated prototype code - no replacement necessary
+        //SpeedPrototypeSO.ResetVariables();
+        //SOBoost.ResetVariables();
+        //SOBoost.speedPrototype = SpeedPrototypeSO;
     }
+
+
 
     public void Update()
     {
+        //SpeedPrototypeSO.SPOverTime();//depreciated prototype code - no replacement necessary
         // If only the left mouse is held, increase charge value
-        if (mouseHeld && !slingshotHeld)
+        if (leftMouseHeld)
         {
             gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
+            speedManager.Fired(ChargeGainPerSecond * Time.deltaTime);
+
+            if (gameManager.GetCharge() == gameManager.GetEnergy())
+            {
+                chargeSound.Pause();
+            }
+            else
+            {
+                chargeSound.UnPause();
+            }
+
+            //SOBoost.incFired(ChargeGainPerSecond * Time.deltaTime); //depreciated prototype code - changed to sm.fired()
 
             UpdateEnergySphere();
-        } else
-        {
-            DecayEnergy();
+            energyDecayTime = 0;
+        }else if(RightMouseHeld) {
+            gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
+            energyDecayTime = 0;
         }
-      
+        else if (!shooting) //decaying energy while we're actively firing causes unwanted behavior with the speed var, plus we probably shouldn't anyway
+        {
+            if(energyDecayTime >= energyDecayDelay)
+            {
+                
+                DecayEnergy();
+            } else
+            {
+                energyDecayTime += Time.deltaTime;
+            }
+        }
     }
 
+
+    #region cursor movement
     public void UpdateCursorPosition(InputAction.CallbackContext context)
     {
-        // converts cursor position (in screen space) to world space based on camera position/size
-        Vector2 screenSpaceCursorPos = context.ReadValue<Vector2>();
-        if (gameManager != null)
-        {
-            cursorPos = gameManager.gameplayCamera.ScreenToWorldPoint(screenSpaceCursorPos);
 
+        mouseDelta = context.ReadValue<Vector2>();
+
+        
+
+        if(gameManager.gameState == GameState.gameplay)
+        {
+            AdjustPosition(mouseDelta);
         }
 
-        if (slingshotHeld)
-        {
-            SetStretchedPositions(cursorPos);
-        }
-        else
-        {
-            SetPositions(cursorPos);
-        }
+
     }
 
-    private void SetPositions(Vector2 position)
+
+    private void AdjustPosition(Vector2 direction)
     {
         //Debug.Log("set position called with " + position);
-        Vector2 inBoundsPosition = KeepInBounds(position);
+        Vector2 inBoundsPosition = KeepInBounds((Vector2) shipTransform.position +  direction);
         shipTransform.position = inBoundsPosition;
         energyTransform.position = inBoundsPosition;
         magnetTransform.position = inBoundsPosition;
-    }
-
-    private void SetStretchedPositions(Vector2 position)
-    {
-        Vector2 stretchedShipPosition = Vector2.Lerp(slingshotAnchor, position, SpaceshipStretchFactor);
-        stretchedShipPosition = KeepInBounds(stretchedShipPosition);
-        shipTransform.position = stretchedShipPosition;
-        energyTransform.position = Vector2.Lerp(slingshotAnchor, stretchedShipPosition, EnergySphereStretchFactor);
-        magnetTransform.position = stretchedShipPosition;
     }
 
     private Vector2 KeepInBounds(Vector2 position)
@@ -219,122 +261,147 @@ public class PlayerController : MonoBehaviour
         float clampedYPos = Mathf.Clamp(position.y, -cameraBounds.y, cameraBounds.y);
         return new Vector2(clampedXPos, clampedYPos);
     }
-  
+    #endregion cursor movement
+
     public void Charge(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if(!speedManager.inBoost && !RightMouseHeld)
         {
-            mouseHeld = true;
-            shooting = false;
-
-            if (ShootCoroutineObject != null)
+            if (context.started)
             {
-                StopCoroutine(ShootCoroutineObject);
+                leftMouseHeld = true;
+                chargeSound.Play();
+                shooting = false;
+
+                if (ShootCoroutineObject != null)
+                {
+                    StopCoroutine(ShootCoroutineObject);
+                }
             }
-        }
-        if (context.canceled)
-        {
-            mouseHeld = false;
-            //if (gameManager.getCharge() >= ChargeSpentPerShot) //switch to this line if you want to disable single fire shooting
-            if (gameManager.GetCharge() >= ChargeSpentPerShot || gameManager.GetEnergy() >= EnergySpentPerShot)
+            if (context.canceled)
             {
-                shooting = true;
+                leftMouseHeld = false;
+                chargeSound.Pause();
+                //if (gameManager.getCharge() >= ChargeSpentPerShot) //switch to this line if you want to disable single fire shooting
+                if (gameManager.GetCharge() >= ChargeSpentPerShot || gameManager.GetEnergy() >= EnergySpentPerShot)
+                {
+                    shooting = true;
 
-                ShootCoroutineObject = ShootCoroutine();
-                StartCoroutine(ShootCoroutineObject);
-            }
-            else
-            {
+                    ShootCoroutineObject = ShootCoroutine();
+                    StartCoroutine(ShootCoroutineObject);
+                }
+                else
+                {
 
-                gameManager.ResetCharge();
-                UpdateEnergySphere();
+                    gameManager.ResetCharge();
+                    UpdateEnergySphere();
+                }
             }
         }
     }
+
 
     public void OnRightClick(InputAction.CallbackContext context)
     {
-        if (context.started)
-        {
-            if (gameManager.GetCharge() >= MinChargeForSlingshot)
-            {
-                slingshotHeld = true;
-                slingshotAnchor = cursorPos;
-            }
-            else
-            {
-                // Give the player some feedback here 
-                Debug.Log("Slingshot attempted with insufficient charge");
-            }
-        }
         if (context.canceled)
         {
-            Vector2 launchVector = -SlingshotLaunchFactor * ((Vector2) energyTransform.position - slingshotAnchor);
-            LaunchChargeShot(energyTransform.position, launchVector);
+            RightMouseHeld = false;
+            boostChargeSound.Stop();
 
-            gameManager.ResetCharge();
-            UpdateEnergySphere();
-            slingshotHeld = false;
-
-            cursorPos = energyTransform.position;
-            Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(energyTransform.position));
-            SetPositions(cursorPos);
+            if (gameManager.GetCharge() >= gameManager.GetMaxEnergy()) //if our charge is at max (max calc'd as max energy)
+            {
+                speedManager.ActivateBoost();
+            } else
+            {
+                gameManager.ResetCharge();
+            }
+        }
+        else
+        {
+            if (context.started)
+            {//below had gameManager.maxFired instead of gameManager.maxRelativeSpeed
+                if (gameManager.relativeSpeed >= gameManager.maxRelativeSpeed && gameManager.GetEnergy() >= gameManager.GetMaxEnergy()) //if our fired var and our energy var are at max
+                {
+                    boostChargeSound.Play();
+                    RightMouseHeld = true;
+                }
+            }
         }
     }
-    
+
     private IEnumerator ShootCoroutine()
     {
         int i = 0;
         while (shooting)
         {
-            while (slingshotHeld)
+            while (RightMouseHeld) //while we're still holding mouse, don't fire yet
             {
                 yield return null;
             }
 
-            //if ((gameManager.GetCharge() >= 0) || (gameManager.GetEnergy() >= 0))
-            //{
+            float chargeLevel = gameManager.GetCharge();
+            float energyLevel = gameManager.GetEnergy();
 
-            //    gameManager.UpdateEnergy(-EnergySpentPerShot);
-            //    FireLasers();
-            //    UpdateEnergySphere();
-            //    gameManager.UpdateCharge(-ChargeSpentPerShot);
-            //    if(gameManager.GetCharge() <= 0) &&
-            //    {
-
-            //    }
-            //    yield break;
-
-            //}
-
-
-            if (gameManager.GetCharge() >= ChargeSpentPerShot) //provided this won't cause us to run out of charge
+            if (chargeLevel >= ChargeSpentPerShot) //provided this won't cause us to run out of charge
             {
-                gameManager.UpdateEnergy(-ChargeSpentPerShot);
+                shootSound.Play();
+                if (i % shotPitchModCount == 0)
+                {
+                    shootSound.pitch *= 1.059463f;
+
+                }
+                gameManager.UpdateCharge(-ChargeSpentPerShot);//only line of difference between next if condition
+                gameManager.UpdateEnergy(-EnergySpentPerShot);
+                
+
                 FireLasers();
-                gameManager.UpdateCharge(-ChargeSpentPerShot);
-                UpdateEnergySphere();
+                UpdateEnergySphere();                
             }
-            else if (gameManager.GetEnergy() >= EnergySpentPerShot) //if we will run out of charge, but we won't run out of energy
+            else if (energyLevel >= EnergySpentPerShot) //if we will run out of charge, (but we won't run out of energy)
             {
-                gameManager.UpdateEnergy(-ChargeSpentPerShot);
+                shootSound.Play();
+                if(i % shotPitchModCount == 0)
+                {
+                    shootSound.pitch *= 1.059463f;
+
+                }
+                gameManager.UpdateEnergy(-EnergySpentPerShot);
+                
+
                 FireLasers();
-                gameManager.ResetCharge();
+                gameManager.ResetCharge(); //only line of difference between previous if condition
                 UpdateEnergySphere();
-                yield break;
+
+                //yield break;
             }
+            i++;
 
             yield return new WaitForSeconds(TimeBetweenShots);
 
             //Debug.Log("yes it does");
 
 
-            if (gameManager.GetCharge() < ChargeSpentPerShot)
+            if (chargeLevel < ChargeSpentPerShot)
             {
                 gameManager.ResetCharge();
                 UpdateEnergySphere();
                 shooting = false;
+                chargeSound.Stop();
             }
+        }
+        shootSound.pitch = startingPitch;
+
+    }
+
+    private void FireLasers()
+    {
+        // tell every spawner to spawn a laser
+        foreach (LaserSpawner spawner in spawners)
+        {
+            shootSound.Play();
+            //SFXManager.Instance.Play(shootSound.clip);
+            gameManager.UpdateEnergy(-EnergySpentPerShot);
+            spawner.SpawnLaser();
         }
     }
 
@@ -379,15 +446,7 @@ public class PlayerController : MonoBehaviour
         energySphereCollider.radius = (energySphereSize / 2) - EnergySphereHitboxGraceArea;
     }
 
-    private void FireLasers()
-    {
-        // tell every spawner to spawn a laser
-        foreach (LaserSpawner spawner in spawners)
-        {
-            shootSound.Play();
-            spawner.SpawnLaser();
-        }
-    }
+
 
     private void LaunchChargeShot(Vector2 position, Vector2 launchVector)
     {
@@ -397,7 +456,20 @@ public class PlayerController : MonoBehaviour
     }
 
     public void Hit() {
-        if (damageable) {
+
+        if (damageable && !speedManager.inBoostGracePeriod) {
+            //SpeedPrototypeSO.SPHit(); //prototype
+
+            hitSound.Play();
+            chargeSound.Pause();
+            boostChargeSound.Pause();
+            //SFXManager.Instance.Play(hitSound.clip);
+
+            DamageCooldownCoroutineObject = DamageCooldownCoroutine();
+            StartCoroutine(DamageCooldownCoroutineObject);
+
+            DamageFlashCoroutineObject = DamageFlashCoroutine();
+            StartCoroutine(DamageFlashCoroutineObject);
 
             if (EnergyProtects){
 
@@ -405,70 +477,68 @@ public class PlayerController : MonoBehaviour
 
                 amount = MathF.Max(0, protectionThreshold.Evaluate(gameManager.GetEnergy() / gameManager.GetMaxEnergy()));
 
-                Debug.Log("amount: " + amount);
+                //Debug.Log("amount: " + amount);
 
                 if(amount <1)
                 {
                     float damageAmount = (healthLostOnHit * amount);
-                    Debug.Log("player at least partially protected " + damageAmount);
+                    //Debug.Log("player at least partially protected " + damageAmount);
                     gameManager.RemovePlayerHealth(damageAmount);
-                    gameManager.UpdateEnergy(-(gameManager.GetEnergy() * energyLostOnHit));
+                    gameManager.UpdateEnergy(- gameManager.GetMaxEnergy() * energyLostOnHit);
                 }
                 else
                 {
                     float damageAmount = (healthLostOnHit);
-                    Debug.Log("player taking full damage " + damageAmount);
+                    //Debug.Log("player taking full damage " + damageAmount);
                     gameManager.RemovePlayerHealth(healthLostOnHit);
 
 
                 }
 
-                ////an amount 
-                //float amount = damagePerHit;
-                //if (protectionRatio > 0)
-                //{
-                //    amount = Mathf.Min(damagePerHit, ((gameManager.GetEnergy() / gameManager.GetMaxEnergy()) / protectionRatio));
-                //    amount = MathF.Min(1, (gameManager.GetEnergy() / gameManager.GetMaxEnergy()) / protectionRatio);//an amount from 0 to one, the % of energy we have 
-                //    amount = damagePerHit * (1 - amount);
-
-                //    Debug.Log("mathed");
-                //}
-                //Debug.Log(amount);
-                //gameManager.RemovePlayerHealth(amount);
             }
+            if (RightMouseHeld)
+            {
+                RightMouseHeld = false;
+                gameManager.UpdateRelativeSpeed(-gameManager.GetCharge());
+                //the below line is causing an error because UpdateRelative speed does not exist anymore
+                gameManager.UpdateRelativeSpeed(-gameManager.GetCharge());
 
-            //if (!((EnergyProtects) && (gameManager.GetEnergy() > 0)))
-            //{
-            //    gameManager.RemovePlayerHealth(1); //only damage the player when both statements AREN'T true
-            //}
-            //gameManager.UpdateEnergy(-(gameManager.GetEnergy() * energyLostOnHit));
+                gameManager.ResetCharge();
 
-
-            hitSound.Play();
-
-            DamageCooldownCoroutineObject = DamageCooldownCoroutine();
-            StartCoroutine(DamageCooldownCoroutineObject);
-
-            DamageFlashCoroutineObject = DamageFlashCoroutine();
-            StartCoroutine(DamageFlashCoroutineObject);
+            }
         }
     }
 
-    private void Die()
+    public void Die()
     {
+        chargeSound.Stop();
+        boostChargeSound.Stop();
         StopAllCoroutines();
 
-       // playerCollider.enabled = false;
+        //playerCollider.enabled = false;
         playerRenderer.enabled = false;
-        deathSound.Play();
+        SetActionMapUI();
+        StartCoroutine(PlaySoundThenDestroy());
 
-        gameManager.EnterMenus();
-
-        sceneManager.SwitchToScene("LoseScene");
-
-        Destroy(this.gameObject, 0.5f);
         //switch action map to UI
     }
+
+    private IEnumerator PlaySoundThenDestroy()
+    {
+        playerRenderer.enabled = false;
+        //m_collider.enabled = false;
+
+        deathSound.Play();
+        //SFXManager.Instance.Play(deathSound.clip);
+
+
+        while (deathSound.isPlaying)
+        {
+            yield return null;
+        }
+        Destroy(this.gameObject);
+    }
+
 
     public void togglePause(InputAction.CallbackContext context)
     {
@@ -482,15 +552,13 @@ public class PlayerController : MonoBehaviour
             {
                 gameManager.ResumeGame();
             }
-            else if (gameManager.gameState == GameState.menus)
+            else if (gameManager.gameState == GameState.mainMenu)
             {
-                throw new Exception("togglePause() (the input callback) is somehow being called when the game is in menus - this shouldn't be able to happen");  
+                //throw new Exception("togglePause() (the input callback) is somehow being called when the game is in menus - this shouldn't be able to happen");  
             }
             //gameManager.OnGameTogglePause.Invoke();
         }
-    }
-
-    
+    }  
     
     private void MoveChildren()
     {
@@ -504,29 +572,47 @@ public class PlayerController : MonoBehaviour
         // If the colliding GameObject is tagged as a hazard, take damage
         if (collision.gameObject.CompareTag(gameManager.hazardTag))
         {
-            Hit();
+            // Assuming inBoost is true when the player is in hyperspeed
+            if (speedManager.inBoost)
+            {
+                Asteroid asteroid = collision.GetComponent<Asteroid>();
+                if (asteroid != null && !speedManager.inBoostGracePeriod)
+                {//if the hazard contains an asteroid component, destroy it
+                    asteroid.DestroyAsteroid();
+                }            
+            } else
+            { // if we're not in boost, hit the player
+                Hit();
+            }
+        } else if (collision.GetComponent<Energy>())
+        {
+            energyDecayTime = 0;
         }
     }
 
-    private void SwitchActionMap()
+    public void SwitchActionMap()
     {
-
-        if (gameManager.gameState == GameState.paused)
+        if (gameManager.gameState == GameState.paused || gameManager.gameState == GameState.dead)
         {
-            cursorPosPrePause = cursorPos;
-            SetPositions(cursorPosPrePause);
+            //cursorPosPrePause = mouseDelta;
+            //Debug.Log("pre pause: " + cursorPosPrePause);
+            //SetPositions(cursorPosPrePause);
             SetActionMapUI();
             //here we'll want to swap the action mapping
         }
-        else if (gameManager.gameState == GameState.menus)
+        else if (gameManager.gameState == GameState.mainMenu)
         {
-            cursorPosPrePause = cursorPos; //check here if player position is wack upon loading the game
-            SetPositions(cursorPosPrePause);
+            //cursorPosPrePause = mouseDelta; //check here if player position is wack upon loading the game
+            //Debug.Log("pre pause: " + cursorPosPrePause);
+            //SetPositions(cursorPosPrePause);
             SetActionMapUI();
-        } else
+        } else //we're entering gameplay
         {
-            Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
-            SetPositions(cursorPosPrePause);
+            enteringGameplay = true;
+
+            //Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
+            Debug.Log("set mouse pos" + Mouse.current.position);
+            //SetPositions(cursorPosPrePause);
             SetActionMapPlayer();
             //Debug.Log("cursorPos:" + cursorPos + " pre pause: " + cursorPosPrePause + " w2sp: " + gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
         }
@@ -539,7 +625,7 @@ public class PlayerController : MonoBehaviour
         playerInput.currentActionMap.Disable();
         if (gameManager.gameState == GameState.paused)
         {
-            SetPositions(cursorPosPrePause);
+            //SetPositions(cursorPosPrePause);
         }
         playerInput.SwitchCurrentActionMap(newActionMapName);
 
@@ -548,12 +634,12 @@ public class PlayerController : MonoBehaviour
             case "Menus":
                 //Debug.Log("ping");
                 UnityEngine.Cursor.visible = true;
-                //UnityEngine.Cursor.lockState = CursorLockMode.None;
+                UnityEngine.Cursor.lockState = CursorLockMode.None;
                 break;
             default: //case playing
                 //Debug.Log("pong");
                 UnityEngine.Cursor.visible = false;
-                //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
                 break;
         }
     }
@@ -567,15 +653,15 @@ public class PlayerController : MonoBehaviour
             case (EnergyDecayType.none):
                 break;
             case (EnergyDecayType.fixedAmount):
-                decayAmount = energyDecayFixed * Time.deltaTime;
+                decayAmount = energyDecayAmount * Time.deltaTime;
                 gameManager.UpdateEnergy(-decayAmount);
                 break;
             case (EnergyDecayType.currentRatio):
-                decayAmount = gameManager.GetEnergy() * energyDecayRatioCurrent * Time.deltaTime;
+                decayAmount = gameManager.GetEnergy() * energyDecayAmount * Time.deltaTime;
                 gameManager.UpdateEnergy(-decayAmount);
                 break;
             case (EnergyDecayType.totalRatio):
-                decayAmount = gameManager.GetMaxEnergy() * energyDecayRatioCurrent * Time.deltaTime;
+                decayAmount = gameManager.GetMaxEnergy() * energyDecayAmount * Time.deltaTime;
                 gameManager.UpdateEnergy(-decayAmount);
                 break;
         }
