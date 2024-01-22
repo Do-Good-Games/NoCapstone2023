@@ -576,7 +576,7 @@ public class PlayerController : MonoBehaviour
             if (speedManager.inBoost)
             {
                 Asteroid asteroid = collision.GetComponent<Asteroid>();
-                if (asteroid != null)
+                if (asteroid != null && !speedManager.inBoostGracePeriod)
                 {//if the hazard contains an asteroid component, destroy it
                     asteroid.DestroyAsteroid();
                 }            
