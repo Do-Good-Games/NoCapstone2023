@@ -49,6 +49,7 @@ public class OptionsManager : MonoBehaviour
     [SerializeField] private float defaultMouseSensitivity;
 
     [SerializeField] private AudioSource ambience;
+    [SerializeField] private AudioSource clickSound;
 
     private void OnEnable()
     {
@@ -126,9 +127,9 @@ public class OptionsManager : MonoBehaviour
         muteGameToggle.RegisterValueChangedCallback(OnMuteToggleValueChange);
         showTutorialToggle.RegisterValueChangedCallback(OnTutorialToggleValueChange);
 
-        backButton.clicked += HideOptionsMenu;
+        backButton.clicked += () => { HideOptionsMenu(); clickSound.Play(); };
 
-        Load();
+            Load();
 
         HideOptionsMenu();
     }
@@ -183,6 +184,7 @@ public class OptionsManager : MonoBehaviour
 
     public void OnMuteToggleValueChange(ChangeEvent<bool> evt)
     {
+        clickSound.Play();
         SFXManager.Instance.isMuted = evt.newValue;
         if(evt.newValue == true)
         {
@@ -198,6 +200,7 @@ public class OptionsManager : MonoBehaviour
 
     public void OnTutorialToggleValueChange(ChangeEvent<bool> evt)
     {
+        clickSound.Play();
         showTutorial = evt.newValue;
         PlayerPrefs.SetInt("ShowTutorial", evt.newValue ? 1:0);
     }

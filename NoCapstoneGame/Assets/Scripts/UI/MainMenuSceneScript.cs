@@ -23,6 +23,7 @@ public class MainMenuSceneScript : MonoBehaviour
     [SerializeField] private OptionsManager optionsManager;
     private Button optionsButton;
 
+    [SerializeField] private AudioSource startSound;
     [SerializeField] private AudioSource clickSound;
     [SerializeField] private AudioSource ambience;
 
@@ -54,13 +55,13 @@ public class MainMenuSceneScript : MonoBehaviour
             {
                 sceneManager.SwitchToScene("TutorialScene");
             }
-            clickSound.Play();
+            startSound.Play();
         };
         creditsButton.clicked += () => { clickSound.Play(); ambience.Play(); creditsRoot.visible = true;  root.visible = false; } ;
         //quitButton.clicked += () => { Application.Quit(); };//make this quit the game 
         optionsButton.clicked += () => { clickSound.Play(); optionsManager.ShowOptionsMenu();};
 
 
-            creditsCloseButton.clicked += () => { ambience.Stop(); creditsRoot.visible = false; root.visible = true;  };
+            creditsCloseButton.clicked += () => { clickSound.Play(); ambience.Stop(); creditsRoot.visible = false; root.visible = true;  };
     }
 }
