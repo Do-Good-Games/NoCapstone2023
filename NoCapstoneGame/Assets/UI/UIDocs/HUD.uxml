@@ -37,5 +37,6 @@
                 <ui:VisualElement name="StatusPanel4" style="position: absolute; height: 146px; width: 240px; bottom: 0; background-image: url(&apos;project://database/Assets/Art/UI/DAMAGE%20REPORT%20SS.png?fileID=883945368&amp;guid=8aa405129d1786c41a1d947e1f3ac815&amp;type=3#DAMAGE REPORT SS_3&apos;); visibility: hidden; background-color: rgb(34, 32, 52);" />
             </ui:VisualElement>
         </ui:VisualElement>
+        <ui:VisualElement style="position: absolute; width: 2120px; top: 1130px; height: 300px; background-color: rgb(0, 0, 0); left: -100px;" />
     </ui:VisualElement>
 </ui:UXML>

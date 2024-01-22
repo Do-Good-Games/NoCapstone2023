@@ -844,7 +844,7 @@ MonoBehaviour:
     weight: 0.1
   - entity: {fileID: 2447030393251289635, guid: bd3f869aa00504802bb377edfef8198b, type: 3}
     weight: 0.1
-  density: 0.2
+  density: 0.15
   generationTimeRange: {x: 0.1, y: 0.7}
   generatingEntities: 1
   upwardsSpeedRange: {x: 2, y: 5}

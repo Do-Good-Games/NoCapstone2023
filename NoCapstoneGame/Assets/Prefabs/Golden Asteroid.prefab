@@ -61,14 +61,16 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9f2187c7e0278a045a01d61eab3aa467, type: 3}
   - {fileID: 21300000, guid: 4516b13bd7392894f904fb838dddb861, type: 3}
   numDrops: 0
+  spriteIndex: 0
   maxHealth: 0
-  health: 2
+  currentHealth: 0
   size: 0
   laserTag: Laser
   score: 0
   audioSource: {fileID: 4692610660959000773}
   destroySoundArray: {fileID: 11400000, guid: 55dc097c8b9f62c438905c3dfec0f82c, type: 2}
   extraDropsRange: {x: 3, y: 8}
+  extraHealthRange: {x: 1, y: 2}
 --- !u!212 &2447030393251289638
 SpriteRenderer:
   m_ObjectHideFlags: 0
