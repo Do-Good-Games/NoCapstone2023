@@ -493,6 +493,7 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
+
         StopAllCoroutines();
 
         //playerCollider.enabled = false;
