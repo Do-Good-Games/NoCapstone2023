@@ -20,15 +20,16 @@ VisualElement {
     border-right-color: rgba(255, 255, 255, 0);
     border-top-color: rgba(255, 255, 255, 0);
     border-bottom-color: rgba(255, 255, 255, 0);
-    background-image: url('project://database/Assets/UI/Art/PauseArt/BUTTON-normal.png?fileID=2800000&guid=37fcdae3bec83ae40b7560dd79e1554c&type=3#BUTTON-normal');
-    -unity-font: url('project://database/Assets/UI/Art/PauseArt/8-bit-hud.ttf?fileID=12800000&guid=3737689ed1c776c45b5026f6f556808c&type=3#8-bit-hud');
+    background-image: url('project://database/Assets/Art/UI/PauseArt/BUTTON-normal.png?fileID=2800000&guid=37fcdae3bec83ae40b7560dd79e1554c&type=3#BUTTON-normal');
+    -unity-font: url('project://database/Assets/Art/UI/PauseArt/8-bit-hud.ttf?fileID=12800000&guid=3737689ed1c776c45b5026f6f556808c&type=3#8-bit-hud');
     margin-left: 20px;
     margin-right: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
     color: rgb(37, 190, 213);
-    -unity-font-definition: url('project://database/Assets/UI/Art/PauseArt/8-bit-hud%20SDF.asset?fileID=11400000&guid=ebe3bad336d2f044faa41d02b7df2694&type=2#8-bit-hud SDF');
-    -unity-font-style: italic;
+    -unity-font-definition: url('project://database/Assets/Art/UI/PauseArt/8-bit-hud%20SDF.asset?fileID=11400000&guid=ebe3bad336d2f044faa41d02b7df2694&type=2#8-bit-hud SDF');
+    -unity-font-style: normal;
+    -unity-background-scale-mode: scale-and-crop;
 }
 
 .button:hover:active {
@@ -44,7 +45,7 @@ VisualElement {
     border-right-color: rgba(255, 255, 255, 0);
     border-top-color: rgba(255, 255, 255, 0);
     border-bottom-color: rgba(255, 255, 255, 0);
-    background-image: url('project://database/Assets/UI/Art/PauseArt/BUTTON-pressed.png?fileID=2800000&guid=b196f6994095aa740b0680ad63a262c1&type=3#BUTTON-pressed');
+    background-image: url('project://database/Assets/Art/UI/PauseArt/BUTTON-pressed.png?fileID=2800000&guid=b196f6994095aa740b0680ad63a262c1&type=3#BUTTON-pressed');
     color: rgb(217, 237, 246);
     font-size: 32px;
 }
@@ -62,7 +63,7 @@ VisualElement {
     border-right-color: rgba(255, 255, 255, 0);
     border-top-color: rgba(255, 255, 255, 0);
     border-bottom-color: rgba(255, 255, 255, 0);
-    background-image: url('project://database/Assets/UI/Art/PauseArt/BUTTON-hoverl.png?fileID=2800000&guid=c3a0468d11da18f4c8651184b7a268d5&type=3#BUTTON-hoverl');
+    background-image: url('project://database/Assets/Art/UI/PauseArt/BUTTON-hoverl.png?fileID=2800000&guid=c3a0468d11da18f4c8651184b7a268d5&type=3#BUTTON-hoverl');
     color: rgb(217, 237, 246);
 }
 
@@ -80,7 +81,7 @@ VisualElement {
     border-right-color: rgba(255, 255, 255, 0);
     border-top-color: rgba(255, 255, 255, 0);
     border-bottom-color: rgba(255, 255, 255, 0);
-    background-image: url('project://database/Assets/UI/Art/PauseArt/PAUSE_QUIT_normal.png?fileID=2800000&guid=f425ece7920209848a566f6449e31048&type=3#PAUSE_QUIT_normal');
+    background-image: url('project://database/Assets/Art/UI/PauseArt/PAUSE_QUIT_normal.png?fileID=2800000&guid=f425ece7920209848a566f6449e31048&type=3#PAUSE_QUIT_normal');
 }
 
 .quit:hover {
@@ -97,7 +98,7 @@ VisualElement {
     border-right-color: rgba(255, 255, 255, 0);
     border-top-color: rgba(255, 255, 255, 0);
     border-bottom-color: rgba(255, 255, 255, 0);
-    background-image: url('project://database/Assets/UI/Art/PauseArt/PAUSE_QUIT_hover.png?fileID=2800000&guid=33c1b2b980200a44b950001c5698d8b6&type=3#PAUSE_QUIT_hover');
+    background-image: url('project://database/Assets/Art/UI/PauseArt/PAUSE_QUIT_hover.png?fileID=2800000&guid=33c1b2b980200a44b950001c5698d8b6&type=3#PAUSE_QUIT_hover');
 }
 
 .quit:hover:active {
@@ -114,5 +115,5 @@ VisualElement {
     border-right-color: rgba(255, 255, 255, 0);
     border-top-color: rgba(255, 255, 255, 0);
     border-bottom-color: rgba(255, 255, 255, 0);
-    background-image: url('project://database/Assets/UI/Art/PauseArt/PAUSE_QUIT_pressed.png?fileID=2800000&guid=c0384524994bbf74ba9fa7a61bb2e5aa&type=3#PAUSE_QUIT_pressed');
+    background-image: url('project://database/Assets/Art/UI/PauseArt/PAUSE_QUIT_pressed.png?fileID=2800000&guid=c0384524994bbf74ba9fa7a61bb2e5aa&type=3#PAUSE_QUIT_pressed');
 }

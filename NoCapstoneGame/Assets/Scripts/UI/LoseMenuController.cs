@@ -66,13 +66,13 @@ public class LoseMenuController : MonoBehaviour
             //check if gamescore is greater than highscore
             if (PlayerPrefs.GetFloat("highScore") < GameManager.Instance.GetScore())
             {
-                PlayerPrefs.SetFloat("highScore", GameManager.Instance.GetScore());
+                PlayerPrefs.SetFloat("highScore", GameManager.Instance.GetScore()); 
             }
         }
 
         //set the text
-        finalScore.text = ("Current Score: \n" + GameManager.Instance.GetScore());
-        highScore.text = ("High Score: \n" + PlayerPrefs.GetFloat("highScore"));
+        finalScore.text = ("Current Score \n" + GameManager.Instance.GetScore());
+        highScore.text = ("High Score \n" + PlayerPrefs.GetFloat("highScore"));
         //set dimensions and position of the menu so it fits in the hud
         root.style.visibility = Visibility.Visible;
     }
