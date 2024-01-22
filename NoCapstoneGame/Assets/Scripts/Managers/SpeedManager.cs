@@ -161,7 +161,7 @@ public class SpeedManager : MonoBehaviour
         while (Time.time - timeSinceGracePeriodStart <= boostGracePeriodDuration)
         {
             speedAdditionFromBoost = Mathf.Lerp(boostSpeed, 0, (Time.time - timeSinceGracePeriodStart) / boostGracePeriodDuration);
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForFixedUpdate();
         }
         gameManager.ResetEnergy();
         inBoostGracePeriod = false;
