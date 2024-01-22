@@ -88,6 +88,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioSource hitSound;
     [SerializeField] AudioSource deathSound;
     [SerializeField] AudioSource shootSound;
+    [SerializeField] AudioSource chargeSound;
+    [SerializeField] AudioSource boostChargeSound;
     private float startingPitch;
     [Tooltip("how often we increase the pitch - every n shots we increase by 1 semitone")]
     [SerializeField] int shotPitchModCount;
@@ -196,6 +198,15 @@ public class PlayerController : MonoBehaviour
             gameManager.UpdateCharge(ChargeGainPerSecond * Time.deltaTime);
             speedManager.Fired(ChargeGainPerSecond * Time.deltaTime);
 
+            if (gameManager.GetCharge() == gameManager.GetEnergy())
+            {
+                chargeSound.Pause();
+            }
+            else
+            {
+                chargeSound.UnPause();
+            }
+
             //SOBoost.incFired(ChargeGainPerSecond * Time.deltaTime); //depreciated prototype code - changed to sm.fired()
 
             UpdateEnergySphere();
@@ -259,6 +270,7 @@ public class PlayerController : MonoBehaviour
             if (context.started)
             {
                 leftMouseHeld = true;
+                chargeSound.Play();
                 shooting = false;
 
                 if (ShootCoroutineObject != null)
@@ -269,6 +281,7 @@ public class PlayerController : MonoBehaviour
             if (context.canceled)
             {
                 leftMouseHeld = false;
+                chargeSound.Pause();
                 //if (gameManager.getCharge() >= ChargeSpentPerShot) //switch to this line if you want to disable single fire shooting
                 if (gameManager.GetCharge() >= ChargeSpentPerShot || gameManager.GetEnergy() >= EnergySpentPerShot)
                 {
@@ -293,6 +306,7 @@ public class PlayerController : MonoBehaviour
         if (context.canceled)
         {
             RightMouseHeld = false;
+            boostChargeSound.Stop();
 
             if (gameManager.GetCharge() >= gameManager.GetMaxEnergy()) //if our charge is at max (max calc'd as max energy)
             {
@@ -308,6 +322,7 @@ public class PlayerController : MonoBehaviour
             {//below had gameManager.maxFired instead of gameManager.maxRelativeSpeed
                 if (gameManager.relativeSpeed >= gameManager.maxRelativeSpeed && gameManager.GetEnergy() >= gameManager.GetMaxEnergy()) //if our fired var and our energy var are at max
                 {
+                    boostChargeSound.Play();
                     RightMouseHeld = true;
                 }
             }
@@ -371,6 +386,7 @@ public class PlayerController : MonoBehaviour
                 gameManager.ResetCharge();
                 UpdateEnergySphere();
                 shooting = false;
+                chargeSound.Stop();
             }
         }
         shootSound.pitch = startingPitch;
@@ -445,6 +461,8 @@ public class PlayerController : MonoBehaviour
             //SpeedPrototypeSO.SPHit(); //prototype
 
             hitSound.Play();
+            chargeSound.Pause();
+            boostChargeSound.Pause();
             //SFXManager.Instance.Play(hitSound.clip);
 
             DamageCooldownCoroutineObject = DamageCooldownCoroutine();
@@ -493,6 +511,8 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
+        chargeSound.Stop();
+        boostChargeSound.Stop();
         StopAllCoroutines();
 
         //playerCollider.enabled = false;
