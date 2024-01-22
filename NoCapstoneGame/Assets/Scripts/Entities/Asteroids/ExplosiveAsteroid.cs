@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class ExplosiveAsteroid : Asteroid
 {
     [Header("Explosive Asteroid Values")]
     [SerializeField] Explosion explosionPrefab;
+    [SerializeField] Vector2 extraHealthrange;
 
     [SerializeField] float sizeScale = 1.3f;
 
@@ -25,4 +27,18 @@ public class ExplosiveAsteroid : Asteroid
         Debug.Log("check1 destroying asteroid");
         base.DestroyAsteroid();
     }
+    public override void SetVariables(ObjectPool<GameObject> pool, float upwardsSpeed, float swaySpeed, float swayWidth)
+    {
+        base.SetVariables(pool, upwardsSpeed, swaySpeed, swayWidth);
+        int addHealth = (int)Random.Range(extraHealthrange.x, extraHealthrange.y);
+        maxHealth += addHealth;
+        currentHealth += addHealth;
+
+        if (maxHealth <= 0)
+        {
+            maxHealth = 1;
+            currentHealth = 1;
+        }
+    }
+
 }

@@ -15,8 +15,8 @@ public class Asteroid : Entity, IDamageable
 
 
     [Header("Interaction")]
-    [SerializeField] private float maxHealth;
-    [SerializeField] private float health;
+    [SerializeField] protected float maxHealth;
+    [SerializeField] protected float currentHealth;
     [SerializeField] public float size;
     [SerializeField] private string laserTag;
     [SerializeField] private int score;
@@ -39,7 +39,7 @@ public class Asteroid : Entity, IDamageable
     public void SetVariables(float health, float size, EntityManager droppedEntityManager, int numDrops)
     {
         this.maxHealth = health;
-        this.health = health;
+        this.currentHealth = health;
         this.size = size;
         this.droppedEntityManager = droppedEntityManager;
         this.numDrops = numDrops;
@@ -50,19 +50,19 @@ public class Asteroid : Entity, IDamageable
 
     public bool Damage(int damageAmount)
     {
-        health -= damageAmount;
-        if (health <= 0)
+        currentHealth -= damageAmount;
+        if (currentHealth <= 0)
         {
             DestroyAsteroid();
             return true;
         }
 
         //change the asteroid sprite
-        if(health <= (maxHealth * 1 / 3))
+        if(currentHealth <= (maxHealth * 1 / 3))
         {
             Debug.Log("switch to 2nd damage sprite");
         }
-        else if (health <= (maxHealth * 2 / 3))
+        else if (currentHealth <= (maxHealth * 2 / 3))
         {
             Debug.Log("switch to 1st damage sprite");
         }

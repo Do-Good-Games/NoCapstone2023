@@ -8,6 +8,7 @@ public class GoldenAsteroid : Asteroid
 {
     [Header("Golden Asteroid Values")]
     [SerializeField] private Vector2 extraDropsRange;
+    [SerializeField] private Vector2 extraHealthRange;
 
     // Start is called before the first frame update
     public override void Start()
@@ -21,5 +22,8 @@ public class GoldenAsteroid : Asteroid
         int addDrops = (int)Random.Range(extraDropsRange.x, extraDropsRange.y);
         numDrops += addDrops;
 
+        int addHealth = (int)Random.Range(extraHealthRange.x, extraHealthRange.y);
+        maxHealth += addHealth;
+        currentHealth += addHealth;
     }
 }
