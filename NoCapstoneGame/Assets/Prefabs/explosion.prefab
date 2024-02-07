@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 300742570865514894}
+  - component: {fileID: 7802741600971436445}
   - component: {fileID: -5460854405108555499}
   - component: {fileID: 1660201465982795625}
-  - component: {fileID: 7802741600971436445}
   - component: {fileID: -7185862020004767030}
   - component: {fileID: -7998903580762249095}
   m_Layer: 0
@@ -36,6 +36,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7802741600971436445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879541595993959296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d29ab753aa315cb468ee117610d38394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityBody: {fileID: -7185862020004767030}
+  entityCollider: {fileID: 1660201465982795625}
+  upwardsSpeed: 0
+  swaySpeed: 0
+  swayWidth: 0
+  entityManager: {fileID: 0}
+  collisionDamage: 10
+  framesToLive: 30
+  downwardMovement: 9
+  animator: {fileID: -7998903580762249095}
+  index: 0
 --- !u!212 &-5460854405108555499
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -104,29 +127,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.64
---- !u!114 &7802741600971436445
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6879541595993959296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d29ab753aa315cb468ee117610d38394, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  entityBody: {fileID: -7185862020004767030}
-  entityCollider: {fileID: 1660201465982795625}
-  upwardsSpeed: 0
-  swaySpeed: 0
-  swayWidth: 0
-  entityManager: {fileID: 0}
-  collisionDamage: 10
-  framesToLive: 65
-  downwardMovement: 0
-  animator: {fileID: -7998903580762249095}
-  index: 0
 --- !u!50 &-7185862020004767030
 Rigidbody2D:
   serializedVersion: 4
@@ -141,8 +141,8 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0.5
+  m_AngularDrag: 0
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1

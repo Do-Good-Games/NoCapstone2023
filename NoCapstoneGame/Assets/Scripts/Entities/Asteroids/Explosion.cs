@@ -14,11 +14,12 @@ public class Explosion : Entity
     public int index;
 
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
+        base.Start();
         Debug.Log("check1 spawning explosion");
 
-        this.upwardsSpeed = -10000;
+        this.upwardsSpeed = downwardMovement;
 
         animator.SetInteger("Index", index);
     }
@@ -29,8 +30,9 @@ public class Explosion : Entity
 
     }
 
-    private void FixedUpdate()
+    public override void FixedUpdate()
     {
+        base.FixedUpdate();
         //transform.position = transform.position + new Vector3(0, this.transform.position.y - (downwardMovement + GameManager.Instance.relativeSpeed), 0);
 
         framesToLive -= 1;
