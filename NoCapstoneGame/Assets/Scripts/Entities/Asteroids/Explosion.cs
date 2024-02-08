@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Explosion : Entity
@@ -24,10 +25,9 @@ public class Explosion : Entity
         animator.SetInteger("Index", index);
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void DestroyEntity()
     {
-
+        Destroy();
     }
 
     public override void FixedUpdate()

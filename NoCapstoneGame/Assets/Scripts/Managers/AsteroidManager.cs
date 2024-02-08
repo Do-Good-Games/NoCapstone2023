@@ -5,6 +5,8 @@ using UnityEngine.Pool;
 
 public class AsteroidManager : EntityManager
 {
+
+
     [SerializeField] public EntityManager energyManager;
 
     [Header ("Asteroid-specific variables")]
