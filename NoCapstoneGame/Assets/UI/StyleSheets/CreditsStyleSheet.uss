@@ -2,12 +2,19 @@
     font-size: 32px;
     color: rgb(37, 190, 213);
     -unity-text-align: upper-center;
+    -unity-font-definition: url('project://database/Assets/Art/UI/PauseArt/8-bit-HUD%20SDF%201.asset?fileID=11400000&guid=4b0013b9ac623dbd0ac8643ef836bb88&type=2#8-bit-HUD SDF 1');
+    -unity-font: url('project://database/Assets/Art/UI/PauseArt/8-bit-HUD.ttf?fileID=12800000&guid=3737689ed1c776c45b5026f6f556808c&type=3#8-bit-HUD');
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .CreditLine2 {
     font-size: 30px;
     color: rgb(37, 190, 213);
     -unity-text-align: upper-center;
+    -unity-font-definition: url('project://database/Assets/Art/UI/PauseArt/8-bit-HUD%20SDF%201.asset?fileID=11400000&guid=4b0013b9ac623dbd0ac8643ef836bb88&type=2#8-bit-HUD SDF 1');
 }
 
 .Button {
