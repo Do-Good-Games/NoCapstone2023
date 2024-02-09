@@ -36,7 +36,7 @@ public class MusicController : MonoBehaviour
     private void StartBoostMusic()
     {
         inBoost = true;
-        Debug.Log("event received");
+        // Debug.Log("event received");
         mainLoop.Stop();
         boostLoop.Play();
         boostStart.Play();
@@ -45,7 +45,7 @@ public class MusicController : MonoBehaviour
     private void StopBoostMusic()
     {
         inBoost = false;
-        Debug.Log("event received");
+        // Debug.Log("event received");
         mainLoop.Play();
         boostLoop.Stop();
         boostStart.Stop();

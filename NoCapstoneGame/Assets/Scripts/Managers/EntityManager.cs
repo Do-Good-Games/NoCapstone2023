@@ -127,7 +127,7 @@ public class EntityManager : MonoBehaviour
         float weightReached = 0;
         foreach (EntityOption option in entityOptions){
             weightReached += option.weight;
-            Debug.Log(roll + " " + weightReached);
+            // Debug.Log(roll + " " + weightReached);
             if (roll <= weightReached)
             {
                 //Debug.Log(option.entity);
@@ -136,7 +136,7 @@ public class EntityManager : MonoBehaviour
         }
 
         //This should never happen
-        Debug.Log("rolled a null entity, weights are fucked up");
+        Debug.LogWarning("rolled a null entity, weights are broken");
         return null;
     }
 

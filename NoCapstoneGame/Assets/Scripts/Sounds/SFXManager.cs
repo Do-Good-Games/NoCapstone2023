@@ -38,7 +38,7 @@ public class SFXManager : MonoBehaviour
 
         canPlayAudio = true;
 
-        Debug.Log("setting muted " + isMuted + " " + PlayerPrefs.GetInt("isMuted"));
+        // Debug.Log("setting muted " + isMuted + " " + PlayerPrefs.GetInt("isMuted"));
         if (PlayerPrefs.GetInt("isMuted") == 1)
         {
             isMuted = true;

@@ -60,16 +60,16 @@ public class Asteroid : Entity, IDamageable
         //change the asteroid sprite
         if(currentHealth <= (maxHealth * 1 / 3))
         {
-            Debug.Log("switch to 2nd damage sprite");
+            // Debug.Log("switch to 2nd damage sprite");
         }
         else if (currentHealth <= (maxHealth * 2 / 3))
         {
-            Debug.Log("switch to 1st damage sprite");
+            // Debug.Log("switch to 1st damage sprite");
         }
         else
         {
             //this needs to happen when the sprite is destroyed as well
-            Debug.Log("stay in undamaged sprite");
+            // Debug.Log("stay in undamaged sprite");
         }
 
         return false;

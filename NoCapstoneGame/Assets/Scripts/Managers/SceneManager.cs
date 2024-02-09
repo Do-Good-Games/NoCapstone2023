@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using UnityEngine;
+using System.ComponentModel.Design.Serialization;
 
 public class SceneManager : MonoBehaviour
 {
@@ -125,6 +126,7 @@ public class SceneManager : MonoBehaviour
             //sceneTransitionUIDoc.enabled = true;
 
 
+            sceneTransitionUIDoc.rootVisualElement.BringToFront();
             //fade in the sprite
             opacitySafety = 0;
             while (opacity <= 1 && opacitySafety < 10)

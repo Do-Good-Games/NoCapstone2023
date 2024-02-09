@@ -116,7 +116,7 @@ public class OptionsManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("isMuted", 0);
         }
-        Debug.Log("mute check " + SFXManager.Instance.isMuted);
+        // Debug.Log("mute check " + SFXManager.Instance.isMuted);
 
         masterVolSlider.RegisterValueChangedCallback(OnMasterSliderValueChange);
         musicVolSlider.RegisterValueChangedCallback(OnMusicSliderValueChange);
@@ -212,7 +212,7 @@ public class OptionsManager : MonoBehaviour
             
         PlayerPrefs.SetFloat("mouseSensitivity", mouseSensitivity);
 
-        Debug.Log("value: " + mouseSensitivity);
+        // Debug.Log("value: " + mouseSensitivity);
 
         if (mouseMoveAction != null)
         {

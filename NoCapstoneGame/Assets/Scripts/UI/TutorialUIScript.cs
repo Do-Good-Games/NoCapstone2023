@@ -71,12 +71,12 @@ public class TutorialUIScript : MonoBehaviour
 
     private void TutorialSlideLeft()
     {
-        Debug.Log("going left");
+        // Debug.Log("going left");
         if(backGroundArrayIndex > 0)
         {
             backGroundArrayIndex--;
             root.style.backgroundImage = backgroundArray[backGroundArrayIndex];
-            Debug.Log(backGroundArrayIndex);
+            // Debug.Log(backGroundArrayIndex);
             endTutorialButton.style.display = DisplayStyle.None;
         }
         else
@@ -87,12 +87,12 @@ public class TutorialUIScript : MonoBehaviour
 
     private void TutorialSlideRight()
     {
-        Debug.Log("going right");
+        // Debug.Log("going right");
         if (backGroundArrayIndex < (backgroundArray.Length - 2))
         {
             backGroundArrayIndex++;
             root.style.backgroundImage = backgroundArray[backGroundArrayIndex];
-            Debug.Log(backGroundArrayIndex);
+            // Debug.Log(backGroundArrayIndex);
         }
         else
         {
@@ -104,7 +104,7 @@ public class TutorialUIScript : MonoBehaviour
 
     private void EndTutorial()
     {
-        Debug.Log("finish tutorial");
+        // Debug.Log("finish tutorial");
         //root.style.display = DisplayStyle.None;
         //set tutorial done to true, creating it if it doesn't exist
         PlayerPrefs.SetInt("ShowTutorial", 0);

@@ -612,7 +612,7 @@ public class PlayerController : MonoBehaviour
             enteringGameplay = true;
 
             //Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
-            UnityEngine.Debug.Log("set mouse pos" + Mouse.current.position);
+            // UnityEngine.Debug.Log("set mouse pos" + Mouse.current.position);
             //SetPositions(cursorPosPrePause);
             SetActionMapPlayer();
             //Debug.Log("cursorPos:" + cursorPos + " pre pause: " + cursorPosPrePause + " w2sp: " + gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));

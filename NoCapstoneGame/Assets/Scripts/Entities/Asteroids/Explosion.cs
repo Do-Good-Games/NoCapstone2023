@@ -18,7 +18,7 @@ public class Explosion : Entity
     public override void Start()
     {
         base.Start();
-        Debug.Log("check1 spawning explosion");
+        // Debug.Log("check1 spawning explosion");
 
         this.upwardsSpeed = downwardMovement;
 

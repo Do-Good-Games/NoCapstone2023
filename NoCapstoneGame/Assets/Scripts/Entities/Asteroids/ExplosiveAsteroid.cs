@@ -24,7 +24,7 @@ public class ExplosiveAsteroid : Asteroid
         //set the appropriate animation
         explosion.index = spriteIndex;
 
-        Debug.Log("check1 destroying asteroid");
+        // Debug.Log("check1 destroying asteroid");
         base.DestroyAsteroid();
     }
     public override void SetVariables(ObjectPool<GameObject> pool, float upwardsSpeed, float swaySpeed, float swayWidth)
