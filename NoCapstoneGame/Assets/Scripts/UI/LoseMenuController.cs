@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class LoseMenuController : MonoBehaviour
 {
     private SceneManager sceneManager;
+    SFXManager sfxManager;
+    private GameManager gameManager;
 
     VisualElement root;
 
@@ -19,7 +21,6 @@ public class LoseMenuController : MonoBehaviour
 
     SoundPlayer soundPlayer ;
     [SerializeField] AudioReference deathSoundReference;
-    SFXManager sfxManager;
 
     [SerializeField] private UIDocument UIDoc;
 
@@ -31,9 +32,10 @@ public class LoseMenuController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        gameManager = GameManager.Instance;
         sceneManager = SceneManager.Instance;
         sfxManager = SFXManager.Instance;
+
         //Application.Quit();
 
 
@@ -51,7 +53,7 @@ public class LoseMenuController : MonoBehaviour
         mainMenuButton.clicked += () => { sceneManager.SwitchToScene("MainMenuScene"); };
 
         root.style.visibility = Visibility.Hidden;
-
+        gameManager.OnPlayerDeath.AddListener(ShowDeathMenu);
     }
 
     public void ShowDeathMenu()
@@ -59,19 +61,19 @@ public class LoseMenuController : MonoBehaviour
 
         if (!PlayerPrefs.HasKey("highScore"))
         {
-            PlayerPrefs.SetFloat("highScore", GameManager.Instance.GetScore());
+            PlayerPrefs.SetFloat("highScore", gameManager.GetScore());
         }
         else
         {
             //check if gamescore is greater than highscore
-            if (PlayerPrefs.GetFloat("highScore") < GameManager.Instance.GetScore())
+            if (PlayerPrefs.GetFloat("highScore") < gameManager.GetScore())
             {
-                PlayerPrefs.SetFloat("highScore", GameManager.Instance.GetScore()); 
+                PlayerPrefs.SetFloat("highScore", gameManager.GetScore()); 
             }
         }
 
         //set the text
-        finalScore.text = ("Current Score \n" + GameManager.Instance.GetScore());
+        finalScore.text = ("Current Score \n" + gameManager.GetScore());
         highScore.text = ("High Score \n" + PlayerPrefs.GetFloat("highScore"));
         //set dimensions and position of the menu so it fits in the hud
         root.style.visibility = Visibility.Visible;

@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
 
     public UnityEvent OnPlayerHeal;
     public UnityEvent OnPlayerHurt;
+    public UnityEvent OnPlayerDeath;
 
     public UnityEvent OnEnergyChange;
     public UnityEvent OnChargeChange;
@@ -141,9 +142,12 @@ public class GameManager : MonoBehaviour
         gameState = GameState.dead;
         Time.timeScale = 0;
 
-        playerController.SwitchActionMap();
+        // playerController.SwitchActionMap();
 
-        loseMenuController.ShowDeathMenu();
+        // loseMenuController.ShowDeathMenu();
+
+        //ideally this should be used to call the above functions as well.
+        OnPlayerDeath.Invoke();
 
     }
 

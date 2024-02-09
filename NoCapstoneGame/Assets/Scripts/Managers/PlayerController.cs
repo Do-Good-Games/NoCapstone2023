@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -152,7 +153,7 @@ public class PlayerController : MonoBehaviour
         //all three of these reference the same method as that one contains code and logic that would be difficult to translate on a different set of case-by-case bases
         gameManager.OnGameResume.AddListener(SwitchActionMap); 
         gameManager.OnGamePause.AddListener(SwitchActionMap);
-        
+        gameManager.OnPlayerDeath.AddListener(SwitchActionMap);
 
         //gameManager.OnBoostStart.AddListener(BoostStarted); //cleanup: remove?
         //gameManager.OnBoostEnd.AddListener(BoostEnded);//cleanup: remove?
@@ -611,7 +612,7 @@ public class PlayerController : MonoBehaviour
             enteringGameplay = true;
 
             //Mouse.current.WarpCursorPosition(gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
-            Debug.Log("set mouse pos" + Mouse.current.position);
+            UnityEngine.Debug.Log("set mouse pos" + Mouse.current.position);
             //SetPositions(cursorPosPrePause);
             SetActionMapPlayer();
             //Debug.Log("cursorPos:" + cursorPos + " pre pause: " + cursorPosPrePause + " w2sp: " + gameManager.gameplayCamera.WorldToScreenPoint(cursorPosPrePause));
