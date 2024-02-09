@@ -7,6 +7,7 @@ public class MusicController : MonoBehaviour
     [SerializeField] private AudioSource mainLoop;
     [SerializeField] private AudioSource boostLoop;
     [SerializeField] private AudioSource boostStart;
+    [SerializeField] private AudioSource gameOverLoop;
 
     //webGL builds have a glitch where pausing doesn't properly keep clips at the same time stamp
     private float mainLoopTime;
@@ -29,6 +30,7 @@ public class MusicController : MonoBehaviour
         gameManager.OnGamePause.AddListener(PauseMusic);
         gameManager.OnGameResume.AddListener(ResumeMusic);
 
+        gameManager.OnPlayerDeath.AddListener(startGameOverMusic);
     }
 
     private void StartBoostMusic()
@@ -68,6 +70,14 @@ public class MusicController : MonoBehaviour
             mainLoopTime = mainLoop.time;
             mainLoop.Pause();
         }
+    }
+
+    private void startGameOverMusic(){
+        boostLoop.Stop();
+        mainLoop.Stop();
+
+        gameOverLoop.Play();
+
     }
 
     private void ResumeMusic()

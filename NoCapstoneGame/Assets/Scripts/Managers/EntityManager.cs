@@ -131,7 +131,7 @@ public class EntityManager : MonoBehaviour
             if (roll <= weightReached)
             {
                 //Debug.Log(option.entity);
-                return option;
+                return option ;
             }
         }
 

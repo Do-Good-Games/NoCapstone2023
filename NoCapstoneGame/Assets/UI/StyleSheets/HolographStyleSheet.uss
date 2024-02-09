@@ -5,6 +5,7 @@ VisualElement {
     font-size: 30px;
     color: rgb(95, 146, 221);
     -unity-font: resource('FlatSkin/Font/Roboto-Bold');
+    -unity-font-definition: url('project://database/Assets/Art/UI/PauseArt/8-bit-HUD%20SDF%201.asset?fileID=11400000&guid=4b0013b9ac623dbd0ac8643ef836bb88&type=2#8-bit-HUD SDF 1');
 }
 
 .button {
@@ -21,15 +22,15 @@ VisualElement {
     border-top-color: rgba(255, 255, 255, 0);
     border-bottom-color: rgba(255, 255, 255, 0);
     background-image: url('project://database/Assets/Art/UI/PauseArt/BUTTON-normal.png?fileID=2800000&guid=37fcdae3bec83ae40b7560dd79e1554c&type=3#BUTTON-normal');
-    -unity-font: url('project://database/Assets/Art/UI/PauseArt/8-bit-hud.ttf?fileID=12800000&guid=3737689ed1c776c45b5026f6f556808c&type=3#8-bit-hud');
+    -unity-font: url('project://database/Assets/Art/UI/PauseArt/8-bit-HUD.ttf?fileID=12800000&guid=3737689ed1c776c45b5026f6f556808c&type=3#8-bit-HUD');
     margin-left: 20px;
     margin-right: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
     color: rgb(37, 190, 213);
-    -unity-font-definition: url('project://database/Assets/Art/UI/PauseArt/8-bit-hud%20SDF.asset?fileID=11400000&guid=ebe3bad336d2f044faa41d02b7df2694&type=2#8-bit-hud SDF');
     -unity-font-style: normal;
     -unity-background-scale-mode: scale-and-crop;
+    -unity-font-definition: url('project://database/Assets/Art/UI/PauseArt/8-bit-HUD%20SDF%201.asset?fileID=11400000&guid=4b0013b9ac623dbd0ac8643ef836bb88&type=2#8-bit-HUD SDF 1');
 }
 
 .button:hover:active {
@@ -48,6 +49,7 @@ VisualElement {
     background-image: url('project://database/Assets/Art/UI/PauseArt/BUTTON-pressed.png?fileID=2800000&guid=b196f6994095aa740b0680ad63a262c1&type=3#BUTTON-pressed');
     color: rgb(217, 237, 246);
     font-size: 32px;
+    -unity-font-definition: url('project://database/Assets/Art/UI/PauseArt/8-bit-HUD%20SDF%201.asset?fileID=11400000&guid=4b0013b9ac623dbd0ac8643ef836bb88&type=2#8-bit-HUD SDF 1');
 }
 
 .button:hover {
@@ -65,6 +67,7 @@ VisualElement {
     border-bottom-color: rgba(255, 255, 255, 0);
     background-image: url('project://database/Assets/Art/UI/PauseArt/BUTTON-hoverl.png?fileID=2800000&guid=c3a0468d11da18f4c8651184b7a268d5&type=3#BUTTON-hoverl');
     color: rgb(217, 237, 246);
+    -unity-font-definition: url('project://database/Assets/Art/UI/PauseArt/8-bit-HUD%20SDF%201.asset?fileID=11400000&guid=4b0013b9ac623dbd0ac8643ef836bb88&type=2#8-bit-HUD SDF 1');
 }
 
 .quit {
